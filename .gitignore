@@ -1,0 +1,6 @@
+# Project exclude paths
+/sixbeam/.gradle/
+/sixbeam/build/
+/sixbeam/out/
+/sixbeam/out/production/classes/
+/sixbeam/out/test/classes/

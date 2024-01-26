@@ -1,0 +1,50 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container">
+    <table>
+        <thead class="table-dark">
+        <tr>
+            <th>번호</th>
+            <th>사원ID</th>
+            <th>이름</th>
+            <th>성별</th>
+            <th>주소</th>
+            <th>생년월일</th>
+            <th>휴대폰</th>
+            <th>이메일</th>
+            <th>입사일</th>
+            <th>퇴사일</th>
+            <th>직책코드</th>
+            <th>부서코드</th>
+            <th>은행</th>
+            <th>계좌번호</th>
+            <th>퇴사사유</th>
+            <th>총연차수</th>
+            <th>비고</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="EmpInfo, loop : ${EmpInfoList}">
+            <td th:text="${loop.index+1}"></td>
+            <td th:text="${EmpInfo.EI_ID}"></td>
+            <td th:text="${EmpInfo.EI_NM}"></td>
+            <td th:if="${EmpInfo.EI_SEX}">남자</td>
+            <td th:unless="${EmpInfo.EI_SEX}">여자</td>
+            <td th:text="${EmpInfo.EI_ADDR}"></td>
+            <td th:text="${EmpInfo.EI_BIRTH}"></td>
+            <td th:text="${EmpInfo.EI_PHONE}"></td>
+            <td th:text="${EmpInfo.EI_EMAIL}"></td>
+            <td th:text="${EmpInfo.EI_JOIN_DT}"></td>
+            <td th:text="${EmpInfo.EI_QUIT_DT}"></td>
+            <td th:text="${EmpInfo.EI_POSITION_CD}"></td>
+            <td th:text="${EmpInfo.EI_DEPART_CD}"></td>
+            <td th:text="${EmpInfo.EI_BANK}"></td>
+            <td th:text="${EmpInfo.EI_ACCOUNT_NO}"></td>
+            <td th:text="${EmpInfo.EI_QR}"></td>
+            <td th:text="${EmpInfo.EI_TOTALNOY}"></td>
+            <td th:text="${EmpInfo.EI_ETC}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>
