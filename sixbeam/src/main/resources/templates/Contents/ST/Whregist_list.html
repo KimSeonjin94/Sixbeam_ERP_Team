@@ -1,0 +1,18 @@
+<html layout:decorate="~{layout/default}">
+    <div layout:fragment="content" class="container">
+        <table>
+            <thead class="table-dark">
+            <tr>
+                <th>창고코드</th>
+                <th>창고명</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="whregistEntity : ${whregistEntityList}">
+                <td th:text="${whregistEntity.whRegistCd}"></td>
+                <td th:text="${whregistEntity.whRegistNm}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</html>
