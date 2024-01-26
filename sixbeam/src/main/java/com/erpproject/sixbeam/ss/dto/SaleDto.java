@@ -1,10 +1,8 @@
 package com.erpproject.sixbeam.ss.dto;
 
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
-import com.erpproject.sixbeam.ss.entity.MemberEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
+
 
 import java.time.LocalDate;
 

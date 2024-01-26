@@ -3,11 +3,9 @@ package com.erpproject.sixbeam.ss.dto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.MemberEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
+import lombok.Data;
 
-import java.time.LocalDate;
-
+@Data
 public class MemberDto {
     private String memberId;
     private String memberNm;
@@ -15,8 +13,8 @@ public class MemberDto {
     private String memberAddr;
     private EstimateEntity estimateEntity;
 
-    public SaleEntity toEntity(){
-        return new SaleEntity(memberId,memberNm,memberPhone,memberAddr,estimateEntity);
+    public MemberEntity toEntity(){
+        return new MemberEntity(memberId,memberNm,memberPhone,memberAddr,estimateEntity);
     }
 
 }

@@ -1,15 +1,14 @@
 package com.erpproject.sixbeam.ss.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 
-@AllArgsConstructor
+
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -41,6 +40,22 @@ public class SaleEntity {
 
     @OneToOne(mappedBy = "AcSalesEntity", cascade = CascadeType.ALL)
     private List<AcSalesEntity> acSalesEntities;
+
+    public SaleEntity(String saleCd, EstimateEntity estimateEntity,
+                      LocalDate saleUploadDt, LocalDate saleBillingDt,
+                      boolean saleBillingSt, LocalDate salePaymentDt,
+                      MoveEntity moveEntity, String saleShippingSt,
+                      LocalDate saleShippingDt) {
+        this.saleCd = saleCd;
+        this.estimateEntity = estimateEntity;
+        this.saleUploadDt = saleUploadDt;
+        this.saleBillingDt = saleBillingDt;
+        this.saleBillingSt = saleBillingSt;
+        this.salePaymentDt = salePaymentDt;
+        this.moveEntity = moveEntity;
+        this.saleShippingSt = saleShippingSt;
+        this.saleShippingDt = saleShippingDt;
+    }
 
 
 }

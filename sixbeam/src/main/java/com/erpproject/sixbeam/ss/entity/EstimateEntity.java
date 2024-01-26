@@ -1,9 +1,8 @@
 package com.erpproject.sixbeam.ss.entity;
 
-import com.erpproject.sixbeam.hr.dto.EmpInfoDto;
+
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.List;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -65,6 +64,24 @@ public class EstimateEntity {
     @OneToMany(mappedBy = "MemberEntity", cascade = CascadeType.ALL)
     private List<MemberEntity> memberEntities;
 
-
+    public EstimateEntity(String estimateCd, LocalDate estimateDt, int checkAmt,
+                      EmpInfoEntity empInfoEntity, AccountEntity accountEntity,
+                      String estimateNm, ItemEntity itemEntity, int estimateAmt,
+                      int estimateUp, int estimateSp, int estimateVat,
+                      int estimateTamt, String estimateEtc) {
+        this.estimateCd = estimateCd;
+        this.estimateDt = estimateDt;
+        this.checkAmt = checkAmt;
+        this.empInfoEntity = empInfoEntity;
+        this.accountEntity = accountEntity;
+        this.estimateNm = estimateNm;
+        this.itemEntity = itemEntity;
+        this.estimateAmt = estimateAmt;
+        this.estimateUp = estimateUp;
+        this.estimateSp = estimateSp;
+        this.estimateVat = estimateVat;
+        this.estimateTamt = estimateTamt;
+        this.estimateEtc = estimateEtc;
+    }
 
 }

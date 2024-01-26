@@ -1,14 +1,12 @@
 package com.erpproject.sixbeam.ss.entity;
 
-import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
