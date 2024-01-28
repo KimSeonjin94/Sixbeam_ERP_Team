@@ -2339,7 +2339,7 @@ textarea.form-control {
 
 .btn:focus, .btn.focus {
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(225, 81, 95, 1);
 }
 
 .btn.disabled, .btn:disabled {
@@ -2652,35 +2652,36 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-primary {
-  color: #4e73df;
-  border-color: #4e73df;
+  color: #EB97A1;
+  border-color: #EB97A1;
 }
 
 .btn-outline-primary:hover {
   color: #fff;
-  background-color: #4e73df;
-  border-color: #4e73df;
+  background-color: #EB97A1;
+  border-color: #EB97A1;
 }
 
 .btn-outline-primary:focus, .btn-outline-primary.focus {
-  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(235, 151, 161, 1);
 }
 
 .btn-outline-primary.disabled, .btn-outline-primary:disabled {
-  color: #4e73df;
+  color: #EB97A1;
   background-color: transparent;
 }
+
 
 .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active,
 .show > .btn-outline-primary.dropdown-toggle {
   color: #fff;
-  background-color: #4e73df;
-  border-color: #4e73df;
+  background-color: #EB97A1;
+  border-color: #EB97A1;
 }
 
 .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus,
 .show > .btn-outline-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(235, 151, 161, 1);
 }
 
 .btn-outline-secondary {
@@ -2909,12 +2910,12 @@ fieldset:disabled a.btn {
 
 .btn-link {
   font-weight: 400;
-  color: #4e73df;
+  color: #EB97A1;
   text-decoration: none;
 }
 
 .btn-link:hover {
-  color: #224abe;
+  color: #E05E6D;
   text-decoration: underline;
 }
 
@@ -4109,6 +4110,18 @@ input[type="button"].btn-block {
   justify-content: space-between;
   padding: 0.5rem 1rem;
 }
+.navbar ul{
+  width: 100%;
+}
+
+.navbar ul li a {
+  display: block;
+  height: 40px;
+  font-size: 14px;
+  text-align:center;
+  line-height:40;
+
+}
 
 .navbar .container,
 .navbar .container-fluid, .navbar .container-sm, .navbar .container-md, .navbar .container-lg, .navbar .container-xl {
@@ -4138,6 +4151,14 @@ input[type="button"].btn-block {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+}
+.nav-item.left {
+  margin-right: auto;
+}
+
+/* 오른쪽에 정렬되어야 하는 li */
+.nav-item.right {
+  margin-left: auto;
 }
 
 .navbar-nav .nav-link {
@@ -9500,6 +9521,9 @@ button.bg-dark:focus {
 }
 
 .text-center {
+/*  수직 추가*/
+  text-justify: center;
+  margin-top: 30px;
   text-align: center !important;
 }
 
@@ -9900,8 +9924,8 @@ a:focus {
 }
 
 .bg-gradient-primary {
-  background-color: #4e73df;
-  background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+  background-color: #E05E6D;
+  background-image: linear-gradient(180deg, #E05E6D 10%, #EB97A1 100%);
   background-size: cover;
 }
 
@@ -10202,8 +10226,10 @@ a:focus {
 
 .topbar .nav-item .nav-link {
   height: 4.375rem;
+  width: 8rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0 0.75rem;
 }
 
