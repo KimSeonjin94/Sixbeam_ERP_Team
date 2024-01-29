@@ -25,7 +25,7 @@ public class MemberEntity {
     @Column(name = "MEMBER_ADDR")
     private String memberAddr;
     @ManyToOne
-    @Column(name="ESTIMATE_CD")
+    @JoinColumn(name="ESTIMATE_CD")
     private EstimateEntity estimateEntity;
 
 

@@ -31,20 +31,21 @@ public class SaleEntity {
     @Column(name="SALE_PAYMENT_DT")
     private  LocalDate salePaymentDt;
     @ManyToOne
-    @Column(name="WH_MOVE_CD")
-    private MoveEntity moveEntity;
+    @JoinColumn(name="ST_WMMOVE_CD")
+    private WmMoveEntity wmMoveEntity;
     @Column(name="SALE_SHIPPING_ST")
     private String saleShippingSt;
     @Column(name = "SALE_SHIPPING_DT")
     private LocalDate saleShippingDt;
 
-    @OneToOne(mappedBy = "AcSalesEntity", cascade = CascadeType.ALL)
-    private List<AcSalesEntity> acSalesEntities;
+    @OneToOne(mappedBy = "saleEntity", cascade = CascadeType.ALL)
+    private SalesEntity salesEntity;
 
-    public SaleEntity(String saleCd, EstimateEntity estimateEntity,
+    public SaleEntity(String saleCd,
+                      EstimateEntity estimateEntity,
                       LocalDate saleUploadDt, LocalDate saleBillingDt,
                       boolean saleBillingSt, LocalDate salePaymentDt,
-                      MoveEntity moveEntity, String saleShippingSt,
+                      WmMoveEntity wmMoveEntity, String saleShippingSt,
                       LocalDate saleShippingDt) {
         this.saleCd = saleCd;
         this.estimateEntity = estimateEntity;

@@ -13,7 +13,7 @@ public class SaleDto {
     private  LocalDate saleBillingDt;
     private  boolean saleBillingSt;
     private  LocalDate salePaymentDt;
-    private MoveEntity moveEntity;
+//    private MoveEntity moveEntity;
     private String saleShippingSt;
     private LocalDate saleShippingDt;
     public SaleEntity toEntity(){

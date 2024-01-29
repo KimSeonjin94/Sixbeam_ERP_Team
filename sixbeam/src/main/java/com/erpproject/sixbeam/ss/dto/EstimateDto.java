@@ -21,6 +21,6 @@ public class EstimateDto {
     private String estimateEtc;
 
     public EstimateEntity toEntity() {
-        return new EstimateEntity(estimateCd, estimateDt, checkAmt, empInfoEntity, accountEntity estimateNm, itemEntity, estimateAmt, estimateUp, estimateSp, estimateVat, estimateTamt, estimateEtc);
+        return new EstimateEntity(estimateCd, estimateDt, checkAmt, empInfoEntity, accountEntity,estimateNm, itemEntity, estimateAmt, estimateUp, estimateSp, estimateVat, estimateTamt, estimateEtc);
     }
 }
