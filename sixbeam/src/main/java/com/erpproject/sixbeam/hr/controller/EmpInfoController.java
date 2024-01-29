@@ -17,6 +17,7 @@ import java.util.List;
 @Controller
 public class EmpInfoController {
     private final EmpInfoService empInfoService;
+
     @GetMapping("/EmpInfo_list")
     public String list(Model model) {
         List<EmpInfoEntity> EmpInfoList = this.empInfoService.getList();
