@@ -22,8 +22,12 @@ public class EstimateEntity {
     private String estimateCd;
     @Column(name = "ESTIMATE_DT")
     private LocalDate estimateDt;
-    @Column(name = "CHECK_AMT")
-    private int checkAmt;
+
+    @JoinColumns({
+            @JoinColumn(name = "CHECK_DT", referencedColumnName = "checkDt"),
+            @JoinColumn(name = "ITEM_CD", referencedColumnName = "itemCd")
+    })
+    private CheckEntity checkEntity;
 
     @ManyToOne
     @JoinColumn(name="EI_ID")
@@ -35,10 +39,6 @@ public class EstimateEntity {
 
     @Column(name = "ESTIMATE_NM")
     private String estimateNm;
-
-    @ManyToOne
-    @JoinColumn(name="BOM_ITEM_CD")
-    private ItemEntity itemEntity;
 
     @Column(name = "ESTIMATE_AMT")
     private int estimateAmt;
@@ -63,18 +63,17 @@ public class EstimateEntity {
     @OneToMany(mappedBy = "estimateEntity", cascade = CascadeType.ALL)
     private List<MemberEntity> memberEntities;
 
-    public EstimateEntity(String estimateCd, LocalDate estimateDt, int checkAmt,
+    public EstimateEntity(String estimateCd, LocalDate estimateDt, CheckEntity checkEntity,
                       EmpInfoEntity empInfoEntity, AccountEntity accountEntity,
-                      String estimateNm, ItemEntity itemEntity, int estimateAmt,
+                      String estimateNm, int estimateAmt,
                       int estimateUp, int estimateSp, int estimateVat,
                       int estimateTamt, String estimateEtc) {
         this.estimateCd = estimateCd;
         this.estimateDt = estimateDt;
-        this.checkAmt = checkAmt;
+        this.checkEntity = checkEntity;
         this.empInfoEntity = empInfoEntity;
         this.accountEntity = accountEntity;
         this.estimateNm = estimateNm;
-        this.itemEntity = itemEntity;
         this.estimateAmt = estimateAmt;
         this.estimateUp = estimateUp;
         this.estimateSp = estimateSp;
