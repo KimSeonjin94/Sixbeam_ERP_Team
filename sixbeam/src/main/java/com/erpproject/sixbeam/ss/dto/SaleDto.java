@@ -13,10 +13,10 @@ public class SaleDto {
     private  LocalDate saleBillingDt;
     private  boolean saleBillingSt;
     private  LocalDate salePaymentDt;
-//    private MoveEntity moveEntity;
+    private WmMoveEntity wmMoveEntity;
     private String saleShippingSt;
     private LocalDate saleShippingDt;
     public SaleEntity toEntity(){
-        return new SaleEntity(saleCd,estimateEntity,saleUploadDt,saleBillingDt,saleBillingSt,salePaymentDt,moveEntity,saleShippingSt,saleShippingDt);
+        return new SaleEntity(saleCd,estimateEntity,saleUploadDt,saleBillingDt,saleBillingSt,salePaymentDt,wmMoveEntity,saleShippingSt,saleShippingDt);
     }
 }
