@@ -1,7 +1,6 @@
 package com.erpproject.sixbeam.pur.entity;
 
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
-import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,24 +12,19 @@ import java.time.LocalDate;
 @Entity
 @Table(name="PUR_INPUT_TB")
 public class InputEntity {
-    @NotNull
-    @Column(name = "PUR_DT")
+    @Column(name = "PUR_DT", nullable = false)
     private LocalDate purDt;
     @Id
     @Column(name = "PI_CD")
     private String piCd;
-    @NotNull
-    @Column(name = "PO_CD")
-    private OrinPutEntity orinputEntity;
-    @NotNull
-    @Column(name = "WH_MOVE_CD")
-    private WhmoveEntity whmoveEntity;
-    @NotNull
-    @Column(name = "PUR_PROG_ST")
+    @Column(name = "PO_CD", nullable = false)
+    private String orinputEntity;
+    @Column(name = "WH_MOVE_CD", nullable = false)
+    private String whmoveEntity;
+    @Column(name = "PUR_PROG_ST", nullable = false)
     private String purProgSt;
     @Column(name = "SLIP_ISSU_DT")
     private LocalDate slipIssuDt;
-    @NotNull
-    @Column(name = "SLIP_ISSU_FL", columnDefinition = "TINYINT(1)")
+    @Column(name = "SLIP_ISSU_FL", columnDefinition = "TINYINT(1)", nullable = false)
     private boolean slipIssuFl;
 }
