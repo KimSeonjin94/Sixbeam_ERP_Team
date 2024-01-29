@@ -18,28 +18,28 @@ import java.util.List;
 @Table(name="SS_ESIMATE_TB")
 public class EstimateEntity {
     @Id
-//    @Column(name = "ESTIMATE_CD")
-//    @OneToMany
-//    private String estimateCd;
+    @Column(name = "ESTIMATE_CD")
+    @OneToMany
+    private String estimateCd;
     @Column(name = "ESTIMATE_DT")
     private LocalDate estimateDt;
     @Column(name = "CHECK_AMT")
     private int checkAmt;
 
-//    @ManyToOne
-//    @JoinColumn(name="EI_ID")
-//    private EmpInfoEntity empInfoEntity;
+    @ManyToOne
+    @JoinColumn(name="EI_ID")
+    private EmpInfoEntity empInfoEntity;
 
-//    @ManyToOne
-//    @JoinColumn(name="ACCOUNT_CD")
-//    private AccountEntity accountEntity;
+    @ManyToOne
+    @JoinColumn(name="ACCOUNT_CD")
+    private AccountEntity accountEntity;
 
     @Column(name = "ESTIMATE_NM")
     private String estimateNm;
 
-//    @ManyToOne
-//    @JoinColumn(name="BOM_ITEM_CD")
-//    private ItemEntity itemEntity;
+    @ManyToOne
+    @JoinColumn(name="BOM_ITEM_CD")
+    private ItemEntity itemEntity;
 
     @Column(name = "ESTIMATE_AMT")
     private int estimateAmt;
@@ -65,7 +65,7 @@ public class EstimateEntity {
     private List<MemberEntity> memberEntities;
 
     public EstimateEntity(String estimateCd, LocalDate estimateDt, int checkAmt,
-                      EmpInfoEntity empInfoEntity, AccountEntity, accountEntity,
+                      EmpInfoEntity empInfoEntity, AccountEntity accountEntity,
                       String estimateNm, ItemEntity itemEntity, int estimateAmt,
                       int estimateUp, int estimateSp, int estimateVat,
                       int estimateTamt, String estimateEtc) {

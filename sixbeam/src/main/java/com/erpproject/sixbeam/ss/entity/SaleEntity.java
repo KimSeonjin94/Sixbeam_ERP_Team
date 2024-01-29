@@ -53,7 +53,7 @@ public class SaleEntity {
         this.saleBillingDt = saleBillingDt;
         this.saleBillingSt = saleBillingSt;
         this.salePaymentDt = salePaymentDt;
-        this.moveEntity = moveEntity;
+        this.WmMoveEntity = wmMoveEntity;
         this.saleShippingSt = saleShippingSt;
         this.saleShippingDt = saleShippingDt;
     }
