@@ -19,7 +19,6 @@ import java.util.List;
 public class EstimateEntity {
     @Id
     @Column(name = "ESTIMATE_CD")
-    @OneToMany
     private String estimateCd;
     @Column(name = "ESTIMATE_DT")
     private LocalDate estimateDt;
