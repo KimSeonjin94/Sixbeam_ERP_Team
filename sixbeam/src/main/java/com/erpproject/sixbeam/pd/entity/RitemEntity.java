@@ -1,18 +1,22 @@
 package com.erpproject.sixbeam.pd.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@Table(name = "PD_RITEM_TB")
 public class RitemEntity {
 
     @Id
-    @OneToMany
-    @Column(name ="", nullable = false)
-    private List<FitemEntity> fitemEntities;
+    @Column(name = "RITEM_CD")
+    private String ritemCd;
 
+    // BomEntity와 연관되어있음
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "fitem_entity_id", referencedColumnName = "fitem_entity_id"),
+            @JoinColumn(name = "ritementity_id", referencedColumnName = "ritementity_id")
+    })
+    private BomEntity bomEntity;
 }
