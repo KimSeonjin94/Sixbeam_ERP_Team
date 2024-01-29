@@ -15,17 +15,9 @@ import java.sql.Time;
 @Setter
 public class BomDto {
 
-    @Id
-    @OneToMany
-    @JoinColumn(name="fItemCd")
     private String finishItemCd;
-    @Id
-    @OneToMany
-    @JoinColumn(name = "rItemCd")
     private String rawItemCd;
-    @Column
     private int bomUseMt;
-    @Column
     private Time bomWorkTm;
 
     public BomEntity toEntity() {

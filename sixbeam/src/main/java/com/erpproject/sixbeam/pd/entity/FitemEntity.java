@@ -1,15 +1,16 @@
 package com.erpproject.sixbeam.pd.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity
 public class FitemEntity {
 
     @Id
     @OneToMany
-    @Column(name ="", nullable = false)
-    private ItemEntity itemEntity;
+    @Column(name = "", nullable = false)
+    private FitemEntity fitemEntity;
+
+    @ManyToOne
+    @Column(name = "")
+    private BomEntity bomEntity;
 }
