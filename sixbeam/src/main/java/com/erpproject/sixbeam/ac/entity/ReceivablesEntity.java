@@ -15,4 +15,11 @@ public class ReceivablesEntity {
     private int receivablesCollect;
     @Column(name="RECEIVABLES_REST")
     private int receivablesRest;
+
+    public ReceivablesEntity(String accountCd, int receivablesSales, int receivablesCollect, int receivablesRest) {
+        this.accountCd = accountCd;
+        this.receivablesSales = receivablesSales;
+        this.receivablesCollect = receivablesCollect;
+        this.receivablesRest = receivablesRest;
+    }
 }

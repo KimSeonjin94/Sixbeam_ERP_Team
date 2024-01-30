@@ -2,6 +2,8 @@ package com.erpproject.sixbeam.ac.controller;
 
 import com.erpproject.sixbeam.ac.dto.IsDto;
 import com.erpproject.sixbeam.ac.entity.BsEntity;
+import com.erpproject.sixbeam.ac.entity.IsEntity;
+import com.erpproject.sixbeam.ac.repository.IsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +17,9 @@ public class IsController {
 
     @GetMapping
     public String createIsEntity(IsDto isDto) {
-        BsEntity bsEntity = isDto.toEntity();
+        IsEntity isEntity = isDto.toEntity();
 
-//        BsEntity saved = isRepository.save(isEntity);
+        IsEntity saved = isRepository.save(isEntity);
 
         return "";
     }

@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.ac.dto;
 
+import com.erpproject.sixbeam.ac.entity.IsEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,4 +16,8 @@ public class IsDto {
     private int isInterInc;
     private int isInterExp;
     private int isCortaxExp;
+
+    public IsEntity toEntity() {
+        return new IsEntity(isDt, isNetSales, isCostSales, isWages, isInterInc, isInterExp, isCortaxExp);
+    }
 }

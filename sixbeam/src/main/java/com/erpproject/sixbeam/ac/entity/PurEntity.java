@@ -19,4 +19,13 @@ public class PurEntity {
     private String purSubject;
     @Column(name="SALES_BANK")
     private String salesBank;
+
+    public PurEntity(String purNb, String accountCd, String piCd, String purEtc, String purSubject, String salesBank) {
+        this.purNb = purNb;
+        this.accountCd = accountCd;
+        this.piCd = piCd;
+        this.purEtc = purEtc;
+        this.purSubject = purSubject;
+        this.salesBank = salesBank;
+    }
 }

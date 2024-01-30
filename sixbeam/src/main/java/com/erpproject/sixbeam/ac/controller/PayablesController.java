@@ -1,7 +1,8 @@
 package com.erpproject.sixbeam.ac.controller;
 
-import com.erpproject.sixbeam.ac.dto.BsDto;
-import com.erpproject.sixbeam.ac.entity.BsEntity;
+import com.erpproject.sixbeam.ac.dto.PayablesDto;
+import com.erpproject.sixbeam.ac.entity.PayablesEntity;
+import com.erpproject.sixbeam.ac.repository.PayablesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +16,10 @@ public class PayablesController {
     private PayablesRepository payablesRepository;
 
     @GetMapping
-    public String createBsEntity(BsDto bsDto) {
-        BsEntity bsEntity = bsDto.toEntity();
+    public String createPayablesEntity(PayablesDto payablesDto) {
+        PayablesEntity payablesEntity = payablesDto.toEntity();
 
-//        BsEntity saved = bsRepository.save(bsEntity);
+        PayablesEntity saved = payablesRepository.save(payablesEntity);
 
         return "";
     }

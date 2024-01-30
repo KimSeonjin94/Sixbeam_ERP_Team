@@ -15,4 +15,11 @@ public class PayablesEntity {
     private int payablesPaid;
     @Column(name="PAYABLES_REST")
     private int payablesRest;
+
+    public PayablesEntity(String accountCd, int payablesPur, int payablesPaid, int payablesRest) {
+        this.accountCd = accountCd;
+        this.payablesPur = payablesPur;
+        this.payablesPaid = payablesPaid;
+        this.payablesRest = payablesRest;
+    }
 }

@@ -1,7 +1,7 @@
 package com.erpproject.sixbeam.ac.controller;
 
-import com.erpproject.sixbeam.ac.dto.BsDto;
-import com.erpproject.sixbeam.ac.entity.BsEntity;
+import com.erpproject.sixbeam.ac.dto.ReceivablesDto;
+import com.erpproject.sixbeam.ac.entity.ReceivablesEntity;
 import com.erpproject.sixbeam.ac.repository.ReceivablesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,10 +16,10 @@ public class ReceivablesController {
     private ReceivablesRepository receivablesRepository;
 
     @GetMapping
-    public String createBsEntity(BsDto bsDto) {
-        BsEntity bsEntity = bsDto.toEntity();
+    public String createReceivablesEntity(ReceivablesDto receivablesDto) {
+        ReceivablesEntity receivablesEntity = receivablesDto.toEntity();
 
-//        BsEntity saved = bsRepository.save(bsEntity);
+        ReceivablesEntity saved = receivablesRepository.save(receivablesEntity);
 
         return "";
     }

@@ -19,4 +19,13 @@ public class SalesEntity {
     private String salesSubject;
     @Column(name="SALES_BANK")
     private String salesBank;
+
+    public SalesEntity(String salesNb, String accountCd, String saleCd, String salesEtc, String salesSubject, String salesBank) {
+        this.salesNb = salesNb;
+        this.accountCd = accountCd;
+        this.saleCd = saleCd;
+        this.salesEtc = salesEtc;
+        this.salesSubject = salesSubject;
+        this.salesBank = salesBank;
+    }
 }

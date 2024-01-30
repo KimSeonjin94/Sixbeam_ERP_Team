@@ -1,7 +1,7 @@
 package com.erpproject.sixbeam.ac.controller;
 
-import com.erpproject.sixbeam.ac.dto.BsDto;
-import com.erpproject.sixbeam.ac.entity.BsEntity;
+import com.erpproject.sixbeam.ac.dto.SalesDto;
+import com.erpproject.sixbeam.ac.entity.SalesEntity;
 import com.erpproject.sixbeam.ac.repository.SalesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,10 +16,10 @@ public class SalesController {
     private SalesRepository salesRepository;
 
     @GetMapping
-    public String createBsEntity(BsDto bsDto) {
-        BsEntity bsEntity = bsDto.toEntity();
+    public String createBsEntity(SalesDto salesDto) {
+        SalesEntity salesEntity = salesDto.toEntity();
 
-//        BsEntity saved = bsRepository.save(bsEntity);
+        SalesEntity saved = salesRepository.save(salesEntity);
 
         return "";
     }

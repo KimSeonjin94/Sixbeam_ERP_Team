@@ -1,4 +1,11 @@
 package com.erpproject.sixbeam.ac.repository;
 
-public interface IsRepository {
+import com.erpproject.sixbeam.ac.entity.IsEntity;
+import org.springframework.data.repository.CrudRepository;
+
+public interface IsRepository extends CrudRepository<IsEntity, Long> {
+
+
+
+
 }

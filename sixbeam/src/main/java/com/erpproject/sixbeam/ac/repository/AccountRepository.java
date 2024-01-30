@@ -1,4 +1,7 @@
 package com.erpproject.sixbeam.ac.repository;
 
-public interface AccountRepository {
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
+import org.springframework.data.repository.CrudRepository;
+
+public interface AccountRepository extends CrudRepository<AccountEntity, Long> {
 }

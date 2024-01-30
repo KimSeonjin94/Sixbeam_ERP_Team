@@ -27,4 +27,17 @@ public class AccountEntity {
     private String accountPic;
     @Column(name="ACCOUNT_ETC")
     private String accountEtc;
+
+    public AccountEntity(String accountCd, String accountNm, String accountNb, String accountAdd, String accountRep, String accountSectors, String accountBank, String accountAcnb, String accountPic, String accountEtc) {
+        this.accountCd = accountCd;
+        this.accountNm = accountNm;
+        this.accountNb = accountNb;
+        this.accountAdd = accountAdd;
+        this.accountRep = accountRep;
+        this.accountSectors = accountSectors;
+        this.accountBank = accountBank;
+        this.accountAcnb = accountAcnb;
+        this.accountPic = accountPic;
+        this.accountEtc = accountEtc;
+    }
 }

@@ -25,5 +25,13 @@ public class IsEntity {
     @Column(name="IS_CORTAX_EXP")
     private int isCortaxExp;
 
-
+    public IsEntity(LocalDate isDt, int isNetSales, int isCostSales, int isWages, int isInterInc, int isInterExp, int isCortaxExp) {
+        this.isDt = isDt;
+        this.isNetSales = isNetSales;
+        this.isCostSales = isCostSales;
+        this.isWages = isWages;
+        this.isInterInc = isInterInc;
+        this.isInterExp = isInterExp;
+        this.isCortaxExp = isCortaxExp;
+    }
 }
