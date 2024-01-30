@@ -1,4 +1,4 @@
 package com.erpproject.sixbeam.ac.repository;
 
-public class SalesRepository   {
+public interface SalesRepository {
 }

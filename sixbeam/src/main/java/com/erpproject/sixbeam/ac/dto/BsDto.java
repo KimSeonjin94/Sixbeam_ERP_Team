@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.ac.dto;
 
+import com.erpproject.sixbeam.ac.entity.BsEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,4 +20,8 @@ public class BsDto {
     private int bsLongBor;
     private int bsCapital;
     private int bsEarnings;
+
+    public BsEntity toEntity() {
+        return new BsEntity(bsDt,  bsCash,  bsReceivables,  bsInventories,  bsLand,  bsBuilding,  bsFac,  bsPayables,  bsLongBor,  bsCapital,  bsEarnings);
+    }
 }
