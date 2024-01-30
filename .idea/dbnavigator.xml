@@ -4,6 +4,11 @@
     <mappings />
     <preferences />
   </component>
+  <component name="DBNavigator.Project.DataEditorManager">
+    <record-view-column-sorting-type value="BY_INDEX" />
+    <value-preview-text-wrapping value="true" />
+    <value-preview-pinned value="false" />
+  </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
@@ -12,7 +17,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4">
-      <console name="Connection" type="STANDARD" schema="" session="Main" />
+      <console name="Connection" type="STANDARD" schema="mrs" session="Main"><![CDATA[select  * from member;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -21,7 +26,17 @@
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
+  <component name="DBNavigator.Project.DatabaseSessionManager">
+    <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4" />
+  </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.movie_info" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.book" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.member" active-filter-id="EMPTY_FILTER">
+      <filter id="c926b0d6-64eb-473c-89c0-747ea45dcdb9" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="m_phone" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.hr" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
@@ -523,5 +538,9 @@
         </visibility-settings>
       </environment>
     </general-settings>
+  </component>
+  <component name="DBNavigator.Project.StatementExecutionManager">
+    <execution-variables />
+    <execution-variable-types />
   </component>
 </project>
