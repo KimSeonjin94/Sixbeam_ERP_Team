@@ -1,9 +1,18 @@
 package com.erpproject.sixbeam.ac.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Getter
+@Setter
 @Table(name="AC_RECEIVABLES_TB")
 public class ReceivablesEntity {
     @Id
@@ -16,10 +25,10 @@ public class ReceivablesEntity {
     @Column(name="RECEIVABLES_REST")
     private int receivablesRest;
 
-    public ReceivablesEntity(String accountCd, int receivablesSales, int receivablesCollect, int receivablesRest) {
-        this.accountCd = accountCd;
-        this.receivablesSales = receivablesSales;
-        this.receivablesCollect = receivablesCollect;
-        this.receivablesRest = receivablesRest;
-    }
+//    public ReceivablesEntity(String accountCd, int receivablesSales, int receivablesCollect, int receivablesRest) {
+//        this.accountCd = accountCd;
+//        this.receivablesSales = receivablesSales;
+//        this.receivablesCollect = receivablesCollect;
+//        this.receivablesRest = receivablesRest;
+//    }
 }

@@ -1,9 +1,18 @@
 package com.erpproject.sixbeam.ac.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Getter
+@Setter
 @Table(name="AC_PUR_TB")
 public class PurEntity {
     @Id
@@ -20,12 +29,12 @@ public class PurEntity {
     @Column(name="SALES_BANK")
     private String salesBank;
 
-    public PurEntity(String purNb, String accountCd, String piCd, String purEtc, String purSubject, String salesBank) {
-        this.purNb = purNb;
-        this.accountCd = accountCd;
-        this.piCd = piCd;
-        this.purEtc = purEtc;
-        this.purSubject = purSubject;
-        this.salesBank = salesBank;
-    }
+//    public PurEntity(String purNb, String accountCd, String piCd, String purEtc, String purSubject, String salesBank) {
+//        this.purNb = purNb;
+//        this.accountCd = accountCd;
+//        this.piCd = piCd;
+//        this.purEtc = purEtc;
+//        this.purSubject = purSubject;
+//        this.salesBank = salesBank;
+//    }
 }

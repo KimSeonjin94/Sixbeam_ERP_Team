@@ -1,9 +1,19 @@
 package com.erpproject.sixbeam.ac.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Getter
+@Setter
 @Table(name="AC_ACCOUNT_TB")
 public class AccountEntity {
     @Id
@@ -28,16 +38,16 @@ public class AccountEntity {
     @Column(name="ACCOUNT_ETC")
     private String accountEtc;
 
-    public AccountEntity(String accountCd, String accountNm, String accountNb, String accountAdd, String accountRep, String accountSectors, String accountBank, String accountAcnb, String accountPic, String accountEtc) {
-        this.accountCd = accountCd;
-        this.accountNm = accountNm;
-        this.accountNb = accountNb;
-        this.accountAdd = accountAdd;
-        this.accountRep = accountRep;
-        this.accountSectors = accountSectors;
-        this.accountBank = accountBank;
-        this.accountAcnb = accountAcnb;
-        this.accountPic = accountPic;
-        this.accountEtc = accountEtc;
-    }
+//    public AccountEntity(String accountCd, String accountNm, String accountNb, String accountAdd, String accountRep, String accountSectors, String accountBank, String accountAcnb, String accountPic, String accountEtc) {
+//        this.accountCd = accountCd;
+//        this.accountNm = accountNm;
+//        this.accountNb = accountNb;
+//        this.accountAdd = accountAdd;
+//        this.accountRep = accountRep;
+//        this.accountSectors = accountSectors;
+//        this.accountBank = accountBank;
+//        this.accountAcnb = accountAcnb;
+//        this.accountPic = accountPic;
+//        this.accountEtc = accountEtc;
+//    }
 }

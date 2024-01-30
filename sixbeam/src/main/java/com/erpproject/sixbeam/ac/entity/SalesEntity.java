@@ -1,9 +1,18 @@
 package com.erpproject.sixbeam.ac.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Getter
+@Setter
 @Table(name="AC_SALES_TB")
 public class SalesEntity {
     @Id
@@ -20,12 +29,12 @@ public class SalesEntity {
     @Column(name="SALES_BANK")
     private String salesBank;
 
-    public SalesEntity(String salesNb, String accountCd, String saleCd, String salesEtc, String salesSubject, String salesBank) {
-        this.salesNb = salesNb;
-        this.accountCd = accountCd;
-        this.saleCd = saleCd;
-        this.salesEtc = salesEtc;
-        this.salesSubject = salesSubject;
-        this.salesBank = salesBank;
-    }
+//    public SalesEntity(String salesNb, String accountCd, String saleCd, String salesEtc, String salesSubject, String salesBank) {
+//        this.salesNb = salesNb;
+//        this.accountCd = accountCd;
+//        this.saleCd = saleCd;
+//        this.salesEtc = salesEtc;
+//        this.salesSubject = salesSubject;
+//        this.salesBank = salesBank;
+//    }
 }

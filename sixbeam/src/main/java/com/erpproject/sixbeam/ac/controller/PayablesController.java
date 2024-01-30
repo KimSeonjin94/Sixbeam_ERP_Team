@@ -15,7 +15,7 @@ public class PayablesController {
     @Autowired
     private PayablesRepository payablesRepository;
 
-    @GetMapping
+    @GetMapping("/payables")
     public String createPayablesEntity(PayablesDto payablesDto) {
         PayablesEntity payablesEntity = payablesDto.toEntity();
 

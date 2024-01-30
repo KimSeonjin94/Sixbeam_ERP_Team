@@ -4,8 +4,7 @@ import com.erpproject.sixbeam.ac.entity.SalesEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+
 public class SalesDto {
     private String salesNb;
     private String accountCd;;

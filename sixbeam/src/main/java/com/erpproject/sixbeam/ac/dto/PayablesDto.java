@@ -4,8 +4,6 @@ import com.erpproject.sixbeam.ac.entity.PayablesEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 public class PayablesDto {
     private String accountCd;
     private int payablesPur;

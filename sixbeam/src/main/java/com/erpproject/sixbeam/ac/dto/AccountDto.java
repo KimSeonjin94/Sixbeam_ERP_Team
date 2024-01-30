@@ -3,8 +3,7 @@ package com.erpproject.sixbeam.ac.dto;
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import lombok.Getter;
 import lombok.Setter;
-@Getter
-@Setter
+
 public class AccountDto {
     private String accountCd;
     private String accountNm;

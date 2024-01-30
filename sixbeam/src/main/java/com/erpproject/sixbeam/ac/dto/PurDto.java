@@ -4,8 +4,6 @@ import com.erpproject.sixbeam.ac.entity.PurEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 public class PurDto {
     private String purNb;
     private String accountCd;
@@ -16,6 +14,7 @@ public class PurDto {
 
 
     public PurEntity toEntity() {
+
         return new PurEntity(purNb, accountCd, piCd, purEtc, purSubject, salesBank);
     }
 }

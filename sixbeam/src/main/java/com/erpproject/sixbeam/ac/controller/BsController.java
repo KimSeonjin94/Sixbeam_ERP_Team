@@ -15,7 +15,7 @@ public class BsController {
     @Autowired
     private BsRepository bsRepository;
 
-    @GetMapping
+    @GetMapping("/bs")
     public String createBsEntity(BsDto bsDto) {
         BsEntity bsEntity = bsDto.toEntity();
 

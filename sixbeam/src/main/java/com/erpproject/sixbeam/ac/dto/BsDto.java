@@ -6,8 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
+
 public class BsDto {
     private LocalDate bsDt;
     private int bsCash;
