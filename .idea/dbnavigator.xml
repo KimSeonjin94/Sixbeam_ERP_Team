@@ -4,6 +4,11 @@
     <mappings />
     <preferences />
   </component>
+  <component name="DBNavigator.Project.DataEditorManager">
+    <record-view-column-sorting-type value="BY_INDEX" />
+    <value-preview-text-wrapping value="true" />
+    <value-preview-pinned value="false" />
+  </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
@@ -19,10 +24,20 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" object-ref="schemas/sixbeam_erp/tables/hr_empinfo_tb" />
+    </open-files>
+  </component>
+  <component name="DBNavigator.Project.DatabaseSessionManager">
+    <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.hr" active-filter-id="" />
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.hr_empinfo_tb" active-filter-id="52a1508f-2489-400c-9b72-c95ce46484c9">
+      <filter id="52a1508f-2489-400c-9b72-c95ce46484c9" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="employee_id" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
