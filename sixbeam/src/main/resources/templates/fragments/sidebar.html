@@ -2,35 +2,351 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="sidebarFragment">
-
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion shadow" id="accordionSidebar">
+
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/sixbeam/home">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon">
+                <img src="img/whiteLogo.svg">
             </div>
-            <div class="sidebar-brand-text mx-3">RMBB</div>
         </a>
-
-        <!-- Divider -->
         <hr class="sidebar-divider my-0">
+            <div class="tab-content">
+                <div id="Tap-HR" class="tab-pane fade" role="tabpanel" aria-labelledby="HR-Tab">
+                    <!-- Divider -->
+                    <!-- Heading -->
+                    <div class="sidebar-heading">
+                        인사
+                    </div>
+                        <!-- Nav Item - Pages Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                               data-target="#collapsemanagement"
+                               aria-expanded="true" aria-controls="collapsemanagement">
+                                <i class="fas fa-fw fa-cog"></i>
+                                <span>관리</span>
+                            </a>
+                            <div id="collapsemanagement" class="collapse" aria-labelledby="headingmanagement"
+                                 data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <a class="collapse-item" href="#">사원</a>
+                                    <a class="collapse-item" href="#">부서</a>
+                                    <a class="collapse-item" href="#">직책</a>
+                                    <a class="collapse-item" href="#">사유</a>
+                                    <a class="collapse-item" href="#">급여식별자</a>
+                                </div>
+                            </div>
+                        </li>
 
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-               aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>HR</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="/hr/EmpInfo_list">사원 목록</a>
-                    <a class="collapse-item" href="/hr/EmpInfo_create">사원 등록</a>
+                        <!-- Nav Item - Utilities Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapserecord"
+                               aria-expanded="true" aria-controls="collapserecord">
+                                <i class="fas fa-fw fa-wrench"></i>
+                                <span>기록</span>
+                            </a>
+                            <div id="collapserecord" class="collapse" aria-labelledby="headingrecord"
+                                 data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <a class="collapse-item" href="#">근무 기록</a>
+                                    <a class="collapse-item" href="#">연차 기록</a>
+                                    <a class="collapse-item" href="#">휴직 기록</a>
+                                    <a class="collapse-item" href="#">급여 기록</a>
+                                </div>
+                            </div>
+                        </li>
+
+                </div>
+                <div id="Tap-PD" class="tab-pane fade" role="tabpanel" aria-labelledby="PD-Tab">
+                    <!-- Heading -->
+                    <div class="sidebar-heading">
+                        생산
+                    </div>
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseitems"
+                           aria-expanded="true" aria-controls="collapseitems">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>품목 관리</span>
+                        </a>
+                        <div id="collapseitems" class="collapse" aria-labelledby="headingitems"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">품목 조회</a>
+                                <a class="collapse-item" href="#">품목 등록</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePd"
+                           aria-expanded="true" aria-controls="collapsePd">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>생산 관리</span>
+                        </a>
+                        <div id="collapsePd" class="collapse" aria-labelledby="headingPd"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">자재 명세서</a>
+                                <a class="collapse-item" href="#">작업 지시서</a>
+                                <a class="collapse-item" href="#">생산 현황</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseqc"
+                           aria-expanded="true" aria-controls="collapseqc">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>품질 관리</span>
+                        </a>
+                        <div id="collapseqc" class="collapse" aria-labelledby="headingqc"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">품질 조회</a>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+                <div id="Tap-ST" class="tab-pane fade" role="tabpanel" aria-labelledby="ST-Tab">
+
+
+                    <!-- Heading -->
+                    <div class="sidebar-heading">
+                        재고
+                    </div>
+
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsewm"
+                           aria-expanded="true" aria-controls="collapsewm">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>창고 관리</span>
+                        </a>
+                        <div id="collapsewm" class="collapse" aria-labelledby="headingwm"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">창고 등록</a>
+                                <a class="collapse-item" href="#">창고 현황</a>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+                <div id="Tap-SS" class="tab-pane fade" role="tabpanel" aria-labelledby="SS-Tab">
+
+
+                    <!-- Heading -->
+                    <div class="sidebar-heading">
+                        영업
+                    </div>
+
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsees"
+                           aria-expanded="true" aria-controls="collapsees">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>견적 관리</span>
+                        </a>
+                        <div id="collapsees" class="collapse" aria-labelledby="headinges"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">견적서 조회</a>
+                                <a class="collapse-item" href="#">견적서 현황</a>
+                                <a class="collapse-item" href="#">견적서 등록</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsess"
+                           aria-expanded="true" aria-controls="collapsess">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>판매 관리</span>
+                        </a>
+                        <div id="collapsess" class="collapse" aria-labelledby="headingss"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">판매 조회</a>
+                                <a class="collapse-item" href="#">판매 현황</a>
+                                <a class="collapse-item" href="#">판매 등록</a>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+                <div id="Tap-PUR" class="tab-pane fade" role="tabpanel" aria-labelledby="PUR-Tab">
+
+
+                    <!-- Heading -->
+                    <div class="sidebar-heading">
+                        구매
+                    </div>
+
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseout"
+                           aria-expanded="true" aria-controls="collapseout">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>발주</span>
+                        </a>
+                        <div id="collapseout" class="collapse" aria-labelledby="headingout"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">발주 조회</a>
+                                <a class="collapse-item" href="#">발주 입력</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsein"
+                           aria-expanded="true" aria-controls="collapsein">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>발주</span>
+                        </a>
+                        <div id="collapsein" class="collapse" aria-labelledby="headingin"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">발주 조회</a>
+                                <a class="collapse-item" href="#">발주 입력</a>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+                <div id="Tap-AC" class="tab-pane fade" role="tabpanel" aria-labelledby="AC-Tab">
+
+                    <!-- Heading -->
+                    <div class="sidebar-heading">
+                        회계
+                    </div>
+
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsebsis"
+                           aria-expanded="true" aria-controls="collapsebsis">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>주요 재무재표</span>
+                        </a>
+                        <div id="collapsebsis" class="collapse" aria-labelledby="headingbsis"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">재무상태표</a>
+                                <a class="collapse-item" href="#">손익계산서</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseacss"
+                           aria-expanded="true" aria-controls="collapseacss">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>매출 관리</span>
+                        </a>
+                        <div id="collapseacss" class="collapse" aria-labelledby="headingacss"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">매출 전표</a>
+                                <a class="collapse-item" href="#">거래처별 채권</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseacpur"
+                           aria-expanded="true" aria-controls="collapseacpur">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>매입 관리</span>
+                        </a>
+                        <div id="collapseacpur" class="collapse" aria-labelledby="headingacpur"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">매입 전표</a>
+                                <a class="collapse-item" href="#">거래처별 채무</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseacac"
+                           aria-expanded="true" aria-controls="collapseacac">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>기초 등록</span>
+                        </a>
+                        <div id="collapseacac" class="collapse" aria-labelledby="headingacac"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">거래처 목록</a>
+                            </div>
+                        </div>
+                    </li>
                 </div>
             </div>
-        </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
     </ul>
+
+
+
+    <!--    &lt;!&ndash; Sidebar &ndash;&gt;-->
+    <!--    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">-->
+    <!--        &lt;!&ndash; Sidebar - Brand &ndash;&gt;-->
+    <!--        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/sixbeam/home">-->
+    <!--            <div class="sidebar-brand-icon rotate-n-15">-->
+    <!--                <i class="fas fa-laugh-wink"></i>-->
+    <!--            </div>-->
+    <!--            <div class="sidebar-brand-text mx-3">RMBB</div>-->
+    <!--        </a>-->
+
+    <!--        &lt;!&ndash; Divider &ndash;&gt;-->
+    <!--        <hr class="sidebar-divider my-0">-->
+
+    <!--        &lt;!&ndash; Nav Item - Pages Collapse Menu &ndash;&gt;-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link" data-tab-id="HR">-->
+    <!--                <i class="fas fa-fw fa-cog"></i>-->
+    <!--                <span>인사</span>-->
+    <!--            </a>-->
+    <!--        </li>-->
+    <!--        <hr class="sidebar-divider my-0">-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link" data-tab-id="PD">-->
+    <!--                <i class="fas fa-fw fa-cog"></i>-->
+    <!--                <span>생산</span>-->
+    <!--            </a>-->
+    <!--        </li>-->
+    <!--        <hr class="sidebar-divider my-0">-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link" data-tab-id="ST">-->
+    <!--                <i class="fas fa-fw fa-cog"></i>-->
+    <!--                <span>재고</span>-->
+    <!--            </a>-->
+    <!--        </li>-->
+    <!--        <hr class="sidebar-divider my-0">-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link " data-tab-id="SS">-->
+    <!--                <i class="fas fa-fw fa-cog"></i>-->
+    <!--                <span>영업</span>-->
+    <!--            </a>-->
+    <!--        </li>-->
+    <!--        <hr class="sidebar-divider my-0">-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link " data-tab-id="PUR">-->
+    <!--                <i class="fas fa-fw fa-cog"></i>-->
+    <!--                <span>구매</span>-->
+    <!--            </a>-->
+    <!--        </li>-->
+    <!--        <hr class="sidebar-divider my-0">-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link" data-tab-id="AC">-->
+    <!--                <i class="fas fa-fw fa-cog"></i>-->
+    <!--                <span>회계</span>-->
+    <!--            </a>-->
+    <!--        </li>-->
+    <!--        <hr class="sidebar-divider my-0">-->
+    <!--        &lt;!&ndash; Sidebar Toggler (Sidebar) &ndash;&gt;-->
+    <!--        <div class="text-center d-none d-md-inline">-->
+    <!--            <button class="rounded-circle border-0" id="sidebarToggle"></button>-->
+    <!--        </div>-->
+    <!--    </ul>-->
     <!-- End of Sidebar -->
 
 </th:block>
