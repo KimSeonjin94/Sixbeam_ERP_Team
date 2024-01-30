@@ -1,8 +1,6 @@
 package com.erpproject.sixbeam.pur.entity;
 
-import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
-import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,8 +38,9 @@ public class OrinPutEntity {
     private int orinputVat;
     @Column(name = "ORINPUT_SUM")
     private int orinputSum;
-    @Column(name = "ACCOUNT_CD", nullable = false)
-    private String accountEntity;
+    @ManyToOne
+    @JoinColumn(name = "ACCOUNT_CD", nullable = false)
+    private AccountEntity accountEntity;
     @Column(name = "DELIVERY_DT")
     private LocalDate deliveryDt;
     @Column(name = "ORINPUT_ETC")

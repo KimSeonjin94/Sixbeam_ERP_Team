@@ -1,6 +1,5 @@
 package com.erpproject.sixbeam.pur.entity;
 
-import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,10 +16,15 @@ public class InputEntity {
     @Id
     @Column(name = "PI_CD")
     private String piCd;
-    @Column(name = "PO_CD", nullable = false)
-    private String orinputEntity;
-    @Column(name = "WH_MOVE_CD", nullable = false)
-    private String whmoveEntity;
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "PO_CD", referencedColumnName = "PO_CD", nullable = false),
+            @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD", nullable = false)
+        })
+    private OrinPutEntity orinputEntity;
+    @ManyToOne
+    @JoinColumn(name = "WH_MOVE_CD", nullable = false)
+    private WhmoveEntity whmoveEntity;
     @Column(name = "PUR_PROG_ST", nullable = false)
     private String purProgSt;
     @Column(name = "SLIP_ISSU_DT")
