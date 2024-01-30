@@ -1,8 +1,10 @@
 package com.erpproject.sixbeam.ss.entity;
 
 
-import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
-import com.erpproject.sixbeam.ss.dto.AccountEntity;
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
+
+import com.erpproject.sixbeam.hr.entity.EmployeeInfoEntity;
+import com.erpproject.sixbeam.st.entity.CheckEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,7 +41,7 @@ public class EstimateEntity {
 
     @ManyToOne
     @JoinColumn(name="EI_ID")
-    private EmpInfoEntity empInfoEntity;
+    private EmployeeInfoEntity employeeInfoEntity;
 
     @ManyToOne
     @JoinColumn(name="ACCOUNT_CD")

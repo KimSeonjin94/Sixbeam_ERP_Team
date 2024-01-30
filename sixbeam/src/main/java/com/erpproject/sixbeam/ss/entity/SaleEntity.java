@@ -1,6 +1,5 @@
 package com.erpproject.sixbeam.ss.entity;
 
-import com.erpproject.sixbeam.ss.dto.WmMoveEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
 package com.erpproject.sixbeam.pd.dto;
 
-public class FitemDto Dt{
+public class FitemDto {
 }

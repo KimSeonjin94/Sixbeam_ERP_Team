@@ -1,9 +1,10 @@
 package com.erpproject.sixbeam.ac.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
+@Entity
 @Table(name="AC_ACCOUNT_TB")
 public class AccountEntity {
     @Id

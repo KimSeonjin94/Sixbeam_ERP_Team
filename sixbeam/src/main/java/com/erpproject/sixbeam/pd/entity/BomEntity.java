@@ -33,13 +33,3 @@ public class BomEntity {
     private Time bomWorkTm;
 }
 
-@Getter
-@Setter
-class BomEntityId implements Serializable {
-    private String fitemEntityId;
-    private String ritementityId;
-
-    // 생성자, equals, hashCode 등을 구현해야 합니다.
-
-    // getters, setters
-}
