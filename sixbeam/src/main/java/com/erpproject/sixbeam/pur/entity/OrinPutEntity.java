@@ -5,17 +5,23 @@ import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.hr.entity.EmployeeInfoEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 @Entity
 @IdClass(OrinPutEntityId.class)
-@Table(name="PUR_ORINPUT_TB")
+@Table(name="PUR_ORINPUT_TB", indexes = {
+        @Index(name = "idx_pd_cd", columnList = "po_cd")
+})
 public class OrinPutEntity {
     @Id
     @Column(name = "PO_CD")
