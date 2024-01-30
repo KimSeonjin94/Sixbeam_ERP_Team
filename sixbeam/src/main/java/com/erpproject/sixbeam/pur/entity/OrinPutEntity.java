@@ -15,11 +15,17 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @IdClass(OrinPutEntityId.class)
-@Table(name="PUR_ORINPUT_TB")
+@Table(name = "pur_orinput_tb", indexes = {
+        @Index(name = "idx_po_cd", columnList = "po_cd")
+})
 public class OrinPutEntity {
     @Id
     @Column(name = "PO_CD")
     private String poCd;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
+    private ItemEntity itemEntity;
     @Column(name = "PUR_REQ_DT", nullable = false)
     private LocalDate purReqDt;
     @Column(name = "ORDER_DT")
@@ -27,10 +33,7 @@ public class OrinPutEntity {
     @ManyToOne
     @JoinColumn(name = "EI_ID", nullable = false)
     private EmployeeInfoEntity employeeInfoEntity;
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "ITEM_CD")
-    private ItemEntity itemEntity;
+
     @Column(name = "ORINPUT_AMT")
     private int orinputAmt;
     @Column(name = "ORINPUT_UP")

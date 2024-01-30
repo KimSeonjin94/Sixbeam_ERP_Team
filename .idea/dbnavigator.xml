@@ -24,12 +24,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" object-ref="schemas/sixbeam_erp/tables/hr_empinfo_tb" />
-    </open-files>
-  </component>
-  <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4" />
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4" />
