@@ -13,10 +13,4 @@ public class BsController {
 
     private BsService bsService;
 
-    @GetMapping
-    @RequestBody
-    public List<BsDto> () {
-        return bsService.getAll();
-
-    }
 }

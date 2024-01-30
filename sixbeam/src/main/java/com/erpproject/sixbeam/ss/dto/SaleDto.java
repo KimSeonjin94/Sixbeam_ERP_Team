@@ -2,10 +2,7 @@ package com.erpproject.sixbeam.ss.dto;
 
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 
 
 import java.time.LocalDate;
@@ -24,11 +21,11 @@ public class SaleDto {
 
     private  LocalDate salePaymentDt;
 
-    private WmMoveEntity wmMoveEntity;
+    private WhmoveEntity whMoveEntity;
 
     private String saleShippingSt;
     private LocalDate saleShippingDt;
     public SaleEntity toEntity(){
-        return new SaleEntity(saleCd,estimateEntity,saleUploadDt,saleBillingDt,saleBillingSt,salePaymentDt,wmMoveEntity,saleShippingSt,saleShippingDt);
+        return new SaleEntity(saleCd,estimateEntity,saleUploadDt,saleBillingDt,saleBillingSt,salePaymentDt,whMoveEntity,saleShippingSt,saleShippingDt);
     }
 }

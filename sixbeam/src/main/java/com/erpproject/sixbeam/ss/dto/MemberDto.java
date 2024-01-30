@@ -2,7 +2,6 @@ package com.erpproject.sixbeam.ss.dto;
 
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.MemberEntity;
-import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import lombok.Data;
 
 @Data

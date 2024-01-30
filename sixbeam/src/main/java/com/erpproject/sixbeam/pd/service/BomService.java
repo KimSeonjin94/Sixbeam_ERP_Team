@@ -8,9 +8,4 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BomService {
-    private final EmpInfoRepository empInfoRepository;
-
-    public List<EmpInfoEntity> getList(){
-        return this.empInfoRepository.findAll();
-    }
 }

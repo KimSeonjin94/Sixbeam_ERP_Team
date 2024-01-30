@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "PD_RITEM_TB")
+@Table(name = "PD_ITEM_TB")
 public class ItemEntity {
 
     @Id

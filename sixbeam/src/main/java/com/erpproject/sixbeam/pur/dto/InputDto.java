@@ -1,6 +1,7 @@
 package com.erpproject.sixbeam.pur.dto;
 
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
+import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 
 import java.time.LocalDate;
 

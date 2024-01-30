@@ -1,7 +1,7 @@
 package com.erpproject.sixbeam.st.entity;
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
-import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.hr.entity.EmployeeInfoEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +27,7 @@ public class ReleaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "ei_id")
-    private EmpInfoEntity empInfoEntity;
+    private EmployeeInfoEntity employeeInfoEntity;
 
     @ManyToOne
     @JoinColumn(name = "whmove_cd")

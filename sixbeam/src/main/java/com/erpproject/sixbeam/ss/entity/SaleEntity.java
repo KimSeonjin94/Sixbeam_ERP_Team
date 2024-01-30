@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.ss.entity;
 
+import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,8 +37,8 @@ public class SaleEntity {
     @Column(name = "SALE_PAYMENT_DT")
     private LocalDate salePaymentDt;
     @ManyToOne
-    @JoinColumn(name = "ST_WMMOVE_CD")
-    private WmMoveEntity wmMoveEntity;
+    @JoinColumn(name = "WMMOVE_CD")
+    private WhmoveEntity whMoveEntity;
     @Column(name = "SALE_SHIPPING_ST")
     private String saleShippingSt;
     @Column(name = "SALE_SHIPPING_DT")

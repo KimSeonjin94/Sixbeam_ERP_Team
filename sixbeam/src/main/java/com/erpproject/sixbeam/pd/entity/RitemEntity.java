@@ -12,11 +12,6 @@ public class RitemEntity {
     @Column(name = "RITEM_CD")
     private String ritemCd;
 
-    // BomEntity와 연관되어있음
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "fitem_entity_id", referencedColumnName = "fitem_entity_id"),
-            @JoinColumn(name = "ritementity_id", referencedColumnName = "ritementity_id")
-    })
-    private BomEntity bomEntity;
+
+
 }

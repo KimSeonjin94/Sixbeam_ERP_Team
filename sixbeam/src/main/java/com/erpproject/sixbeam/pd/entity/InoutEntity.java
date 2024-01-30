@@ -1,22 +1,22 @@
 package com.erpproject.sixbeam.pd.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import com.erpproject.sixbeam.hr.entity.EmployeeInfoEntity;
+import com.erpproject.sixbeam.st.entity.WhmoveEntity;
+import jakarta.persistence.*;
 
 @Entity
 public class InoutEntity {
 
     @Id
-    @OneToOne
-    @Column(name ="", nullable = false)
-    private InoutEntity inoutEntity;
+    @Column(name ="INOUT_CMPT_CD", nullable = false)
+    private String inoutCmptCd;
 
-    @Column(name ="", nullable = false)
-    private String eiId;
+    @ManyToOne
+    @JoinColumn(name="EI_ID")
+    private EmployeeInfoEntity employeeInfoEntity;
 
-    @Column(name ="", nullable = false)
-    private String whMoveCd;
+    @ManyToOne
+    @JoinColumn(name = "WMMOVE_CD")
+    private WhmoveEntity whMoveEntity;
 
 }
