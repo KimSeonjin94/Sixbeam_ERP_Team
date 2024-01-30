@@ -2,7 +2,9 @@ package com.erpproject.sixbeam.ss.entity;
 
 
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.ss.dto.AccountEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,22 +12,29 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.List;
 
-
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@IdClass(EstimateEntityId.class)
 @Table(name="SS_ESIMATE_TB")
 public class EstimateEntity {
     @Id
     @Column(name = "ESTIMATE_CD")
     private String estimateCd;
+
     @Column(name = "ESTIMATE_DT")
     private LocalDate estimateDt;
 
+    @Id
+    @Column(name = "ITEM_CD")
+    private String itemCd;
+
+    @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "CHECK_DT", referencedColumnName = "checkDt"),
-            @JoinColumn(name = "ITEM_CD", referencedColumnName = "itemCd")
+            @JoinColumn(name = "CHECK_DT", referencedColumnName = "CHECK_DT"),
+            @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
     })
     private CheckEntity checkEntity;
 
@@ -58,28 +67,7 @@ public class EstimateEntity {
     @Column(name = "ESTIMATE_ETC")
     private String estimateEtc;
 
-    @OneToMany(mappedBy = "estimateEntity", cascade = CascadeType.ALL)
-    private List<SaleEntity> saleEntities;
-    @OneToMany(mappedBy = "estimateEntity", cascade = CascadeType.ALL)
-    private List<MemberEntity> memberEntities;
 
-    public EstimateEntity(String estimateCd, LocalDate estimateDt, CheckEntity checkEntity,
-                      EmpInfoEntity empInfoEntity, AccountEntity accountEntity,
-                      String estimateNm, int estimateAmt,
-                      int estimateUp, int estimateSp, int estimateVat,
-                      int estimateTamt, String estimateEtc) {
-        this.estimateCd = estimateCd;
-        this.estimateDt = estimateDt;
-        this.checkEntity = checkEntity;
-        this.empInfoEntity = empInfoEntity;
-        this.accountEntity = accountEntity;
-        this.estimateNm = estimateNm;
-        this.estimateAmt = estimateAmt;
-        this.estimateUp = estimateUp;
-        this.estimateSp = estimateSp;
-        this.estimateVat = estimateVat;
-        this.estimateTamt = estimateTamt;
-        this.estimateEtc = estimateEtc;
-    }
+
 
 }
