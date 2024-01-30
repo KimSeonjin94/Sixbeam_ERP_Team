@@ -1,9 +1,8 @@
 package com.erpproject.sixbeam.st.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,34 +11,37 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@Table(name = "ST_RELEASE_TB")
+@Table(name = "st_release_tb")
 public class ReleaseEntity {
 
-    @Column(name = "RELEASE_DT")
+    @Column(name = "release_dt")
     private LocalDate releaseDt;
 
     @Id
-    @Column(name = "RELEASE_CD")
+    @Column(name = "release_cd")
     private String releaseCd;
 
-    @Column(name = "ACCOUNT_CD")
-    private String accountCd;
+    @ManyToOne
+    @JoinColumn(name = "account_cd")
+    private AccountEntity accountEntity;
 
-    @Column(name = "EI_ID")
-    private String eiId;
+    @ManyToOne
+    @JoinColumn(name = "ei_id")
+    private EmpInfoEntity empInfoEntity;
 
-    @Column(name = "WH_MOVE_CD")
-    private String whMoveCd;
+    @ManyToOne
+    @JoinColumn(name = "whmove_cd")
+    private WhmoveEntity whmoveEntity;
 
-    @Column(name = "RELEASE_RV")
+    @Column(name = "release_rv")
     private String releaseRv;
 
-    @Column(name = "RELEASE_PHONE")
+    @Column(name = "release_phone")
     private String releasePhone;
 
-    @Column(name = "RELEASE_ZC")
+    @Column(name = "release_zc")
     private String releaseZc;
 
-    @Column(name = "RELEASE_ADDR")
+    @Column(name = "release_addr")
     private String releaseAddr;
 }

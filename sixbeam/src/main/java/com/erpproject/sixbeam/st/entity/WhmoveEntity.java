@@ -1,9 +1,8 @@
 package com.erpproject.sixbeam.st.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,29 +11,32 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@Table(name = "ST_WHMOVE_TB")
+@Table(name = "st_whmove_tb")
 public class WhmoveEntity {
 
     @Id
-    @Column(name = "WH_MOVE_CD")
-    private String whMoveCd;
+    @Column(name = "whmove_cd")
+    private String whmoveCd;
 
-    @Column(name = "EI_ID")
-    private String eiId;
+    @ManyToOne
+    @JoinColumn(name = "ei_id")
+    private EmpInfoEntity empInfoEntity;
 
-    @Column(name = "WH_MOVE_DT")
-    private LocalDate whMoveDt;
+    @Column(name = "whmove_dt")
+    private LocalDate whmoveDt;
 
-    @Column(name = "ITEM_CD")
-    private String itemCd;
+    @ManyToOne
+    @JoinColumn(name = "item_cd")
+    private ItemEntity itemEntity;
 
-    @Column(name = "WH_REGIST_CD")
-    private String whRegistCd;
+    @ManyToOne
+    @JoinColumn(name = "whregist_cd")
+    private WhregistEntity whregistEntity;
 
-    @Column(name = "WH_MOVE_AMT")
-    private Integer whMoveAmt;
+    @Column(name = "whmove_amt")
+    private Integer whmoveAmt;
 
-    @Column(name = "WH_MOVE_GB")
-    private String whMoveGb;
+    @Column(name = "whmove_gb")
+    private String whmoveGb;
 
 }

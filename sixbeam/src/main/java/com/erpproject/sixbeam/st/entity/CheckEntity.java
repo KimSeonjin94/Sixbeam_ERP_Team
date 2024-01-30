@@ -1,9 +1,7 @@
 package com.erpproject.sixbeam.st.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,22 +10,24 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@Table(name = "ST_CHECK_TB")
+@IdClass(CheckEntityId.class)
+@Table(name = "st_check_tb")
 public class CheckEntity {
     @Id
-    @Column(name = "CHECK_DT")
+    @Column(name = "check_dt")
     private LocalDate checkDt;
 
     @Id
-    @Column(name = "ITEM_CD")
-    private String itemCd;
+    @ManyToOne
+    @JoinColumn(name = "item_cd")
+    private ItemEntity itemEntity;
 
-    @Column(name = "CHECK_UP")
+    @Column(name = "check_up")
     private Integer checkUp;
 
-    @Column(name = "CHECK_PR")
+    @Column(name = "check_pr")
     private Integer checkPr;
 
-    @Column(name = "CHECK_AMT")
+    @Column(name = "check_amt")
     private Integer checkAmt;
 }

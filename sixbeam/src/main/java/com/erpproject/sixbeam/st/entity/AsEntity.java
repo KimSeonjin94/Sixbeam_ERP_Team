@@ -1,9 +1,8 @@
 package com.erpproject.sixbeam.st.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,35 +11,38 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@Table(name = "ST_AS_TB")
+@Table(name = "st_as_tb")
 public class AsEntity {
 
-    @Column(name = "AS_DT")
+    @Column(name = "as_dt")
     private LocalDate asDt;
 
     @Id
-    @Column(name = "AS_CD")
+    @Column(name = "as_cd")
     private String asCd;
 
-    @Column(name = "EI_ID")
-    private String eiId;
+    @ManyToOne
+    @JoinColumn(name = "ei_id")
+    private EmpInfoEntity empInfoEntity;
 
-    @Column(name = "ACCOUNT_CD")
-    private String accountCd;
+    @ManyToOne
+    @JoinColumn(name = "account_cd")
+    private AccountEntity accountEntity;
 
-    @Column(name = "WH_MOVE_CD")
-    private String whMoveCd;
+    @ManyToOne
+    @JoinColumn(name = "whmove_cd")
+    private WhmoveEntity whmoveCd;
 
-    @Column(name = "AS_ST")
+    @Column(name = "as_st")
     private String asSt;
 
-    @Column(name = "AS_COMPLETE_DT")
+    @Column(name = "as_complete_dt")
     private LocalDate asCompleteDt;
 
-    @Column(name = "AS_TI")
+    @Column(name = "as_ti")
     private String asTi;
 
-    @Column(name = "AS_MO")
+    @Column(name = "as_mo")
     private String asMo;
 
 }

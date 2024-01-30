@@ -10,13 +10,13 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "ST_WHREGIST_TB")
+@Table(name = "st_whregist_tb")
 public class WhregistEntity {
 
     @Id
-    @Column(name = "WH_REGIST_CD")
-    private String whRegistCd;
+    @Column(name = "whregist_cd")
+    private String whregistCd;
 
-    @Column(name = "WH_REGIST_NM")
-    private String whRegistNm;
+    @Column(name = "whregist_nm")
+    private String whregistNm;
 }
