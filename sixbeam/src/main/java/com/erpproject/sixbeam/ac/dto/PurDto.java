@@ -2,6 +2,7 @@ package com.erpproject.sixbeam.ac.dto;
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.entity.PurEntity;
+import com.erpproject.sixbeam.pur.entity.InputEntity;
 
 
 public class PurDto {

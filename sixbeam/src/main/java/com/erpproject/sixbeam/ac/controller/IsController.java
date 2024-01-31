@@ -14,14 +14,7 @@ public class IsController {
     @Autowired
     private IsRepository isRepository;
 
-    @GetMapping("/is")
-    public String createIsEntity(IsDto isDto) {
-        IsEntity isEntity = isDto.toEntity();
 
-        IsEntity saved = isRepository.save(isEntity);
-
-        return "";
-    }
 
 
 }

@@ -2,7 +2,7 @@ package com.erpproject.sixbeam.ac.dto;
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.entity.SalesEntity;
-
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
 
 
 public class SalesDto {

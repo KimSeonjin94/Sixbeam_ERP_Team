@@ -1,6 +1,5 @@
 package com.erpproject.sixbeam.ac.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

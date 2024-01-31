@@ -17,19 +17,14 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4">
-      <console name="Connection" type="STANDARD" schema="mrs" session="Main"><![CDATA[select  * from member;]]></console>
+      <console name="Connection" type="STANDARD" schema="mrs" session="Main">select  * from member;</console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" object-ref="schemas/sixbeam_erp/tables/hr_empinfo_tb" />
-    </open-files>
-  </component>
-  <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4" />
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4" />
@@ -278,11 +273,9 @@
           <content-type name="DTD" enabled="true" />
           <content-type name="HTML" enabled="true" />
           <content-type name="XHTML" enabled="true" />
-          <content-type name="CSS" enabled="true" />
           <content-type name="Java" enabled="true" />
           <content-type name="SQL" enabled="true" />
           <content-type name="PL/SQL" enabled="true" />
-          <content-type name="JavaScript" enabled="true" />
           <content-type name="JSON" enabled="true" />
           <content-type name="JSON5" enabled="true" />
           <content-type name="Groovy" enabled="true" />

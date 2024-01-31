@@ -15,12 +15,5 @@ public class PurController {
     @Autowired
     private PurRepository purRepository;
 
-    @GetMapping("/pur")
-    public String createPurEntity(PurDto purDto) {
-        PurEntity purEntity = purDto.toEntity();
 
-        PurEntity saved = purRepository.save(purEntity);
-
-        return "";
-    }
 }
