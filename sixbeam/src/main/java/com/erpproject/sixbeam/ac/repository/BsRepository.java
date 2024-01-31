@@ -1,4 +1,7 @@
 package com.erpproject.sixbeam.ac.repository;
 
-public class BsRepository  {
+import com.erpproject.sixbeam.ac.entity.BsEntity;
+import org.springframework.data.repository.CrudRepository;
+
+public interface BsRepository extends CrudRepository<BsEntity, Long> {
 }

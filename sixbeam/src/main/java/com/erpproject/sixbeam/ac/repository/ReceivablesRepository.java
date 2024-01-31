@@ -1,4 +1,7 @@
 package com.erpproject.sixbeam.ac.repository;
 
-public class ReceivablesRepository   {
+import com.erpproject.sixbeam.ac.entity.ReceivablesEntity;
+import org.springframework.data.repository.CrudRepository;
+
+public interface ReceivablesRepository extends CrudRepository<ReceivablesEntity, Long> {
 }
