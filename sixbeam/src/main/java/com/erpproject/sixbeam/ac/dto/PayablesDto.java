@@ -5,6 +5,7 @@ import com.erpproject.sixbeam.ac.entity.PayablesEntity;
 
 
 public class PayablesDto {
+    private String accountCd;
     private AccountEntity accountEntity;
     private int payablesPur;
     private int payablesPaid;
@@ -12,7 +13,7 @@ public class PayablesDto {
 
     public PayablesEntity toEntity() {
 
-        return new PayablesEntity(accountEntity, payablesPur, payablesPaid, payablesRest);
+        return new PayablesEntity(accountCd,accountEntity, payablesPur, payablesPaid, payablesRest);
     }
 
 }

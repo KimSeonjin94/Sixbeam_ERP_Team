@@ -5,6 +5,7 @@ import com.erpproject.sixbeam.ac.entity.ReceivablesEntity;
 
 
 public class ReceivablesDto {
+    private String accountCd;
     private AccountEntity accountEntity;
     private int receivablesSales;
     private int receivablesCollect;
@@ -13,6 +14,6 @@ public class ReceivablesDto {
 
     public ReceivablesEntity toEntity() {
 
-        return new ReceivablesEntity(accountEntity,  receivablesSales,  receivablesCollect,  receivablesRest);
+        return new ReceivablesEntity(accountCd, accountEntity, receivablesSales, receivablesCollect, receivablesRest);
     }
 }

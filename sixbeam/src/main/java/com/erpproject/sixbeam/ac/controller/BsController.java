@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/ac")
 public class BsController {
-
     @Autowired
     private BsRepository bsRepository;
 
