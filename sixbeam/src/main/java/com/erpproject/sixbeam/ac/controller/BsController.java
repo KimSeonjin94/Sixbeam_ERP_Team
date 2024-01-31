@@ -19,8 +19,10 @@ public class BsController {
     public String createBsEntity(BsDto bsDto) {
         BsEntity bsEntity = bsDto.toEntity();
 
+
         BsEntity saved = bsRepository.save(bsEntity);
 
         return "";
     }
+
 }

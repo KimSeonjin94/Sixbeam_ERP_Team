@@ -1,0 +1,13 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container my-3">
+<h2 class="my-3 border-bottom pb-2">창고정보</h2>
+<form>
+    <h5>창고코드</h5>
+    <h6 class="border-bottom py-2" th:text="${whregistEntity.whRegistCd}"></h6>
+    <h5>창고명</h5>
+    <h6 class="border-bottom py-2" th:text="${whregistEntity.whRegistNm}"></h6>
+</form>
+</div>
+</html>
+
+
