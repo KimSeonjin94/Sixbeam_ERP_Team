@@ -41,17 +41,4 @@ public class BsEntity {
     @Column(name="BS_EARNINGS")
     private int bsEarnings;
 
-//    public BsEntity(LocalDate bsDt, int bsCash, int bsReceivables, int bsInventories, int bsLand, int bsBuilding, int bsFac, int bsPayables, int bsLongBor, int bsCapital, int bsEarnings) {
-//        this.bsDt = bsDt;
-//        this.bsCash = bsCash;
-//        this.bsReceivables = bsReceivables;
-//        this.bsInventories = bsInventories;
-//        this.bsLand = bsLand;
-//        this.bsBuilding = bsBuilding;
-//        this.bsFac = bsFac;
-//        this.bsPayables = bsPayables;
-//        this.bsLongBor = bsLongBor;
-//        this.bsCapital = bsCapital;
-//        this.bsEarnings = bsEarnings;
-//    }
 }
