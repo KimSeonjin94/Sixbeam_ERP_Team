@@ -64,7 +64,7 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #f1f1f1;
+  color: #232121;
   text-align: left;
   background-color: #232121;
 }
@@ -2339,7 +2339,7 @@ textarea.form-control {
 
 .btn:focus, .btn.focus {
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(225, 81, 95, 1);
+  box-shadow: 0 0 0 0.2rem rgba(105, 136, 228, 0.5);
 }
 
 .btn.disabled, .btn:disabled {
@@ -2652,22 +2652,22 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-primary {
-  color: #EB97A1;
-  border-color: #EB97A1;
+  color: #4e73df;
+  border-color: #2653d4;
 }
 
 .btn-outline-primary:hover {
   color: #fff;
-  background-color: #EB97A1;
-  border-color: #EB97A1;
+  background-color: #4e73df;
+  border-color: #2653d4;
 }
 
 .btn-outline-primary:focus, .btn-outline-primary.focus {
-  box-shadow: 0 0 0 0.2rem rgba(235, 151, 161, 1);
+  box-shadow: #4e73df;
 }
 
 .btn-outline-primary.disabled, .btn-outline-primary:disabled {
-  color: #EB97A1;
+  color: #4e73df;
   background-color: transparent;
 }
 
@@ -2675,13 +2675,13 @@ fieldset:disabled a.btn {
 .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active,
 .show > .btn-outline-primary.dropdown-toggle {
   color: #fff;
-  background-color: #EB97A1;
-  border-color: #EB97A1;
+  background-color: #2653d4;
+  border-color: #2653d4;
 }
 
 .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus,
 .show > .btn-outline-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem rgba(235, 151, 161, 1);
+  box-shadow: #2653d4;
 }
 
 .btn-outline-secondary {
@@ -2910,12 +2910,12 @@ fieldset:disabled a.btn {
 
 .btn-link {
   font-weight: 400;
-  color: #EB97A1;
+  color: #4e73df;
   text-decoration: none;
 }
 
 .btn-link:hover {
-  color: #E05E6D;
+  color: #2653d4;
   text-decoration: underline;
 }
 
@@ -4114,14 +4114,22 @@ input[type="button"].btn-block {
   width: 100%;
 }
 
-.navbar ul li a {
+.navbar a {
   display: block;
   height: 40px;
   font-size: 14px;
   text-align:center;
-  line-height:40;
+  line-height:5.1;
 
 }
+.navbar .nav-item .dropdown-menu a{
+  text-align: center;
+  line-height:2;
+
+
+}
+
+
 
 .navbar .container,
 .navbar .container-fluid, .navbar .container-sm, .navbar .container-md, .navbar .container-lg, .navbar .container-xl {
@@ -10189,6 +10197,9 @@ a:focus {
 .topbar .nav-item .nav-link .img-profile {
   height: 2rem;
   width: 2rem;
+}
+.topbar .nav-item .nav-link span{
+  height:  4.375rem;
 }
 
 .topbar {
