@@ -18,12 +18,12 @@ public class BomEntity {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "FITEM_CD")
+    @JoinColumn(name = "FITEM_CD", referencedColumnName = "FITEM_CD")
     private FitemEntity fitemEntities;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "RITEM_CD")
+    @JoinColumn(name = "RITEM_CD", referencedColumnName = "RITEM_CD")
     private RitemEntity ritemEntity;
 
     @Column

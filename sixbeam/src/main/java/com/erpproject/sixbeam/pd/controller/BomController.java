@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequiredArgsConstructor
-@RequestMapping("/pd")
+@RequestMapping("/pd/Bom")
 @Controller
 @Slf4j
 public class BomController {
