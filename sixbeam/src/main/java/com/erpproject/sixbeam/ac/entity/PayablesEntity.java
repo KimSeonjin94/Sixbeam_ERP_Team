@@ -18,6 +18,9 @@ import jakarta.persistence.Table;
 @Table(name="AC_PAYABLES_TB")
 public class PayablesEntity {
     @Id
+    @Column(name="ACCOUNT_CD" ,insertable=false, updatable=false)
+    private String accountCd;
+
     @ManyToOne
     @JoinColumn(name="ACCOUNT_CD")
     private AccountEntity accountEntity;
