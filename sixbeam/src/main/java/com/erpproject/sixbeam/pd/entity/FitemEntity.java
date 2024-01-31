@@ -1,13 +1,11 @@
 package com.erpproject.sixbeam.pd.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Getter
 @Setter
 @Entity
@@ -15,7 +13,10 @@ import lombok.Setter;
 public class FitemEntity {
 
     @Id
+    @Column(name = "ITEM_CD", insertable = false, updatable = false)
+    private String itemCd;
+
     @ManyToOne
-    @JoinColumn(name = "ITEM_CD")
-    private FitemEntity fitemEntity;
+    @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
+    private ItemEntity itemEntity;
 }

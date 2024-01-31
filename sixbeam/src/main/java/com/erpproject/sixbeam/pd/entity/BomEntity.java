@@ -3,7 +3,6 @@ package com.erpproject.sixbeam.pd.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
 import java.sql.Time;
 
 @AllArgsConstructor
@@ -18,12 +17,12 @@ public class BomEntity {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "FITEM_CD", referencedColumnName = "FITEM_CD")
+    @JoinColumn(name = "FITEM_CD")
     private FitemEntity fitemEntities;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "RITEM_CD", referencedColumnName = "RITEM_CD")
+    @JoinColumn(name = "RITEM_CD")
     private RitemEntity ritemEntity;
 
     @Column

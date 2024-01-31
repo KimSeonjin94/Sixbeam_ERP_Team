@@ -1,11 +1,16 @@
 package com.erpproject.sixbeam.pd.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.*;
 
-import java.util.List;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Getter
+@Setter
 @Entity
 @Table(name = "PD_ITEM_TB")
 public class ItemEntity {
@@ -14,5 +19,12 @@ public class ItemEntity {
     @Column(name = "ITEM_CD")
     private String itemCd;
 
+    @Column(name = "ITEM_NM")
+    private String itemNm;
 
+    @Column(name = "ITEM_STND")
+    private String itemStnd;
+
+    @Column(name = "ITEM_UP")
+    private int itemUp;
 }

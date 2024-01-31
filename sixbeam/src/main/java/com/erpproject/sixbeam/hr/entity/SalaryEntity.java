@@ -20,7 +20,7 @@ public class SalaryEntity {
     private SalaryIdEntity salaryIdEntity;//급여식별자
     @ManyToOne
     @JoinColumn(name ="eiId")
-    private EmployeeInfoEntity employeeInfoEntity;//사원아이디
+    private EmpInfoEntity empInfoEntity;//사원아이디
     @Column
     private int bouns;//상여금
     @Column

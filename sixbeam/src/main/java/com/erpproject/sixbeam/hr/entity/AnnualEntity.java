@@ -20,7 +20,7 @@ public class AnnualEntity {
     private LocalDate annualDt;//신청날짜
     @ManyToOne
     @JoinColumn(name = "eiId")
-    private EmployeeInfoEntity employeeInfoEntity;//사원Id
+    private EmpInfoEntity empInfoEntity;//사원Id
     @Column
     private int annualCnt;//연차개수
     @Column

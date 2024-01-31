@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class EmployeeInfoDto {
+public class EmpInfoDto {
     private int eiId;//사원아이디
     private String eiPw;//사원비밀번호
     private String eiNm;//사원이름

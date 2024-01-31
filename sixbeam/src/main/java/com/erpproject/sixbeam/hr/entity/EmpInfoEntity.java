@@ -14,8 +14,9 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name="HR_EMPLOYEEINFO_TB")
-public class EmployeeInfoEntity {
+@Table(name="HR_EMPINFO_TB")
+public class EmpInfoEntity {
+
     @Id
     @Column
     private int eiId;//사원아이디

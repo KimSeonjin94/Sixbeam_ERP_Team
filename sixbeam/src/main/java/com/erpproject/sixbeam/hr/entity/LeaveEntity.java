@@ -21,7 +21,7 @@ public class LeaveEntity {
     @Id
     @ManyToOne
     @JoinColumn(name ="eiId")
-    private EmployeeInfoEntity employeeInfoEntity;//사원아이디
+    private EmpInfoEntity empInfoEntity;//사원아이디
     @Column
     private boolean leaveApply;//휴직신청
     @Column
