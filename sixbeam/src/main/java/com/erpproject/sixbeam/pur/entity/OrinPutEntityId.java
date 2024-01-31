@@ -11,6 +11,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrinPutEntityId implements Serializable {
-    private String poCd;
+    private String orinputCd;
     private ItemEntity itemEntity;
 }

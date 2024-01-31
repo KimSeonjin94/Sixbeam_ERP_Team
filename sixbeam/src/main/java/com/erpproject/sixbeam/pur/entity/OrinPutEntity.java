@@ -20,16 +20,16 @@ import java.time.LocalDate;
 @Entity
 @IdClass(OrinPutEntityId.class)
 @Table(name="PUR_ORINPUT_TB", indexes = {
-        @Index(name = "idx_pd_cd", columnList = "po_cd")
+        @Index(name = "idx_orinput_cd", columnList = "orinputCd")
 })
 public class OrinPutEntity {
     @Id
-    @Column(name = "PO_CD")
-    private String poCd;
-    @Column(name = "PUR_REQ_DT", nullable = false)
-    private LocalDate purReqDt;
-    @Column(name = "ORDER_DT")
-    private LocalDate orderDt;
+    @Column(name = "ORINPUT_CD")
+    private String orinputCd;
+    @Column(name = "ORINPUTREQ_DT", nullable = false)
+    private LocalDate orinputReqDt;
+    @Column(name = "ORINPUTOR_DT")
+    private LocalDate orinputOrDt;
     @ManyToOne
     @JoinColumn(name = "EI_ID", nullable = false)
     private EmployeeInfoEntity employeeInfoEntity;
@@ -50,8 +50,8 @@ public class OrinPutEntity {
     @ManyToOne
     @JoinColumn(name = "ACCOUNT_CD", nullable = false)
     private AccountEntity accountEntity;
-    @Column(name = "DELIVERY_DT")
-    private LocalDate deliveryDt;
+    @Column(name = "ORINPUTDLVY_DT")
+    private LocalDate orinputDlvyDt;
     @Column(name = "ORINPUT_ETC")
     private String orinputEtc;
 }
