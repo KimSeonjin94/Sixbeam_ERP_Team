@@ -15,14 +15,6 @@ public class BsController {
     @Autowired
     private BsRepository bsRepository;
 
-    @GetMapping("/bs")
-    public String createBsEntity(BsDto bsDto) {
-        BsEntity bsEntity = bsDto.toEntity();
 
-
-//        BsEntity saved = bsRepository.save(bsEntity);
-
-        return "";
-    }
 
 }

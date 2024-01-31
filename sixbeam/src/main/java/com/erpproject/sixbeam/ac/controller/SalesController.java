@@ -15,12 +15,5 @@ public class SalesController {
     @Autowired
     private SalesRepository salesRepository;
 
-    @GetMapping("/sales")
-    public String createBsEntity(SalesDto salesDto) {
-        SalesEntity salesEntity = salesDto.toEntity();
 
-//        SalesEntity saved = salesRepository.save(salesEntity);
-
-        return "";
-    }
 }

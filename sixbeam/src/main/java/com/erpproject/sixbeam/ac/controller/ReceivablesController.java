@@ -15,12 +15,5 @@ public class ReceivablesController {
     @Autowired
     private ReceivablesRepository receivablesRepository;
 
-    @GetMapping("/receivables")
-    public String createReceivablesEntity(ReceivablesDto receivablesDto) {
-        ReceivablesEntity receivablesEntity = receivablesDto.toEntity();
 
-//        ReceivablesEntity saved = receivablesRepository.save(receivablesEntity);
-
-        return "";
-    }
 }

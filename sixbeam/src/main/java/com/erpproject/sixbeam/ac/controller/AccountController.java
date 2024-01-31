@@ -14,17 +14,6 @@ public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
 
-    @GetMapping()
-    public String createAccountEntity(AccountDto accountDto) {
-
-        AccountEntity accountEntity = accountDto.toEntity();
-
-//        AccountEntity saved = accountRepository.save(accountEntity);
-
-        return "";
-    }
-
-//    @GetMapping("/account")
 
 
 }
