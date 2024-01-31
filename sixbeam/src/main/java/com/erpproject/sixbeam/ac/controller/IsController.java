@@ -18,7 +18,7 @@ public class IsController {
     public String createIsEntity(IsDto isDto) {
         IsEntity isEntity = isDto.toEntity();
 
-        IsEntity saved = isRepository.save(isEntity);
+//        IsEntity saved = isRepository.save(isEntity);
 
         return "";
     }

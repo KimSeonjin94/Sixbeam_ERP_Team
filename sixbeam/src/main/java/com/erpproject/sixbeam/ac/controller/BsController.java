@@ -20,7 +20,7 @@ public class BsController {
         BsEntity bsEntity = bsDto.toEntity();
 
 
-        BsEntity saved = bsRepository.save(bsEntity);
+//        BsEntity saved = bsRepository.save(bsEntity);
 
         return "";
     }

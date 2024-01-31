@@ -19,7 +19,7 @@ public class PurController {
     public String createPurEntity(PurDto purDto) {
         PurEntity purEntity = purDto.toEntity();
 
-        PurEntity saved = purRepository.save(purEntity);
+//        PurEntity saved = purRepository.save(purEntity);
 
         return "";
     }

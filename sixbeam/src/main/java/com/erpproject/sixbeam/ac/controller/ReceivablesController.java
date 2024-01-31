@@ -19,7 +19,7 @@ public class ReceivablesController {
     public String createReceivablesEntity(ReceivablesDto receivablesDto) {
         ReceivablesEntity receivablesEntity = receivablesDto.toEntity();
 
-        ReceivablesEntity saved = receivablesRepository.save(receivablesEntity);
+//        ReceivablesEntity saved = receivablesRepository.save(receivablesEntity);
 
         return "";
     }

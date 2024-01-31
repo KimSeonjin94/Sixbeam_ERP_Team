@@ -19,7 +19,7 @@ public class PayablesController {
     public String createPayablesEntity(PayablesDto payablesDto) {
         PayablesEntity payablesEntity = payablesDto.toEntity();
 
-        PayablesEntity saved = payablesRepository.save(payablesEntity);
+//        PayablesEntity saved = payablesRepository.save(payablesEntity);
 
         return "";
     }
