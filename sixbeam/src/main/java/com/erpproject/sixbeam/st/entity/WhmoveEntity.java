@@ -22,6 +22,7 @@ public class WhmoveEntity {
     @JoinColumn(name = "empInfoId")
     private EmpInfoEntity empInfoEntity;
 
+
     @Column(name = "whmove_dt")
     private LocalDate whmoveDt;
 

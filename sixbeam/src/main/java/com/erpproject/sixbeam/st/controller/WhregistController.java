@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-@RequestMapping("/st")
+@RequestMapping("/st/whregist")
 @RequiredArgsConstructor
 @Controller
 public class WhregistController {
@@ -21,16 +21,16 @@ public class WhregistController {
         return "redirect:/sixbeam/home";
     }
 
-    @GetMapping("/whregist/list")
+    @GetMapping("/list")
     public String list(Model model) {
         List<WhregistEntity> whregistEntityList = this.whregistService.getList();
         model.addAttribute("whregistEntityList",whregistEntityList);
         return "Contents/ST/Whregist_list";
 
     }
-    @GetMapping(value = "/whregist/detail/{whRegistCd}")
-    public String detail(Model model, @PathVariable("whRegistCd") String whRegistCd) {
-        WhregistEntity whregistEntity = this.whregistService.getWhregistEntity(whRegistCd);
+    @GetMapping(value = "/detail/{whregistCd}")
+    public String detail(Model model, @PathVariable("whregistCd") String whregistCd) {
+        WhregistEntity whregistEntity = this.whregistService.getWhregistEntity(whregistCd);
         model.addAttribute("whregistEntity", whregistEntity);
         return "Contents/ST/Whregist_detail";
     }
