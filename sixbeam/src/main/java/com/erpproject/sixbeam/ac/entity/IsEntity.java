@@ -20,19 +20,19 @@ import java.time.LocalDate;
 public class IsEntity {
 
     @Id
-    @Column(name="IS_DT")
-    private LocalDate isDt;
-    @Column(name="IS_NET_SALES")
+    @Column(name="IS_DT" ,nullable = false)
+    private String isDt;
+    @Column(name="IS_NET_SALES", nullable = false)
     private int isNetSales;
-    @Column(name="IS_COST_SALES")
+    @Column(name="IS_COST_SALES" ,nullable = false)
     private int isCostSales;
-    @Column(name="IS_WAGES")
+    @Column(name="IS_WAGES" ,nullable = false)
     private int isWages;
-    @Column(name="IS_INTER_INC")
+    @Column(name="IS_INTER_INC",nullable = false)
     private int isInterInc;
-    @Column(name="IS_INTER_EXP")
+    @Column(name="IS_INTER_EXP",nullable = false)
     private int isInterExp;
-    @Column(name="IS_CORTAX_EXP")
+    @Column(name="IS_CORTAX_EXP",nullable = false)
     private int isCortaxExp;
 
 }

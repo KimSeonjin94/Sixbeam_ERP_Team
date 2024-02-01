@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 
-public interface IsRepository extends JpaRepository<IsEntity, LocalDate>{
+public interface IsRepository extends JpaRepository<IsEntity, String>{
 
 }

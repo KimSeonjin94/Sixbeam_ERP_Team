@@ -19,17 +19,17 @@ import jakarta.persistence.Table;
 @Table(name="AC_PAYABLES_TB")
 public class PayablesEntity {
     @Id
-    @Column(name="ACCOUNT_CD" ,insertable=false, updatable=false)
+    @Column(name="ACCOUNT_CD" ,insertable=false, updatable=false ,nullable = false)
     private String accountCd;
 
     @ManyToOne
     @JoinColumn(name="ACCOUNT_CD")
     private AccountEntity accountEntity;
-    @Column(name="PAYABLES_PUR")
+    @Column(name="PAYABLES_PUR" ,nullable = false)
     private int payablesPur;
-    @Column(name="PAYABLES_PAID")
+    @Column(name="PAYABLES_PAID" ,nullable = false)
     private int payablesPaid;
-    @Column(name="PAYABLES_REST")
+    @Column(name="PAYABLES_REST" ,nullable = false)
     private int payablesRest;
 
 }
