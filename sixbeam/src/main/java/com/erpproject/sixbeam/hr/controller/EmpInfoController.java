@@ -2,8 +2,8 @@ package com.erpproject.sixbeam.hr.controller;
 
 
 
-import com.erpproject.sixbeam.hr.entity.EmployeeInfoEntity;
-import com.erpproject.sixbeam.hr.service.EmployeeInfoService;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/hr")
 @Controller
-public class EmployeeInfoController {
-    private final EmployeeInfoService employeeInfoService;
+public class EmpInfoController {
+    private final EmpInfoService empInfoService;
     @GetMapping("/EmpInfo_list")
     public String list(Model model) {
-        List<EmployeeInfoEntity> employeeInfoList = this.employeeInfoService.getList();
+        List<EmpInfoEntity> employeeInfoList = this.empInfoService.getList();
         model.addAttribute("employeeInfoList",employeeInfoList);
         return "Contents/HR/EmpInfo_list";
     }

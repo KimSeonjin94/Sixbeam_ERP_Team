@@ -4120,13 +4120,16 @@ input[type="button"].btn-block {
   font-size: 14px;
   text-align:center;
   line-height:5.1;
-
 }
+
 .navbar .nav-item .dropdown-menu a{
   text-align: center;
   line-height:2;
+}
 
-
+.navbar .nav-item .dropdown-menu a{
+  text-align: center;
+  line-height:2;
 }
 
 
@@ -10198,6 +10201,10 @@ a:focus {
   height: 2rem;
   width: 2rem;
 }
+.topbar .nav-item .nav-link span{
+  height:  4.375rem;
+}
+
 .topbar .nav-item .nav-link span{
   height:  4.375rem;
 }

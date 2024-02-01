@@ -1,4 +1,6 @@
 package com.erpproject.sixbeam.hr.repository;
 
-public class AnnualRepository {
+import com.erpproject.sixbeam.hr.entity.AnnualEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+public interface AnnualRepository extends JpaRepository<AnnualEntity,String> {
 }
