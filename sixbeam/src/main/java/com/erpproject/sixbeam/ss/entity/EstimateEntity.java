@@ -13,14 +13,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @IdClass(EstimateEntityId.class)
-@Table(name="SS_ESIMATE_TB")
+@Table(name="SS_ESTIMATE_TB")
 public class EstimateEntity {
     @Id
     @Column(name = "ESTIMATE_CD")
@@ -68,6 +69,21 @@ public class EstimateEntity {
 
     @Column(name = "ESTIMATE_ETC")
     private String estimateEtc;
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ESTIMATE_sequence_generator")
+    @SequenceGenerator(name = "ESTIMATE_sequence_generator", sequenceName = "ESTIMATE_sequence_generator",initialValue = 1001, allocationSize = 1)
+    private Long number;
+
+
+    @PrePersist
+    protected void onCreate() {
+        // 현재 날짜를 "SSYYMMDD" 형식으로 가져오기
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+        String formattedDate = estimateDt.format(formatter);
+
+        // 여기서는 고정적으로 "1001"을 추가했지만, 실제 시퀀스를 사용하거나 다른 로직을 사용할 수 있습니다.
+        this.estimateCd="ES" + formattedDate+number;
+    }
 
 
 
