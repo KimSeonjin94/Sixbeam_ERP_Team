@@ -1,13 +1,19 @@
 package com.erpproject.sixbeam.ac.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
+import com.erpproject.sixbeam.ac.entity.PayablesEntity;
 
-@Getter
-@Setter
+
 public class PayablesDto {
     private String accountCd;
+    private AccountEntity accountEntity;
     private int payablesPur;
     private int payablesPaid;
     private int payablesRest;
+
+    public PayablesEntity toEntity() {
+
+        return new PayablesEntity(accountCd,accountEntity, payablesPur, payablesPaid, payablesRest);
+    }
+
 }

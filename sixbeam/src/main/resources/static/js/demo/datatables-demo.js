@@ -14,8 +14,9 @@ $(document).ready(function() {
             "paginate": {
                 "next": "다음",
                 "previous": "이전"
-            }}
+            }},
+        "buttons": ['copy', 'excel', 'pdf', 'print'],
 
-    },
+    }
     );
 });

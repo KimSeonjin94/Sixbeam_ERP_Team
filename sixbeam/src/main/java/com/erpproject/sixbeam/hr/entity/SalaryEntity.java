@@ -13,20 +13,25 @@ import lombok.Setter;
 @Entity
 @Table(name="HR_SALARY_TB")
 public class SalaryEntity {
+
+
     @Id
+    @Column(name="empInfoId",insertable = false,updatable = false)
+    private String empInfoId;
+    @ManyToOne
+    @JoinColumn(name = "empInfoId")
+    private EmpInfoEntity empInfoEntity;//사원Id
+    @Column(name ="salarySmonth")
     private int salarySmonth;//급여 월
     @ManyToOne
     @JoinColumn(name = "salaryCd")
-    private SalaryIdEntity salaryIdEntity;//급여식별자
-    @ManyToOne
-    @JoinColumn(name ="eiId")
-    private EmployeeInfoEntity employeeInfoEntity;//사원아이디
-    @Column
-    private int bouns;//상여금
-    @Column
-    private int allowance;//수당금
-    @Column
-    private int incentive;//성과금
-    @Column
-    private int totalMoney;//총지급액
+    private SalaryIdEntity salaryidEntity;//급여식별자
+    @Column(name ="salaryBonus")
+    private int salaryBonus;//상여금
+    @Column(name ="salaryAllow")
+    private int salaryAllow;//수당금
+    @Column(name ="salaryIncentive")
+    private int salaryIncentive;//성과금
+    @Column(name ="salaryTtmoney")
+    private int salaryTtmoney;//총지급액
 }

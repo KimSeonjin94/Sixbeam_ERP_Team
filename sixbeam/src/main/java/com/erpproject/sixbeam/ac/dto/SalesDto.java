@@ -1,15 +1,20 @@
 package com.erpproject.sixbeam.ac.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
+import com.erpproject.sixbeam.ac.entity.SalesEntity;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
 
-@Getter
-@Setter
+
 public class SalesDto {
     private String salesNb;
-    private String accountCd;;
-    private String saleCd;
+    private AccountEntity accountEntity;
+    private SaleEntity saleEntity;
     private String salesEtc;
     private String salesSubject;
-    private String salesBank;
+
+
+    public SalesEntity toEntity() {
+
+        return new SalesEntity(salesNb, accountEntity, saleEntity, salesEtc, salesSubject);
+    }
 }

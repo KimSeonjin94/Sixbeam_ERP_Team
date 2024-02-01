@@ -1,6 +1,6 @@
 package com.erpproject.sixbeam.st.entity;
 
-import com.erpproject.sixbeam.hr.entity.EmployeeInfoEntity;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,8 +19,9 @@ public class WhmoveEntity {
     private String whmoveCd;
 
     @ManyToOne
-    @JoinColumn(name = "ei_id")
-    private EmployeeInfoEntity empInfoEntity;
+    @JoinColumn(name = "empInfoId")
+    private EmpInfoEntity empInfoEntity;
+
 
     @Column(name = "whmove_dt")
     private LocalDate whmoveDt;

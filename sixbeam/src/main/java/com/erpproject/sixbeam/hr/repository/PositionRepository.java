@@ -1,4 +1,8 @@
 package com.erpproject.sixbeam.hr.repository;
 
-public class PositionRepository {
+
+import com.erpproject.sixbeam.hr.entity.PositionEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PositionRepository extends JpaRepository<PositionEntity,String> {
 }

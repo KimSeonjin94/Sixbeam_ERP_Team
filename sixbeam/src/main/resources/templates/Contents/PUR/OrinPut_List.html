@@ -1,0 +1,20 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container">
+    <div>
+    <table>
+        <thead class="table-dark">
+        <tr>
+            <th>발주코드</th>
+            <th>발주요청일자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orinput : ${orinputEntity}">
+            <td th:text="${orinput.orinputCd}"></td>
+            <td th:text="${orinput.orinputReqDt}"></td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+</html>

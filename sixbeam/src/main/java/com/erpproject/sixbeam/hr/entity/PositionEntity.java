@@ -17,7 +17,11 @@ import lombok.Setter;
 @Table(name="HR_POSITION_TB")
 public class PositionEntity {
     @Id
-    private int positionCd;//직책코드
-    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="HR_POSITION_TB_positionCd_seq")
+    @SequenceGenerator(name ="HR_POSITION_TB_positionCd_seq", sequenceName ="HR_POSITION_TB_positionCd_seq",
+            initialValue = 301, allocationSize =1)
+    @Column(name ="positionCd")
+    private Long positionCd;//직책코드
+    @Column(name ="positionNm")
     private String positionNm;//직책명
 }

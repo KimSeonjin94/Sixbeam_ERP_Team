@@ -1,4 +1,11 @@
 package com.erpproject.sixbeam.ac.repository;
 
-public class IsRepository  {
+
+import com.erpproject.sixbeam.ac.entity.IsEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.time.LocalDate;
+
+public interface IsRepository extends JpaRepository<IsEntity, LocalDate>{
+
 }

@@ -3,7 +3,8 @@ package com.erpproject.sixbeam.ss.entity;
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 
-import com.erpproject.sixbeam.hr.entity.EmployeeInfoEntity;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+
 import com.erpproject.sixbeam.st.entity.CheckEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -41,7 +42,7 @@ public class EstimateEntity {
 
     @ManyToOne
     @JoinColumn(name="EI_ID")
-    private EmployeeInfoEntity employeeInfoEntity;
+    private EmpInfoEntity empInfoEntity;
 
     @ManyToOne
     @JoinColumn(name="ACCOUNT_CD")
