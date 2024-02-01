@@ -2,7 +2,7 @@ package com.erpproject.sixbeam.pur.entity;
 
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
-import com.erpproject.sixbeam.hr.entity.EmployeeInfoEntity;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -32,7 +32,7 @@ public class OrinPutEntity {
     private LocalDate orderDt;
     @ManyToOne
     @JoinColumn(name = "EI_ID", nullable = false)
-    private EmployeeInfoEntity employeeInfoEntity;
+    private EmpInfoEntity empInfoEntity;
 
     @Column(name = "ORINPUT_AMT")
     private int orinputAmt;
