@@ -3,11 +3,14 @@ package com.erpproject.sixbeam.st.entity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Getter
 @Setter
