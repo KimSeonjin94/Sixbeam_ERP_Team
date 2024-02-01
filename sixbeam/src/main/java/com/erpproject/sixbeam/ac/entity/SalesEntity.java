@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 @Table(name="AC_SALES_TB")
 public class SalesEntity {
     @Id
-    @Column(name="SALES_NB")
+    @Column(name="SALES_NB",nullable = false)
     private String salesNb;
     @ManyToOne
     @JoinColumn(name="ACCOUNT_CD")
@@ -29,7 +29,7 @@ public class SalesEntity {
     private SaleEntity saleEntity;
     @Column(name="SALES_ETC")
     private String salesEtc;
-    @Column(name="SALES_SUBJECT")
+    @Column(name="SALES_SUBJECT",nullable = false)
     private String salesSubject;
 
 }

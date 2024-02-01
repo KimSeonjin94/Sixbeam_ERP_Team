@@ -31,7 +31,7 @@ public class OrinPutEntity {
     @Column(name = "ORINPUTOR_DT")
     private LocalDate orinputOrDt;
     @ManyToOne
-    @JoinColumn(name = "EI_ID", nullable = false)
+    @JoinColumn(name = "EMPINFO_ID", nullable = false)
     private EmpInfoEntity empInfoEntity;
     @Column(name = "ORINPUT_AMT")
     private int orinputAmt;
