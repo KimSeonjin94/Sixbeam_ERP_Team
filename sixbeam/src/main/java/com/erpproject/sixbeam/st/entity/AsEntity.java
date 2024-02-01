@@ -1,7 +1,7 @@
 package com.erpproject.sixbeam.st.entity;
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
-import com.erpproject.sixbeam.hr.entity.EmployeeInfoEntity;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,8 +22,8 @@ public class AsEntity {
     private String asCd;
 
     @ManyToOne
-    @JoinColumn(name = "ei_id")
-    private EmployeeInfoEntity employeeInfoEntity;
+    @JoinColumn(name = "empInfoId")
+    private EmpInfoEntity empInfoEntity;
 
     @ManyToOne
     @JoinColumn(name = "account_cd")
