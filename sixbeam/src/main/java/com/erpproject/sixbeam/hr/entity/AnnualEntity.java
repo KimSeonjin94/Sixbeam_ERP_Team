@@ -16,10 +16,10 @@ import lombok.Setter;
 @Table(name="HR_ANNNAL_TB")
 public class AnnualEntity {
     @Id
-    @Column(name="empInfoId",insertable = false,updatable = false)
+    @Column(name="empinfoId",insertable = false,updatable = false)
     private String empInfoId;
     @ManyToOne
-    @JoinColumn(name = "empInfoId")
+    @JoinColumn(name = "empinfoId")
     private EmpInfoEntity empInfoEntity;//사원Id
     @Column(name = "annualDt")
     private LocalDate annualDt;//신청날짜

@@ -17,29 +17,29 @@ import java.time.LocalDate;
 @Table(name="HR_EMPINFO_TB")
 public class EmpInfoEntity {
     @Id
-    @Column(name ="empInfoId")
+    @Column(name ="empinfoId")
     private String empInfoId;//사원아이디
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="HR_EMPINFO_TB_empSequence_seq")
     @SequenceGenerator(name ="HR_EMPINFO_TB_empSequence_seq", sequenceName ="HR_EMPINFO_TB_empSequence_seq",
             initialValue = 1001, allocationSize =1)
     private Long empSequence;//사원순서
-    @Column(name ="empInfoPw")
+    @Column(name ="empinfoPw")
     private String empInfoPw;//사원비밀번호
-    @Column(name ="empInfoNm")
+    @Column(name ="empinfoNm")
     private String empInfoNm;//사원이름
-    @Column(name ="empInfoSex")
+    @Column(name ="empinfoSex")
     private boolean empInfoSex;//사원성별
-    @Column(name ="empInfoBirth")
+    @Column(name ="empinfoBirth")
     private LocalDate empInfoBirth;//생일
-    @Column(name ="empInfoAddr")
+    @Column(name ="empinfoAddr")
     private String empInfoAddr;//주소
-    @Column(name ="empInfoPhone")
+    @Column(name ="empinfoPhone")
     private String empInfoPhone;//전화번호
-    @Column(name ="empInfoEmail")
+    @Column(name ="empinfoEmail")
     private String empInfoEmail;//이메일
-    @Column(name ="empInfoJoinDt")
+    @Column(name ="empinfoJoinDt")
     private LocalDate empInfoJoinDt;//입사일
-    @Column(name ="empInfoQuitDt")
+    @Column(name ="empinfoQuitDt")
     private LocalDate empInfoQuitDt;//퇴사일
     @ManyToOne
     @JoinColumn(name="positionCd")
@@ -47,15 +47,15 @@ public class EmpInfoEntity {
     @ManyToOne
     @JoinColumn(name="departCd")
     private DepartEntity departEntity;//붜
-    @Column(name ="empInfoBank")
+    @Column(name ="empinfoBank")
     private String empInfoBank;//은행
-    @Column(name ="empInfoAccountNo")
+    @Column(name ="empinfoAccountNo")
     private String empInfoAccountNo;//계좌번호
-    @Column(name ="empInfoQr")
+    @Column(name ="empinfoQr")
     private String empInfoQr;//퇴사사유
-    @Column(name ="empInfoTotalnoy")
+    @Column(name ="empinfoTotalnoy")
     private int empInfoTotalnoy;//총연차수
-    @Column(name="empInfoEtc")
+    @Column(name="empinfoEtc")
     private String empInfoEtc;//비고
 
 }
