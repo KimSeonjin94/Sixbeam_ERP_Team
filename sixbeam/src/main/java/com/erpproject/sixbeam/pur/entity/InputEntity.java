@@ -18,10 +18,7 @@ public class InputEntity {
     @Column(name = "PI_CD")
     private String piCd;
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "PO_CD", referencedColumnName = "PO_CD", nullable = false),
-            @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD", nullable = false)
-        })
+    @JoinColumn(name = "PO_CD", referencedColumnName = "PO_CD", nullable = false)
     private OrinPutEntity orinputEntity;
     @ManyToOne
     @JoinColumn(name = "WH_MOVE_CD", nullable = false)
