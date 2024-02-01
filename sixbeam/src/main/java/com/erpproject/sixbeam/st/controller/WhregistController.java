@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-@RequestMapping("/sixbeam/st/whregist")
+@RequestMapping("/st/whregist")
 @RequiredArgsConstructor
 @Controller
 public class WhregistController {
