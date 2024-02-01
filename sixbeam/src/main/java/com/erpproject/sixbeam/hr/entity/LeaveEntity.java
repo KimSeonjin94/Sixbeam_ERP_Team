@@ -17,16 +17,16 @@ import java.time.LocalDate;
 @Table(name="HR_LEAVE_TB")
 public class LeaveEntity {
     @Id
-    @Column(name="empInfoId",insertable = false,updatable = false)
+    @Column(name="empinfoId",insertable = false,updatable = false)
     private String empInfoId;
     @ManyToOne
-    @JoinColumn(name = "empInfoId")
+    @JoinColumn(name = "empinfoId")
     private EmpInfoEntity empInfoEntity;//사원Id
     @Column(name ="leaveDt")
     private String leaveDt;//신청날짜
     @Column(name ="leaveApply")
     private boolean leaveApply;//휴직신청
-    @Column(name ="leaveSartDt")
+    @Column(name ="leaveStartDt")
     private LocalDate leaveStartDt;//휴직시작
     @Column(name ="leaveFinishDt")
     private LocalDate leaveFinishDt;//휴직종료

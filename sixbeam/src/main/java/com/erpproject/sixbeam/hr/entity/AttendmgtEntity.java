@@ -19,10 +19,10 @@ import java.time.LocalTime;
 
 public class AttendmgtEntity {
     @Id
-    @Column(name="empInfoId",insertable = false,updatable = false)
+    @Column(name="empinfoId",insertable = false,updatable = false)
     private String empInfoId;
     @ManyToOne
-    @JoinColumn(name = "empInfoId")
+    @JoinColumn(name = "empinfoId")
     private EmpInfoEntity empInfoEntity;//사원Id
     @Column(name ="AttendmgtWorkDt")
     private LocalDate AttendmgtWorkDt;//일자
@@ -32,9 +32,9 @@ public class AttendmgtEntity {
     private int AttendmgtLearly;//조퇴
     @Column(name ="AttendmgtAbsent")
     private int AttendmgtAbsent;//결석
-    @Column(name ="AttendmgtWgOut")
+    @Column(name ="AttendmgtWgout")
     private int AttendmgtWgOut;//외근
-    @Column(name ="AttendmgtSL")
+    @Column(name ="AttendmgtSl")
     private int AttendmgtSL;//병가
     @Column(name ="AttendmgtWorkTm")
     private LocalTime AttendmgtWorkTm;//출근시간
