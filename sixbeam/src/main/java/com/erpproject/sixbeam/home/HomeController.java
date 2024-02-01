@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     @GetMapping("/home")
     public String sixbeam_main() {
+
         return "Contents/Home/Home_Form";
     }
 }
