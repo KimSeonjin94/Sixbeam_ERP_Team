@@ -933,7 +933,7 @@
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="297" parent="1" name="sixbeam_erp">
-      <LastIntrospectionLocalTimestamp>2024-01-31.08:27:37</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-02-01.08:04:06</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <user id="298" parent="1" name="test">
@@ -2016,146 +2016,142 @@ ritem_cd</ColNames>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="545" parent="325" name="item_cd">
+    <column id="545" parent="325" name="pi_cd">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="546" parent="325" name="pi_cd">
+    <column id="546" parent="325" name="po_cd">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="547" parent="325" name="po_cd">
+    <column id="547" parent="325" name="pur_prog_st">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="548" parent="325" name="pur_prog_st">
+    <column id="548" parent="325" name="wh_move_cd">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="549" parent="325" name="wh_move_cd">
-      <DasType>varchar(255)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>8</Position>
-    </column>
-    <foreign-key id="550" parent="325" name="FKhpo9tnl72ptu4lw6gdfvmxqfi">
-      <ColNames>item_cd
-po_cd</ColNames>
-      <RefColNames>item_cd
-po_cd</RefColNames>
+    <foreign-key id="549" parent="325" name="FKi3j9h4o9skm56kx064diyllc7">
+      <ColNames>po_cd</ColNames>
+      <RefColNames>po_cd</RefColNames>
       <RefTableName>pur_orinput_tb</RefTableName>
     </foreign-key>
-    <foreign-key id="551" parent="325" name="FKbb1f10t8gg89d61pskwcr6jry">
+    <foreign-key id="550" parent="325" name="FKbb1f10t8gg89d61pskwcr6jry">
       <ColNames>wh_move_cd</ColNames>
       <RefColNames>whmove_cd</RefColNames>
       <RefTableName>st_whmove_tb</RefTableName>
     </foreign-key>
-    <index id="552" parent="325" name="PRIMARY">
+    <index id="551" parent="325" name="PRIMARY">
       <ColNames>pi_cd</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="553" parent="325" name="FKhpo9tnl72ptu4lw6gdfvmxqfi">
-      <ColNames>item_cd
-po_cd</ColNames>
+    <index id="552" parent="325" name="FKi3j9h4o9skm56kx064diyllc7">
+      <ColNames>po_cd</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="554" parent="325" name="FKbb1f10t8gg89d61pskwcr6jry">
+    <index id="553" parent="325" name="FKbb1f10t8gg89d61pskwcr6jry">
       <ColNames>wh_move_cd</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="555" parent="325" name="PRIMARY">
+    <key id="554" parent="325" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="556" parent="326" name="delivery_dt">
+    <column id="555" parent="326" name="delivery_dt">
       <DasType>date|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="557" parent="326" name="ei_id">
+    <column id="556" parent="326" name="ei_id">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="558" parent="326" name="order_dt">
+    <column id="557" parent="326" name="order_dt">
       <DasType>date|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="559" parent="326" name="orinput_amt">
+    <column id="558" parent="326" name="orinput_amt">
       <DasType>int|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="560" parent="326" name="orinput_sp">
+    <column id="559" parent="326" name="orinput_sp">
       <DasType>int|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="561" parent="326" name="orinput_sum">
+    <column id="560" parent="326" name="orinput_sum">
       <DasType>int|0s</DasType>
       <Position>6</Position>
     </column>
-    <column id="562" parent="326" name="orinput_up">
+    <column id="561" parent="326" name="orinput_up">
       <DasType>int|0s</DasType>
       <Position>7</Position>
     </column>
-    <column id="563" parent="326" name="orinput_vat">
+    <column id="562" parent="326" name="orinput_vat">
       <DasType>int|0s</DasType>
       <Position>8</Position>
     </column>
-    <column id="564" parent="326" name="pur_req_dt">
+    <column id="563" parent="326" name="pur_req_dt">
       <DasType>date|0s</DasType>
       <NotNull>1</NotNull>
       <Position>9</Position>
     </column>
-    <column id="565" parent="326" name="account_cd">
+    <column id="564" parent="326" name="account_cd">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>10</Position>
     </column>
-    <column id="566" parent="326" name="item_cd">
+    <column id="565" parent="326" name="item_cd">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>11</Position>
     </column>
-    <column id="567" parent="326" name="orinput_etc">
+    <column id="566" parent="326" name="orinput_etc">
       <DasType>varchar(255)|0s</DasType>
       <Position>12</Position>
     </column>
-    <column id="568" parent="326" name="po_cd">
+    <column id="567" parent="326" name="po_cd">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>13</Position>
     </column>
-    <foreign-key id="569" parent="326" name="FKptwhdm2bk2mdkp0j371a6alkw">
+    <foreign-key id="568" parent="326" name="FKptwhdm2bk2mdkp0j371a6alkw">
       <ColNames>ei_id</ColNames>
       <RefColNames>ei_id</RefColNames>
       <RefTableName>hr_empinfo_tb</RefTableName>
     </foreign-key>
-    <foreign-key id="570" parent="326" name="FKnk3p8whxnktw0c5bjkyc1q9im">
+    <foreign-key id="569" parent="326" name="FKnk3p8whxnktw0c5bjkyc1q9im">
       <ColNames>account_cd</ColNames>
       <RefColNames>account_cd</RefColNames>
       <RefTableName>ac_account_tb</RefTableName>
     </foreign-key>
-    <foreign-key id="571" parent="326" name="FKbdv5lx5c6kjbwq7yv4pgieh7g">
+    <foreign-key id="570" parent="326" name="FKbdv5lx5c6kjbwq7yv4pgieh7g">
       <ColNames>item_cd</ColNames>
       <RefColNames>item_cd</RefColNames>
       <RefTableName>pd_item_tb</RefTableName>
     </foreign-key>
-    <index id="572" parent="326" name="PRIMARY">
+    <index id="571" parent="326" name="PRIMARY">
       <ColNames>item_cd
 po_cd</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="573" parent="326" name="FKptwhdm2bk2mdkp0j371a6alkw">
+    <index id="572" parent="326" name="FKptwhdm2bk2mdkp0j371a6alkw">
       <ColNames>ei_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="574" parent="326" name="FKnk3p8whxnktw0c5bjkyc1q9im">
+    <index id="573" parent="326" name="FKnk3p8whxnktw0c5bjkyc1q9im">
       <ColNames>account_cd</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="574" parent="326" name="idx_po_cd">
+      <ColNames>po_cd</ColNames>
       <Type>btree</Type>
     </index>
     <key id="575" parent="326" name="PRIMARY">
@@ -2329,7 +2325,7 @@ item_cd</ColNames>
       <DasType>varchar(255)|0s</DasType>
       <Position>6</Position>
     </column>
-    <column id="613" parent="329" name="item_cd">
+    <column id="613" parent="329" name="release_cd">
       <DasType>varchar(255)|0s</DasType>
       <Position>7</Position>
     </column>
@@ -2342,312 +2338,305 @@ item_cd</ColNames>
       <DasType>varchar(255)|0s</DasType>
       <Position>9</Position>
     </column>
-    <column id="616" parent="329" name="wmmove_cd">
-      <DasType>varchar(255)|0s</DasType>
-      <Position>10</Position>
-    </column>
-    <foreign-key id="617" parent="329" name="FK7pccy7f98mititi2ks5t7tia9">
-      <ColNames>estimate_cd
-item_cd</ColNames>
-      <RefColNames>estimate_cd
-item_cd</RefColNames>
+    <foreign-key id="616" parent="329" name="FK6qogj3pux3yjufe9rcu7ley9j">
+      <ColNames>estimate_cd</ColNames>
+      <RefColNames>estimate_cd</RefColNames>
       <RefTableName>ss_esimate_tb</RefTableName>
     </foreign-key>
-    <foreign-key id="618" parent="329" name="FK18jdohtrcy26mpu9gu6m7t2v4">
-      <ColNames>wmmove_cd</ColNames>
-      <RefColNames>whmove_cd</RefColNames>
-      <RefTableName>st_whmove_tb</RefTableName>
+    <foreign-key id="617" parent="329" name="FKqrs7pk1r8ydnmuxi1ah70sd7v">
+      <ColNames>release_cd</ColNames>
+      <RefColNames>release_cd</RefColNames>
+      <RefTableName>st_release_tb</RefTableName>
     </foreign-key>
-    <index id="619" parent="329" name="PRIMARY">
+    <index id="618" parent="329" name="PRIMARY">
       <ColNames>sale_cd</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="620" parent="329" name="FK7pccy7f98mititi2ks5t7tia9">
-      <ColNames>estimate_cd
-item_cd</ColNames>
+    <index id="619" parent="329" name="FK6qogj3pux3yjufe9rcu7ley9j">
+      <ColNames>estimate_cd</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="621" parent="329" name="FK18jdohtrcy26mpu9gu6m7t2v4">
-      <ColNames>wmmove_cd</ColNames>
+    <index id="620" parent="329" name="FKqrs7pk1r8ydnmuxi1ah70sd7v">
+      <ColNames>release_cd</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="622" parent="329" name="PRIMARY">
+    <key id="621" parent="329" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="623" parent="330" name="as_complete_dt">
+    <column id="622" parent="330" name="as_complete_dt">
       <DasType>date|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="624" parent="330" name="as_dt">
+    <column id="623" parent="330" name="as_dt">
       <DasType>date|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="625" parent="330" name="ei_id">
+    <column id="624" parent="330" name="ei_id">
       <DasType>int|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="626" parent="330" name="account_cd">
+    <column id="625" parent="330" name="account_cd">
       <DasType>varchar(255)|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="627" parent="330" name="as_cd">
+    <column id="626" parent="330" name="as_cd">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="628" parent="330" name="as_mo">
+    <column id="627" parent="330" name="as_mo">
       <DasType>varchar(255)|0s</DasType>
       <Position>6</Position>
     </column>
-    <column id="629" parent="330" name="as_st">
+    <column id="628" parent="330" name="as_st">
       <DasType>varchar(255)|0s</DasType>
       <Position>7</Position>
     </column>
-    <column id="630" parent="330" name="as_ti">
+    <column id="629" parent="330" name="as_ti">
       <DasType>varchar(255)|0s</DasType>
       <Position>8</Position>
     </column>
-    <column id="631" parent="330" name="whmove_cd">
+    <column id="630" parent="330" name="whmove_cd">
       <DasType>varchar(255)|0s</DasType>
       <Position>9</Position>
     </column>
-    <foreign-key id="632" parent="330" name="FKlxpq9v9wbvrl7qj18fx8x8w4i">
+    <foreign-key id="631" parent="330" name="FKlxpq9v9wbvrl7qj18fx8x8w4i">
       <ColNames>ei_id</ColNames>
       <RefColNames>ei_id</RefColNames>
       <RefTableName>hr_empinfo_tb</RefTableName>
     </foreign-key>
-    <foreign-key id="633" parent="330" name="FKerli5s0b5g8c6437108cuecyp">
+    <foreign-key id="632" parent="330" name="FKerli5s0b5g8c6437108cuecyp">
       <ColNames>account_cd</ColNames>
       <RefColNames>account_cd</RefColNames>
       <RefTableName>ac_account_tb</RefTableName>
     </foreign-key>
-    <foreign-key id="634" parent="330" name="FKhhrg60mdh2o2xdv1i12k3gd0">
+    <foreign-key id="633" parent="330" name="FKhhrg60mdh2o2xdv1i12k3gd0">
       <ColNames>whmove_cd</ColNames>
       <RefColNames>whmove_cd</RefColNames>
       <RefTableName>st_whmove_tb</RefTableName>
     </foreign-key>
-    <index id="635" parent="330" name="PRIMARY">
+    <index id="634" parent="330" name="PRIMARY">
       <ColNames>as_cd</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="636" parent="330" name="FKlxpq9v9wbvrl7qj18fx8x8w4i">
+    <index id="635" parent="330" name="FKlxpq9v9wbvrl7qj18fx8x8w4i">
       <ColNames>ei_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="637" parent="330" name="FKerli5s0b5g8c6437108cuecyp">
+    <index id="636" parent="330" name="FKerli5s0b5g8c6437108cuecyp">
       <ColNames>account_cd</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="638" parent="330" name="FKhhrg60mdh2o2xdv1i12k3gd0">
+    <index id="637" parent="330" name="FKhhrg60mdh2o2xdv1i12k3gd0">
       <ColNames>whmove_cd</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="639" parent="330" name="PRIMARY">
+    <key id="638" parent="330" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="640" parent="331" name="check_amt">
+    <column id="639" parent="331" name="check_amt">
       <DasType>int|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="641" parent="331" name="check_dt">
+    <column id="640" parent="331" name="check_dt">
       <DasType>date|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="642" parent="331" name="check_pr">
+    <column id="641" parent="331" name="check_pr">
       <DasType>int|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="643" parent="331" name="check_up">
+    <column id="642" parent="331" name="check_up">
       <DasType>int|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="644" parent="331" name="item_cd">
+    <column id="643" parent="331" name="item_cd">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <foreign-key id="645" parent="331" name="FKtp4xf8dqen387ftva2jcfs5bh">
+    <foreign-key id="644" parent="331" name="FKtp4xf8dqen387ftva2jcfs5bh">
       <ColNames>item_cd</ColNames>
       <RefColNames>item_cd</RefColNames>
       <RefTableName>pd_item_tb</RefTableName>
     </foreign-key>
-    <index id="646" parent="331" name="PRIMARY">
+    <index id="645" parent="331" name="PRIMARY">
       <ColNames>check_dt
 item_cd</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="647" parent="331" name="FKtp4xf8dqen387ftva2jcfs5bh">
+    <index id="646" parent="331" name="FKtp4xf8dqen387ftva2jcfs5bh">
       <ColNames>item_cd</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="648" parent="331" name="PRIMARY">
+    <key id="647" parent="331" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="649" parent="332" name="ei_id">
+    <column id="648" parent="332" name="ei_id">
       <DasType>int|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="650" parent="332" name="release_dt">
+    <column id="649" parent="332" name="release_dt">
       <DasType>date|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="651" parent="332" name="account_cd">
+    <column id="650" parent="332" name="account_cd">
       <DasType>varchar(255)|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="652" parent="332" name="release_addr">
+    <column id="651" parent="332" name="release_addr">
       <DasType>varchar(255)|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="653" parent="332" name="release_cd">
+    <column id="652" parent="332" name="release_cd">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="654" parent="332" name="release_phone">
+    <column id="653" parent="332" name="release_phone">
       <DasType>varchar(255)|0s</DasType>
       <Position>6</Position>
     </column>
-    <column id="655" parent="332" name="release_rv">
+    <column id="654" parent="332" name="release_rv">
       <DasType>varchar(255)|0s</DasType>
       <Position>7</Position>
     </column>
-    <column id="656" parent="332" name="release_zc">
+    <column id="655" parent="332" name="release_zc">
       <DasType>varchar(255)|0s</DasType>
       <Position>8</Position>
     </column>
-    <column id="657" parent="332" name="whmove_cd">
+    <column id="656" parent="332" name="whmove_cd">
       <DasType>varchar(255)|0s</DasType>
       <Position>9</Position>
     </column>
-    <foreign-key id="658" parent="332" name="FKj52ki6suahiekf1reo1hced38">
+    <foreign-key id="657" parent="332" name="FKj52ki6suahiekf1reo1hced38">
       <ColNames>ei_id</ColNames>
       <RefColNames>ei_id</RefColNames>
       <RefTableName>hr_empinfo_tb</RefTableName>
     </foreign-key>
-    <foreign-key id="659" parent="332" name="FK61gyua399dycyn4186hs2ok59">
+    <foreign-key id="658" parent="332" name="FK61gyua399dycyn4186hs2ok59">
       <ColNames>account_cd</ColNames>
       <RefColNames>account_cd</RefColNames>
       <RefTableName>ac_account_tb</RefTableName>
     </foreign-key>
-    <foreign-key id="660" parent="332" name="FKipjrgx607nn0dr4vgi88efmjv">
+    <foreign-key id="659" parent="332" name="FKipjrgx607nn0dr4vgi88efmjv">
       <ColNames>whmove_cd</ColNames>
       <RefColNames>whmove_cd</RefColNames>
       <RefTableName>st_whmove_tb</RefTableName>
     </foreign-key>
-    <index id="661" parent="332" name="PRIMARY">
+    <index id="660" parent="332" name="PRIMARY">
       <ColNames>release_cd</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="662" parent="332" name="FKj52ki6suahiekf1reo1hced38">
+    <index id="661" parent="332" name="FKj52ki6suahiekf1reo1hced38">
       <ColNames>ei_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="663" parent="332" name="FK61gyua399dycyn4186hs2ok59">
+    <index id="662" parent="332" name="FK61gyua399dycyn4186hs2ok59">
       <ColNames>account_cd</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="664" parent="332" name="FKipjrgx607nn0dr4vgi88efmjv">
+    <index id="663" parent="332" name="FKipjrgx607nn0dr4vgi88efmjv">
       <ColNames>whmove_cd</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="665" parent="332" name="PRIMARY">
+    <key id="664" parent="332" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="666" parent="333" name="ei_id">
+    <column id="665" parent="333" name="ei_id">
       <DasType>int|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="667" parent="333" name="whmove_amt">
+    <column id="666" parent="333" name="whmove_amt">
       <DasType>int|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="668" parent="333" name="whmove_dt">
+    <column id="667" parent="333" name="whmove_dt">
       <DasType>date|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="669" parent="333" name="item_cd">
+    <column id="668" parent="333" name="item_cd">
       <DasType>varchar(255)|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="670" parent="333" name="whmove_cd">
+    <column id="669" parent="333" name="whmove_cd">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="671" parent="333" name="whmove_gb">
+    <column id="670" parent="333" name="whmove_gb">
       <DasType>varchar(255)|0s</DasType>
       <Position>6</Position>
     </column>
-    <column id="672" parent="333" name="whregist_cd">
+    <column id="671" parent="333" name="whregist_cd">
       <DasType>varchar(255)|0s</DasType>
       <Position>7</Position>
     </column>
-    <foreign-key id="673" parent="333" name="FKdx85bgn3yje1drd02iyeliho0">
+    <foreign-key id="672" parent="333" name="FKdx85bgn3yje1drd02iyeliho0">
       <ColNames>ei_id</ColNames>
       <RefColNames>ei_id</RefColNames>
       <RefTableName>hr_empinfo_tb</RefTableName>
     </foreign-key>
-    <foreign-key id="674" parent="333" name="FK6aj99g7wbulnmb4e9csk33n4u">
+    <foreign-key id="673" parent="333" name="FK6aj99g7wbulnmb4e9csk33n4u">
       <ColNames>item_cd</ColNames>
       <RefColNames>item_cd</RefColNames>
       <RefTableName>pd_item_tb</RefTableName>
     </foreign-key>
-    <foreign-key id="675" parent="333" name="FKbjt6rghsu2m0iwnskoxxa5mn8">
+    <foreign-key id="674" parent="333" name="FKbjt6rghsu2m0iwnskoxxa5mn8">
       <ColNames>whregist_cd</ColNames>
       <RefColNames>whregist_cd</RefColNames>
       <RefTableName>st_whregist_tb</RefTableName>
     </foreign-key>
-    <index id="676" parent="333" name="PRIMARY">
+    <index id="675" parent="333" name="PRIMARY">
       <ColNames>whmove_cd</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="677" parent="333" name="FKdx85bgn3yje1drd02iyeliho0">
+    <index id="676" parent="333" name="FKdx85bgn3yje1drd02iyeliho0">
       <ColNames>ei_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="678" parent="333" name="FK6aj99g7wbulnmb4e9csk33n4u">
+    <index id="677" parent="333" name="FK6aj99g7wbulnmb4e9csk33n4u">
       <ColNames>item_cd</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="679" parent="333" name="FKbjt6rghsu2m0iwnskoxxa5mn8">
+    <index id="678" parent="333" name="FKbjt6rghsu2m0iwnskoxxa5mn8">
       <ColNames>whregist_cd</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="680" parent="333" name="PRIMARY">
+    <key id="679" parent="333" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="681" parent="334" name="whregist_cd">
+    <column id="680" parent="334" name="whregist_cd">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="682" parent="334" name="whregist_nm">
+    <column id="681" parent="334" name="whregist_nm">
       <DasType>varchar(255)|0s</DasType>
       <Position>2</Position>
     </column>
-    <index id="683" parent="334" name="PRIMARY">
+    <index id="682" parent="334" name="PRIMARY">
       <ColNames>whregist_cd</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="684" parent="334" name="PRIMARY">
+    <key id="683" parent="334" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
