@@ -29,6 +29,7 @@ public class ReleaseEntity {
     @JoinColumn(name = "empInfoId")
     private EmpInfoEntity empInfoEntity;
 
+
     @ManyToOne
     @JoinColumn(name = "whmove_cd")
     private WhmoveEntity whmoveEntity;
