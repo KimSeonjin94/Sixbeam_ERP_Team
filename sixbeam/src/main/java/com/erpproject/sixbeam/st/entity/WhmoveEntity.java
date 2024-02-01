@@ -20,7 +20,7 @@ public class WhmoveEntity {
 
     @ManyToOne
     @JoinColumn(name = "ei_id")
-    private EmployeeInfoEntity employeeInfoEntity;
+    private EmployeeInfoEntity empInfoEntity;
 
     @Column(name = "whmove_dt")
     private LocalDate whmoveDt;

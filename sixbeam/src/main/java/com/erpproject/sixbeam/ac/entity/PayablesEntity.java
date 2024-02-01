@@ -1,9 +1,7 @@
 package com.erpproject.sixbeam.ac.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 @Entity
 @Table(name="AC_PAYABLES_TB")
 public class PayablesEntity {

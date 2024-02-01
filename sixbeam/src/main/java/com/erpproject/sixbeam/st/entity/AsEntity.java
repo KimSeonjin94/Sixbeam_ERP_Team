@@ -23,7 +23,7 @@ public class AsEntity {
 
     @ManyToOne
     @JoinColumn(name = "ei_id")
-    private EmployeeInfoEntity employeeInfoEntity;
+    private EmployeeInfoEntity empInfoEntity;
 
     @ManyToOne
     @JoinColumn(name = "account_cd")
@@ -31,13 +31,14 @@ public class AsEntity {
 
     @ManyToOne
     @JoinColumn(name = "whmove_cd")
-    private WhmoveEntity whmoveCd;
+    private WhmoveEntity whmoveEntity;
+
 
     @Column(name = "as_st")
     private String asSt;
 
-    @Column(name = "as_complete_dt")
-    private LocalDate asCompleteDt;
+    @Column(name = "ascmpt_dt")
+    private LocalDate asCmptDt;
 
     @Column(name = "as_ti")
     private String asTi;
