@@ -4,9 +4,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name="AC_BS_TB")
 public class BsEntity {
     @Id
@@ -32,4 +41,5 @@ public class BsEntity {
     private int bsCapital;
     @Column(name="BS_EARNINGS")
     private int bsEarnings;
+
 }

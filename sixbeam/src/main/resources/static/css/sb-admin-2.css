@@ -56,7 +56,7 @@ html {
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block;
-}
+}ㄴ
 
 body {
   margin: 0;
@@ -2663,7 +2663,7 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-primary:focus, .btn-outline-primary.focus {
-  box-shadow: 0 0 0 0.2rem rgba(235, 151, 161, 1);
+  box-shadow: #4e73df;
 }
 
 .btn-outline-primary.disabled, .btn-outline-primary:disabled {
@@ -4126,6 +4126,13 @@ input[type="button"].btn-block {
   text-align: center;
   line-height:2;
 }
+
+.navbar .nav-item .dropdown-menu a{
+  text-align: center;
+  line-height:2;
+}
+
+
 
 .navbar .container,
 .navbar .container-fluid, .navbar .container-sm, .navbar .container-md, .navbar .container-lg, .navbar .container-xl {
@@ -10193,6 +10200,9 @@ a:focus {
 .topbar .nav-item .nav-link .img-profile {
   height: 2rem;
   width: 2rem;
+}
+.topbar .nav-item .nav-link span{
+  height:  4.375rem;
 }
 
 .topbar .nav-item .nav-link span{

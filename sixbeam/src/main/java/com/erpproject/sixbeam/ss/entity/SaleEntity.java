@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.ss.entity;
 
+import com.erpproject.sixbeam.st.entity.ReleaseEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,11 +23,9 @@ public class SaleEntity {
     @Id
     @Column(name = "SALE_CD")
     private String saleCd;
+
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "ESTIMATE_CD", referencedColumnName = "ESTIMATE_CD"),
-            @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
-    })
+    @JoinColumn(name = "ESTIMATE_CD", referencedColumnName = "ESTIMATE_CD")
     private EstimateEntity estimateEntity;
     @Column(name = "SALE_UPLOAD_DT")
     private LocalDate saleUploadDt;
@@ -37,8 +36,8 @@ public class SaleEntity {
     @Column(name = "SALE_PAYMENT_DT")
     private LocalDate salePaymentDt;
     @ManyToOne
-    @JoinColumn(name = "WMMOVE_CD")
-    private WhmoveEntity whMoveEntity;
+    @JoinColumn(name = "RELEASE_CD")
+    private ReleaseEntity releaseEntity;
     @Column(name = "SALE_SHIPPING_ST")
     private String saleShippingSt;
     @Column(name = "SALE_SHIPPING_DT")

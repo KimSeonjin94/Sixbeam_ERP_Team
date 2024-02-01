@@ -16,18 +16,20 @@ import lombok.Setter;
 @Table(name="HR_ANNNAL_TB")
 public class AnnualEntity {
     @Id
-    @Column
-    private LocalDate annualDt;//신청날짜
+    @Column(name="empInfoId",insertable = false,updatable = false)
+    private String empInfoId;
     @ManyToOne
-    @JoinColumn(name = "eiId")
-    private EmployeeInfoEntity employeeInfoEntity;//사원Id
-    @Column
+    @JoinColumn(name = "empInfoId")
+    private EmpInfoEntity empInfoEntity;//사원Id
+    @Column(name = "annualDt")
+    private LocalDate annualDt;//신청날짜
+    @Column(name ="annualCnt")
     private int annualCnt;//연차개수
-    @Column
+    @Column(name ="annualApply")
     private boolean annualApply;//연차신청
-    @Column
+    @Column(name ="annualStartDt")
     private LocalDate annualStartDt;//연차시작
-    @Column
+    @Column(name ="annualFinishDt")
     private LocalDate annualFinishDt;//연차 끝
     @ManyToOne
     @JoinColumn(name ="reasonCd")

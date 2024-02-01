@@ -47,6 +47,8 @@ dependencies {
 
 	//devtools
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+
+	implementation 'org.hibernate.validator:hibernate-validator'
 }
 
 tasks.named('test') {
