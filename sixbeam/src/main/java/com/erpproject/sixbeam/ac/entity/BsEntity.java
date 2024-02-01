@@ -20,7 +20,7 @@ import java.time.LocalDate;
 public class BsEntity {
     @Id
     @Column(name="BS_DT")
-    private LocalDate bsDt;
+    private String bsDt;
     @Column(name="BS_CASH")
     private int bsCash;
     @Column(name="BS_RECEIVABLES")

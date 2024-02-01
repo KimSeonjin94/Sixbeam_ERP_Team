@@ -21,7 +21,7 @@ public class IsEntity {
 
     @Id
     @Column(name="IS_DT")
-    private LocalDate isDt;
+    private String isDt;
     @Column(name="IS_NET_SALES")
     private int isNetSales;
     @Column(name="IS_COST_SALES")

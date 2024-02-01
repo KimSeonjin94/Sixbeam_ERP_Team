@@ -26,7 +26,7 @@ public class PurEntity {
     @JoinColumn(name="ACCOUNT_CD")
     private AccountEntity accountEntity;
     @ManyToOne
-    @JoinColumn(name="PI_CD")
+    @JoinColumn(name="INPUTPUR_CD")
     private InputEntity inputEntity;
     @Column(name="PUR_ETC")
     private String purEtc;

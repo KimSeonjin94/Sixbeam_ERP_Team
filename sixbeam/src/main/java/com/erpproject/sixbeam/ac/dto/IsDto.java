@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 
 public class IsDto {
-    private LocalDate isDt;
+    private String isDt;
     private int isNetSales;
     private int isCostSales;
     private int isWages;

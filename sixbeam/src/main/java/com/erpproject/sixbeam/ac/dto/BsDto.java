@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 
 public class BsDto {
-    private LocalDate bsDt;
+    private String bsDt;
     private int bsCash;
     private int bsReceivables;
     private int bsInventories;
