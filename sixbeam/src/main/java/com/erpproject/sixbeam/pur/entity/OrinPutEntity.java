@@ -2,7 +2,7 @@ package com.erpproject.sixbeam.pur.entity;
 
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
-import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.hr.entity.EmployeeInfoEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,7 +15,9 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @IdClass(OrinPutEntityId.class)
-@Table(name="PUR_ORINPUT_TB")
+@Table(name = "pur_orinput_tb",  indexes = {
+        @Index(name = "idx_po_cd", columnList = "po_cd")
+})
 public class OrinPutEntity {
     @Id
     @Column(name = "PO_CD")
@@ -29,7 +31,7 @@ public class OrinPutEntity {
     private EmpInfoEntity empInfoEntity;
     @Id
     @ManyToOne
-    @JoinColumn(name = "ITEM_CD")
+    @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
     private ItemEntity itemEntity;
     @Column(name = "ORINPUT_AMT")
     private int orinputAmt;
