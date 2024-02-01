@@ -2,7 +2,7 @@ package com.erpproject.sixbeam.pur.entity;
 
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
-import com.erpproject.sixbeam.hr.entity.EmployeeInfoEntity;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
