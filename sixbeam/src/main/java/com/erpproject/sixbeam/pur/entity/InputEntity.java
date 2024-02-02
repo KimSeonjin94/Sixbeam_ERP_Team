@@ -1,0 +1,32 @@
+package com.erpproject.sixbeam.pur.entity;
+
+import com.erpproject.sixbeam.st.entity.WhmoveEntity;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+
+@Setter
+@Getter
+@Entity
+@Table(name="PUR_INPUT_TB")
+public class InputEntity {
+    @Column(name = "INPUT_DT", nullable = false)
+    private LocalDate inputDt;
+    @Id
+    @Column(name = "INPUTPUR_CD")
+    private String inputPurCd;
+    @ManyToOne
+    @JoinColumn(name = "ORINPUT_CD", referencedColumnName = "ORINPUT_CD")
+    private OrinPutEntity orinputEntity;
+    @ManyToOne
+    @JoinColumn(name = "WHMOVE_CD", nullable = false)
+    private WhmoveEntity whmoveEntity;
+    @Column(name = "INPUTPRG_ST", nullable = false)
+    private String inputPrgSt;
+    @Column(name = "INPUTSI_DT")
+    private LocalDate inputSiDt;
+    @Column(name = "INPUTSI_FL", columnDefinition = "TINYINT(1)", nullable = false)
+    private boolean inputSiFl;
+}
