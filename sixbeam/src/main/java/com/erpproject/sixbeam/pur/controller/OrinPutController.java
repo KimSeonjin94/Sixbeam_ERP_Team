@@ -16,11 +16,11 @@ import java.util.List;
 public class OrinPutController {
     private final OrinPutService orinputService;
 
-    @GetMapping("/list")
+    @GetMapping("/OrinPutlist")
     public String GetList(Model model) {
         List<OrinPutEntity> orinputEntity = this.orinputService.getList();
         model.addAttribute("orinputEntity",orinputEntity);
-        return "Contents/Pur/OrinPut_List";
+        return "Contents/Pur/OrinPut_list";
     }
 
 }
