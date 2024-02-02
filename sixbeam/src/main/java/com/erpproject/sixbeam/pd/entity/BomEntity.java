@@ -3,7 +3,6 @@ package com.erpproject.sixbeam.pd.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
 import java.sql.Time;
 
 @AllArgsConstructor
