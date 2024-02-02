@@ -1,3 +1,10 @@
+.tab-content > .tab-pane {
+  display: none;
+}
+
+.tab-content > .active {
+  display: block;
+}
 .sidebar .nav-item.dropdown .dropdown-toggle::after,
 .topbar .nav-item.dropdown .dropdown-toggle::after {
   width: 1rem;
@@ -327,7 +334,6 @@
 }
 
 .sidebar .sidebar-brand {
-  height: 4.375rem;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 800;
