@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import org.hibernate.mapping.ToOne;
 
 
 @AllArgsConstructor
@@ -15,7 +15,7 @@ import lombok.Setter;
 @Entity
 @Table(name="SS_MEMBER_TB")
 public class MemberEntity {
-    @Id
+
     @Column(name = "MEMBER_ID")
     private String memberId;
     @Column(name = "MEMBER_NM")
@@ -24,8 +24,13 @@ public class MemberEntity {
     private String memberPhone;
     @Column(name = "MEMBER_ADDR")
     private String memberAddr;
+    @Id
+    @Column(name="ESTIMATE_CD",insertable=false, updatable=false)
+    private String estimateCd;
+
     @ManyToOne
     @JoinColumns({
+
             @JoinColumn(name = "ESTIMATE_CD", referencedColumnName = "ESTIMATE_CD"),
             @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
     })
