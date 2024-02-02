@@ -25,10 +25,10 @@ public class BomEntity {
     @JoinColumn(name = "RITEM_CD")
     private RitemEntity ritemEntity;
 
-    @Column
+    @Column(name = "BOM_USE_MT")
     private int bomUseMt;
 
-    @Column
+    @Column(name = "BOM_WORK_TM")
     private Time bomWorkTm;
 }
 
