@@ -22,7 +22,7 @@ public class WhmoveEntity {
     private String whmoveCd;
 
     @ManyToOne
-    @JoinColumn(name = "empInfoId")
+    @JoinColumn(name = "empinfoId")
     private EmpInfoEntity empInfoEntity;
 
 

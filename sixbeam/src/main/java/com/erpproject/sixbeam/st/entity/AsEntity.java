@@ -26,7 +26,7 @@ public class AsEntity {
     private String asCd;
 
     @ManyToOne
-    @JoinColumn(name = "empInfoId")
+    @JoinColumn(name = "empinfoId")
     private EmpInfoEntity empInfoEntity;
 
 

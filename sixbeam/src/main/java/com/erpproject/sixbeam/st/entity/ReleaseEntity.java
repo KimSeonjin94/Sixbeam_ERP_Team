@@ -29,7 +29,7 @@ public class ReleaseEntity {
     private AccountEntity accountEntity;
 
     @ManyToOne
-    @JoinColumn(name = "empInfoId")
+    @JoinColumn(name = "empinfoId")
     private EmpInfoEntity empInfoEntity;
 
 
