@@ -12,11 +12,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class EmpInfoDto {
-    private String empInfoId;//사원아이디
-    private Long empSequence;//사원 순서
+    private Long empInfoId;//사원아이디
     private String empInfoPw;//사원비밀번호
     private String empInfoNm;//사원이름
-    private boolean empInfoSex;//사원성별
+    private boolean empInfoSex;//사원성별s
     private LocalDate empInfoBirth;//생일
     private String empInfoAddr;//주소
     private String empInfoPhone;//전화번호
@@ -32,7 +31,7 @@ public class EmpInfoDto {
     private String empInfoEtc;//비고
 
     public EmpInfoEntity toEntity() {
-        return new EmpInfoEntity(empInfoId,empSequence, empInfoPw, empInfoNm, empInfoSex,
+        return new EmpInfoEntity(empInfoId, empInfoPw, empInfoNm, empInfoSex,
                 empInfoBirth, empInfoAddr, empInfoPhone, empInfoEmail, empInfoJoinDt,
                 empInfoQuitDt, positionEntity, departEntity, empInfoBank, empInfoAccountNo,
                 empInfoQr, empInfoTotalnoy, empInfoEtc);

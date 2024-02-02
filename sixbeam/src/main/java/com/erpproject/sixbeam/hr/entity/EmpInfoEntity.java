@@ -15,14 +15,14 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name="HR_EMPINFO_TB")
+
 public class EmpInfoEntity {
     @Id
-    @Column(name ="empinfoId")
-    private String empInfoId;//사원아이디
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="HR_EMPINFO_TB_empSequence_seq")
     @SequenceGenerator(name ="HR_EMPINFO_TB_empSequence_seq", sequenceName ="HR_EMPINFO_TB_empSequence_seq",
-            initialValue = 1001, allocationSize =1)
-    private Long empSequence;//사원순서
+            initialValue = 20241001, allocationSize =1)
+    @Column(name ="empinfoId")
+    private Long empInfoId;//사원아이디
     @Column(name ="empinfoPw")
     private String empInfoPw;//사원비밀번호
     @Column(name ="empinfoNm")
