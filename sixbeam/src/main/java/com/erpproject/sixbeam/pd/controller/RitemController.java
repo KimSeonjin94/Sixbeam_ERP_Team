@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RitemController {
 
     @Autowired
-    private RitemController ritemController;
+    private RitemRepository ritemRepository;
 }
