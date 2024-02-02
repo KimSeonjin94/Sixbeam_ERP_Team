@@ -9,6 +9,29 @@
     <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
+  <component name="DBNavigator.Project.DataExportManager">
+    <export-instructions>
+      <create-header value="true" />
+      <friendly-headers value="false" />
+      <quote-values-containing-separator value="true" />
+      <quote-all-values value="false" />
+      <value-separator value="" />
+      <begin-quote value="&quot;" />
+      <end-quote value="&quot;" />
+
+      <file-name value="ac_bs_tb.sql" />
+      <file-location value="C:\Users\028\Desktop\Programming(jcob)" />
+
+      <file-name value="pur_input_tb.sql" />
+      <file-location value="C:\works\DB" />
+
+      <scope value="GLOBAL" />
+      <destination value="FILE" />
+      <format value="SQL" />
+      <charset value="UTF-8" />
+      <charset value="UTF-8" />
+    </export-instructions>
+  </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
@@ -17,7 +40,12 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4">
-      <console name="Connection" type="STANDARD" schema="mrs" session="Main">select  * from member;</console>
+      <console name="Connection" type="STANDARD" schema="mrs" session="Main"><![CDATA[select  * from member;]]></console>
+
+    </connection>
+    <connection id="33a9cda8-5af4-457f-af27-0d483a5aa955">
+      <console name="sixbeam_erp_sql" type="STANDARD" schema="" session="Main" />
+
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -31,12 +59,32 @@
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.movie_info" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_bs_tb" active-filter-id="8e54c437-e45a-48c9-8abd-589e4a363aff">
+      <filter id="8e54c437-e45a-48c9-8abd-589e4a363aff" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="bs_dt" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.book" active-filter-id="EMPTY_FILTER" />
+
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_is_tb" active-filter-id="EMPTY_FILTER" />
+
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.pur_orinput_tb" active-filter-id="EMPTY_FILTER" />
+
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.member" active-filter-id="EMPTY_FILTER">
       <filter id="c926b0d6-64eb-473c-89c0-747ea45dcdb9" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="m_phone" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
+
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_account_tb" active-filter-id="EMPTY_FILTER">
+      <filter id="8e2cf66c-8753-423c-8724-8be72ad982c7" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="account_cd" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
+
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_account_tb" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.pur_input_tb" active-filter-id="EMPTY_FILTER" />
+
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.hr" active-filter-id="" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.hr_empinfo_tb" active-filter-id="52a1508f-2489-400c-9b72-c95ce46484c9">
       <filter id="52a1508f-2489-400c-9b72-c95ce46484c9" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
@@ -50,6 +98,9 @@
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
     <filters />
+  </component>
+  <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
+    <recently-used-interfaces />
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
@@ -67,6 +118,100 @@
           <host value="localhost" />
           <port value="3306" />
           <database value="sixbeam_erp" />
+          <tns-folder value="" />
+          <tns-profile value="" />
+          <type value="USER_PASSWORD" />
+          <user value="root" />
+          <deprecated-pwd value="MTIzNA==" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="true" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="false" />
+          <environment-type value="default" />
+          <connectivity-timeout value="30" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <debugger>
+          <compile-dependencies value="true" />
+          <tcp-driver-tunneling value="false" />
+          <tcp-host-address value="" />
+          <tcp-port-from value="4000" />
+          <tcp-port-to value="4999" />
+          <debugger-type value="ASK" />
+        </debugger>
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false" hide-audit-columns="false">
+          <object-type-filter>
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+      <connection id="33a9cda8-5af4-457f-af27-0d483a5aa955" active="true" signed="true">
+        <database>
+          <name value="sixbeam_erp_sql" />
+          <description value="" />
+          <database-type value="MYSQL" />
+          <config-type value="BASIC" />
+          <database-version value="8.0" />
+          <driver-source value="BUNDLED" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="DATABASE" />
+          <host value="localhost" />
+          <port value="3306" />
+          <database value="mysql" />
           <tns-folder value="" />
           <tns-profile value="" />
           <type value="USER_PASSWORD" />

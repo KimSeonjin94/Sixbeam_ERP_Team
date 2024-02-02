@@ -46,7 +46,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	//devtools
-	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+//	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	implementation 'org.hibernate.validator:hibernate-validator'
 	//더미데이터를 위한 종속성 추가

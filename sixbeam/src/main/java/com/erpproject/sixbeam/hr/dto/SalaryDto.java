@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SalaryDto {
-    private String empInfoId;
+    private Long empInfoId;
     private EmpInfoEntity empInfoEntity;//사원아이디
     private int salarySmonth;//급여 월
     private SalaryIdEntity salaryidEntity;//급여식별자

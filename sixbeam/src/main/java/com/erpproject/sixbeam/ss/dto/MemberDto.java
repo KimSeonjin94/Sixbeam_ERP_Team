@@ -12,6 +12,7 @@ public class MemberDto {
     private String memberAddr;
     private EstimateEntity estimateEntity;
 
+
     public MemberEntity toEntity(){
         MemberEntity memberEntity=new MemberEntity();
         memberEntity.setMemberId(memberId);
@@ -20,6 +21,7 @@ public class MemberDto {
         memberEntity.setMemberAddr(memberAddr);
         memberEntity.setEstimateEntity(estimateEntity);
         return memberEntity;
+
     }
 
 }

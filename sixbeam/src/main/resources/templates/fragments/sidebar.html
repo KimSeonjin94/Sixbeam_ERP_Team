@@ -6,8 +6,10 @@
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/sixbeam/home">
+
             <div class="sidebar-brand-icon mb-auto">
                 <img th:src="@{/img/whiteLogo.svg}" class="img-fluid">
+
             </div>
         </a>
         <hr class="sidebar-divider my-0">
@@ -36,6 +38,25 @@
                         </div>
                     </div>
                 </li>
+
+                        <!-- Nav Item - Pages Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                               data-target="#collapsemanagement"
+                               aria-expanded="true" aria-controls="collapsemanagement">
+                                <i class="fas fa-fw fa-cog"></i>
+                                <span>관리도구</span>
+                            </a>
+                            <div id="collapsemanagement" class="collapse" aria-labelledby="headingmanagement"
+                                 data-parent="#accordionSidebar">s
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <a class="collapse-item" href="hr/EmpInfo_list">제프</a>
+                                    <a class="collapse-item" href="#">근태</a>
+                                    <a class="collapse-item" href="#">연차</a>
+                                    <a class="collapse-item" href="#">급여</a>
+                                </div>
+                            </div>
+                        </li>
 
                 <!-- Nav Item - Utilities Collapse Menu -->
                 <li class="nav-item">
@@ -177,32 +198,34 @@
                     구매
                 </div>
 
-                <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseout"
-                       aria-expanded="true" aria-controls="collapseout">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>발주</span>
-                    </a>
-                    <div id="collapseout" class="collapse" aria-labelledby="headingout"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/pur/list">발주 조회</a>
-                            <a class="collapse-item" href="#">발주 입력</a>
+
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseout"
+                           aria-expanded="true" aria-controls="collapseout">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>발주</span>
+                        </a>
+                        <div id="collapseout" class="collapse" aria-labelledby="headingout"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="/pur/OrinPutlist">발주 조회</a>
+                                <a class="collapse-item" href="#">발주 입력</a>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsein"
-                       aria-expanded="true" aria-controls="collapsein">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>구매</span>
-                    </a>
-                    <div id="collapsein" class="collapse" aria-labelledby="headingin"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">구매 조회</a>
-                            <a class="collapse-item" href="#">구매 입력</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsein"
+                           aria-expanded="true" aria-controls="collapsein">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>구매</span>
+                        </a>
+                        <div id="collapsein" class="collapse" aria-labelledby="headingin"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="/pur/Inputlist">구매 조회</a>
+                                <a class="collapse-item" href="#">구매 입력</a>
+                            </div>
                         </div>
                     </div>
                 </li>
@@ -214,18 +237,34 @@
                     회계
                 </div>
 
-                <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsebsis"
-                       aria-expanded="true" aria-controls="collapsebsis">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>주요 재무재표</span>
-                    </a>
-                    <div id="collapsebsis" class="collapse" aria-labelledby="headingbsis"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">재무상태표</a>
-                            <a class="collapse-item" href="#">손익계산서</a>
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseacac"
+                           aria-expanded="true" aria-controls="collapseacac">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>기초 등록</span>
+                        </a>
+                        <div id="collapseacac" class="collapse" aria-labelledby="headingacac"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="Account_Form">거래처 등록</a>
+                                <a class="collapse-item" href="Account_List">거래처 목록</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsebsis"
+                           aria-expanded="true" aria-controls="collapsebsis">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>재무제표</span>
+                        </a>
+                        <div id="collapsebsis" class="collapse" aria-labelledby="headingbsis"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="#">재무상태표</a>
+                                <a class="collapse-item" href="#">손익계산서</a>
+                            </div>
+
                         </div>
                     </div>
                 </li>
@@ -255,21 +294,11 @@
                             <a class="collapse-item" href="#">매입 전표</a>
                             <a class="collapse-item" href="#">거래처별 채무</a>
                         </div>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseacac"
-                       aria-expanded="true" aria-controls="collapseacac">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>기초 등록</span>
-                    </a>
-                    <div id="collapseacac" class="collapse" aria-labelledby="headingacac"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">거래처 목록</a>
-                        </div>
-                    </div>
-                </li>
+
+                    </li>
+
+                </div>
+
             </div>
         </div>
 
