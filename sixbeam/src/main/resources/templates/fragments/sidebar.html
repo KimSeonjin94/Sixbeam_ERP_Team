@@ -7,7 +7,8 @@
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/sixbeam/home">
             <div class="sidebar-brand-icon">
-                <img src="img/whiteLogo.svg">
+                <img th:src="@{/img/github.svg}" width="50" height="50"/>
+
             </div>
         </a>
         <hr class="sidebar-divider my-0">
@@ -24,7 +25,7 @@
                                data-target="#collapsemanagement"
                                aria-expanded="true" aria-controls="collapsemanagement">
                                 <i class="fas fa-fw fa-cog"></i>
-                                <span>관리</span>
+                                <span>관리도구</span>
                             </a>
                             <div id="collapsemanagement" class="collapse" aria-labelledby="headingmanagement"
                                  data-parent="#accordionSidebar">s
@@ -216,10 +217,24 @@
 
                     <!-- Nav Item - Pages Collapse Menu -->
                     <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseacac"
+                           aria-expanded="true" aria-controls="collapseacac">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>기초 등록</span>
+                        </a>
+                        <div id="collapseacac" class="collapse" aria-labelledby="headingacac"
+                             data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="Account_Form">거래처 등록</a>
+                                <a class="collapse-item" href="Account_List">거래처 목록</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsebsis"
                            aria-expanded="true" aria-controls="collapsebsis">
                             <i class="fas fa-fw fa-folder"></i>
-                            <span>주요 재무재표</span>
+                            <span>재무제표</span>
                         </a>
                         <div id="collapsebsis" class="collapse" aria-labelledby="headingbsis"
                              data-parent="#accordionSidebar">
@@ -257,19 +272,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseacac"
-                           aria-expanded="true" aria-controls="collapseacac">
-                            <i class="fas fa-fw fa-folder"></i>
-                            <span>기초 등록</span>
-                        </a>
-                        <div id="collapseacac" class="collapse" aria-labelledby="headingacac"
-                             data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <a class="collapse-item" href="#">거래처 목록</a>
-                            </div>
-                        </div>
-                    </li>
+
                 </div>
             </div>
 
