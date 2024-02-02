@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface EstimateRepository extends JpaRepository<EstimateEntity, EstimateEntityId> {
 
+    List<EstimateEntity> findById(String id);
 }
