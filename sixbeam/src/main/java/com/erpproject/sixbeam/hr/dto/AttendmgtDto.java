@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 public class AttendmgtDto {
-    private String empInfoId;
+    private Long empInfoId;
     private EmpInfoEntity empInfoEntity;//사원번호
     private LocalDate attendmtWorkDt;//일자
     private int attendmtTardy;//지각

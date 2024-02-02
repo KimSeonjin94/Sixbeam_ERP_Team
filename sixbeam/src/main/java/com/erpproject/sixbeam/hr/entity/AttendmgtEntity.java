@@ -20,7 +20,7 @@ import java.time.LocalTime;
 public class AttendmgtEntity {
     @Id
     @Column(name="empinfoId",insertable = false,updatable = false)
-    private String empInfoId;
+    private Long empInfoId;
     @ManyToOne
     @JoinColumn(name = "empinfoId")
     private EmpInfoEntity empInfoEntity;//사원Id

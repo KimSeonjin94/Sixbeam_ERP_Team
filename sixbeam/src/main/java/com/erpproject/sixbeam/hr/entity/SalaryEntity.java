@@ -16,10 +16,10 @@ public class SalaryEntity {
 
 
     @Id
-    @Column(name="empInfoId",insertable = false,updatable = false)
-    private String empInfoId;
+    @Column(name="empinfoId",insertable = false,updatable = false)
+    private Long empInfoId;
     @ManyToOne
-    @JoinColumn(name = "empInfoId")
+    @JoinColumn(name = "empinfoId")
     private EmpInfoEntity empInfoEntity;//사원Id
     @Column(name ="salarySmonth")
     private int salarySmonth;//급여 월

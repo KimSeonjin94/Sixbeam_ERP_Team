@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class AnnualDto {
-    private String empInfoId;
+    private Long empInfoId;
     private EmpInfoEntity empInfoEntity;//사원아이디
     private LocalDate annualDt;//신청날짜
     private int annualCnt;//연차개수
