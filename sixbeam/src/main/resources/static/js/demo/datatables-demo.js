@@ -15,10 +15,7 @@ $(document).ready(function() {
                 "next": "다음",
                 "previous": "이전"
             }},
-        "buttons": ['copy', 'excel', 'print'],
-
-
-        dom: "Bfrtip"
+        "buttons": ['copy', 'excel', 'print']
     });
 });
 

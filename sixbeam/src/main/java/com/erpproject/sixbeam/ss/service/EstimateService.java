@@ -32,6 +32,15 @@ public class EstimateService {
             if (uniqueEstimateCds.add(entity.getEstimateCd())) {
                 // estimateCd가 추가되지 않았으면 중복이므로 추가하지 않음
                 deduplicatedList.add(entity);
+            }else{
+                for(EstimateEntity entity2 :deduplicatedList){
+                    if(entity.getEstimateCd().equals(entity2.getEstimateCd())){
+                        entity2.setEstimateSp(entity.getEstimateSp());
+                        entity2.setEstimateVat(entity.getEstimateVat());
+                        entity2.setEstimateTamt(entity.getEstimateTamt());
+                    }
+
+                }
             }
         }
         return deduplicatedList;
@@ -39,7 +48,7 @@ public class EstimateService {
 
     public List<EstimateEntity> getIdList(String id) {
 
-        return this.estimateRepository.findById(id);
+        return this.estimateRepository.findByEstimateCd(id);
     }
 
 }

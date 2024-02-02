@@ -16,19 +16,13 @@
                         <th>견적 코드</th>
                         <th>거래처 코드</th>
                         <th>사원 이름</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr th:each="estimate : ${estimateEntities}">
+                        <td th:text="${estimate.estimateCd}"></td>
+                        <td th:text="${estimate.accountEntity.accountCd}"></td>
+                        <td th:text="${estimate.empInfoEntity.empInfoId}"></td>
                     </tr>
 
                     </tbody>

@@ -24,11 +24,11 @@ public class EstimateController {
     public String newEstimateDto(){
         return "/new";
     }
-    @GetMapping("/list")
+    @GetMapping("/List")
     public String list(Model model){
         List< EstimateEntity> estimateEntities = this.estimateService.getList();
         model.addAttribute("estimateEntities",estimateEntities);
-        return "ss/estimate_list";
+        return "Contents/ss/estimate_list";
     }
     @GetMapping(value = "/list/detail/{id}")
     public String detail(Model model, @PathVariable("id") String id){
