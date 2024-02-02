@@ -31,4 +31,3 @@ public class BomEntity {
     @Column(name = "BOM_WORK_TM")
     private Time bomWorkTm;
 }
-
