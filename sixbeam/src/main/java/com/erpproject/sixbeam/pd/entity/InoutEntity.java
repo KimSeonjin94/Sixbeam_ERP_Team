@@ -19,7 +19,7 @@ public class InoutEntity {
     private String inoutCmptCd;
 
     @ManyToOne
-    @JoinColumn(name="EI_ID")
+    @JoinColumn(name="EMPINFO_ID")
     private EmpInfoEntity empInfoEntity;
 
     @ManyToOne

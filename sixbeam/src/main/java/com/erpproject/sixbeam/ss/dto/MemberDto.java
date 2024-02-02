@@ -12,8 +12,8 @@ public class MemberDto {
     private String memberAddr;
     private EstimateEntity estimateEntity;
 
-    public MemberEntity toEntity(){
-        return new MemberEntity(memberId,memberNm,memberPhone,memberAddr,estimateEntity);
+    public MemberEntity toEntity() {
+        return new MemberEntity(memberId, memberNm, memberPhone, memberAddr, estimateEntity);
     }
 
 }

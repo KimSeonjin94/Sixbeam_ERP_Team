@@ -5,8 +5,8 @@ import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 
-
 import java.time.LocalDate;
+
 
 public class SaleDto {
 

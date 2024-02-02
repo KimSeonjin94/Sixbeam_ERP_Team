@@ -28,7 +28,7 @@ public class OrderEntity {
     private Date orderDelivDt;
 
     @ManyToOne
-    @JoinColumn(name = "EI_ID")
+    @JoinColumn(name = "EMPINFO_ID")
     private EmpInfoEntity empInfoEntity;
 
     @ManyToOne

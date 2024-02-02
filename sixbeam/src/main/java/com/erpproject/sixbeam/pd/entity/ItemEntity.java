@@ -18,12 +18,12 @@ public class ItemEntity {
     @Column(name = "ITEM_CD")
     private String itemCd;
 
-    @Column
+    @Column(name = "ITEM_NM")
     private String itemNm;
 
-    @Column
+    @Column(name = "ITEM_STND")
     private String itemStnd;
 
-    @Column
+    @Column(name = "ITEM_UP")
     private int itemUp;
 }
