@@ -1,17 +1,22 @@
 package com.erpproject.sixbeam.pd.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.List;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Getter
+@Setter
 @Entity
 @Table(name = "PD_RITEM_TB")
 public class RitemEntity {
 
     @Id
-    @Column(name = "RITEM_CD")
-    private String ritemCd;
+    @Column(name = "ITEM_CD", insertable = false, updatable = false)
+    private String itemCd;
 
-
-
+    @ManyToOne
+    @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
+    private ItemEntity itemEntity;
 }
