@@ -15,14 +15,15 @@ import lombok.*;
 public class InoutEntity {
 
     @Id
-    @Column(name = "PD_INOUT_TB")
+    @Column(name ="INOUT_CMPT_CD", nullable = false)
     private String inoutCmptCd;
 
     @ManyToOne
-    @JoinColumn(name = "EI_ID")
+    @JoinColumn(name="EI_ID")
     private EmpInfoEntity empInfoEntity;
 
     @ManyToOne
-    @JoinColumn(name = "WHMOVE_CD")
+    @JoinColumn(name = "WMMOVE_CD")
     private WhmoveEntity whMoveEntity;
+
 }

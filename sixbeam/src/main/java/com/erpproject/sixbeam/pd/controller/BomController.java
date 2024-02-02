@@ -15,6 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BomController {
 
     @Autowired
-    private BomRepository pdInfoRepository;
+    private BomRepository bomRepository;
 
 }
