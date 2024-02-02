@@ -3,11 +3,15 @@ package com.erpproject.sixbeam.st.entity;
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Getter
 @Setter
@@ -22,8 +26,9 @@ public class AsEntity {
     private String asCd;
 
     @ManyToOne
-    @JoinColumn(name = "ei_id")
+    @JoinColumn(name = "empInfoId")
     private EmpInfoEntity empInfoEntity;
+
 
     @ManyToOne
     @JoinColumn(name = "account_cd")
@@ -31,13 +36,14 @@ public class AsEntity {
 
     @ManyToOne
     @JoinColumn(name = "whmove_cd")
-    private WhmoveEntity whmoveCd;
+    private WhmoveEntity whmoveEntity;
+
 
     @Column(name = "as_st")
     private String asSt;
 
-    @Column(name = "as_complete_dt")
-    private LocalDate asCompleteDt;
+    @Column(name = "ascmpt_dt")
+    private LocalDate asCmptDt;
 
     @Column(name = "as_ti")
     private String asTi;

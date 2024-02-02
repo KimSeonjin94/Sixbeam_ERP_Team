@@ -1,9 +1,8 @@
 package com.erpproject.sixbeam.ac.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-@Getter
-@Setter
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
+
+
 public class AccountDto {
     private String accountCd;
     private String accountNm;
@@ -15,4 +14,10 @@ public class AccountDto {
     private String accountAcnb;
     private String accountPic;
     private String accountEtc;
+
+    public AccountEntity toEntity() {
+
+        return new AccountEntity(accountCd, accountNm, accountNb, accountAdd, accountRep, accountSectors, accountBank, accountAcnb, accountPic, accountEtc);
+    }
+
 }

@@ -1,5 +1,9 @@
 package com.erpproject.sixbeam.hr.dto;
 
+
+import com.erpproject.sixbeam.hr.entity.DepartEntity;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.hr.entity.PositionEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,21 +12,29 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class EmpInfoDto {
-    private int eiId;//사원아이디
-    private String eiPw;//사원비밀번호
-    private String eiNm;//사원이름
-    private boolean eiSex;//사원성별
-    private LocalDate eiBirth;//생일
-    private String eiAddr;//주소
-    private String eiPhone;//전화번호
-    private String eiEmail;//이메일
-    private LocalDate eiJoinDt;//입사일
-    private LocalDate eiQuitDt;//퇴사일
-    private int positionCd;//직책
-    private int departmentCd;//부서
-    private String eiBank;//은행
-    private String eiAccountNumber;//계좌번호
-    private String eiQr;//퇴사사유
-    private int eiTotalNoy;//총연차수
-    private String eiEtc;//비고
+    private String empInfoId;//사원아이디
+    private Long empSequence;//사원 순서
+    private String empInfoPw;//사원비밀번호
+    private String empInfoNm;//사원이름
+    private boolean empInfoSex;//사원성별
+    private LocalDate empInfoBirth;//생일
+    private String empInfoAddr;//주소
+    private String empInfoPhone;//전화번호
+    private String empInfoEmail;//이메일
+    private LocalDate empInfoJoinDt;//입사일
+    private LocalDate empInfoQuitDt;//퇴사일
+    private PositionEntity positionEntity;//직책
+    private DepartEntity departEntity;//부서
+    private String empInfoBank;//은행
+    private String empInfoAccountNo;//계좌번호
+    private String empInfoQr;//퇴사사유
+    private int empInfoTotalnoy;//총연차수
+    private String empInfoEtc;//비고
+
+    public EmpInfoEntity toEntity() {
+        return new EmpInfoEntity(empInfoId,empSequence, empInfoPw, empInfoNm, empInfoSex,
+                empInfoBirth, empInfoAddr, empInfoPhone, empInfoEmail, empInfoJoinDt,
+                empInfoQuitDt, positionEntity, departEntity, empInfoBank, empInfoAccountNo,
+                empInfoQr, empInfoTotalnoy, empInfoEtc);
+    }
 }

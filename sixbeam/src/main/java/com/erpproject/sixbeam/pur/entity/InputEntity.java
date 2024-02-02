@@ -12,21 +12,21 @@ import java.time.LocalDate;
 @Entity
 @Table(name="PUR_INPUT_TB")
 public class InputEntity {
-    @Column(name = "PUR_DT", nullable = false)
-    private LocalDate purDt;
+    @Column(name = "INPUT_DT", nullable = false)
+    private LocalDate inputDt;
     @Id
-    @Column(name = "PI_CD")
-    private String piCd;
+    @Column(name = "INPUTPUR_CD")
+    private String inputPurCd;
     @ManyToOne
-    @JoinColumn(name = "PO_CD", referencedColumnName = "PO_CD", nullable = false)
+    @JoinColumn(name = "ORINPUT_CD", referencedColumnName = "ORINPUT_CD")
     private OrinPutEntity orinputEntity;
     @ManyToOne
-    @JoinColumn(name = "WH_MOVE_CD", nullable = false)
+    @JoinColumn(name = "WHMOVE_CD", nullable = false)
     private WhmoveEntity whmoveEntity;
-    @Column(name = "PUR_PROG_ST", nullable = false)
-    private String purProgSt;
-    @Column(name = "SLIP_ISSU_DT")
-    private LocalDate slipIssuDt;
-    @Column(name = "SLIP_ISSU_FL", columnDefinition = "TINYINT(1)", nullable = false)
-    private boolean slipIssuFl;
+    @Column(name = "INPUTPRG_ST", nullable = false)
+    private String inputPrgSt;
+    @Column(name = "INPUTSI_DT")
+    private LocalDate inputSiDt;
+    @Column(name = "INPUTSI_FL", columnDefinition = "TINYINT(1)", nullable = false)
+    private boolean inputSiFl;
 }

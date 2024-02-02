@@ -2,6 +2,7 @@ package com.erpproject.sixbeam.ss.dto;
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
 
@@ -10,11 +11,13 @@ import java.time.LocalDate;
 public class EstimateDto {
     private String estimateCd;
 
+
     private LocalDate estimateDt;
 
     private String itemCd;
 
     private CheckEntity checkEntity;
+
 
     private EmpInfoEntity empInfoEntity;
 
@@ -35,6 +38,6 @@ public class EstimateDto {
     private String estimateEtc;
 
     public EstimateEntity toEntity() {
-        return new EstimateEntity(estimateCd,estimateDt,itemCd,checkEntity, empInfoEntity,accountEntity,estimateNm,estimateAmt,estimateUp,estimateSp,estimateVat,estimateTamt,estimateEtc);
+        return new EstimateEntity(estimateCd,estimateDt,itemCd,checkEntity,empInfoEntity,accountEntity,estimateNm,estimateAmt,estimateUp,estimateSp,estimateVat,estimateTamt,estimateEtc);
     }
 }

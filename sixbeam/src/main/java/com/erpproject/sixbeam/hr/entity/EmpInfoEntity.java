@@ -16,42 +16,46 @@ import java.time.LocalDate;
 @Entity
 @Table(name="HR_EMPINFO_TB")
 public class EmpInfoEntity {
-
     @Id
-    @Column
-    private int eiId;//사원아이디
-    @Column
-    private String eiPw;//사원비밀번호
-    @Column
-    private String eiNm;//사원이름
-    @Column
-    private boolean eiSex;//사원성별
-    @Column
-    private LocalDate eiBirth;//생일
-    @Column
-    private String eiAddr;//주소
-    @Column
-    private String eiPhone;//전화번호
-    @Column
-    private String eiEmail;//이메일
-    @Column
-    private LocalDate eiJoinDt;//입사일
-    @Column
-    private LocalDate eiQuitDt;//퇴사일
+    @Column(name ="empinfoId")
+    private String empInfoId;//사원아이디
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="HR_EMPINFO_TB_empSequence_seq")
+    @SequenceGenerator(name ="HR_EMPINFO_TB_empSequence_seq", sequenceName ="HR_EMPINFO_TB_empSequence_seq",
+            initialValue = 1001, allocationSize =1)
+    private Long empSequence;//사원순서
+    @Column(name ="empinfoPw")
+    private String empInfoPw;//사원비밀번호
+    @Column(name ="empinfoNm")
+    private String empInfoNm;//사원이름
+    @Column(name ="empinfoSex")
+    private boolean empInfoSex;//사원성별
+    @Column(name ="empinfoBirth")
+    private LocalDate empInfoBirth;//생일
+    @Column(name ="empinfoAddr")
+    private String empInfoAddr;//주소
+    @Column(name ="empinfoPhone")
+    private String empInfoPhone;//전화번호
+    @Column(name ="empinfoEmail")
+    private String empInfoEmail;//이메일
+    @Column(name ="empinfoJoinDt")
+    private LocalDate empInfoJoinDt;//입사일
+    @Column(name ="empinfoQuitDt")
+    private LocalDate empInfoQuitDt;//퇴사일
     @ManyToOne
     @JoinColumn(name="positionCd")
-    private PositionEntity positionCd;//직책
+    private PositionEntity positionEntity;//직책
     @ManyToOne
     @JoinColumn(name="departCd")
-    private DepartEntity departCd;//붜
-    @Column
-    private String eiBank;//은행
-    @Column
-    private String eiAccountNumber;//계좌번호
-    @Column
-    private String eiQr;//퇴사사유
-    @Column
-    private int eiTotalNoy;//총연차수
-    @Column
-    private String eiEtc;//비고
+    private DepartEntity departEntity;//붜
+    @Column(name ="empinfoBank")
+    private String empInfoBank;//은행
+    @Column(name ="empinfoAccountNo")
+    private String empInfoAccountNo;//계좌번호
+    @Column(name ="empinfoQr")
+    private String empInfoQr;//퇴사사유
+    @Column(name ="empinfoTotalnoy")
+    private int empInfoTotalnoy;//총연차수
+    @Column(name="empinfoEtc")
+    private String empInfoEtc;//비고
+
 }

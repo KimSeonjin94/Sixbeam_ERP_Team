@@ -18,13 +18,17 @@ import lombok.Setter;
 
 public class SalaryIdEntity {
     @Id
-    private int salaryCd;//급여식별자
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="HR_SALARYID_TB_salaryCd_seq")
+    @SequenceGenerator(name ="HR_SALARYID_TB_salaryCd_seq", sequenceName ="HR_SALARYID_TB_salaryCd_seq",
+            initialValue = 801, allocationSize =1)
+    @Column(name ="salaryCd")
+    private Long salaryCd;//급여식별자
     @ManyToOne
     @JoinColumn(name ="departCd")
     private DepartEntity departEntity;//부서코드
     @ManyToOne
     @JoinColumn(name ="positionCd")
     private PositionEntity positionEntity;//직책코드
-    @Column
+    @Column(name ="basicSalary")
     private int basicSalary;//기본급여
 }

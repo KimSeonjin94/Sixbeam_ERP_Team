@@ -4,6 +4,7 @@ package com.erpproject.sixbeam.ss.entity;
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+
 import com.erpproject.sixbeam.st.entity.CheckEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

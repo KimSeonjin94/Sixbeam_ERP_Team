@@ -17,11 +17,11 @@ import java.util.List;
 @RequestMapping("/hr")
 @Controller
 public class EmpInfoController {
-    private final EmpInfoService EmpInfoService;
+    private final EmpInfoService empInfoService;
     @GetMapping("/EmpInfo_list")
     public String list(Model model) {
-        List<EmpInfoEntity> EmpInfoList = this.EmpInfoService.getList();
-        model.addAttribute("EmpInfoList",EmpInfoList);
+        List<EmpInfoEntity> employeeInfoList = this.empInfoService.getList();
+        model.addAttribute("employeeInfoList",employeeInfoList);
         return "Contents/HR/EmpInfo_list";
     }
 

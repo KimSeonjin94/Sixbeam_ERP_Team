@@ -1,4 +1,4 @@
 package com.erpproject.sixbeam.hr.controller;
 
-public class LeaveOfAbsenceController {
+public class LeaveController {
 }
