@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
 public class EmpInfoService {
@@ -14,5 +13,9 @@ public class EmpInfoService {
 
     public List<EmpInfoEntity> getList(){
         return this.empInfoRepository.findAll();
+    }
+
+    public EmpInfoEntity getEmployeeById(Long empInfoId) {
+        return empInfoRepository.findById(empInfoId).orElse(null);
     }
 }
