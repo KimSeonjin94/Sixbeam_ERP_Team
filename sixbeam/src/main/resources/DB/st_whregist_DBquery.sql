@@ -95,7 +95,7 @@ insert into sixbeam_erp.st_whmove_tb (whmove_amt,whmove_dt,empinfo_id,item_cd,wh
 (16	,"2024-09-30"	,"20241005"	,"R1020"	,"WHM2024-10089"	,"출고"	,"WHR1001"),
 (20	,"2024-09-30"	,"20241007"	,"R1020"	,"WHM2024-10090"	,"출고"	,"WHR1001");
 
--- 창고이동 DB --
+-- 출하 DB --
 insert into sixbeam_erp.st_release_tb (release_dt,account_cd,empinfo_id,release_addr,release_cd,release_phone,release_rv,release_zc,whmove_cd,sale_cd) values
 ("2024-01-31"	,"CPN9769359992"	,"20241001"	,"서울시 강남구 역삼동 123-45"	,"REL20240131-1001"	,"010-1234-5678"	,"김철수"	,"06012"	,"WHM2024-10061"	,"SS20240202-101"),
 ("2024-02-01"	,"CPN8956377612"	,"20241005"	,"경기도 수원시 장안구 영통동 678-90"	,"REL20240201-1002"	,"010-9876-5432"	,"이영희"	,"16473"	,"WHM2024-10062"	,"SS20240202-102"),
