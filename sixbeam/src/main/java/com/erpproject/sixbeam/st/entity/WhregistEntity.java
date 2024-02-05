@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "st_WHwhregist_tb")
+@Table(name = "st_whregist_tb")
 public class WhregistEntity {
 
     @Id
