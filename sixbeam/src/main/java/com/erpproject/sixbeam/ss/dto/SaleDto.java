@@ -3,10 +3,10 @@ package com.erpproject.sixbeam.ss.dto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
-import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 
 
 import java.time.LocalDate;
+
 
 public class SaleDto {
 
@@ -26,7 +26,18 @@ public class SaleDto {
 
     private String saleShippingSt;
     private LocalDate saleShippingDt;
-    public SaleEntity toEntity(){
-        return new SaleEntity(saleCd,estimateEntity,saleUploadDt,saleBillingDt,saleBillingSt,salePaymentDt,releaseEntity,saleShippingSt,saleShippingDt);
+    public SaleEntity toEtity() {
+        SaleEntity saleEntity = new SaleEntity();
+        saleEntity.setSaleCd(this.saleCd);
+        saleEntity.setEstimateEntity(this.estimateEntity);
+        saleEntity.setSaleUploadDt(this.saleUploadDt);
+        saleEntity.setSaleBillingDt(this.saleBillingDt);
+        saleEntity.setSaleBillingSt(this.saleBillingSt);
+        saleEntity.setSalePaymentDt(this.salePaymentDt);
+        saleEntity.setReleaseEntity(this.releaseEntity);
+        saleEntity.setSaleShippingSt(this.saleShippingSt);
+        saleEntity.setSaleShippingDt(this.saleShippingDt);
+
+        return saleEntity;
     }
 }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @RequestMapping("/ss/Estimate")
 @Controller
 public class EstimateController {
@@ -22,14 +24,15 @@ public class EstimateController {
     public String newEstimateDto(){
         return "/new";
     }
-    @GetMapping("/list")
-    public String list(Model model, @RequestParam(value = "page",defaultValue = "0")int page){
-        Page< EstimateEntity> estimateEntities = this.estimateService.getList(page);
-        model.addAttribute("paging",estimateEntities);
-        return "ss/estimate_list";
+    @GetMapping("/List")
+    public String list(Model model){
+        List< EstimateEntity> estimateEntities = this.estimateService.getList();
+        model.addAttribute("estimateEntities",estimateEntities);
+        return "Contents/ss/estimate_list";
     }
     @GetMapping(value = "/list/detail/{id}")
     public String detail(Model model, @PathVariable("id") String id){
+        List<EstimateEntity> estimateEntities = this.estimateService.getIdList(id);
         return "";
     }
 

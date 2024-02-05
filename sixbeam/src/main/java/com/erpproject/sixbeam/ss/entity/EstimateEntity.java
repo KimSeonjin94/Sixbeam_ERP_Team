@@ -13,14 +13,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @IdClass(EstimateEntityId.class)
-@Table(name="SS_ESIMATE_TB")
+@Table(name="SS_ESTIMATE_TB")
 public class EstimateEntity {
     @Id
     @Column(name = "ESTIMATE_CD")
@@ -41,7 +42,7 @@ public class EstimateEntity {
     private CheckEntity checkEntity;
 
     @ManyToOne
-    @JoinColumn(name="EI_ID")
+    @JoinColumn(name="empinfoId")
     private EmpInfoEntity empInfoEntity;
 
     @ManyToOne
@@ -52,22 +53,42 @@ public class EstimateEntity {
     private String estimateNm;
 
     @Column(name = "ESTIMATE_AMT")
-    private int estimateAmt;
+    private Integer estimateAmt;
 
     @Column(name = "ESTIMATE_UP")
-    private int estimateUp;
+    private Integer estimateUp;
 
     @Column(name = "ESTIMATE_SP")
-    private int estimateSp;
+    private Integer estimateSp;
 
     @Column(name = "ESTIMATE_VAT")
-    private int estimateVat;
+    private Integer estimateVat;
 
     @Column(name = "ESTIMATE_TAMT")
-    private int estimateTamt;
+    private Integer estimateTamt;
 
     @Column(name = "ESTIMATE_ETC")
     private String estimateEtc;
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ESTIMATE_sequence_generator")
+    @SequenceGenerator(name = "ESTIMATE_sequence_generator", sequenceName = "ESTIMATE_sequence_generator",initialValue = 101, allocationSize = 1)
+    private Long number;
+
+
+    @PrePersist
+    protected void onCreate() {
+        // 현재 날짜를 "SSYYMMDD" 형식으로 가져오기
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+        String formattedDate = estimateDt.format(formatter);
+
+        // 여기서는 고정적으로 "1001"을 추가했지만, 실제 시퀀스를 사용하거나 다른 로직을 사용할 수 있습니다.
+        this.estimateCd="ES" + formattedDate+number;
+
+        //출고가 부가세  총액 계산하기
+        this.estimateSp=estimateAmt*estimateUp;
+        this.estimateVat=estimateSp /10;
+        this.estimateTamt=estimateSp+estimateVat;
+    }
 
 
 

@@ -38,6 +38,23 @@ public class EstimateDto {
     private String estimateEtc;
 
     public EstimateEntity toEntity() {
-        return new EstimateEntity(estimateCd,estimateDt,itemCd,checkEntity,empInfoEntity,accountEntity,estimateNm,estimateAmt,estimateUp,estimateSp,estimateVat,estimateTamt,estimateEtc);
+        EstimateEntity entity = new EstimateEntity();
+
+        // Entity에 값을 설정하는 부분
+        entity.setEstimateCd(this.estimateCd);
+        entity.setEstimateDt(this.estimateDt);
+        entity.setItemCd(this.itemCd);
+        entity.setCheckEntity(this.checkEntity);
+        entity.setEmpInfoEntity(this.empInfoEntity);
+        entity.setAccountEntity(this.accountEntity);
+        entity.setEstimateNm(this.estimateNm);
+        entity.setEstimateAmt(this.estimateAmt);
+        entity.setEstimateUp(this.estimateUp);
+        entity.setEstimateSp(this.estimateSp);
+        entity.setEstimateVat(this.estimateVat);
+        entity.setEstimateTamt(this.estimateTamt);
+        entity.setEstimateEtc(this.estimateEtc);
+
+        return entity;
     }
 }

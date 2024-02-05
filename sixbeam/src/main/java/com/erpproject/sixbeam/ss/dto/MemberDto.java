@@ -12,8 +12,16 @@ public class MemberDto {
     private String memberAddr;
     private EstimateEntity estimateEntity;
 
+
     public MemberEntity toEntity(){
-        return new MemberEntity(memberId,memberNm,memberPhone,memberAddr,estimateEntity);
+        MemberEntity memberEntity=new MemberEntity();
+        memberEntity.setMemberId(memberId);
+        memberEntity.setMemberNm(memberNm);
+        memberEntity.setMemberPhone(memberPhone);
+        memberEntity.setMemberAddr(memberAddr);
+        memberEntity.setEstimateEntity(estimateEntity);
+        return memberEntity;
+
     }
 
 }

@@ -1,5 +1,5 @@
 (function($) {
-    "use strict"; // Start of use strict
+  "use strict"; // Start of use strict
 
     // Toggle the side navigation
     $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
@@ -54,13 +54,35 @@
     });
 
 
-
     $(document).ready(function () {
+        var activeTabId = localStorage.getItem('activeTabId');  // 활성 탭 ID를 Local Storage에서 읽어옴
+
+        // 초기 로딩 시 저장된 활성 탭 ID를 기준으로 해당 탭을 활성화
+        if (activeTabId) {
+            $('.tab-pane').removeClass('show').removeClass('active');
+            $('#Tap-' + activeTabId).addClass('show').addClass('active');
+        }
+
         // 각 버튼에 대한 클릭 이벤트 처리
         $('[data-tab-id]').click(function () {
             // 모든 탭을 숨기고 클릭한 탭에 대한 사이드바를 보여줌
             $('.tab-pane').removeClass('show').removeClass('active');
             $('#Tap-' + $(this).data('tab-id')).addClass('show').addClass('active');
+
+            // 활성 탭 ID 저장
+            activeTabId = $(this).data('tab-id');
+            localStorage.setItem('activeTabId', activeTabId);  // 활성 탭 ID를 Local Storage에 저장
+        });
+
+        // 각 탭 내부의 링크에 대한 클릭 이벤트 처리
+        $('.tab-pane a').click(function () {
+            // 저장된 활성 탭을 기준으로 해당 탭을 활성화
+            if (activeTabId) {
+                $('.tab-pane').removeClass('show').removeClass('active');
+                $('#Tap-' + activeTabId).addClass('show').addClass('active');
+            }
         });
     });
+
+
 })(jQuery); // End of use strict
