@@ -68,11 +68,6 @@
         <condition column="m_phone" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
-    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_account_tb" active-filter-id="EMPTY_FILTER">
-      <filter id="8e2cf66c-8753-423c-8724-8be72ad982c7" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="account_cd" operator="=" value="" active="true" />
-      </filter>
-    </filter-actions>
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_account_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.pur_input_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.hr" active-filter-id="" />
