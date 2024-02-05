@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SixbeamApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SixbeamApplication.class, args);
+		SpringApplication.run(SixbeamApplication.class,args);
 	}
 
 }
