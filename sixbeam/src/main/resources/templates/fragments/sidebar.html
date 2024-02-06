@@ -5,7 +5,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion shadow" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/sixbeam/home">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center"  data-tab-id="home" href="/sixbeam/home">
 
             <div class="sidebar-brand-icon mb-auto">
                 <img th:src="@{/img/whiteLogo.svg}" class="img-fluid">
@@ -14,6 +14,13 @@
         </a>
         <hr class="sidebar-divider my-0">
         <div class="tab-content">
+            <div id="Tap-home" class="tab-pane fade" role="tabpanel" aria-labelledby="home-Tab">
+                <!-- Divider -->
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    홈탭입니다 뭐 넣을까요
+                </div>
+            </div>
             <div id="Tap-HR" class="tab-pane fade" role="tabpanel" aria-labelledby="HR-Tab">
                 <!-- Divider -->
                 <!-- Heading -->
@@ -172,9 +179,9 @@
                     <div id="collapsees" class="collapse" aria-labelledby="headinges"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/ss/Estimate/List">견적서 조회</a>
+                            <a class="collapse-item" href="/ss/estimate/list">견적서 조회</a>
                             <a class="collapse-item" href="#">견적서 현황</a>
-                            <a class="collapse-item" href="#">견적서 등록</a>
+                            <a class="collapse-item" href="/ss/estimate/new">견적서 등록</a>
                         </div>
                     </div>
                 </li>
