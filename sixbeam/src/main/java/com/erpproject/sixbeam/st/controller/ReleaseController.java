@@ -21,17 +21,17 @@ public class ReleaseController {
     public String root() {
         return "redirect:/sixbeam/home";
     }
-    @GetMapping(("/list"))
+    @GetMapping("/list")
     public String list(Model model) {
         List<ReleaseEntity> releaseEntityList = this.releaseService.getList();
         model.addAttribute("releaseEntityList",releaseEntityList);
-        return "Contents/ST/Release_list";
+        return "contents/st/release_list";
     }
     @GetMapping(value = "/detail/{releaseCd}")
     public String detail(Model model, @PathVariable("releaseCd") String releaseCd) {
         ReleaseEntity releaseEntity = this.releaseService.getReleaseEntity(releaseCd);
         model.addAttribute("releaseEntity",releaseEntity);
-        return "Contents/ST/Release_detail";
+        return "contents/st/release_detail";
     }
 
 }

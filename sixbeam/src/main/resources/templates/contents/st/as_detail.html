@@ -1,0 +1,33 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container my-3">
+    <h2 class="my-3 border-bottom pb-2">AS정보</h2>
+    <form>
+        <h5>접수코드</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.asCd}"></h6>
+        <h5>접수제목</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.asTi}"></h6>
+        <h5>접수일자</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.asDt}"></h6>
+        <h5>담당자</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.empInfoEntity.empInfoNm}"></h6>
+        <h5>거래처명</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.accountEntity.accountNm}"></h6>
+        <h5>접수내용</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.asMo}"></h6>
+        <h5>접수상태</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.asSt}"></h6>
+        <h5>품목명</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.whmoveEntity.itemEntity.itemNm}"></h6>
+        <h5>수량</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.whmoveEntity.whmoveAmt}"></h6>
+        <h5>창고명</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.whmoveEntity.whregistEntity.whregistNm}"></h6>
+        <h5>입/출고</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.whmoveEntity.whmoveGb}"></h6>
+        <h5>수리예정일자</h5>
+        <h6 class="border-bottom py-2" th:text="${asEntity.ascmptDt}"></h6>
+    </form>
+</div>
+</html>
+
+

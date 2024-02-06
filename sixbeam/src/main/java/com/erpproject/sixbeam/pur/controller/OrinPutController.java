@@ -21,12 +21,12 @@ public class OrinPutController {
     public String OrinPutlist(Model model) {
         List<OrinPutEntity> orinputEntity = this.orinputService.getList();
         model.addAttribute("orinputEntity",orinputEntity);
-        return "Contents/Pur/OrinPut_list";
+        return "contents/Pur/OrinPut_list";
     }
 
     @GetMapping("/OrinPutcreate")
     public String OrinPutCreate(OrinPutForm orinPutForm) {
-        return "Contents/Pur/OrinPut_Form";
+        return "contents/Pur/OrinPut_Form";
     }
 
 }

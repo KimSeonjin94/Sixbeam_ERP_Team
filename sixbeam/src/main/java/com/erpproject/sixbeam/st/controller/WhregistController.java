@@ -4,10 +4,8 @@ import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.service.WhregistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 @RequestMapping("/st/whregist")
@@ -25,14 +23,24 @@ public class WhregistController {
     public String list(Model model) {
         List<WhregistEntity> whregistEntityList = this.whregistService.getList();
         model.addAttribute("whregistEntityList",whregistEntityList);
-        return "Contents/ST/Whregist_list";
+        return "contents/st/whregist_list";
 
     }
     @GetMapping(value = "/detail/{whregistCd}")
     public String detail(Model model, @PathVariable("whregistCd") String whregistCd) {
         WhregistEntity whregistEntity = this.whregistService.getWhregistEntity(whregistCd);
         model.addAttribute("whregistEntity", whregistEntity);
-        return "Contents/ST/Whregist_detail";
+        return "contents/st/whregist_detail";
+    }
+
+    @GetMapping("/create")
+    public String whregistCreate() {
+        return "contents/st/whregist_form";
+    }
+    @PostMapping("/create")
+    public String whregistCreate(@RequestParam(value = "whregistCd") String whregistCd, @RequestParam(value = "whregistNm") String whregistNm) {
+        this.whregistService.create(whregistCd, whregistNm);
+        return "contents/st/whregist_list";
     }
 
 
