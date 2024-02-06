@@ -4,79 +4,85 @@
         <div class="card-body">
             <form>
                 <div class="form-group row">
-                    <label for="estimatedate" class="col-sm-1 col-form-label">견적 일자</label>
-                    <div class="col-sm-5">
+                    <label for="estimatedate" class="col-sm-2 col-form-label">견적 일자</label>
+                    <div class="col-sm-4">
                         <input type="date" class="form-control" id="estimatedate">
                     </div>
-                    <label for="estimateac" class="col-sm-1 col-form-label">거래처</label>
-                    <div class="col-sm-5">
+                    <label for="estimateac" class="col-sm-2 col-form-label">거래처 코드</label>
+                    <div class="col-sm-4">
                         <input type="text" class="form-control" id="estimateac">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="estimateidname" class="col-sm-1 col-form-label">담당자</label>
-                    <div class="col-sm-5">
+                    <label for="estimateidname" class="col-sm-2 col-form-label">담당자</label>
+                    <div class="col-sm-4">
                         <input type="text" class="form-control" id="estimateidname">
                     </div>
-                    <label for="estimateaccd" class="col-sm-1 col-form-label">거래처 코드</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="estimateaccd">
+                    <label for="estimateacname" class="col-sm-2 col-form-label">거래처</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="estimateacname">
                     </div>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>품목 코드</th>
-                            <th>품목 명</th>
-                            <th>규격</th>
-                            <th>수량</th>
-                            <th>단가</th>
-                            <th>공급가액</th>
-                            <th>부가세</th>
-                            <th>총액</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                            <td><input type="text" class="form-control"></td>
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
+                <table class="table" id="estimateitem">
+                    <thead>
+                    <tr>
+                        <th>품목 코드</th>
+                        <th>품목 명</th>
+                        <th>규격</th>
+                        <th>수량</th>
+                        <th>단가</th>
+                        <th>공급가액</th>
+                        <th>부가세</th>
+                        <th>총액</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type='button'
+                               value='품목 추가'
+                               class="btn btn-secondary"
+                               id="addnewrowbtn">
+                        <input type='button'
+                               value='품목 삭제'
+                               class="btn btn-danger"
+                               id="deleterowbtn">
+                    </div>
+                    <div class="col-sm-6 text-md-right">
+                        <button type="button" class="btn btn-primary">
+                            저장
+                        </button>
+                        <button type="button" class="btn btn-danger">
+                            초기화
+                        </button>
+                    </div>
+                </div>
+
             </form>
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary">
-                신규
-            </button>
-            <button type="button" class="btn btn-secondary">
-                수정
-            </button>
+
         </div>
     </div>
 </div>

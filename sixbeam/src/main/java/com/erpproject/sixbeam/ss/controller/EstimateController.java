@@ -26,13 +26,13 @@ public class EstimateController {
     }
     @GetMapping("/list")
     public String list(Model model){
-        List< EstimateEntity> estimateEntities = this.estimateService.getList();
+        List< EstimateEntity> estimateEntities = estimateService.getList();
         model.addAttribute("estimateEntities",estimateEntities);
         return "contents/ss/estimate_list";
     }
     @GetMapping(value = "/list/detail/{id}")
     public String detail(Model model, @PathVariable("id") String id){
-        List<EstimateEntity> estimateEntities = this.estimateService.getIdList(id);
+        List<EstimateEntity> estimateEntities = estimateService.getIdList(id);
         return "";
     }
 
