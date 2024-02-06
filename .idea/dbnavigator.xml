@@ -18,13 +18,10 @@
       <value-separator value="" />
       <begin-quote value="&quot;" />
       <end-quote value="&quot;" />
-
       <file-name value="ac_bs_tb.sql" />
       <file-location value="C:\Users\028\Desktop\Programming(jcob)" />
-
       <file-name value="pur_input_tb.sql" />
       <file-location value="C:\works\DB" />
-
       <scope value="GLOBAL" />
       <destination value="FILE" />
       <format value="SQL" />
@@ -41,11 +38,9 @@
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4">
       <console name="Connection" type="STANDARD" schema="mrs" session="Main"><![CDATA[select  * from member;]]></console>
-
     </connection>
     <connection id="33a9cda8-5af4-457f-af27-0d483a5aa955">
       <console name="sixbeam_erp_sql" type="STANDARD" schema="" session="Main" />
-
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -56,6 +51,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4" />
+    <connection id="33a9cda8-5af4-457f-af27-0d483a5aa955" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.movie_info" active-filter-id="EMPTY_FILTER" />
@@ -65,26 +61,15 @@
       </filter>
     </filter-actions>
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.book" active-filter-id="EMPTY_FILTER" />
-
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_is_tb" active-filter-id="EMPTY_FILTER" />
-
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.pur_orinput_tb" active-filter-id="EMPTY_FILTER" />
-
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.member" active-filter-id="EMPTY_FILTER">
       <filter id="c926b0d6-64eb-473c-89c0-747ea45dcdb9" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="m_phone" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
-
-    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_account_tb" active-filter-id="EMPTY_FILTER">
-      <filter id="8e2cf66c-8753-423c-8724-8be72ad982c7" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="account_cd" operator="=" value="" active="true" />
-      </filter>
-    </filter-actions>
-
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_account_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.pur_input_tb" active-filter-id="EMPTY_FILTER" />
-
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.hr" active-filter-id="" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.hr_empinfo_tb" active-filter-id="52a1508f-2489-400c-9b72-c95ce46484c9">
       <filter id="52a1508f-2489-400c-9b72-c95ce46484c9" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
@@ -418,11 +403,9 @@
           <content-type name="DTD" enabled="true" />
           <content-type name="HTML" enabled="true" />
           <content-type name="XHTML" enabled="true" />
-          <content-type name="CSS" enabled="true" />
           <content-type name="Java" enabled="true" />
           <content-type name="SQL" enabled="true" />
           <content-type name="PL/SQL" enabled="true" />
-          <content-type name="JavaScript" enabled="true" />
           <content-type name="JSON" enabled="true" />
           <content-type name="JSON5" enabled="true" />
           <content-type name="Groovy" enabled="true" />

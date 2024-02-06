@@ -2,6 +2,7 @@ package com.erpproject.sixbeam.st.dto;
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 
@@ -17,6 +18,8 @@ public class ReleaseDto {
 
     private EmpInfoEntity empInfoEntity;
 
+    private SaleEntity saleEntity;
+
     private WhmoveEntity whmoveEntity;
 
     private String releaseRv;
@@ -28,7 +31,7 @@ public class ReleaseDto {
     private String releaseAddr;
 
     public ReleaseEntity toEntity() {
-        return new ReleaseEntity(releaseDt,releaseCd,accountEntity,empInfoEntity,whmoveEntity,releaseRv,releasePhone,releaseZc,releaseAddr);
+        return new ReleaseEntity(releaseDt,releaseCd,accountEntity,empInfoEntity, saleEntity, whmoveEntity,releaseRv,releasePhone,releaseZc,releaseAddr);
     }
 
 }
