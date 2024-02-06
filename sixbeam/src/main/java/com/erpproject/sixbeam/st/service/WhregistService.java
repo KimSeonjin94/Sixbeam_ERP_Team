@@ -18,8 +18,8 @@ public class WhregistService {
         return this.whregistRepository.findAll();
     }
 
-    public  WhregistEntity getWhregistEntity(String whRegistCd){
-        Optional<WhregistEntity> whregistEntity = this.whregistRepository.findById(whRegistCd);
+    public  WhregistEntity getWhregistEntity(String whregistCd){
+        Optional<WhregistEntity> whregistEntity = this.whregistRepository.findById(whregistCd);
         if (whregistEntity.isPresent()){
             return whregistEntity.get();
         } else {

@@ -29,7 +29,7 @@
                         <span>관리도구</span>
                     </a>
                     <div id="collapsemanagement" class="collapse" aria-labelledby="headingmanagement"
-                         data-parent="#accordionSidebar">s
+                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="hr/EmpInfo_list">사원</a>
                             <a class="collapse-item" href="#">근태</a>
@@ -114,16 +114,42 @@
 
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsewm"
-                       aria-expanded="true" aria-controls="collapsewm">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsewr"
+                       aria-expanded="true" aria-controls="collapsewr">
                         <i class="fas fa-fw fa-folder"></i>
                         <span>창고 관리</span>
                     </a>
-                    <div id="collapsewm" class="collapse" aria-labelledby="headingwm"
+                    <div id="collapsewr" class="collapse" aria-labelledby="headingwr"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="#">창고 등록</a>
                             <a class="collapse-item" href="/st/whregist/list">창고 현황</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsewm"
+                       aria-expanded="true" aria-controls="collapsewm">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>창고 이동</span>
+                    </a>
+                    <div id="collapsewm" class="collapse" aria-labelledby="headingwm"
+                         data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/st/whmove/list">창고이동 현황</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapserl"
+                       aria-expanded="true" aria-controls="collapserl">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>출하</span>
+                    </a>
+                    <div id="collapserl" class="collapse" aria-labelledby="headingrl"
+                         data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/st/release/list">출하 현황</a>
                         </div>
                     </div>
                 </li>
@@ -188,7 +214,7 @@
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="/pur/OrinPutlist">발주 조회</a>
-                            <a class="collapse-item" href="#">발주 입력</a>
+                            <a class="collapse-item" href="/pur/OrinPutcreate">발주 입력</a>
                         </div>
                     </div>
                 </li>
@@ -225,8 +251,8 @@
                     <div id="collapseacac" class="collapse" aria-labelledby="headingacac"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="Account_Form">거래처 등록</a>
-                            <a class="collapse-item" href="Account_List">거래처 목록</a>
+                            <a class="collapse-item" href="ac/Account_List">거래처 목록</a>
+                            <a class="collapse-item" href="ac/Account_Form">거래처 등록</a>
                         </div>
                     </div>
                 </li>

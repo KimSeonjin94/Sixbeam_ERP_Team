@@ -1,8 +1,5 @@
 <html layout:decorate="~{layout/default}">
 <div layout:fragment="content" class="container-fluid">
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">재고</h1>
-
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -10,19 +7,26 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-        <thead class="table-dark">
-        <tr>
-            <th>창고코드</th>
-            <th>창고명</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="whregistEntity : ${whregistEntityList}">
-            <td th:text="${whregistEntity.whregistCd}"></td>
-            <td th:text="${whregistEntity.whregistNm}"></td>
-        </tr>
-        </tbody>
-    </table>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>창고코드</th>
+                        <th>창고명</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="whregist : ${whregistEntityList}">
+                        <td>
+                            <a th:href="@{|/st/whregist/detail/${whregist.whregistCd}|}" th:text="${whregist.whregistCd}"></a>
+                        </td>
+                        <td th:text="${whregist.whregistNm}"></td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
 </div>
 </html>
