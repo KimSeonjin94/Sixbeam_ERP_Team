@@ -47,9 +47,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="33a9cda8-5af4-457f-af27-0d483a5aa955" object-ref="schemas/sixbeam_erp/tables/ac_account_tb" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="4204dc23-a855-4ca8-936d-ff84fb298ee4" />

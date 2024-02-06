@@ -1,19 +1,66 @@
-<html layout:decorate="~{layout/default}">
-<div layout:fragment="content" class="container">
-    <h5 class="my-3 border-bottom pb-2">사원등록</h5>
-    <form>
-        <div class="mb-3">
-            <label>이이
-                <input type="text">
-            </label>
-        </div>
-        <div class="mb-3">
-            <label >소주
-                <input type="text"></input>
-            </label>
-        </div>
-        <input type="submit" value="등록하기" class="btn btn-primary my-2">
-        <button formaction="/sixbeam/home" class="btn btn-primary my-2">처음으로</button>
-    </form>
-</div>
+<!--<html layout:decorate="~{layout/default}">-->
+<!--<h2>인적사항 입력</h2>-->
+<!--<form action="/submitForm" method="post">-->
+<!--    <div>-->
+<!--        <label for="name">이름:</label>-->
+<!--        <input type="text" id="name" name="name" required>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="email">이메일:</label>-->
+<!--        <input type="email" id="email" name="email" required>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="age">나이:</label>-->
+<!--        <input type="number" id="age" name="age" required min="0">-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="gender">성별:</label>-->
+<!--        <select id="gender" name="gender">-->
+<!--            <option value="male">남성</option>-->
+<!--            <option value="female">여성</option>-->
+<!--        </select>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <button type="submit">제출</button>-->
+<!--    </div>-->
+<!--</form>-->
+<!--</html>-->
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>거래처 등록 폼</title>
+</head>
+<body>
+<h2>거래처 등록</h2>
+<form action="/partners/register" method="post">
+    <div>
+        <label for="companyName">회사명:</label>
+        <input type="text" id="companyName" name="companyName" required>
+    </div>
+    <div>
+        <label for="contactName">담당자 이름:</label>
+        <input type="text" id="contactName" name="contactName" required>
+    </div>
+    <div>
+        <label for="contactEmail">담당자 이메일:</label>
+        <input type="email" id="contactEmail" name="contactEmail" required>
+    </div>
+    <div>
+        <label for="phone">전화번호:</label>
+        <input type="text" id="phone" name="phone" required>
+    </div>
+    <div>
+        <label for="address">주소:</label>
+        <input type="text" id="address" name="address" required>
+    </div>
+    <div>
+        <button type="submit">등록</button>
+    </div>
+</form>
+</body>
 </html>
