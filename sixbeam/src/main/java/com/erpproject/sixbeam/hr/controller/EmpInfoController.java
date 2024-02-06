@@ -1,9 +1,8 @@
 package com.erpproject.sixbeam.hr.controller;
 
-
-
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.service.EmpInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,10 @@ import java.util.List;
 @RequestMapping("/sixbeam")
 @Controller
 public class EmpInfoController {
+
+    @Autowired
     private final EmpInfoService empInfoService;
+
     @GetMapping("/hr/EmpInfo_list")
     public String list(Model model) {
         List<EmpInfoEntity> employeeInfoList = this.empInfoService.getList();
@@ -29,5 +31,10 @@ public class EmpInfoController {
     @GetMapping("/EmpInfo_create")
     public String EmpInfoCreate() {
         return "Contents/HR/EmpInfo_Form";
+    }
+
+    @GetMapping("/api/employee/{empInfoId}")
+    public EmpInfoEntity getEmployeeById(@PathVariable Long empInfoId) {
+        return empInfoService.getEmployeeById(empInfoId);
     }
 }
