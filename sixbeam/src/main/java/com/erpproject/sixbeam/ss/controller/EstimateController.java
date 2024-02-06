@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@RequestMapping("/ss/Estimate")
+@RequestMapping("/ss/estimate")
 @Controller
 public class EstimateController {
     @Autowired
@@ -22,13 +22,13 @@ public class EstimateController {
 
     @GetMapping("/new")
     public String newEstimateDto(){
-        return "/new";
+        return "contents/ss/estimate_form";
     }
-    @GetMapping("/List")
+    @GetMapping("/list")
     public String list(Model model){
         List< EstimateEntity> estimateEntities = this.estimateService.getList();
         model.addAttribute("estimateEntities",estimateEntities);
-        return "Contents/ss/estimate_list";
+        return "contents/ss/estimate_list";
     }
     @GetMapping(value = "/list/detail/{id}")
     public String detail(Model model, @PathVariable("id") String id){

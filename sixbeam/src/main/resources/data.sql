@@ -1,6 +1,70 @@
 -- 회원정보 --
-INSERT INTO `hr_empinfo_tb` VALUES ('1990-01-01','2024-02-01','2024-02-01',_binary '',0,NULL,NULL,NULL,'123-456-0000','Address 0','Bank 0','employee0@example.com',NULL,'20241000','임호진','123-456-0000','0',NULL),('1991-01-01','2024-02-01','2024-03-01',_binary '\0',0,NULL,NULL,NULL,'123-456-0001','Address 1','Bank 1','employee1@example.com',NULL,'20241001','이상효','123-456-0001','1',NULL),('1992-01-01','2024-02-01','2024-04-01',_binary '',0,NULL,NULL,NULL,'123-456-0002','Address 2','Bank 2','employee2@example.com',NULL,'20241002','김선진','123-456-0002','2',NULL),('1993-01-01','2024-02-01','2024-05-01',_binary '\0',0,NULL,NULL,NULL,'123-456-0003','Address 3','Bank 3','employee3@example.com',NULL,'20241003','임지환','123-456-0003','3',NULL),('1994-01-01','2024-02-01','2024-06-01',_binary '',0,NULL,NULL,NULL,'123-456-0004','Address 4','Bank 4','employee4@example.com',NULL,'20241004','김영훈','123-456-0004','4',NULL),('1995-01-01','2024-02-01','2024-07-01',_binary '\0',0,NULL,NULL,NULL,'123-456-0005','Address 5','Bank 5','employee5@example.com',NULL,'20241005','박종현','123-456-0005','5',NULL),('1996-01-01','2024-02-01','2024-08-01',_binary '',0,NULL,NULL,NULL,'123-456-0006','Address 6','Bank 6','employee6@example.com',NULL,'20241006','박주성','123-456-0006','6',NULL),('1997-01-01','2024-02-01','2024-09-01',_binary '\0',0,NULL,NULL,NULL,'123-456-0007','Address 7','Bank 7','employee7@example.com',NULL,'20241007','문성빈','123-456-0007','7',NULL),('1998-01-01','2024-02-01','2024-10-01',_binary '',0,NULL,NULL,NULL,'123-456-0008','Address 8','Bank 8','employee8@example.com',NULL,'20241008','천준호','123-456-0008','8',NULL),('1999-01-01','2024-02-01','2024-11-01',_binary '\0',0,NULL,NULL,NULL,'123-456-0009','Address 9','Bank 9','employee9@example.com',NULL,'20241009','서준하','123-456-0009','9',NULL);
-
+		
+INSERT INTO sixbeam_erp.hr_empinfo_tb(empinfo_id, empinfo_account_no, empinfo_addr, empinfo_bank, empinfo_birth, empinfo_email, empinfo_etc, empinfo_join_dt, empinfo_nm, empinfo_phone, empinfo_pw, empinfo_qr, empinfo_quit_dt, empinfo_sex, empinfo_totalnoy, depart_cd, position_cd) VALUES		
+(20241001,'123-456-0001','수원시 권선구','Bank 0','1990-01-01','employee1@example.com',NULL,'2024-02-06','임호진','123-456-0000','0',NULL,'2024-02-06',_binary ''hr_empinfo_tb,0,107,301),		
+(20241002,'123-456-0002','수원시 권선구','Bank 1','1991-01-01','employee2@example.com',NULL,'2024-02-06','천준호','123-456-0001','1',NULL,'2024-03-06',_binary '\0',0,107,301),		
+(20241003,'123-456-0003','수원시 권선구','Bank 2','1992-01-01','employee3@example.com',NULL,'2024-02-06','임지환','123-456-0002','2',NULL,'2024-04-06',_binary '',0,107,301),		
+(20241004,'123-456-0004','수원시 권선구','Bank 3','1993-01-01','employee4@example.com',NULL,'2024-02-06','이상효','123-456-0003','3',NULL,'2024-05-06',_binary '\0',0,107,301),		
+(20241005,'123-456-0005','수원시 권선구','Bank 4','1994-01-01','employee5@example.com',NULL,'2024-02-06','김선진','123-456-0004','4',NULL,'2024-06-06',_binary '',0,107,301),		
+(20241006,'123-456-0006','수원시 권선구','Bank 5','1995-01-01','employee6@example.com',NULL,'2024-02-06','이동규','123-456-0005','5',NULL,'2024-07-06',_binary '\0',0,107,301),		
+(20241007,'123-456-0007','수원시 권선구','Bank 6','1996-01-01','employee7@example.com',NULL,'2024-02-06','서준하','123-456-0006','6',NULL,'2024-08-06',_binary '',0,107,301),		
+(20241008,'123-456-0008','수원시 권선구','Bank 7','1997-01-01','employee8@example.com',NULL,'2024-02-06','김예은','123-456-0007','7',NULL,'2024-09-06',_binary '\0',0,107,301),		
+(20241009,'123-456-0009','수원시 권선구','Bank 8','1998-01-01','employee9@example.com',NULL,'2024-02-06','김영훈','123-456-0008','8',NULL,'2024-10-06',_binary '',0,107,301),		
+(20241010,'123-456-0010','수원시 권선구','Bank 9','1999-01-01','employee10@example.com',NULL,'2024-02-06','박종현','123-456-0009','9',NULL,'2024-11-06',_binary '\0',0,107,301),		
+(20241011,'123-456-0011','수원시 권선구','Bank 10','2000-01-01','employee11@example.com',NULL,'2024-02-06','서주완','123-456-0010','10',NULL,'2024-12-06',_binary '',0,107,301),		
+(20241012,'123-456-0012','수원시 권선구','Bank 11','2001-01-01','employee12@example.com',NULL,'2024-02-06','박주성','123-456-0011','11',NULL,'2025-01-06',_binary '\0',0,107,301),		
+(20241013,'123-456-0013','수원시 권선구','Bank 12','2002-01-01','employee13@example.com',NULL,'2024-02-06','김태일','123-456-0012','12',NULL,'2025-02-06',_binary '',0,107,301),		
+(20241014,'123-456-0014','수원시 권선구','Bank 13','2003-01-01','employee14@example.com',NULL,'2024-02-06','김가을','123-456-0013','13',NULL,'2025-03-06',_binary '\0',0,107,301),		
+(20241015,'123-456-0015','수원시 권선구','Bank 14','2004-01-01','employee15@example.com',NULL,'2024-02-06','서예성','123-456-0014','14',NULL,'2025-04-06',_binary '',0,107,301),		
+(20241016,'123-456-0016','수원시 권선구','Bank 15','2005-01-01','employee16@example.com',NULL,'2024-02-06','조현주','123-456-0015','15',NULL,'2025-05-06',_binary '\0',0,107,301),		
+(20241017,'123-456-0017','수원시 권선구','Bank 16','2006-01-01','employee17@example.com',NULL,'2024-02-06','황정은','123-456-0016','16',NULL,'2025-06-06',_binary '',0,107,301),		
+(20241018,'123-456-0018','수원시 권선구','Bank 17','2007-01-01','employee18@example.com',NULL,'2024-02-06','김세중','123-456-0017','17',NULL,'2025-07-06',_binary '\0',0,107,301),		
+(20241019,'123-456-0019','수원시 권선구','Bank 18','2008-01-01','employee19@example.com',NULL,'2024-02-06','이충현','123-456-0018','18',NULL,'2025-08-06',_binary '',0,107,301),		
+(20241020,'123-456-0020','수원시 권선구','Bank 19','2009-01-01','employee20@example.com',NULL,'2024-02-06','박박박','123-456-0019','19',NULL,'2025-09-06',_binary '\0',0,107,301),		
+(20241021,'123-456-0001','수원시 권선구','Bank 0','1990-01-01','employee1@example.com',NULL,'2024-02-06','임호진','123-456-0000','0',NULL,'2024-02-06',_binary '',0,114,308),		
+(20241022,'123-456-0002','수원시 권선구','Bank 1','1991-01-01','employee2@example.com',NULL,'2024-02-06','천준호','123-456-0001','1',NULL,'2024-03-06',_binary '\0',0,114,308),		
+(20241023,'123-456-0003','수원시 권선구','Bank 2','1992-01-01','employee3@example.com',NULL,'2024-02-06','임지환','123-456-0002','2',NULL,'2024-04-06',_binary '',0,114,308),		
+(20241024,'123-456-0004','수원시 권선구','Bank 3','1993-01-01','employee4@example.com',NULL,'2024-02-06','이상효','123-456-0003','3',NULL,'2024-05-06',_binary '\0',0,114,308),		
+(20241025,'123-456-0005','수원시 권선구','Bank 4','1994-01-01','employee5@example.com',NULL,'2024-02-06','김선진','123-456-0004','4',NULL,'2024-06-06',_binary '',0,114,308),		
+(20241026,'123-456-0006','수원시 권선구','Bank 5','1995-01-01','employee6@example.com',NULL,'2024-02-06','이동규','123-456-0005','5',NULL,'2024-07-06',_binary '\0',0,114,308),		
+(20241027,'123-456-0007','수원시 권선구','Bank 6','1996-01-01','employee7@example.com',NULL,'2024-02-06','서준하','123-456-0006','6',NULL,'2024-08-06',_binary '',0,114,308),		
+(20241028,'123-456-0008','수원시 권선구','Bank 7','1997-01-01','employee8@example.com',NULL,'2024-02-06','김예은','123-456-0007','7',NULL,'2024-09-06',_binary '\0',0,114,308),		
+(20241029,'123-456-0009','수원시 권선구','Bank 8','1998-01-01','employee9@example.com',NULL,'2024-02-06','김영훈','123-456-0008','8',NULL,'2024-10-06',_binary '',0,114,308),		
+(20241030,'123-456-0010','수원시 권선구','Bank 9','1999-01-01','employee10@example.com',NULL,'2024-02-06','박종현','123-456-0009','9',NULL,'2024-11-06',_binary '\0',0,114,308),		
+(20241031,'123-456-0011','수원시 권선구','Bank 10','2000-01-01','employee11@example.com',NULL,'2024-02-06','서주완','123-456-0010','10',NULL,'2024-12-06',_binary '',0,114,308),		
+(20241032,'123-456-0012','수원시 권선구','Bank 11','2001-01-01','employee12@example.com',NULL,'2024-02-06','박주성','123-456-0011','11',NULL,'2025-01-06',_binary '\0',0,114,308),		
+(20241033,'123-456-0013','수원시 권선구','Bank 12','2002-01-01','employee13@example.com',NULL,'2024-02-06','김태일','123-456-0012','12',NULL,'2025-02-06',_binary '',0,114,308),		
+(20241034,'123-456-0014','수원시 권선구','Bank 13','2003-01-01','employee14@example.com',NULL,'2024-02-06','김가을','123-456-0013','13',NULL,'2025-03-06',_binary '\0',0,114,308),		
+(20241035,'123-456-0015','수원시 권선구','Bank 14','2004-01-01','employee15@example.com',NULL,'2024-02-06','서예성','123-456-0014','14',NULL,'2025-04-06',_binary '',0,114,308),		
+(20241036,'123-456-0016','수원시 권선구','Bank 15','2005-01-01','employee16@example.com',NULL,'2024-02-06','조현주','123-456-0015','15',NULL,'2025-05-06',_binary '\0',0,114,308),		
+(20241037,'123-456-0017','수원시 권선구','Bank 16','2006-01-01','employee17@example.com',NULL,'2024-02-06','황정은','123-456-0016','16',NULL,'2025-06-06',_binary '',0,114,308),		
+(20241038,'123-456-0018','수원시 권선구','Bank 17','2007-01-01','employee18@example.com',NULL,'2024-02-06','김세중','123-456-0017','17',NULL,'2025-07-06',_binary '\0',0,114,308),		
+(20241039,'123-456-0019','수원시 권선구','Bank 18','2008-01-01','employee19@example.com',NULL,'2024-02-06','이충현','123-456-0018','18',NULL,'2025-08-06',_binary '',0,114,308),		
+(20241040,'123-456-0020','수원시 권선구','Bank 19','2009-01-01','employee20@example.com',NULL,'2024-02-06','박박박','123-456-0019','19',NULL,'2025-09-06',_binary '\0',0,114,308),		
+(20241041,'123-456-0001','수원시 권선구','Bank 0','1990-01-01','employee1@example.com',NULL,'2024-02-06','임호진','123-456-0000','0',NULL,'2024-02-06',_binary '',0,121,315),		
+(20241042,'123-456-0002','수원시 권선구','Bank 1','1991-01-01','employee2@example.com',NULL,'2024-02-06','천준호','123-456-0001','1',NULL,'2024-03-06',_binary '\0',0,121,315),		
+(20241043,'123-456-0003','수원시 권선구','Bank 2','1992-01-01','employee3@example.com',NULL,'2024-02-06','임지환','123-456-0002','2',NULL,'2024-04-06',_binary '',0,121,315),		
+(20241044,'123-456-0004','수원시 권선구','Bank 3','1993-01-01','employee4@example.com',NULL,'2024-02-06','이상효','123-456-0003','3',NULL,'2024-05-06',_binary '\0',0,121,315),		
+(20241045,'123-456-0005','수원시 권선구','Bank 4','1994-01-01','employee5@example.com',NULL,'2024-02-06','김선진','123-456-0004','4',NULL,'2024-06-06',_binary '',0,121,315),		
+(20241046,'123-456-0006','수원시 권선구','Bank 5','1995-01-01','employee6@example.com',NULL,'2024-02-06','이동규','123-456-0005','5',NULL,'2024-07-06',_binary '\0',0,121,315),		
+(20241047,'123-456-0007','수원시 권선구','Bank 6','1996-01-01','employee7@example.com',NULL,'2024-02-06','서준하','123-456-0006','6',NULL,'2024-08-06',_binary '',0,121,315),		
+(20241048,'123-456-0008','수원시 권선구','Bank 7','1997-01-01','employee8@example.com',NULL,'2024-02-06','김예은','123-456-0007','7',NULL,'2024-09-06',_binary '\0',0,121,315),		
+(20241049,'123-456-0009','수원시 권선구','Bank 8','1998-01-01','employee9@example.com',NULL,'2024-02-06','김영훈','123-456-0008','8',NULL,'2024-10-06',_binary '',0,121,315),		
+(20241050,'123-456-0010','수원시 권선구','Bank 9','1999-01-01','employee10@example.com',NULL,'2024-02-06','박종현','123-456-0009','9',NULL,'2024-11-06',_binary '\0',0,121,315),		
+(20241051,'123-456-0011','수원시 권선구','Bank 10','2000-01-01','employee11@example.com',NULL,'2024-02-06','서주완','123-456-0010','10',NULL,'2024-12-06',_binary '',0,121,315),		
+(20241052,'123-456-0012','수원시 권선구','Bank 11','2001-01-01','employee12@example.com',NULL,'2024-02-06','박주성','123-456-0011','11',NULL,'2025-01-06',_binary '\0',0,121,315),		
+(20241053,'123-456-0013','수원시 권선구','Bank 12','2002-01-01','employee13@example.com',NULL,'2024-02-06','김태일','123-456-0012','12',NULL,'2025-02-06',_binary '',0,121,315),		
+(20241054,'123-456-0014','수원시 권선구','Bank 13','2003-01-01','employee14@example.com',NULL,'2024-02-06','김가을','123-456-0013','13',NULL,'2025-03-06',_binary '\0',0,121,315),		
+(20241055,'123-456-0015','수원시 권선구','Bank 14','2004-01-01','employee15@example.com',NULL,'2024-02-06','서예성','123-456-0014','14',NULL,'2025-04-06',_binary '',0,121,315),		
+(20241056,'123-456-0016','수원시 권선구','Bank 15','2005-01-01','employee16@example.com',NULL,'2024-02-06','조현주','123-456-0015','15',NULL,'2025-05-06',_binary '\0',0,121,315),		
+(20241057,'123-456-0017','수원시 권선구','Bank 16','2006-01-01','employee17@example.com',NULL,'2024-02-06','황정은','123-456-0016','16',NULL,'2025-06-06',_binary '',0,121,315),		
+(20241058,'123-456-0018','수원시 권선구','Bank 17','2007-01-01','employee18@example.com',NULL,'2024-02-06','김세중','123-456-0017','17',NULL,'2025-07-06',_binary '\0',0,121,315),		
+(20241059,'123-456-0019','수원시 권선구','Bank 18','2008-01-01','employee19@example.com',NULL,'2024-02-06','이충현','123-456-0018','18',NULL,'2025-08-06',_binary '',0,121,315),		
+(20241060,'123-456-0020','수원시 권선구','Bank 19','2009-01-01','employee20@example.com',NULL,'2024-02-06','박박박','123-456-0019','19',NULL,'2025-09-06',_binary '\0',0,121,315);		
+-- 부서 db--  
+INSERT INTO  sixbeam_erp.hr_empinfo_tb(depart_cd, depart_nm) VALUES (101,'인사'),(102,'생산'),(103,'재고'),(104,'영업'),(105,'구매'),(106,'회계');
+-- 사원 db--  
+INSERT INTO hr_position_tb(position_cd, position_nm) VALUES (301,'사원'),(302,'사원'),(303,'주임'),(304,'대리'),(305,'과장'),(306,'차장'),(307,'부장');
 -- 거래처 db --  
 INSERT INTO ac_account_tb (account_acnb, account_add, account_bank, account_cd, account_etc, account_nb, account_nm, account_pic, account_rep, account_sectors)
 values
@@ -46,6 +110,32 @@ insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values("WHR100
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values("WHR1002","생산창고");
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values("WHR1003","자재창고");
 
+-- item db --
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (800000, 'F1001', 'ASSEMBLE-PC', 'PC-DESKTOP');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (850000, 'F1002', 'ASSEMBLE-PC', 'PC-DESKTOP');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (500000, 'F1003', 'ASSEMBLE-PC', 'PC-DESKTOP');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (1000000, 'F1004', 'ASSEMBLE-PC', 'PC-DESKTOP');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (1500000, 'F1005', 'ASSEMBLE-PC', 'PC-DESKTOP');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (410000, 'R1001', 'INTEL-CPU', 'CPU-I5-13600K');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (510000, 'R1002', 'AMD-CPU', 'CPU-R7-G5');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (55000, 'R1003', 'SAMSUNG-RAM', 'RAM-DDR5-16GB');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (29000, 'R1004', 'SKHYNIX-RAM', 'RAM-DDR4-8GB');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (98000, 'R1005', 'ASUS-MAINBOARD', 'MAINBOARD-H610M');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (170000, 'R1006', 'ASROCK-MAINBOARD', 'MAINBOARD-B760M');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (269000, 'R1007', 'GIGABYTE-MAINBOARD', 'MAINBOARD-B650M');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (403000, 'R1008', 'ASUS-VGA', 'VGA-RTX4060');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (791000, 'R1009', 'ZOTAC-VGA', 'VGA-RTX4070');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (538000, 'R1010', 'EMTEK-VGA', 'VGA-RTX4060TI');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (128000, 'R1011', 'SKHYNIX-SSD', 'SSD-1TB');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (115000, 'R1012', 'WESTERNDIGITAL-HDD', 'HDD-4TB');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (68000, 'R1013', 'SAMSUNG-SSD', 'SSD-512GB');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (98000, 'R1014', 'DARKFLASH-CASE', 'CASE-ITX');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (45000, 'R1015', 'BRAVOTEC-CASE', 'CASE-MATX');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (126000, 'R1016', 'SEASONIC-POWER', 'POWER-750W');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (54500, 'R1017', 'MICRONICS-POWER', 'POWER-500W');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (77500, 'R1018', 'LOGITECH-KEYBOARD', 'KEYBOARD-T');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (189000, 'R1019', 'HANSUNG-KEYBOARD', 'KEYBOARD-TL');
+INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (72900, 'R1020', 'RAZER-MOUSE', 'MOUSE-WL');
 
 -- 창고이동 DB --
 insert into sixbeam_erp.st_whmove_tb (whmove_amt,whmove_dt,empinfo_id,item_cd,whmove_cd,whmove_gb,whregist_cd) values
@@ -142,32 +232,7 @@ insert into sixbeam_erp.st_whmove_tb (whmove_amt,whmove_dt,empinfo_id,item_cd,wh
 
 
 
--- item db --  
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (800000, 'F1001', 'ASSEMBLE-PC', 'PC-DESKTOP');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (850000, 'F1002', 'ASSEMBLE-PC', 'PC-DESKTOP');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (500000, 'F1003', 'ASSEMBLE-PC', 'PC-DESKTOP');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (1000000, 'F1004', 'ASSEMBLE-PC', 'PC-DESKTOP');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (1500000, 'F1005', 'ASSEMBLE-PC', 'PC-DESKTOP');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (410000, 'R1001', 'INTEL-CPU', 'CPU-I5-13600K');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (510000, 'R1002', 'AMD-CPU', 'CPU-R7-G5');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (55000, 'R1003', 'SAMSUNG-RAM', 'RAM-DDR5-16GB');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (29000, 'R1004', 'SKHYNIX-RAM', 'RAM-DDR4-8GB');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (98000, 'R1005', 'ASUS-MAINBOARD', 'MAINBOARD-H610M');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (170000, 'R1006', 'ASROCK-MAINBOARD', 'MAINBOARD-B760M');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (269000, 'R1007', 'GIGABYTE-MAINBOARD', 'MAINBOARD-B650M');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (403000, 'R1008', 'ASUS-VGA', 'VGA-RTX4060');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (791000, 'R1009', 'ZOTAC-VGA', 'VGA-RTX4070');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (538000, 'R1010', 'EMTEK-VGA', 'VGA-RTX4060TI');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (128000, 'R1011', 'SKHYNIX-SSD', 'SSD-1TB');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (115000, 'R1012', 'WESTERNDIGITAL-HDD', 'HDD-4TB');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (68000, 'R1013', 'SAMSUNG-SSD', 'SSD-512GB');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (98000, 'R1014', 'DARKFLASH-CASE', 'CASE-ITX');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (45000, 'R1015', 'BRAVOTEC-CASE', 'CASE-MATX');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (126000, 'R1016', 'SEASONIC-POWER', 'POWER-750W');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (54500, 'R1017', 'MICRONICS-POWER', 'POWER-500W');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (77500, 'R1018', 'LOGITECH-KEYBOARD', 'KEYBOARD-T');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (189000, 'R1019', 'HANSUNG-KEYBOARD', 'KEYBOARD-TL');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (72900, 'R1020', 'RAZER-MOUSE', 'MOUSE-WL');
+
 
 -- 견적 컬럼설정 --  
 SET SQL_SAFE_UPDATES = 0;
