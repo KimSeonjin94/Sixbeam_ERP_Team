@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RequestMapping("/pur")
+@RequestMapping("/pur/orinput")
 @RequiredArgsConstructor
 @Controller
 public class OrinPutController {
     private final OrinPutService orinputService;
 
-    @GetMapping("/OrinPutlist")
+    @GetMapping("/list")
     public String OrinPutlist(Model model) {
         List<OrinPutEntity> orinputEntity = this.orinputService.getList();
         model.addAttribute("orinputEntity",orinputEntity);
-        return "Contents/Pur/OrinPut_list";
+        return "contents/pur/orinput_list";
     }
 
-    @GetMapping("/OrinPutcreate")
+    @GetMapping("/create")
     public String OrinPutCreate(OrinPutForm orinPutForm) {
-        return "Contents/Pur/OrinPut_Form";
+        return "contents/pur/orinput_form";
     }
 
 }
