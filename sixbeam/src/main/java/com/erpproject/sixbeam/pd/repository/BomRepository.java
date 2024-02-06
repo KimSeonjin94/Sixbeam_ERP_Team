@@ -4,10 +4,10 @@ import com.erpproject.sixbeam.pd.entity.BomEntity;
 import com.erpproject.sixbeam.pd.entity.BomEntityId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface BomRepository extends JpaRepository<BomEntity, BomEntityId> {
 
     @Override
-    ArrayList<BomEntity> findAll();
+    List<BomEntity> findAll();
 }
