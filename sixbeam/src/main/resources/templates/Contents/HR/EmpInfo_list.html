@@ -1,0 +1,112 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Information</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div layout:fragment="content" class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">대단위 이름</h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">사원정보</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>xxxx</th>
+                        <th>이름</th>
+                        <th>사원ID</th>
+                        <th>부서명</th>
+                        <th>직위</th>
+                        <th>email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="employee : ${employeeInfoList}">
+                        <td th:text="${employee.empInfoJoinDt}"></td>
+                        <td th:text="${employee.empInfoNm}"></td>
+                        <td>
+                            <a href="#" th:onclick="openEditEmployeePage(this.getAttribute('employee.empInfoId'),this.getAttribute('employee.empInfoNm'))"
+                               style="color: blue; cursor: pointer;">
+                                <span th:text="${employee.empInfoId}" class="employee-id"></span>
+                            </a>
+                        </td>
+                        <td th:text="${employee.departEntity.departNm}"></td>
+                        <td th:text="${employee.positionEntity.positionNm}"></td>
+                        <td th:text="${employee.empInfoEmail}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 모달창 내용 -->
+    <div class="modal fade" id="updateNoteModal" tabindex="-1" aria-labelledby="updateNoteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="employeeModalLabel">사원 정보 수정</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- 예시로 프로필 사진을 추가하고, 정보 수정 폼을 작성 -->
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <h6 class="mt-0">프로필사진</h6>
+                            <img src="https://i.namu.wiki/i/zkey2H6ka0WwWS7C210XdqA5pQ_4oaPrYIfyLZFbvwhVaVgi56czAsx1yrG0Jt2WhKKh6hrOZ4JEVE2stG7cxg.webp"
+                                 alt="프로필 사진" class="img-fluid">
+                        </div>
+                        <div class="col-md-8 mb-3">
+                            <!-- 여기에 정보 수정을 위한 폼 요소들을 추가 -->
+                            <form>
+
+                                <!-- 이름 -->
+                                <input type="hidden" id="employeeId" name="employeeId">
+                                <div class="form-group">
+                                    <label for="employeeName">이름</label>
+                                    <input type="text" class="form-control" id="employeeName">
+                                </div>
+
+                                <!-- 비밀번호 -->
+                                <div class="form-group">
+                                    <label for="password">비밀번호</label>
+                                    <input type="password" class="form-control" id="password">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="saveEmployee()">저장</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        function openEditEmployeePage(employeeId,employeeNm) {
+            $('#updateNoteModal').modal('show');
+
+        }
+
+    </script>
+</div>
+</body>
+</html>
