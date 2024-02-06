@@ -16,11 +16,11 @@ import java.util.List;
 @Controller
 public class AccountController {
     private final AccountService accountService;
-    @GetMapping("/Account_List")
+    @GetMapping("/account/list")
     public String list(Model model) {
         List<AccountEntity> accountList = this.accountService.getList();
         model.addAttribute("accountList",accountList);
-        return "Contents/AC/Account_List";
+        return "contents/ac/account_list";
     }
 
 }
