@@ -17,6 +17,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Service
 public class EstimateService {
+
     private final EstimateRepository estimateRepository;
 
     public List<EstimateEntity> getList() {

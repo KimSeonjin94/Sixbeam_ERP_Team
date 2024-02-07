@@ -7,7 +7,7 @@ public class ItemDto {
     private String itemCd;
     private String itemNm;
     private String itemStnd;
-    private int itemUp;
+    private Long itemUp;
 
     public ItemEntity toEntity() {
         return new ItemEntity(itemCd, itemNm, itemStnd, itemUp);

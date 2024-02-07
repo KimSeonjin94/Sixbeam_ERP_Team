@@ -83,6 +83,34 @@
             }
         });
     });
+    $(document).ready(function() {
+        $('#addnewrowbtn').click(function() {
+            addRow();
+        });
 
+        $('#deleterowbtn').click(function() {
+            deleteLastRow();
+        });
+    });
 
+    function addRow() {
+        // 테이블 선택
+        const $table = $('#estimateitem');
+
+        // 이전 행 선택
+        const $previousRow = $table.find('tr').last();
+
+        // 새 행 추가
+        const $newRow = $previousRow.clone().appendTo($table);
+
+        // 복제된 새 행의 input 요소 초기화
+        $newRow.find('input').val('');
+    }
+    function deleteLastRow() {
+        // 테이블 선택
+        const $table = $('#estimateitem');
+
+        // 마지막 행 삭제
+        $table.find('tr:last').remove();
+    }
 })(jQuery); // End of use strict

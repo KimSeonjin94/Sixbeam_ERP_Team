@@ -10,6 +10,6 @@ public class HomeController {
     @GetMapping("/home")
     public String sixbeam_main() {
 
-        return "Contents/Home/Home_Form";
+        return "contents/home/Home_Form";
     }
 }

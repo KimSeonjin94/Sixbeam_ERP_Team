@@ -5,7 +5,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion shadow" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/sixbeam/home">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center"  data-tab-id="home" href="/sixbeam/home">
 
             <div class="sidebar-brand-icon mb-auto">
                 <img th:src="@{/img/whiteLogo.svg}" class="img-fluid">
@@ -14,6 +14,13 @@
         </a>
         <hr class="sidebar-divider my-0">
         <div class="tab-content">
+            <div id="Tap-home" class="tab-pane fade" role="tabpanel" aria-labelledby="home-Tab">
+                <!-- Divider -->
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    홈탭입니다 뭐 넣을까요
+                </div>
+            </div>
             <div id="Tap-HR" class="tab-pane fade" role="tabpanel" aria-labelledby="HR-Tab">
                 <!-- Divider -->
                 <!-- Heading -->
@@ -70,8 +77,7 @@
                     <div id="collapseitems" class="collapse" aria-labelledby="headingitems"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">품목 조회</a>
-                            <a class="collapse-item" href="#">품목 등록</a>
+                            <a class="collapse-item" href="/pd/item/itemlist">품목 조회/등록/수정</a>
                         </div>
                     </div>
                 </li>
@@ -84,22 +90,9 @@
                     <div id="collapsePd" class="collapse" aria-labelledby="headingPd"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">자재 명세서</a>
+                            <a class="collapse-item" href="/pd/bom/bomlist">자재 명세서</a>
                             <a class="collapse-item" href="#">작업 지시서</a>
                             <a class="collapse-item" href="#">생산 현황</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseqc"
-                       aria-expanded="true" aria-controls="collapseqc">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>품질 관리</span>
-                    </a>
-                    <div id="collapseqc" class="collapse" aria-labelledby="headingqc"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">품질 조회</a>
                         </div>
                     </div>
                 </li>
@@ -122,7 +115,7 @@
                     <div id="collapsewr" class="collapse" aria-labelledby="headingwr"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">창고 등록</a>
+                            <a class="collapse-item" href="/st/whregist/create">창고 등록</a>
                             <a class="collapse-item" href="/st/whregist/list">창고 현황</a>
                         </div>
                     </div>
@@ -153,6 +146,19 @@
                         </div>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseas"
+                       aria-expanded="true" aria-controls="collapseas">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>AS</span>
+                    </a>
+                    <div id="collapseas" class="collapse" aria-labelledby="headingas"
+                         data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/st/as/list">AS 현황</a>
+                        </div>
+                    </div>
+                </li>
             </div>
             <div id="Tap-SS" class="tab-pane fade" role="tabpanel" aria-labelledby="SS-Tab">
 
@@ -172,9 +178,9 @@
                     <div id="collapsees" class="collapse" aria-labelledby="headinges"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/ss/Estimate/List">견적서 조회</a>
+                            <a class="collapse-item" href="/ss/estimate/list">견적서 조회</a>
                             <a class="collapse-item" href="#">견적서 현황</a>
-                            <a class="collapse-item" href="#">견적서 등록</a>
+                            <a class="collapse-item" href="/ss/estimate/new">견적서 등록</a>
                         </div>
                     </div>
                 </li>
@@ -246,13 +252,13 @@
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseacac"
                        aria-expanded="true" aria-controls="collapseacac">
                         <i class="fas fa-fw fa-folder"></i>
-                        <span>기초 등록</span>
+                        <span>거래처</span>
                     </a>
                     <div id="collapseacac" class="collapse" aria-labelledby="headingacac"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="ac/Account_List">거래처 목록</a>
-                            <a class="collapse-item" href="ac/Account_Form">거래처 등록</a>
+                            <a class="collapse-item" href="/ac/account/list">거래처 목록</a>
+                            <a class="collapse-item" href="/ac/account/form">거래처 등록</a>
                         </div>
                     </div>
                 </li>
