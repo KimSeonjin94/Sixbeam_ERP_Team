@@ -2,7 +2,7 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form>
+            <form method="post">
                 <div class="form-group row">
                     <label for="estimatedate" class="col-sm-2 col-form-label">견적 일자</label>
                     <div class="col-sm-4">
@@ -28,7 +28,6 @@
                     <tr>
                         <th>품목 코드</th>
                         <th>품목 명</th>
-                        <th>규격</th>
                         <th>수량</th>
                         <th>단가</th>
                         <th>공급가액</th>
@@ -37,25 +36,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
+                    <tr  class="esetimate-control" th:object="${estimateDto}"  >
+                        <td><input type="text" class="form-control input" id="itemCdInput" th:field="*{itemCd}"></td>
+                        <td><input type="text" class="form-control" value="" text=""></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateAmt}"></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateUp}"></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateSp}"></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateVat}"></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateTamt}"></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateEtc}"></td>
                     </tr>
-                    <tr>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
+                    <tr  class="esetimate-control" th:object="${estimateDto}"  >
+                        <td><input type="text" class="form-control item" th:field="*{itemCd}"></td>
+                        <td><input type="text" class="form-control" value="" text=""></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateAmt}"></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateUp}"></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateSp}"></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateVat}"></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateTamt}"></td>
+                        <td><input type="text" class="form-control" th:field="*{estimateEtc}"></td>
                     </tr>
                     </tbody>
                 </table>
