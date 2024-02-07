@@ -1,7 +1,6 @@
 package com.erpproject.sixbeam.st.controller;
 
 import com.erpproject.sixbeam.st.entity.AsEntity;
-import com.erpproject.sixbeam.st.repository.AsRepository;
 import com.erpproject.sixbeam.st.service.AsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
