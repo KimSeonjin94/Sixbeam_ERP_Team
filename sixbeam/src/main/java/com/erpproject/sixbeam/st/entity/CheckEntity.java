@@ -16,13 +16,18 @@ import java.time.LocalDate;
 @IdClass(CheckEntityId.class)
 @Table(name = "st_check_tb")
 public class CheckEntity {
-    @Id
+
     @Column(name = "check_dt")
     private LocalDate checkDt;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "item_cd")
+    @JoinColumn(name = "whmove_cd")
+    private WhmoveEntity whmoveEntity;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "item_cd" )
     private ItemEntity itemEntity;
 
     @Column(name = "check_up")
