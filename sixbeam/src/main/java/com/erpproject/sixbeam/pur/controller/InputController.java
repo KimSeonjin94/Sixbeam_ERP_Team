@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RequestMapping("/pur")
+@RequestMapping("/pur/input")
 @RequiredArgsConstructor
 @Controller
 public class InputController {
     private final InputService inputService;
 
-    @GetMapping("/Inputlist")
+    @GetMapping("/list")
     public String GetList(Model model) {
         List<InputEntity> inputEntity = this.inputService.getList();
         model.addAttribute("inputEntity",inputEntity);
-        return "contents/Pur/Input_list";
+        return "contents/pur/input_list";
     }
 }
