@@ -1,7 +1,9 @@
 package com.erpproject.sixbeam.pd.entity;
 
+import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +18,7 @@ public class FitemEntity {
     @Column(name = "ITEM_CD", insertable = false, updatable = false)
     private String itemCd;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
     private ItemEntity itemEntity;
 }

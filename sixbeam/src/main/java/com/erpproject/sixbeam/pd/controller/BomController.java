@@ -35,5 +35,4 @@ public class BomController {
         // 3. 모든 데이터 뷰페이지 반환
         return "contents/pd/bom_list";
     }
-
 }
