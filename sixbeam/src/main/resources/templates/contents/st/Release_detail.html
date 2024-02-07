@@ -1,0 +1,29 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container my-3">
+    <h2 class="my-3 border-bottom pb-2">출하정보</h2>
+    <form>
+        <h5>출하코드</h5>
+        <h6 class="border-bottom py-2" th:text="${releaseEntity.releaseCd}"></h6>
+        <h5>출하일자</h5>
+        <h6 class="border-bottom py-2" th:text="${releaseEntity.releaseDt}"></h6>
+        <h5>담당자</h5>
+        <h6 class="border-bottom py-2" th:text="${releaseEntity.empInfoEntity.empInfoNm}"></h6>
+        <h5>거래처명</h5>
+        <h6 class="border-bottom py-2" th:text="${releaseEntity.accountEntity.accountNm}"></h6>
+        <h5>판매번호</h5>
+        <h6 class="border-bottom py-2" th:text="${releaseEntity.saleEntity.saleCd}"></h6>
+        <h5>이동코드</h5>
+        <h6 class="border-bottom py-2" th:text="${releaseEntity.whmoveEntity.whmoveCd}"></h6>
+        <h5>수취인</h5>
+        <h6 class="border-bottom py-2" th:text="${releaseEntity.releaseRv}"></h6>
+        <h5>연락처</h5>
+        <h6 class="border-bottom py-2" th:text="${releaseEntity.releasePhone}"></h6>
+        <h5>우편번호</h5>
+        <h6 class="border-bottom py-2" th:text="${releaseEntity.releaseZc}"></h6>
+        <h5>주소</h5>
+        <h6 class="border-bottom py-2" th:text="${releaseEntity.releaseAddr}"></h6>
+    </form>
+</div>
+</html>
+
+

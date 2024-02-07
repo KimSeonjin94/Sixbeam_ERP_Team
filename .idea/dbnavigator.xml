@@ -76,6 +76,7 @@
         <condition column="employee_id" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
+    <filter-actions connection-id="33a9cda8-5af4-457f-af27-0d483a5aa955" dataset="sixbeam_erp.ac_account_tb" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
