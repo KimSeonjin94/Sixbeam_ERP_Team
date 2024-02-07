@@ -141,3 +141,31 @@
     });
 
 })(jQuery); // End of use strict
+
+$('#currentDate').val(new Date().toISOString().substring(0,10));
+
+/*
+$("#selectbox").change(function() {
+		var valuetext = $("#selectbox option:selected").val();
+		$("#textbox").val(valuetext);
+	});
+*/
+
+/*
+$("#code").on('input', function() {
+    var valuetext = $(this).text;
+    $("#textbox").val(valuetext);
+});
+*/
+
+$("#code").on('input', function() {
+    var inputVal = $(this).val();
+    $("#selectbox option").each(function() {
+        if ($(this).val() === inputVal) {
+            var accountNm = $(this).text();
+            $("#textbox").val(accountNm);
+            return false; // 반복문 종료
+        }
+    });
+});
+

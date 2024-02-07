@@ -1,5 +1,8 @@
 package com.erpproject.sixbeam.pur.controller;
 
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
+import com.erpproject.sixbeam.ac.service.AccountService;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.pur.form.OrinPutForm;
 import com.erpproject.sixbeam.pur.service.OrinPutService;
@@ -25,7 +28,11 @@ public class OrinPutController {
     }
 
     @GetMapping("/create")
-    public String OrinPutCreate(OrinPutForm orinPutForm) {
+    public String OrinPutCreate(OrinPutForm orinPutForm, Model model) {
+        List<AccountEntity> accountEntity = this.orinputService.getactList();
+        List<EmpInfoEntity> empInfoEntity = this.orinputService.getemplist();
+        model.addAttribute("getactlist",accountEntity);
+        model.addAttribute("getemplist",empInfoEntity);
         return "contents/pur/orinput_form";
     }
 

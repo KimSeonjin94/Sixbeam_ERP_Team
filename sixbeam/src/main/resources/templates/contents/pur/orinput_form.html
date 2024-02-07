@@ -1,7 +1,98 @@
 <html layout:decorate="~{layout/default}">
 <div layout:fragment="content" class="container-fluid">
-    <form class="form-inline" role="form">
-        일자 : <input type="datetime-local" class="form-control" placeholder="datetime-local input">
-    </form>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form>
+                <div class="form-group row">
+                    <label for="currentDate" class="col-sm-2 col-form-label">발주 일자</label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" id="currentDate">
+                    </div>
+                    <label for="orinputname" class="col-sm-2 col-form-label">담당자</label>
+                    <div class="col-sm-4">
+                        <select id="orinputname" class="form-control">
+                            <option value="">담당자 선택</option>
+                            <option th:each="emplist : ${getemplist}" th:value="${emplist.empInfoId}"
+                                    th:text="${emplist.empInfoNm}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="selectbox" class="col-sm-2 col-form-label">거래처 코드</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" list="selectbox" id="code"/>
+                        <datalist id="selectbox">
+                            <!--<option value="">거래처 선택</option>-->
+                            <option th:each="actlist : ${getactlist}" th:value="${actlist.accountCd}"
+                                    th:text="${actlist.accountNm}"></option>
+                        </datalist>
+                    </div>
+                    <label for="textbox" class="col-sm-2 col-form-label">거래처</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="textbox">
+                    </div>
+                </div>
+                <table class="table" id="orinputitem">
+                    <thead>
+                    <tr>
+                        <th>품목 코드</th>
+                        <th>품목 명</th>
+                        <th>규격</th>
+                        <th>수량</th>
+                        <th>단가</th>
+                        <th>공급가액</th>
+                        <th>부가세</th>
+                        <th>총액</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type='button'
+                               value='품목 추가'
+                               class="btn btn-secondary"
+                               id="addnewrowbtn">
+                        <input type='button'
+                               value='품목 삭제'
+                               class="btn btn-danger"
+                               id="deleterowbtn">
+                    </div>
+                    <div class="col-sm-6 text-md-right">
+                        <button type="button" class="btn btn-primary">
+                            저장
+                        </button>
+                        <button type="button" class="btn btn-danger">
+                            초기화
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+            <!-- Button trigger modal -->
+
+        </div>
+    </div>
 </div>
 </html>
