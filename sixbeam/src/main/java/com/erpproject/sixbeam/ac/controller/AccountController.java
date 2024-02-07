@@ -20,7 +20,7 @@ public class AccountController {
     public String list(Model model) {
         List<AccountEntity> accountList = this.accountService.getList();
         model.addAttribute("accountList",accountList);
-        return "Contents/AC/Account_List";
+        return "contents/ac/Account_List";
     }
 
 }

@@ -20,6 +20,6 @@ public class InputController {
     public String GetList(Model model) {
         List<InputEntity> inputEntity = this.inputService.getList();
         model.addAttribute("inputEntity",inputEntity);
-        return "Contents/Pur/Input_list";
+        return "contents/Pur/Input_list";
     }
 }

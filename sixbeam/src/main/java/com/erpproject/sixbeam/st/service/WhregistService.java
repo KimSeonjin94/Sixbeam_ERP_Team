@@ -26,4 +26,11 @@ public class WhregistService {
             throw new DataNotFoundException("whregistEntity not found");
         }
     }
+
+    public void create(String whregistCd, String whregistNm) {
+        WhregistEntity w = new WhregistEntity();
+        w.setWhregistCd(whregistCd);
+        w.setWhregistNm(whregistNm);
+        this.whregistRepository.save(w);
+    }
 }

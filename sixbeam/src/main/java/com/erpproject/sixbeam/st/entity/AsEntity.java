@@ -43,7 +43,7 @@ public class AsEntity {
     private String asSt;
 
     @Column(name = "ascmpt_dt")
-    private LocalDate asCmptDt;
+    private LocalDate ascmptDt;
 
     @Column(name = "as_ti")
     private String asTi;

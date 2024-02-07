@@ -12,7 +12,7 @@
                     <tr>
                         <th>이동코드</th>
                         <th>담당자</th>
-                        <th>이동 날짜</th>
+                        <th>이동일자</th>
                         <th>품목명</th>
                         <th>수량</th>
                         <th>창고명</th>
@@ -21,12 +21,15 @@
                     </thead>
                     <tbody>
                     <tr th:each="whmove : ${whmoveEntityList}">
-                        <td th:text="${whmove.whmoveCd}"></td>
+
+                        <td>
+                            <a th:href="@{|/st/whmove/detail/${whmove.whmoveCd}|}" th:text="${whmove.whmoveCd}"></a>
+                        </td>
                         <td th:text="${whmove.empInfoEntity.empInfoNm}"></td>
                         <td th:text="${whmove.whmoveDt}"></td>
                         <td th:text="${whmove.itemEntity.itemNm}"></td>
                         <td th:text="${whmove.whmoveAmt}"></td>
-                        <td th:text="${whmove.whregistEntity.whreigstNm}"></td>
+                        <td th:text="${whmove.whregistEntity.whregistNm}"></td>
                         <td th:text="${whmove.whmoveGb}"></td>
                     </tr>
                     </tbody>
