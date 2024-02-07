@@ -3462,6 +3462,16 @@ a.close.disabled {
   padding: 1rem;
 }
 
+.modal-body-ac {
+  position: relative;
+  flex: 1 1 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+
 .modal-footer {
   display: flex;
   flex-wrap: wrap;

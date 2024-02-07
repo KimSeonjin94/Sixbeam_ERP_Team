@@ -28,55 +28,147 @@
 
 
 
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Member List</title>
+    <title>거래처 등록</title>
     <style>
-        table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-        th, td {
-          border: 1px solid #ddd;
-          text-align: left;
-          padding: 8px;
-        }
-        th {
-          background-color: #f2f2f2;
-        }
-        .text-center {
-          text-align: center;
-        }
+        .modal {
+         display: none; /* Hidden by default */
+         position: fixed; /* Stay in place */
+         z-index: 1; /* Sit on top */
+         left: 0;
+         top: 0;
+         width: 100%; /* Full width */
+         height: 100%; /* Full height */
+         overflow: auto; /* Enable scroll if needed */
+         background-color: rgb(0,0,0); /* Fallback color */
+         background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+         padding-top: 60px;
+       }
+       .modal-content {
+         background-color: #fefefe;
+         margin: 5% auto; /* 5% from the top and centered */
+         padding: 20px;
+         border: 1px solid #888;
+         width: 50%; /* Could be more or less, depending on screen size */
+       }
+       .close {
+         color: #aaa;
+         float: right;
+         font-size: 28px;
+         font-weight: bold;
+       }
+       .close:hover,
+       .close:focus {
+         color: black;
+         text-decoration: none;
+         cursor: pointer;
+       }
+       .form-group {
+         margin-bottom: 1em;
+       }
+       .form-group label {
+         display: block;
+         margin-bottom: .5em;
+       }
+       .form-group input[type="text"],
+       .form-group select {
+         width: 100%;
+         padding: .5em;
+         line-height: 1.2;
+       }
+
     </style>
+
 </head>
+
 <body>
 
-<table>
-    <tr>
-        <th>거래처코드</th>
-        <th>거래처명</th>
-        <th>사업자번호</th>
-        <th>사업장 소재지</th>
-        <th>대표자명</th>
-        <th>업종</th>
-        <th>은행명</th>
-        <th>계좌번호</th>
-    </tr>
+<!-- Trigger/Open The Modal -->
+<button id="myBtn">신규</button>
 
-    <tr>
-        <td>1234567890</td>
-        <td class="text-center">[등급]</td>
-        <td>홍길동</td>
-        <td>02-123-4567</td>
-        <td>010-1234-5678</td>
-        <td class="text-center">YES</td>
-        <td class="text-center">-</td>
-        <td>서울특별시 어딘가</td>
-    </tr>
-</table>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>거래처 등록</h2>
+        <div class="form-group">
+            <label for="clientCode">거래처코드</label>
+            <input type="text" id="clientCode" name="clientCode">
+        </div>
+        <div class="form-group">
+            <label for="clientCode">거래처명</label>
+            <input type="text" id="clientCode" name="clientCode">
+        </div>
+        <div class="form-group">
+            <label for="clientCode">사업자번호</label>
+            <input type="text" id="clientCode" name="clientCode">
+        </div>
+        <div class="form-group">
+            <label for="clientCode">사업장 소재지</label>
+            <input type="text" id="clientCode" name="clientCode">
+        </div>
+        <div class="form-group">
+            <label for="clientCode">대표자명</label>
+            <input type="text" id="clientCode" name="clientCode">
+        </div>
+        <div class="form-group">
+            <label for="name">업종</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="name">은행명</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="name">계좌번호</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="name">담당자</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="name">적요</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <!-- Add more form fields here -->
+        <button type="submit">저장</button>
+    </div>
+
+</div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+</script>
 
 </body>
 </html>
