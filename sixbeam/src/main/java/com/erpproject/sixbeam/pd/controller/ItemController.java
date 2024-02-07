@@ -22,14 +22,14 @@ public class ItemController {
     @Autowired
     private ItemRepository itemRepository;
 
-    @GetMapping("/pd/new")
+    @GetMapping("/new")
     public String newItemDto() {
-        return "pd/new";
+        return "/new";
     }
 
 
     // 품목 전체 조회
-    @GetMapping("/items")
+    @GetMapping("/itemlist")
     public String list(Model model) {
 
         // 1. 모든 데이터 가져오기
@@ -39,24 +39,26 @@ public class ItemController {
         model.addAttribute("itemEntities", itemEntities);
 
         // 3. 모든 데이터 뷰페이지 반환
-        return "items/item_list";
+        return "contents/pd/item_list";
     }
 
     // 품목 선택 조회
-    @GetMapping("/select_itemList/{id}")
+    /*@GetMapping("/select_itemList/{id}")
     public String selectList(@PathVariable String id, Model model) {
+
 
         // 1. id 값으로 조회해서 데이터 가져오기
         ItemEntity itemEntity = itemRepository.findById(id).orElse(null);
         // ArrayList<ItemEntity> itemEntities = itemRepository.findAll();
 
         // 2. 모델에 데이터 등록
-        model.addAttribute("item", itemEntity);
+        model.addAttribute("itemEntity", itemEntity);
 
         // 3. 선택 데이터 뷰페이지 반환
-        return "pd/select_item_list";
-    }
+        return "contents/pd/selectitem_list";
+    }*/
 
+    //품목 등록
     @PostMapping("/items/create")
     public String createItem(ItemDto itemDto) {
 

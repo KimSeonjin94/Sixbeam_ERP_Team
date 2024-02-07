@@ -10,4 +10,5 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<ItemEntity, String> {
 
     List<ItemEntity> findByItemCd(String id);
+
 }

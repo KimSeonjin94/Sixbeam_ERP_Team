@@ -25,5 +25,15 @@ public class ItemEntity {
     private String itemStnd;
 
     @Column(name = "ITEM_UP")
-    private int itemUp;
+    private Long itemUp;
+
+    // 기존 데이터 수정 기능
+/*    public void patch(ItemEntity itemEntity) {
+        if (itemEntity.itemNm != null)
+            this.itemNm = itemEntity.itemNm;
+        if (itemEntity.itemStnd != null)
+            this.itemStnd = itemEntity.itemStnd;
+        if (itemEntity.itemUp != null)
+            this.itemUp = itemEntity.itemUp;
+    }*/
 }
