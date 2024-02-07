@@ -1,0 +1,129 @@
+<html layout:decorate = "~{layout/default}">
+<div layout:fragment = "content" class = "container-fluid">
+	<!-- Page Heading -->
+	<h1 class = "h3 mb-2 text-gray-800">생산</h1>
+	<div class = "row">
+		<!-- Button trigger modal -->
+		<button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#newestimate" style="margin: 3px;">
+			등록
+		</button>
+		<button type = "button" class = "btn btn-secondary" data-toggle = "modal" data-target = "#subjectestimate" style="margin: 3px;">
+			수정
+		</button>
+	</div>
+	<!-- DataTales Example -->
+	<div class = "card shadow mb-4">
+		<div class = "card-header py-3">
+			<h6 class = "m-0 font-weight-bold text-primary">품목 리스트</h6>
+		</div>
+		<div class = "card-body">
+			<div class = "table-responsive">
+				<table class = "table table-bordered" id = "dataTable" width = "100%" cellspacing = "0">
+					<thead>
+					<tr>
+						<th>품목 코드</th>
+						<th>품목명</th>
+						<th>품목 규격</th>
+						<th>가격</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each = "item : ${itemEntities}">
+						<td th:text = "${item.itemCd}"></td>
+						<td th:text = "${item.itemNm}"></td>
+						<td th:text = "${item.itemStnd}"></td>
+						<td th:text = "${item.itemUp}"></td>
+					</tr>
+					
+					</tbody>
+				</table>
+			</div>
+			
+			
+			<!-- Modal -->
+			<div class = "modal fade" id = "newestimate" tabindex = "-1" aria-labelledby = "exampleModalLabel"
+			     aria-hidden = "true">
+				<div class = "modal-dialog modal-dialog-centered modal-xl">
+					<div class = "modal-content">
+						<div class = "modal-header">
+							<h5 class = "modal-title" id = "newestimateLabel">품목 신규 등록</h5>
+							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+								<span aria-hidden = "true">&times;</span>
+							</button>
+						</div>
+						<div class = "modal-body">
+							<form>
+								<div class = "form-group row">
+									<label for = "itemCd" class = "col-sm-1 col-form-label">품목 코드</label>
+									<div class = "col-sm-5">
+										<input type = "text" class = "form-control" id = "itemCd">
+									</div>
+									<label for = "itemNm" class = "col-sm-1 col-form-label">품목명</label>
+									<div class = "col-sm-5">
+										<input type = "text" class = "form-control" id = "itemNm">
+									</div>
+								</div>
+								<div class = "form-group row">
+									<label for = "itemStnd" class = "col-sm-1 col-form-label">품목 규격</label>
+									<div class = "col-sm-5">
+										<input type = "text" class = "form-control" id = "itemStnd">
+									</div>
+									<label for = "itemUp" class = "col-sm-1 col-form-label">가격</label>
+									<div class = "col-sm-5">
+										<input type = "number" class = "form-control" id = "itemUp">
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class = "modal-footer">
+							<button type = "button" class = "btn btn-primary">저장</button>
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 신규 품목 입력시 가격 정규화-->
+			<script>
+				const itemUpInput = document.getElementById('itemUp');
+				
+				itemUpInput.addEventListener('input', (event) => {
+					const inputValue = event.target.value;
+					const formattedValue = onlyNumbers.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+					event.target.value = formattedValue;
+					const start = event.target.selectionStart;
+					const end = event.target.selectionEnd;
+					event.target.setSelectionRange(start, end); // 커서 위치 유지
+				});
+			</script>
+			
+			<div class = "modal fade" id = "subjectestimate" tabindex = "-1" aria-labelledby = "subjectestimateLabel"
+			     aria-hidden = "true">
+				<div class = "modal-dialog modal-dialog-centered modal-xl">
+					<div class = "modal-content">
+						<div class = "modal-header">
+							<h5 class = "modal-title" id = "subjectestimateLabel">품목 수정</h5>
+							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+								<span aria-hidden = "true">&times;</span>
+							</button>
+						</div>
+						<div class = "modal-body">
+							<form>
+								<div class = "flex">
+									<label class = "form-label"></label>
+									<input type = "text" class = "form-control form-control-user"
+									       id = "컬럼명" placeholder = "안쪽 텍스트">
+								</div>
+							</form>
+						</div>
+						<div class = "modal-footer">
+							<button type = "button" class = "btn btn-primary">저장</button>
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</html>

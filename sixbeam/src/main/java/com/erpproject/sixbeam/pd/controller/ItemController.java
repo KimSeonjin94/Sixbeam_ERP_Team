@@ -43,11 +43,11 @@ public class ItemController {
     }
 
     // 품목 선택 조회
-    /*@GetMapping("/select_itemList/{id}")
+    @GetMapping("/selectitem_list/{id}")
     public String selectList(@PathVariable String id, Model model) {
 
 
-        // 1. id 값으로 조회해서 데이터 가져오기
+        // 1. id 값으로 조회해서 데이터 가져오기 해당 id 값이 없으면 null을 반환
         ItemEntity itemEntity = itemRepository.findById(id).orElse(null);
         // ArrayList<ItemEntity> itemEntities = itemRepository.findAll();
 
@@ -56,7 +56,7 @@ public class ItemController {
 
         // 3. 선택 데이터 뷰페이지 반환
         return "contents/pd/selectitem_list";
-    }*/
+    }
 
     //품목 등록
     @PostMapping("/items/create")

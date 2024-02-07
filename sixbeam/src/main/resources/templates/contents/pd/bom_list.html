@@ -1,0 +1,161 @@
+<html layout:decorate = "~{layout/default}">
+<div layout:fragment = "content" class = "container-fluid">
+	<!-- Page Heading -->
+	<h1 class = "h3 mb-2 text-gray-800">자재 명세서</h1>
+	<div class = "row">
+		<!-- Button trigger modal -->
+		<button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#newestimate"
+		        style = "margin: 3px;">
+			등록
+		</button>
+		<button type = "button" class = "btn btn-secondary" data-toggle = "modal" data-target = "#subjectestimate"
+		        style = "margin: 3px;">
+			수정
+		</button>
+	</div>
+	<!-- DataTales Example -->
+	<div class = "card shadow mb-4">
+		<div class = "card-header py-3">
+			<h6 class = "m-0 font-weight-bold text-primary">자재 명세서 리스트</h6>
+		</div>
+		<div class = "card-body">
+			<div class = "table-responsive">
+				<table class = "table table-bordered" id = "dataTable" width = "100%" cellspacing = "0">
+					<thead>
+					<tr>
+						<th>완품 품목코드</th>
+						<th>완품 규격</th>
+						<th>단품 품목코드</th>
+						<th>단품 품목명</th>
+						<th>단품 규격</th>
+						<th>단품 가격</th>
+						<th>소요량</th>
+						<th>작업소요시간</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each = "bom : ${bomEntities}">
+						<td th:text = "${bom.fitemEntity.itemCd}"></td>
+						<td th:text = "${bom.fitemEntity.itemStnd}"></td>
+						<td th:text = "${bom.ritemEntity.itemCd}"></td>
+						<td th:text = "${bom.ritemEntity.itemNm}"></td>
+						<td th:text = "${bom.ritemEntity.itemStnd}"></td>
+						<td th:text = "${bom.ritemEntity.itemUp}"></td>
+						<td th:text = "${bom.bomUseMt}"></td>
+						<td th:text = "${bom.bomWorkTm}"></td>
+					</tr>
+					
+					</tbody>
+				</table>
+			</div>
+			
+			
+			<!-- Modal -->
+			<div class = "modal fade" id = "newestimate" tabindex = "-1" aria-labelledby = "exampleModalLabel"
+			     aria-hidden = "true">
+				<div class = "modal-dialog modal-dialog-centered">
+					<div class = "modal-content">
+						<div class = "modal-header">
+							<h5 class = "modal-title" id = "newestimateLabel">자재 명세서 신규 등록</h5>
+							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+								<span aria-hidden = "true">&times;</span>
+							</button>
+						</div>
+						<div class = "modal-body">
+							<form>
+								<div class = "form-group row">
+									<label for = "fitemEntity.itemCd" class = "col-sm-4 col-form-label">완품 품목 코드</label>
+									<div class = "col-sm-8">
+										<input type = "text" class = "form-control" id = "fitemEntity.itemCd">
+									</div>
+								</div>
+								
+								<div class = "form-group row">
+									<label for = "fitemEntity.itemStnd" class = "col-sm-4 col-form-label">완품 규격</label>
+									<div class = "col-sm-8">
+										<input type = "text" class = "form-control" id = "fitemEntity.itemStnd">
+									</div>
+								</div>
+								
+								<div class = "form-group row">
+									<label for = "ritemEntity.itemCd" class = "col-sm-4 col-form-label">단품 품목 코드</label>
+									<div class = "col-sm-8">
+										<input type = "text" class = "form-control" id = "ritemEntity.itemCd">
+									</div>
+								</div>
+								
+								<div class = "form-group row">
+									<label for = "ritemEntity.itemNm" class = "col-sm-4 col-form-label">단품 품목명</label>
+									<div class = "col-sm-8">
+										<input type = "text" class = "form-control" id = "ritemEntity.itemNm">
+									</div>
+								</div>
+								
+								<div class = "form-group row">
+									<label for = "ritemEntity.itemStnd" class = "col-sm-4 col-form-label">단품 규격</label>
+									<div class = "col-sm-8">
+										<input type = "text" class = "form-control" id = "ritemEntity.itemStnd">
+									</div>
+								</div>
+								
+								<div class = "form-group row">
+									<label for = "ritemEntity.itemUp" class = "col-sm-4 col-form-label">단품 가격</label>
+									<div class = "col-sm-8">
+										<input type = "number" class = "form-control" id = "ritemEntity.itemUp">
+									</div>
+								</div>
+								
+								<div class = "form-group row">
+									<label for = "bomUseMt" class = "col-sm-4 col-form-label">원재료 소모수</label>
+									<div class = "col-sm-8 ml-0">
+										<input type = "number" class = "form-control" id = "bomUseMt">
+									</div>
+								</div>
+								
+								<div class = "form-group row">
+									<label for = "bomWorkTm" class = "col-sm-4 col-form-label">작업소요시간</label>
+									<div class = "col-sm-8">
+										<input type = "text" class = "form-control" id = "bomWorkTm">
+									</div>
+								</div>
+							
+							</form>
+						</div>
+						<div class = "modal-footer">
+							<button type = "button" class = "btn btn-primary">저장</button>
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class = "modal fade" id = "subjectestimate" tabindex = "-1" aria-labelledby = "subjectestimateLabel"
+			     aria-hidden = "true">
+				<div class = "modal-dialog modal-dialog-centered">
+					<div class = "modal-content">
+						<div class = "modal-header">
+							<h5 class = "modal-title" id = "subjectestimateLabel">자재 명세서 수정</h5>
+							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+								<span aria-hidden = "true">&times;</span>
+							</button>
+						</div>
+						<div class = "modal-body">
+							<form>
+								<div class = "flex">
+									<label class = "form-label"></label>
+									<input type = "text" class = "form-control form-control-user"
+									       id = "컬럼명" placeholder = "안쪽 텍스트">
+								</div>
+							</form>
+						</div>
+						<div class = "modal-footer">
+							<button type = "button" class = "btn btn-primary">저장</button>
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</html>

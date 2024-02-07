@@ -22,7 +22,7 @@ public class ItemService {
     private ItemEntity itemEntity;
 
     // 조회
-    public List<ItemEntity> getlist() {
+    public List<ItemEntity> list() {
 
         return itemRepository.findAll();
     }
