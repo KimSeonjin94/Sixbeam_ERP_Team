@@ -4,13 +4,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Information</title>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"-->
+<!--            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"-->
+<!--            crossorigin="anonymous"></script>-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"-->
+<!--            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"-->
+<!--            crossorigin="anonymous"></script>-->
 </head>
 <body>
 <div layout:fragment="content" class="container-fluid">
@@ -27,7 +27,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>입사일</th>
+                        <th>입사일123</th>
                         <th>이름</th>
                         <th>사원ID</th>
                         <th>부서명</th>
@@ -57,7 +57,7 @@
     </div>
     <!-- 모달창 내용 -->
 
-    <div class="modal fade" id="updateNoteModal" tabindex="-1" aria-labelledby="updateNoteModalLabel" aria-hidden="true">
+    <div  class="modal fade" id="updateNoteModal" tabindex="-1" aria-labelledby="updateNoteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
@@ -76,90 +76,90 @@
                         </div>
                         <div class="col-md-8 mb-3">
                             <!-- 여기에 정보 수정을 위한 폼 요소들을 추가 -->
-                            <form id="updateEmployeeForm" th:action="@{/updateEmployee}" method="post">
+                            <form id="updateEmployeeForm" th:action="@{/hr/empinfo/update}" method="post">
                                 <!-- 이름 -->
                                 <input type="hidden" id="employeeId" name="employeeId">
                                 <div class="form-group">
                                     <label for="employeeName">이름</label>
-                                    <input type="text" class="form-control" id="employeeName">
+                                    <input type="text" class="form-control" id="employeeName" name="employeeName">
                                 </div>
                                 <!-- 비밀번호 -->
                                 <div class="form-group">
                                     <label for="employeePassword">비밀번호</label>
-                                    <input type="password" class="form-control" id="employeePassword">
+                                    <input type="password" class="form-control" id="employeePassword" name="employeePassword">
                                 </div>
                                 <!-- 성별 -->
                                 <div class="form-group">
                                     <label for="employeeSex">성별</label>
-                                    <select class="form-control" id="employeeSex">
-                                        <option value="true">남자</option>
-                                        <option value="false">여자</option>
+                                    <select class="form-control" id="employeeSex" name="employeeSex" >
+                                        <option value="true" name="1">남자</option>
+                                        <option value="false" name="0">여자</option>
                                     </select>
                                 </div>
                                 <!-- 생일 -->
                                 <div class="form-group">
                                     <label for="employeeBirth">생일</label>
-                                    <input type="date" class="form-control" id="employeeBirth">
+                                    <input type="date" class="form-control" id="employeeBirth" name="employeeBirth">
                                 </div>
                                 <!-- 주소 -->
                                 <div class="form-group">
                                     <label for="employeeAddr">주소</label>
-                                    <input type="text" class="form-control" id="employeeAddr">
+                                    <input type="text" class="form-control" id="employeeAddr" name="employeeAddr">
                                 </div>
                                 <!-- 전화번호 -->
                                 <div class="form-group">
                                     <label for="employeePhone">전화번호</label>
-                                    <input type="text" class="form-control" id="employeePhone">
+                                    <input type="text" class="form-control" id="employeePhone" name="employeePhone">
                                 </div>
                                 <!-- 이메일 -->
                                 <div class="form-group">
                                     <label for="employeeEmail">이메일</label>
-                                    <input type="email" class="form-control" id="employeeEmail">
+                                    <input type="email" class="form-control" id="employeeEmail" name="employeeEmail">
                                 </div>
                                 <!-- 입사일 -->
                                 <div class="form-group">
                                     <label for="employeeJoinDt">입사일</label>
-                                    <input type="date" class="form-control" id="employeeJoinDt">
+                                    <input type="date" class="form-control" id="employeeJoinDt" name="employeeJoinDt">
                                 </div>
                                 <!-- 퇴사일 -->
                                 <div class="form-group">
                                     <label for="employeeQuitDt">퇴사일</label>
-                                    <input type="date" class="form-control" id="employeeQuitDt">
+                                    <input type="date" class="form-control" id="employeeQuitDt" name="employeeQuitDt">
                                 </div>
                                 <!-- 직책 -->
                                 <div class="form-group">
                                     <label for="employeePosition">직책</label>
-                                    <input type="text" class="form-control" id="employeePosition" readonly>
+                                    <input type="text" class="form-control" id="employeePosition" name="employeePosition" readonly>
                                 </div>
                                 <!-- 부서 -->
                                 <div class="form-group">
                                     <label for="employeeDepart">부서</label>
-                                    <input type="text" class="form-control" id="employeeDepart" readonly>
+                                    <input type="text" class="form-control" id="employeeDepart" name="employeeDepart" readonly>
                                 </div>
                                 <!-- 은행 -->
                                 <div class="form-group">
                                     <label for="employeeBank">은행</label>
-                                    <input type="text" class="form-control" id="employeeBank">
+                                    <input type="text" class="form-control" id="employeeBank" name="employeeBank">
                                 </div>
                                 <!-- 계좌번호 -->
                                 <div class="form-group">
                                     <label for="employeeAccountNo">계좌번호</label>
-                                    <input type="text" class="form-control" id="employeeAccountNo">
+                                    <input type="text" class="form-control" id="employeeAccountNo" name="employeeAccountNo">
                                 </div>
                                 <!-- 퇴사사유 -->
                                 <div class="form-group">
                                     <label for="employeeQr">퇴사사유</label>
-                                    <input type="text" class="form-control" id="employeeQr">
+                                    <input type="text" class="form-control" id="employeeQr" name="employeeQr">
                                 </div>
                                 <!-- 총연차수 -->
                                 <div class="form-group">
                                     <label for="employeeTotalnoy">총연차수</label>
-                                    <input type="number" class="form-control" id="employeeTotalnoy">
+                                    <input type="number" class="form-control" id="employeeTotalnoy" name="employeeTotalnoy">
                                 </div>
                                 <!-- 비고 -->
                                 <div class="form-group">
                                     <label for="employeeEtc">비고</label>
-                                    <input type="text" class="form-control" id="employeeEtc">
+                                    <input type="text" class="form-control" id="employeeEtc" name="employeeEtc">
                                 </div>
                             </form>
                         </div>
@@ -167,7 +167,7 @@
                 </div>
                 <div class="modal-footer">
                     <!-- submit 버튼을 추가하고 폼 전송을 위한 액션을 지정 -->
-                    <button type="submit" class="btn btn-primary">저장</button>
+                    <button type="button" class="btn btn-primary" onclick="updateEmpInfo()">저장</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                 </div>
             </div>
@@ -176,6 +176,7 @@
     <script th:inline="javascript">
         function openEditEmployeePage(employeeId, employeeNm, employeePassword, employeeSex, employeeBirth, employeeAddr, employeePhone, employeeEmail, employeeJoinDt, employeeQuitDt, employeePosition, employeeDepart, employeeBank, employeeAccountNo, employeeQr, employeeTotalnoy, employeeEtc) {
             $('#updateNoteModal').modal('show');
+            $('#employeeId').val(employeeId);
             $('#employeeName').val(employeeNm);
             $('#employeePassword').val(employeePassword);
             $('#employeeSex').val(employeeSex);
@@ -195,6 +196,8 @@
         }
         function updateEmpInfo() {
             document.getElementById("updateEmployeeForm").submit();
+            alert($('#employeeTotalnoy').val());
+            alert('수정되었습니다.');
         }
     </script>
 
