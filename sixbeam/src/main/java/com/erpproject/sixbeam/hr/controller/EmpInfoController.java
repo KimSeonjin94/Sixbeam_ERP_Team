@@ -25,12 +25,12 @@ public class EmpInfoController {
     public String list(Model model) {
         List<EmpInfoEntity> employeeInfoList = this.empInfoService.getList();
         model.addAttribute("employeeInfoList", employeeInfoList);
-        return "Contents/HR/EmpInfo_list";
+        return "contents/hr/EmpInfo_list";
     }
 
     @GetMapping("/EmpInfo_create")
     public String EmpInfoCreate() {
-        return "Contents/HR/EmpInfo_Form";
+        return "contents/hr/EmpInfo_Form";
     }
 
     @GetMapping("/api/employee/{empInfoId}")

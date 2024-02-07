@@ -53,6 +53,6 @@ public class SaleEntity {
         String formattedDate = saleUploadDt.format(formatter);
 
         // 여기서는 고정적으로 "1001"을 추가했지만, 실제 시퀀스를 사용하거나 다른 로직을 사용할 수 있습니다.
-        this.saleCd="SS" + formattedDate+number;
+        this.saleCd="ss" + formattedDate+number;
     }
 }

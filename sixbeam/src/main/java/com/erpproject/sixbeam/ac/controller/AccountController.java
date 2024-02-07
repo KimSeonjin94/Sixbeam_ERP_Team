@@ -26,6 +26,7 @@ public class AccountController {
     public String list(Model model) {
         List<AccountEntity> accountList = this.accountService.getList();
         model.addAttribute("accountList",accountList);
+
         return "contents/ac/account_list";
     }
 
@@ -48,6 +49,8 @@ public class AccountController {
             accountRepository.save(accountEntity);
 
             return new ModelAndView("redirect:/account/form");
+
+       
     }
 
 }
