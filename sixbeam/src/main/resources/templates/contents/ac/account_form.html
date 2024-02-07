@@ -30,37 +30,54 @@
 
 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>거래처 등록 폼</title>
+    <title>Member List</title>
+    <style>
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        th, td {
+          border: 1px solid #ddd;
+          text-align: left;
+          padding: 8px;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+        .text-center {
+          text-align: center;
+        }
+    </style>
 </head>
 <body>
-<h2>거래처 등록</h2>
-<form action="/partners/register" method="post">
-    <div>
-        <label for="companyName">회사명:</label>
-        <input type="text" id="companyName" name="companyName" required>
-    </div>
-    <div>
-        <label for="contactName">담당자 이름:</label>
-        <input type="text" id="contactName" name="contactName" required>
-    </div>
-    <div>
-        <label for="contactEmail">담당자 이메일:</label>
-        <input type="email" id="contactEmail" name="contactEmail" required>
-    </div>
-    <div>
-        <label for="phone">전화번호:</label>
-        <input type="text" id="phone" name="phone" required>
-    </div>
-    <div>
-        <label for="address">주소:</label>
-        <input type="text" id="address" name="address" required>
-    </div>
-    <div>
-        <button type="submit">등록</button>
-    </div>
-</form>
+
+<table>
+    <tr>
+        <th>거래처코드</th>
+        <th>거래처명</th>
+        <th>사업자번호</th>
+        <th>사업장 소재지</th>
+        <th>대표자명</th>
+        <th>업종</th>
+        <th>은행명</th>
+        <th>계좌번호</th>
+    </tr>
+
+    <tr>
+        <td>1234567890</td>
+        <td class="text-center">[등급]</td>
+        <td>홍길동</td>
+        <td>02-123-4567</td>
+        <td>010-1234-5678</td>
+        <td class="text-center">YES</td>
+        <td class="text-center">-</td>
+        <td>서울특별시 어딘가</td>
+    </tr>
+</table>
+
 </body>
 </html>
+
