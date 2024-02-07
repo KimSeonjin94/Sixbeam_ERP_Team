@@ -1,5 +1,7 @@
 package com.erpproject.sixbeam.ss.service;
 
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,17 +11,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class EstimateService {
 
     private final EstimateRepository estimateRepository;
-
+    private final ItemRepository itemRepository;
     public List<EstimateEntity> getList() {
         List<EstimateEntity> estimateEntities = estimateRepository.findAll();
         // 중복된 estimateCd를 저장할 Set
@@ -50,6 +49,10 @@ public class EstimateService {
     public List<EstimateEntity> getIdList(String id) {
 
         return this.estimateRepository.findByEstimateCd(id);
+    }
+
+    public Optional<ItemEntity> getItemCd(String id){
+        return this.itemRepository.findByItemCd(id);
     }
 
 }

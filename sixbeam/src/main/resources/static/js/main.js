@@ -113,4 +113,31 @@
         // 마지막 행 삭제
         $table.find('tr:last').remove();
     }
+    $(document).ready(function() {
+        $('.form-control.item').on('change', function() {
+            // 현재 이벤트가 발생한 input 요소를 선택
+            var currentInput = $(this);
+            //input 값 저장
+            var itemCd = $(this).val();
+            // 해당 input이 속한 row를 찾아서 인덱스를 가져옴
+            var rowIndex = currentInput.closest('tr').index();
+            // AJAX 요청
+            $.ajax({
+                type: 'GET',
+                url: '/getitemdata',
+                data: { itemCd: itemCd },
+                success: function(response) {
+                    // 응답을 받았을 때 데이터를 테이블에 반영
+                    var itemNwColumn = response.itemNw;
+
+                    // 현재 행의 첫 번째 열 값을 업데이트
+                    currentInput.closest('tr').find('td:eq(1)').find('input').val(itemNwColumn);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+
 })(jQuery); // End of use strict
