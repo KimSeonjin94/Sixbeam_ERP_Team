@@ -19,7 +19,23 @@ public class AccountDto {
     private String accountEtc;
 
     public AccountEntity toEntity() {
-        return new AccountEntity(accountCd, accountNm, accountNb, accountAdd, accountRep, accountSectors, accountBank, accountAcnb, accountPic, accountEtc);
-    }
 
+//        AccountEntity accountEntity = new AccountEntity();
+//
+//        accountEntity.setAccountCd(accountCd);
+//        accountEntity.setAccountNm(accountNm);
+//        accountEntity.setAccountNb(accountNb);
+//        accountEntity.setAccountAdd(accountAdd);
+//        accountEntity.setAccountRep(accountRep);
+//        accountEntity.setAccountSectors(accountSectors);
+//        accountEntity.setAccountBank(accountBank);
+//        accountEntity.setAccountAcnb(accountAcnb);
+//        accountEntity.setAccountPic(accountPic);
+//        accountEntity.setAccountEtc(accountEtc);
+//
+//        return accountEntity;
+
+        return new AccountEntity(accountCd, accountNm, accountNb, accountAdd, accountRep, accountSectors, accountBank, accountAcnb, accountPic, accountEtc);
+
+    }
 }
