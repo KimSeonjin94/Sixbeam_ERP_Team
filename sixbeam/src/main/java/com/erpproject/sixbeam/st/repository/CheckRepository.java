@@ -13,5 +13,5 @@ import java.time.LocalDate;
 public interface CheckRepository extends JpaRepository<CheckEntity,String> {
     CheckEntity findByWhmoveEntityAndItemEntity(WhmoveEntity whmoveEntity, ItemEntity itemEntity);
 
-    int countByWhmoveEntityAndItemEntityAndCheckDateBefore(WhmoveEntity whmoveEntity, ItemEntity itemEntity, LocalDate date);
+    int countByWhmoveEntityAndItemEntityAndCheckDtBefore(WhmoveEntity whmoveEntity, ItemEntity itemEntity, LocalDate date);
 }

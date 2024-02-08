@@ -36,7 +36,7 @@ public class EstimateEntity {
 
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "CHECK_DT", referencedColumnName = "CHECK_DT"),
+            @JoinColumn(name = "whmove_cd", referencedColumnName = "whmove_cd"),
             @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
     })
     private CheckEntity checkEntity;

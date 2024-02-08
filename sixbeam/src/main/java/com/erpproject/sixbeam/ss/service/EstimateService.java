@@ -52,7 +52,7 @@ public class EstimateService {
     }
 
     public Optional<ItemEntity> getItemCd(String id){
-        return this.itemRepository.findByItemCd(id);
+        return this.itemRepository.findById(id);
     }
 
 }
