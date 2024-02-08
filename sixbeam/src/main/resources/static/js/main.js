@@ -183,3 +183,58 @@ $('.table.item').on('change input', '.selectbox, .itemamt', function() {
         $row.find('.itemsum').val(itemsum.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }));
     }
 });
+
+// 폼 제출 시 데이터 저장 함수 호출
+$('#orinputform').submit(function(event) {
+    event.preventDefault(); // 기본 제출 이벤트 막기
+    orinPutSaveData(); // 데이터 저장 함수 호출
+});
+
+function orinPutSaveData() {
+        // 품목 데이터 수집
+        const items = [];
+        $('#orinputitem tbody tr').each(function () {
+            const item = {
+                // 각 행에서 필요한 데이터를 수집하여 객체로 만듦
+                // 예시: itemCd, itemName, itemStnd, itemAmt, itemUp, itemSp, itemVar, itemSum
+                itemCd: $(this).find('.selectbox').val(),
+                itemName: $(this).find('.itemname').val(),
+                itemStnd: $(this).find('.itemstnd').val(),
+                itemAmt: $(this).find('.itemamt').val(),
+                itemUp: $(this).find('.itemup').val(),
+                itemSp: $(this).find('.itemsp').val(),
+                itemVar: $(this).find('.itemvar').val(),
+                itemSum: $(this).find('.itemsum').val()
+            };
+            items.push(item);
+        });
+
+        // 기타 필요한 데이터 수집 (발주 일자, 담당자, 거래처 등)
+
+        // 데이터를 JSON 형식으로 만듦
+        const data = {
+            currentDate: $('#currentDate').val(),
+            orinputname: $('#orinputname').val(),
+            accountCode: $('#accountCode').val(),
+            accountName: $('#accountName').val(),
+            orinputReqDate: $('#orinputReqDate').val(),
+            orinputDlvyDate: $('#orinputDlvyDate').val(),
+            items: items
+        };
+
+        // Ajax를 사용하여 서버로 데이터 전송
+        $.ajax({
+            type: 'POST',
+            url: '/pur/orinput/save',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                // 저장 성공 시 처리
+                console.log('Data saved successfully!');
+            },
+            error: function (error) {
+                // 저장 실패 시 처리
+                console.error('Error while saving data:', error);
+            }
+        });
+    }

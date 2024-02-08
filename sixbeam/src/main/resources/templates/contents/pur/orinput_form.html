@@ -2,7 +2,7 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form>
+            <form th:action="@{/pur/orinput/save}" id="orinputform" >
                 <div class="form-group row">
                     <label for="currentDate" class="col-sm-2 col-form-label">발주 일자</label>
                     <div class="col-sm-4">
@@ -105,10 +105,10 @@
                                id="deleterowbtn">
                     </div>
                     <div class="col-sm-6 text-md-right">
-                        <button type="button" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary">
                             저장
                         </button>
-                        <button type="button" class="btn btn-danger">
+                        <button type="reset" class="btn btn-danger">
                             초기화
                         </button>
                     </div>

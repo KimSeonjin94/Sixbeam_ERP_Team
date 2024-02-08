@@ -11,6 +11,8 @@ import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -35,5 +37,28 @@ public class OrinPutService {
 
     public List<ItemEntity> getitemlist() {
         return this.itemRepository.findAll();
+    }
+
+    public void save(OrinPutEntity orinPutEntity) {
+        // 새로운 주문 코드 생성
+        String newOrinputCd = generateNewOrinputCd();
+        orinPutEntity.setOrinputCd(newOrinputCd);
+
+        // 엔티티 저장
+        orinPutRepository.save(orinPutEntity);
+    }
+
+    private String generateNewOrinputCd() {
+        // 현재 날짜를 기반으로 새로운 주문 코드 생성
+        String prefix = "OR" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";
+
+        // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
+        String maxCd = orinPutRepository.getMaxOrinputCd();
+        int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(maxCd.lastIndexOf("-") + 1)) + 1 : 1;
+
+        // 4자리 숫자 부분을 형식에 맞게 생성
+        String sequenceNumberString = String.format("%04d", sequenceNumber);
+
+        return prefix + sequenceNumberString;
     }
 }
