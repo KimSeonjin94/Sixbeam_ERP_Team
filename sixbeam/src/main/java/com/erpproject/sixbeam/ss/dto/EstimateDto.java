@@ -5,19 +5,20 @@ import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
-
+@Getter
+@Setter
 public class EstimateDto {
     private String estimateCd;
-
 
     private LocalDate estimateDt;
 
     private String itemCd;
 
     private CheckEntity checkEntity;
-
 
     private EmpInfoEntity empInfoEntity;
 

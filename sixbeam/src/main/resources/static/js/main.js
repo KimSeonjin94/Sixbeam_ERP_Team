@@ -139,7 +139,26 @@
             });
         });
     });
+    $('[name="date"]').each(function() {
+        // 현재 요소의 값을 변경
+        $(this).val($('#date').val());
 
+    });
+    $('[name="ac"]').each(function() {
+        // 현재 요소의 값을 변경
+        $(this).val($('#ac').val());
+
+    });
+    $('[name="name"]').each(function() {
+        // 현재 요소의 값을 변경
+        $(this).val("newValue");
+
+    });
+    $('[name="acNw"]').each(function() {
+        // 현재 요소의 값을 변경
+        $(this).val("newValue");
+
+    });
 })(jQuery); // End of use strict
 
 //id를 currentData로 하면 현재 날짜를 볼러 올 수 있도록 하는 제이쿼리
