@@ -18,7 +18,6 @@ import java.util.Date;
 public class OrderEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDER_CD")
     private String orderCd;
 

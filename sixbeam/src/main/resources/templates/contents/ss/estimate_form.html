@@ -2,7 +2,7 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form th:action="@{/ss/estimate/create}"  method="post">
+            <form action=# th:action="@{/ss/estimate/create}" th:object="${estimateDtos}  method="post">
                 <div class="form-group row">
                     <label for="date" class="col-sm-2 col-form-label">견적 일자</label>
                     <div class="col-sm-4">
@@ -35,8 +35,8 @@
                         <th>총액</th>
                     </tr>
                     </thead>
-                    <tbody th:each="estimateDto, rowStat : ${estimateDtos}">
-                    <tr >
+                    <tbody >
+                    <tr th:each="estimateDto, rowStat : *{estimateDtos}">
                         <td>
                             <input type="hidden" th:field="*{estimateDtos[__${rowStat.index}__].estimateDt}" name="date">
                             <input type="hidden" th:field="*{estimateDtos[__${rowStat.index}__].accountEntity.accountCd}" name="ac">
