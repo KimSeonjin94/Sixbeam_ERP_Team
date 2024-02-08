@@ -1,10 +1,9 @@
 package com.erpproject.sixbeam.pur.controller;
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
-import com.erpproject.sixbeam.ac.service.AccountService;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
-import com.erpproject.sixbeam.pur.form.OrinPutForm;
 import com.erpproject.sixbeam.pur.service.OrinPutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -28,11 +27,13 @@ public class OrinPutController {
     }
 
     @GetMapping("/create")
-    public String OrinPutCreate(OrinPutForm orinPutForm, Model model) {
+    public String OrinPutCreate(Model model) {
         List<AccountEntity> accountEntity = this.orinputService.getactList();
         List<EmpInfoEntity> empInfoEntity = this.orinputService.getemplist();
+        List<ItemEntity> itemEntity = this.orinputService.getitemlist();
         model.addAttribute("getactlist",accountEntity);
         model.addAttribute("getemplist",empInfoEntity);
+        model.addAttribute("getitemlist",itemEntity);
         return "contents/pur/orinput_form";
     }
 

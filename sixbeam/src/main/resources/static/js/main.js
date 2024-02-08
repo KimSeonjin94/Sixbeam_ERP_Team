@@ -95,20 +95,20 @@
 
     function addRow() {
         // 테이블 선택
-        const $table = $('#estimateitem');
+        const $table = $('.table.item');
 
         // 이전 행 선택
         const $previousRow = $table.find('tr').last();
 
         // 새 행 추가
-        const $newRow = $previousRow.clone().appendTo($table);
+        const $newRow = $previousRow.clone().appendTo($table).find('input').val('');
 
         // 복제된 새 행의 input 요소 초기화
-        $newRow.find('input').val('');
+        //$newRow.find('input').val('');
     }
     function deleteLastRow() {
         // 테이블 선택
-        const $table = $('#estimateitem');
+        const $table = $('.table.item');
 
         // 마지막 행 삭제
         $table.find('tr:last').remove();
@@ -142,30 +142,44 @@
 
 })(jQuery); // End of use strict
 
+//id를 currentData로 하면 현재 날짜를 볼러 올 수 있도록 하는 제이쿼리
 $('#currentDate').val(new Date().toISOString().substring(0,10));
 
-/*
-$("#selectbox").change(function() {
-		var valuetext = $("#selectbox option:selected").val();
-		$("#textbox").val(valuetext);
-	});
-*/
-
-/*
-$("#code").on('input', function() {
-    var valuetext = $(this).text;
-    $("#textbox").val(valuetext);
-});
-*/
-
-$("#code").on('input', function() {
+//거래처 코드 선택하면 거래처명이 나올 수 있도록 하는 제이쿼리
+$("#accountCode").on('input', function() {
     var inputVal = $(this).val();
-    $("#selectbox option").each(function() {
+    $("#accountCodeSelectBox option").each(function() {
         if ($(this).val() === inputVal) {
             var accountNm = $(this).text();
-            $("#textbox").val(accountNm);
+            $("#accountName").val(accountNm);
             return false; // 반복문 종료
         }
     });
 });
 
+//테이블에서 품목 코드 선택하면 폼목명, 단가 불러오고 수량 작성하면 공급가액, 부가세, 총합 계산되도록 하는 제이쿼리
+$('.table.item').on('change input', '.selectbox, .itemamt', function() {
+    var $row = $(this).closest('tr');
+    var itemamt = parseFloat($row.find('.itemamt').val());
+    var itemup = parseFloat($row.find('.itemup').val().replace(/[^\d.-]/g, '')); // 숫자가 아닌 문자 제거
+
+    if ($(this).hasClass('selectbox')) { // .selectbox에서의 변경인 경우에만 처리
+        var valueitemname = $(this).val();
+        var valueitmestnd = $(this).find(':selected').attr("data-itemStnd");
+        var valueitmeup = parseFloat($(this).find(':selected').attr("data-itemUp")); // 문자열을 숫자로 변환
+
+        $(this).closest('tr').find('.itemname').val(valueitemname);
+        $(this).closest('tr').find('.itemstnd').val(valueitmestnd);
+        $(this).closest('tr').find('.itemup').val(valueitmeup.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }));
+    }
+
+    if (!isNaN(itemamt) && !isNaN(itemup)) {
+        var itemsp = itemamt * itemup;
+        var itemvar = itemsp * 0.1;
+        var itemsum = itemsp + itemvar;
+
+        $row.find('.itemsp').val(itemsp.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }));
+        $row.find('.itemvar').val(itemvar.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }));
+        $row.find('.itemsum').val(itemsum.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }));
+    }
+});

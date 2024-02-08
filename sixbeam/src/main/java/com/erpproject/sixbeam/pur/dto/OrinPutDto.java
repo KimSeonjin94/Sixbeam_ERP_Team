@@ -7,9 +7,9 @@ import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import java.time.LocalDate;
 
 public class OrinPutDto {
-    private String poCd;
-    private LocalDate purReqDt;
-    private LocalDate orderDt;
+    private String orinputCd;
+    private LocalDate orinputReqDt;
+    private LocalDate orinputOrDt;
     private EmpInfoEntity empInfoEntity;
     private ItemEntity itemEntity;
     private int orinputAmt;
@@ -18,6 +18,6 @@ public class OrinPutDto {
     private int orinputVat;
     private int orinputSum;
     private AccountEntity accountEntity;
-    private LocalDate deliveryDt;
+    private LocalDate orinputDlvyDt;
     private String orinputEtc;
 }
