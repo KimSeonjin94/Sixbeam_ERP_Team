@@ -25,7 +25,7 @@ public class BomEntity {
     @Id
     @ManyToOne
     @JoinColumn(name = "FITEM_CD")
-    private FitemEntity fitemEntities;
+    private FitemEntity fitemEntity;
 
     @Id
     @ManyToOne
@@ -37,7 +37,4 @@ public class BomEntity {
 
     @Column(name = "BOM_WORK_TM")
     private Time bomWorkTm;
-
-    public BomEntity(FitemEntity fitemEntity, RitemEntity ritemEntity, int bomUseMt, Time bomWorkTm) {
-    }
 }

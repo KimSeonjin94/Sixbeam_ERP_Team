@@ -13,6 +13,7 @@ import lombok.*;
 public class RitemEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ITEM_CD", insertable = false, updatable = false)
     private String itemCd;
 

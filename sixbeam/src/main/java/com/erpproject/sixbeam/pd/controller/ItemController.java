@@ -3,6 +3,7 @@ package com.erpproject.sixbeam.pd.controller;
 import com.erpproject.sixbeam.pd.dto.ItemDto;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,11 @@ import java.util.List;
 @RequestMapping("/pd/item")
 @Controller
 @Slf4j
+@AllArgsConstructor
 public class ItemController {
 
-    @Autowired
-    private ItemRepository itemRepository;
+
+    private final ItemRepository itemRepository;
 
     @GetMapping("/new")
     public String newItemDto() {
@@ -43,7 +45,7 @@ public class ItemController {
     }
 
     // 품목 선택 조회
-    @GetMapping("/selectitem_list/{id}")
+    @GetMapping("/rawitem_list/{id}")
     public String selectList(@PathVariable String id, Model model) {
 
 
@@ -55,7 +57,7 @@ public class ItemController {
         model.addAttribute("itemEntity", itemEntity);
 
         // 3. 선택 데이터 뷰페이지 반환
-        return "contents/pd/selectitem_list";
+        return "contents/pd/rawitem_list";
     }
 
     //품목 등록
@@ -68,7 +70,7 @@ public class ItemController {
         // 2. Repository로 Entity를 DB에 저장
         ItemEntity saved = itemRepository.save(itemEntity);
 
-        // 3.
+        // 3. 페이지 새로고침
         return "redirect:/item/";
     }
 }

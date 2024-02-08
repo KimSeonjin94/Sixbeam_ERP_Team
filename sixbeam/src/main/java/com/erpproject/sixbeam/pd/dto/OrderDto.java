@@ -13,7 +13,7 @@ public class OrderDto {
     private Date orderDelivDt;
     private EmpInfoEntity empInfoEntity;
     private ItemEntity itemEntity;
-    private int orderAmt;
+    private Long orderAmt;
     private boolean orderSt;
 
     public OrderEntity toEntity() {
