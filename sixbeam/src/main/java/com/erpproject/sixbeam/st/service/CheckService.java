@@ -25,7 +25,7 @@ public class CheckService {
     public int getAmountByDate(WhmoveEntity whmoveEntity, ItemEntity itemEntity, LocalDate date){
     CheckEntity checkEntity = checkRepository.findByWhmoveEntityAndItemEntity(whmoveEntity, itemEntity);
     int currentAmount = checkEntity != null ? checkEntity.getCheckAmt() : 0;
-    int totalMovementAmount = checkRepository.countByWhmoveEntityAndItemEntityAndCheckDateBefore(whmoveEntity,itemEntity, date);
+    int totalMovementAmount = checkRepository.countByWhmoveEntityAndItemEntityAndCheckDtBefore(whmoveEntity,itemEntity, date);
     return currentAmount + totalMovementAmount;
     }
 

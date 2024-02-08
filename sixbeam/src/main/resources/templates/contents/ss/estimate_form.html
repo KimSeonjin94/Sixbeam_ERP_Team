@@ -35,7 +35,8 @@
                         <th>총액</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody th:esch="estimateDto:${estimateDtoList}">
+
                     <tr  class="esetimate-control" th:object="${estimateDto}"  >
                         <td><input type="text" class="form-control input" id="itemCdInput" th:field="*{itemCd}"></td>
                         <td><input type="text" class="form-control" value="" text=""></td>
