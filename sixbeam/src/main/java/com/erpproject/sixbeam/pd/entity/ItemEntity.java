@@ -15,7 +15,6 @@ import java.util.List;
 public class ItemEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ITEM_CD")
     private String itemCd;
 

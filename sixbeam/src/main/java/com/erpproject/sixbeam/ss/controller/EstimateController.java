@@ -31,10 +31,7 @@ public class EstimateController {
         return "contents/ss/estimate_form";
     }
     @PostMapping("/create")
-    public  String createEstimateDto(@Valid List<EstimateDto> estimateDtos,BindingResult bindingResult){
-        if (bindingResult.hasErrors()) {
-            return "contents/ss/estimate_form";
-        }
+    public  String createEstimateDto(@ModelAttribute("estimateDtos") List<EstimateDto> estimateDtos){
         this.estimateService.create(estimateDtos);
         return "redirect:contents/ss/estimate_list";
     }

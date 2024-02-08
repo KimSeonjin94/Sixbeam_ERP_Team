@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class FitemEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ITEM_CD", insertable = false, updatable = false)
     private String itemCd;
 

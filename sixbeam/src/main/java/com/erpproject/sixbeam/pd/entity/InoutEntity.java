@@ -15,7 +15,6 @@ import lombok.*;
 public class InoutEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="INOUT_CMPT_CD", nullable = false)
     private String inoutCmptCd;
 
