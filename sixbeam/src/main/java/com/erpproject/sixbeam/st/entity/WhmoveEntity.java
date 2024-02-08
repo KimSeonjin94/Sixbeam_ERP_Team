@@ -41,6 +41,6 @@ public class WhmoveEntity {
     private Integer whmoveAmt;
 
     @Column(name = "whmove_gb")
-    private String whmoveGb;
+        private String whmoveGb;
 
 }
