@@ -2,28 +2,28 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form method="post">
+            <form th:action="@{/ss/estimate/create}"  method="post">
                 <div class="form-group row">
-                    <label for="estimatedate" class="col-sm-2 col-form-label">견적 일자</label>
+                    <label for="date" class="col-sm-2 col-form-label">견적 일자</label>
                     <div class="col-sm-4">
-                        <input type="date" class="form-control" id="estimatedate">
+                        <input type="date" class="form-control" id="date">
                     </div>
-                    <label for="estimateac" class="col-sm-2 col-form-label">거래처 코드</label>
+                    <label for="ac" class="col-sm-2 col-form-label">거래처 코드</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="estimateac">
+                        <input type="text" class="form-control" id="ac">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="estimateidname" class="col-sm-2 col-form-label">담당자</label>
+                    <label for="name" class="col-sm-2 col-form-label">담당자</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="estimateidname">
+                        <input type="text" class="form-control" id="name">
                     </div>
-                    <label for="estimateacname" class="col-sm-2 col-form-label">거래처</label>
+                    <label for="acNw" class="col-sm-2 col-form-label">거래처</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="estimateacname">
+                        <input type="text" class="form-control" id="acNw">
                     </div>
                 </div>
-                <table class="table" id="estimateitem">
+                <table class="table item" id="estimateitem">
                     <thead>
                     <tr>
                         <th>품목 코드</th>
@@ -35,28 +35,39 @@
                         <th>총액</th>
                     </tr>
                     </thead>
-                    <tbody th:esch="estimateDto:${estimateDtoList}">
+                    <tbody th:each="estimateDto, rowStat : ${estimateDtos}">
+                    <tr >
+                        <td>
+                            <input type="hidden" th:field="*{estimateDtos[__${rowStat.index}__].estimateDt}" name="date">
+                            <input type="hidden" th:field="*{estimateDtos[__${rowStat.index}__].accountEntity.accountCd}" name="ac">
+                            <input type="hidden" th:field="*{estimateDtos[__${rowStat.index}__].estimateNm}" name="name">
+                            <input type="text" class="form-control item" th:field="*{estimateDtos[__${rowStat.index}__].itemCd}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateAmt}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateUp}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateSp}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateVat}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateTamt}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateEtc}">
+                        </td>
+                    </tr>
 
-                    <tr  class="esetimate-control" th:object="${estimateDto}"  >
-                        <td><input type="text" class="form-control input" id="itemCdInput" th:field="*{itemCd}"></td>
-                        <td><input type="text" class="form-control" value="" text=""></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateAmt}"></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateUp}"></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateSp}"></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateVat}"></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateTamt}"></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateEtc}"></td>
-                    </tr>
-                    <tr  class="esetimate-control" th:object="${estimateDto}"  >
-                        <td><input type="text" class="form-control item" th:field="*{itemCd}"></td>
-                        <td><input type="text" class="form-control" value="" text=""></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateAmt}"></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateUp}"></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateSp}"></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateVat}"></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateTamt}"></td>
-                        <td><input type="text" class="form-control" th:field="*{estimateEtc}"></td>
-                    </tr>
+
+
                     </tbody>
                 </table>
                 <div class="row">
@@ -71,7 +82,7 @@
                                id="deleterowbtn">
                     </div>
                     <div class="col-sm-6 text-md-right">
-                        <button type="button" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary">
                             저장
                         </button>
                         <button type="button" class="btn btn-danger">

@@ -10,8 +10,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,11 +24,18 @@ public class EstimateController {
     private EstimateService estimateService;
 
     @GetMapping("/new")
-    public String newEstimateDto(){
+    public String newEstimateDto(Model model) {
+        List<EstimateDto> estimateDtos = new ArrayList<>();
+        estimateDtos.add(new EstimateDto());
+        model.addAttribute("estimateDtos",estimateDtos);
         return "contents/ss/estimate_form";
     }
-    @PostMapping("/new")
-    public  String newEstimateDto(@Valid EstimateDto estimateDto){
+    @PostMapping("/create")
+    public  String createEstimateDto(@Valid List<EstimateDto> estimateDtos,BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return "contents/ss/estimate_form";
+        }
+        this.estimateService.create(estimateDtos);
         return "redirect:contents/ss/estimate_list";
     }
     @GetMapping("/list")
