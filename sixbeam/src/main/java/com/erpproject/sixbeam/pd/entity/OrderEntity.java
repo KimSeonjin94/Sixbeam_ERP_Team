@@ -18,6 +18,7 @@ import java.util.Date;
 public class OrderEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDER_CD")
     private String orderCd;
 
@@ -36,7 +37,7 @@ public class OrderEntity {
     private ItemEntity itemEntity;
 
     @Column(name = "ORDER_AMT")
-    private int orderAmt;
+    private Long orderAmt;
 
     @Column(name = "ORDER_ST")
     private boolean orderSt;
