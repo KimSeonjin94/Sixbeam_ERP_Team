@@ -4,6 +4,7 @@ import com.erpproject.sixbeam.hr.dto.EmpInfoDto;
 import com.erpproject.sixbeam.hr.entity.DepartEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.entity.PositionEntity;
+import com.erpproject.sixbeam.hr.service.DepartService;
 import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.swing.text.Position;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,6 +26,8 @@ public class EmpInfoController {
 
     @Autowired
     private final EmpInfoService empInfoService;
+    @Autowired
+    private final DepartService departService;
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -55,7 +59,16 @@ public class EmpInfoController {
             @RequestParam(value = "employeeQr",required = false) String empInfoQr,
             @RequestParam(value = "employeeTotalnoy",required = false) int empInfoTotalnoy,
             @RequestParam(value = "employeeEtc",required = false) String empInfoEtc) {
-
+        System.out.println("개글;!!!!!!!");
+        System.out.println("개글;!!!!!!!");
+        System.out.println("개글;!!!!!!!");
+        System.out.println("개글;!!!!!!!");
+        System.out.println("개글;!!!!!!!");
+        System.out.println("개글;!!!!!!!");
+        System.out.println("개글;!!!!!!!");
+        System.out.println("개글;!!!!!!!");
+        System.out.println("개글;!!!!!!!");
+        System.out.println("개글;!!!!!!!");
         this.empInfoService.updateEmployee(
                 empInfoId,
                 empInfoPw,
