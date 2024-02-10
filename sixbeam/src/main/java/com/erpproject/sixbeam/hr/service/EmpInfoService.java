@@ -4,6 +4,7 @@ import com.erpproject.sixbeam.hr.dto.EmpInfoDto;
 import com.erpproject.sixbeam.hr.entity.DepartEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.entity.PositionEntity;
+import com.erpproject.sixbeam.hr.repository.DepartRepository;
 import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EmpInfoService {
     private final EmpInfoRepository empInfoRepository;
-
     public List<EmpInfoEntity> getList(){
         return this.empInfoRepository.findAll();
     }
+
+
     public void updateEmployee(
             Long empInfoId,
             String empInfoPw,
@@ -32,17 +34,15 @@ public class EmpInfoService {
             String empInfoEmail,
             LocalDate empInfoJoinDt,
             LocalDate empInfoQuitDt,
-//            PositionEntity positionNm,
-//            DepartEntity departNm,
+            PositionEntity positionCd,
+            DepartEntity departCd,
             String empInfoBank,
             String empInfoAccountNo,
             String empInfoQr,
             int empInfoTotalnoy,
             String empInfoEtc) {
-
         EmpInfoEntity empInfoEntity = empInfoRepository.findById(empInfoId)
                 .orElseThrow(() -> new RuntimeException("Employee with ID " + empInfoId + " not found"));
-
         // 업데이트 로직을 수행하고 저장
         empInfoEntity.setEmpInfoPw(empInfoPw);
         empInfoEntity.setEmpInfoNm(empInfoNm);
@@ -53,8 +53,8 @@ public class EmpInfoService {
         empInfoEntity.setEmpInfoEmail(empInfoEmail);
         empInfoEntity.setEmpInfoJoinDt(empInfoJoinDt);
         empInfoEntity.setEmpInfoQuitDt(empInfoQuitDt);
-//        empInfoEntity.setPositionEntity(positionEntity);
-//        empInfoEntity.setDepartEntity(departEntity);
+        empInfoEntity.setPositionEntity(positionCd);
+        empInfoEntity.setDepartEntity(departCd);
         empInfoEntity.setEmpInfoBank(empInfoBank);
         empInfoEntity.setEmpInfoAccountNo(empInfoAccountNo);
         empInfoEntity.setEmpInfoQr(empInfoQr);

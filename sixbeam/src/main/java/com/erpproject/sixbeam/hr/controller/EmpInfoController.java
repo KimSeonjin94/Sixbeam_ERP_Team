@@ -6,6 +6,7 @@ import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.entity.PositionEntity;
 import com.erpproject.sixbeam.hr.service.DepartService;
 import com.erpproject.sixbeam.hr.service.EmpInfoService;
+import com.erpproject.sixbeam.hr.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,14 +29,18 @@ public class EmpInfoController {
     private final EmpInfoService empInfoService;
     @Autowired
     private final DepartService departService;
-
+    @Autowired
+    private final PositionService positionService;
     @GetMapping("/list")
-    public String list(Model model) {
+    public String Empinfolist(Model model) {
         List<EmpInfoEntity> employeeInfoList = this.empInfoService.getList();
         model.addAttribute("employeeInfoList", employeeInfoList);
+        List<DepartEntity>departList = this.departService.getList();
+        model.addAttribute("departList",departList);
+        List<PositionEntity>positionList = this.positionService.getList();
+        model.addAttribute("positionList",positionList);
         return "contents/hr/empinfo_list";
     }
-
     @GetMapping("/create")
     public String EmpInfoCreate() {
         return "contents/hr/form";
@@ -52,23 +57,13 @@ public class EmpInfoController {
             @RequestParam(value = "employeeEmail",required = false) String empInfoEmail,
             @RequestParam(value = "employeeJoinDt",required = false)LocalDate empInfoJoinDt,
             @RequestParam(value = "employeeQuitDt",required = false)LocalDate empInfoQuitDt,
-//            @RequestParam(value = "employeePosition",required = false)PositionEntity positionEntity,
-//            @RequestParam(value = "employeeDepart",required = false)DepartEntity departEntity,
+            @RequestParam(value = "employeePosition",required = false)PositionEntity positionCd,
+            @RequestParam(value = "employeeDepart",required = false)DepartEntity departCd,
             @RequestParam(value = "employeeBank",required = false) String empInfoBank,
             @RequestParam(value = "employeeAccountNo",required = false) String empInfoAccountNo,
             @RequestParam(value = "employeeQr",required = false) String empInfoQr,
             @RequestParam(value = "employeeTotalnoy",required = false) int empInfoTotalnoy,
             @RequestParam(value = "employeeEtc",required = false) String empInfoEtc) {
-        System.out.println("개글;!!!!!!!");
-        System.out.println("개글;!!!!!!!");
-        System.out.println("개글;!!!!!!!");
-        System.out.println("개글;!!!!!!!");
-        System.out.println("개글;!!!!!!!");
-        System.out.println("개글;!!!!!!!");
-        System.out.println("개글;!!!!!!!");
-        System.out.println("개글;!!!!!!!");
-        System.out.println("개글;!!!!!!!");
-        System.out.println("개글;!!!!!!!");
         this.empInfoService.updateEmployee(
                 empInfoId,
                 empInfoPw,
@@ -80,8 +75,8 @@ public class EmpInfoController {
                 empInfoEmail,
                 empInfoJoinDt,
                 empInfoQuitDt,
-//                positionEntity,
-//                departEntity,
+                positionCd,
+                departCd,
                 empInfoBank,
                 empInfoAccountNo,
                 empInfoQr,

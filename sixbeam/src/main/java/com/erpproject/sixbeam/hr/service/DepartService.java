@@ -15,5 +15,4 @@ public class DepartService {
     public List<DepartEntity> getList() {
         return this.departRepository.findAll();
     }
-
 }

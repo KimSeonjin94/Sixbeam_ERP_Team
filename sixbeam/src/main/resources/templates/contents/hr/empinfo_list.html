@@ -129,12 +129,16 @@
                                 <!-- 직책 -->
                                 <div class="form-group">
                                     <label for="employeePosition">직책</label>
-                                    <input type="text" class="form-control" id="employeePosition" name="employeePosition" readonly>
+                                    <select class="form-control" id="employeePosition" name="employeePosition">
+                                        <option th:each="posi : ${positionList}" th:value="${posi.positionCd}" th:text="${posi.positionNm}"></option>
+                                    </select>
                                 </div>
                                 <!-- 부서 -->
                                 <div class="form-group">
                                     <label for="employeeDepart">부서</label>
-                                    <input type="text" class="form-control" id="employeeDepart" name="employeeDepart" readonly>
+                                    <select class="form-control" id="employeeDepart" name="employeeDepart">
+                                        <option th:each="depart : ${departList}" th:value="${depart.departCd}" th:text="${depart.departNm}"></option>
+                                    </select>
                                 </div>
                                 <!-- 은행 -->
                                 <div class="form-group">
