@@ -64,7 +64,7 @@ insert into sixbeam_erp.hr_empinfo_tb(empinfo_id, empinfo_account_no, empinfo_ad
 -- 부서 db--  
 insert into  sixbeam_erp.hr_empinfo_tb(depart_cd, depart_nm) values (101,'인사'),(102,'생산'),(103,'재고'),(104,'영업'),(105,'구매'),(106,'회계');
 -- 사원 db--  
-insert into hr_position_tb(position_cd, position_nm) values (301,'사원'),(302,'사원'),(303,'주임'),(304,'대리'),(305,'과장'),(306,'차장'),(307,'부장');
+insert into hr_position_tb(position_cd, position_nm) values (301,'사원1'),(302,'사원2'),(303,'주임'),(304,'대리'),(305,'과장'),(306,'차장'),(307,'부장');
 -- 거래처 db --  
 insert into ac_account_tb (account_acnb, account_add, account_bank, account_cd, account_etc, account_nb, account_nm, account_pic, account_rep, account_sectors)
 values
