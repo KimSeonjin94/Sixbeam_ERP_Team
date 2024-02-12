@@ -94,51 +94,43 @@
     });
 
     function addRow() {
-        // 테이블 선택
         const $table = $('.table.item');
-
-        // 이전 행 선택
-        const $previousRow = $table.find('tr').last();
+        const rowCount = $table.find('tr').length; // 현재 행의 개수를 기반으로 인덱스 생성
 
         // 새 행 추가
-        const $newRow = $previousRow.clone().appendTo($table).find('input').val('');
+        const $newRow = $table.find('tr:last').clone().appendTo($table);
 
-        // 복제된 새 행의 input 요소 초기화
-        //$newRow.find('input').val('');
+        // 새 행의 각 입력 요소에 대해 고유한 id 부여
+        $newRow.find('input, select').each(function() {
+            const newId = $(this).attr('id') + '_' + rowCount; // 예: currentDate_1, accountCode_1 등
+            $(this).attr('id', newId);
+
+            // 연관된 label의 for 속성도 업데이트
+            if ($(this).is('input')) { // select 요소는 label과 연결되지 않을 수 있음
+                $newRow.find('label[for="' + $(this).attr('id') + '"]').attr('for', newId);
+            }
+        });
+
+        // 복제된 새 행의 입력 요소 값 초기화
+//        $newRow.find('input').val('');
+//        $newRow.find('select').val('');
     }
     function deleteLastRow() {
         // 테이블 선택
         const $table = $('.table.item');
 
-        // 마지막 행 삭제
-        $table.find('tr:last').remove();
-    }
-    $(document).ready(function() {
-        $('.form-control.item').on('change', function() {
-            // 현재 이벤트가 발생한 input 요소를 선택
-            var currentInput = $(this);
-            //input 값 저장
-            var itemCd = $(this).val();
-            // 해당 input이 속한 row를 찾아서 인덱스를 가져옴
-            var rowIndex = currentInput.closest('tr').index();
-            // AJAX 요청
-            $.ajax({
-                type: 'GET',
-                url: '/getitemdata',
-                data: { itemCd: itemCd },
-                success: function(response) {
-                    // 응답을 받았을 때 데이터를 테이블에 반영
-                    var itemNwColumn = response.itemNw;
+        // 테이블의 행 개수 확인
+        const rowCount = $table.find('tr').length;
 
-                    // 현재 행의 첫 번째 열 값을 업데이트
-                    currentInput.closest('tr').find('td:eq(1)').find('input').val(itemNwColumn);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
-        });
-    });
+        // 행이 하나만 남았을 때
+        if (rowCount <= 1) {
+            // Bootstrap 모달 표시
+            $('#cannotDeleteModal').modal('show');
+        } else {
+            // 마지막 행 삭제
+            $table.find('tr:last').remove();
+        }
+    }
     $('[name="date"]').each(function() {
         // 현재 요소의 값을 변경
         $(this).val($('#date').val());
@@ -159,6 +151,8 @@
         $(this).val("newValue");
 
     });
+
+
 })(jQuery); // End of use strict
 
 //id를 currentData로 하면 현재 날짜를 볼러 올 수 있도록 하는 제이쿼리
@@ -257,3 +251,47 @@ function orinPutSaveData() {
             }
         });
     }
+$(document).ready(function() {
+    calculateTotals();
+
+    // 데이터가 변경될 때마다 합계를 다시 계산합니다.
+    // 예를 들어, 행이 추가되거나 삭제될 때, 입력 값이 변경될 때 등
+    $('#estimateitem').on('input', '.itemamt, .itemup, .itemsp, .itemvar, .itemsum', function() {
+        calculateTotals();
+    });
+});
+function calculateTotals() {
+    var totalAmt = 0, totalUp = 0, totalSp = 0, totalVat = 0, totalSum = 0;
+
+    $('.itemamt').each(function() {
+        totalAmt += parseInt($(this).val()) || 0;
+    });
+    $('.itemup').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalUp += parseInt(value) || 0;
+    });
+    $('.itemsp').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalSp += parseInt(value) || 0;
+    });
+    $('.itemvar').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalVat += parseInt(value) || 0;
+    });
+    $('.itemsum').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalSum += parseInt(value) || 0;
+    });
+
+    // 계산된 합계를 통화 형식으로 표시
+    $('#totalAmt').text(totalAmt);
+    $('#totalUp').text(formatCurrency(totalUp));
+    $('#totalSp').text(formatCurrency(totalSp));
+    $('#totalVat').text(formatCurrency(totalVat));
+    $('#totalSum').text(formatCurrency(totalSum));
+}
+
+function formatCurrency(value) {
+    // 숫자를 지역화된 통화 문자열로 변환 (소수점 없이)
+    return "₩" + value.toLocaleString('ko-KR');
+}
