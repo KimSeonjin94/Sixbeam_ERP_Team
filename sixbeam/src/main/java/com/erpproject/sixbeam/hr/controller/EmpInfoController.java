@@ -116,6 +116,9 @@ public class EmpInfoController {
                 empInfoEtc);
         return "redirect:/hr/empinfo/list";
     }
-
-
+    @PostMapping("/delete")
+    public String delete( @RequestParam(value = "selectedEmployees") Long empInfoId) {
+        empInfoService.deleteEmployee(empInfoId);
+        return "redirect:/hr/empinfo/list"; // Redirect to the employee list page or any other appropriate page
+    }
 }
