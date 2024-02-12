@@ -4,6 +4,9 @@
 <!--4. 정규화? 하기-->
 <!--5. 사진 링크 걸게 하기(사진관련 링크 데이터베이스 만들기)-->
 <!--6. 삭제 기능 -> 퇴사일을 기준으로 현재 날짜가 퇴사일보다 크면 데이터에 표시가 안되게 하기-->
+<!--7. 지금 삭제 기능을 아예 없애는 걸로 했지만, 나중에 불리언값 추가 해놓기(지금은 완전삭제지만, 완전삭제안하게 하기 위함)-->
+<!--8. 체크박스해서 수정기능도 넣어놓기(해결)-->
+<!--9. 체크 다중했을때 선택해서 수정하는 기능 넣기-->
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
 <head>
     <meta charset="UTF-8">
@@ -21,12 +24,22 @@
 <body>
 <div layout:fragment="content" class="container-fluid">
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">크크큭</h1>
+    <!-- 큰제목 -->
+    <h1 class="h3 mb-2 text-gray-800">개구리맛</h1>
     <div class = "btn-group" role = "group" aria-label = "Basic example">
-        <!-- Button trigger modal -->
+        <!-- 등록버튼 -->
         <button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#newestimate">
             등록
+        </button>
+<!--        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateNoteModal" >-->
+<!--            수정-->
+<!--        </button>-->
+        <button type="button" class="btn btn-warning" data-toggle="modal" onclick="updateSelectedEmpInfo()">
+            수정
+        </button>
+        <!-- 삭제 버튼 -->
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteEmployeeModal">
+            삭제
         </button>
     </div>
     <!-- DataTales Example -->
@@ -39,6 +52,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
+                        <th>체크</th>
                         <th>입사일</th>
                         <th>이름</th>
                         <th>사원ID</th>
@@ -50,10 +64,24 @@
                     <tbody>
 
                     <tr th:each="employee : ${employeeInfoList}">
+                        <!--체크박스-->
+                        <td>
+                            <input th:type="checkbox" th:name="selectedEmployees" th:value="${employee.empInfoId}">
+                        </td>
                         <td th:text="${employee.empInfoJoinDt}"></td>
-                        <td th:text="${employee.empInfoNm}"></td>
                         <td>
                             <a href="#" th:onclick="openEditEmployeePage([[${employee.empInfoId}]],[[${employee.empInfoNm}]],[[${employee.empInfoPw}]],[[${employee.empInfoSex}]],[[${employee.empInfoBirth}]],[[${employee.empInfoAddr}]],[[${employee.empInfoPhone}]],[[${employee.empInfoEmail}]],[[${employee.empInfoJoinDt}]],[[${employee.empInfoQuitDt}]],[[${employee.positionEntity.positionNm}]],[[${employee.departEntity.departNm}]],[[${employee.empInfoBank}]],[[${employee.empInfoAccountNo}]],[[${employee.empInfoQr}]],[[${employee.empInfoTotalnoy}]],[[${employee.empInfoEtc}]])"
+                               style="color: blue; cursor: pointer;">
+                                <span th:text="${employee.empInfoNm}" class="employee-nm"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" th:onclick="openEditEmployeePage([[${employee.empInfoId}]],[[${employee.empInfoNm}]],[[${employee.empInfoPw}]],
+                            [[${employee.empInfoSex}]],[[${employee.empInfoBirth}]],[[${employee.empInfoAddr}]],
+                            [[${employee.empInfoPhone}]],[[${employee.empInfoEmail}]],[[${employee.empInfoJoinDt}]],
+                            [[${employee.empInfoQuitDt}]],[[${employee.positionEntity.positionNm}]],[[${employee.departEntity.departNm}]],
+                            [[${employee.empInfoBank}]],[[${employee.empInfoAccountNo}]],[[${employee.empInfoQr}]],
+                            [[${employee.empInfoTotalnoy}]],[[${employee.empInfoEtc}]])"
                                style="color: blue; cursor: pointer;">
                                 <span th:text="${employee.empInfoId}" class="employee-id"></span>
                             </a>
@@ -310,6 +338,29 @@
             </div>
         </div>
     </div>
+    <!-- 삭제하는 모달 -->
+    <div class="modal fade" id="deleteEmployeeModal" tabindex="-1" aria-labelledby="deleteEmployeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteEmployeeModalLabel">사원 삭제</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>선택한 사원을 삭제하시겠습니까?</p>
+                    <form id="deleteEmployeeForm" th:action="@{/hr/empinfo/delete}" method="post">
+                        <input type="hidden" id="selectedEmployeesInput" name="selectedEmployees">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="deleteSelectedEmpInfo()">삭제</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script th:inline="javascript">
         function openEditEmployeePage(employeeId, employeeNm, employeePassword, employeeSex, employeeBirth, employeeAddr, employeePhone, employeeEmail, employeeJoinDt, employeeQuitDt, employeePosition, employeeDepart, employeeBank, employeeAccountNo, employeeQr, employeeTotalnoy, employeeEtc) {
             $('#updateNoteModal').modal('show');
@@ -335,10 +386,68 @@
             document.getElementById("updateEmployeeForm").submit();
             alert('수정되었습니다.');
         }
+        function updateSelectedEmpInfo() {
+            var employeeInfoList = /*[[${employeeInfoList}]]*/ [];
+            var selectedEmployees = [];
+            $('input[name="selectedEmployees"]:checked').each(function() {
+                selectedEmployees.push($(this).val());
+            });
+            var selectedEmployeeData = [];
+            selectedEmployees.forEach(function(employeeId) {
+                var employee = employeeInfoList.find(function(emp) {
+                    return emp.empInfoId == employeeId;
+                });
+
+                if (employee) {
+                    selectedEmployeeData.push(employee);
+                }
+            });
+
+            // updateSelectedEmpInfo 함수 호출
+            selectedEmployeeData.forEach(function(employee) {
+                openEditEmployeePage(
+                    employee.empInfoId,
+                    employee.empInfoNm,
+                    employee.empInfoPw,
+                    employee.empInfoSex,
+                    employee.empInfoBirth,
+                    employee.empInfoAddr,
+                    employee.empInfoPhone,
+                    employee.empInfoEmail,
+                    employee.empInfoJoinDt,
+                    employee.empInfoQuitDt,
+                    employee.positionEntity.positionNm,
+                    employee.departEntity.departNm,
+                    employee.empInfoBank,
+                    employee.empInfoAccountNo,
+                    employee.empInfoQr,
+                    employee.empInfoTotalnoy,
+                    employee.empInfoEtc
+                );
+            });
+        }
         function createEmpInfo() {
             document.getElementById("createEmployeeForm").submit();
-            alert('추가되었습니다.')
+            alert('추가되었습니다.');
         }
+        function deleteSelectedEmpInfo() {
+            var selectedEmployees = [];
+            $('input[name="selectedEmployees"]:checked').each(function() {
+                selectedEmployees.push($(this).val());
+            });
+            if (selectedEmployees.length === 0) {
+                alert('선택된 항목이 없습니다.');
+            } else {
+                // 선택된 사원 ID를 hidden input에 설정
+                $('#selectedEmployeesInput').val(selectedEmployees.join(', '));
+                // 폼 서버로 제출
+                document.getElementById("deleteEmployeeForm").submit();
+                // 모달 닫기
+                $('#deleteEmployeeModal').modal('hide');
+                alert('삭제됨');
+            }
+        }
+
     </script>
 
 </div>

@@ -18,6 +18,9 @@ public class EmpInfoService {
     public List<EmpInfoEntity> getList(){
         return this.empInfoRepository.findAll();
     }
+    public void deleteEmployee(Long empInfoId){
+        this.empInfoRepository.deleteById(empInfoId);
+    }
     public void createEmployee(
             String empInfoPw,
             String empInfoNm,
