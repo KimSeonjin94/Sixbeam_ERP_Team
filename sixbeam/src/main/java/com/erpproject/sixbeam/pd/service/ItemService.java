@@ -1,6 +1,9 @@
 package com.erpproject.sixbeam.pd.service;
 
+import com.erpproject.sixbeam.pd.dto.BomDto;
+import com.erpproject.sixbeam.pd.entity.BomEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.repository.BomRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,47 @@ public class ItemService {
 
         return itemRepository.findAll();
     }
+
+    public List<ItemEntity> getCPU() {
+
+        return itemRepository.findByItemCdContainingKeyword("CPU");
+    }
+
+    public List<ItemEntity> getMB() {
+
+        return itemRepository.findByItemCdContainingKeyword("MAINBOARD");
+    }
+
+    public List<ItemEntity> getVGA() {
+
+        return itemRepository.findByItemCdContainingKeyword("VGA");
+    }
+
+    public List<ItemEntity> getRAM() {
+
+        return itemRepository.findByItemCdContainingKeyword("RAM");
+    }
+
+    public List<ItemEntity> getSSD() {
+
+        return itemRepository.findByItemCdContainingKeyword("SSD");
+    }
+
+    public List<ItemEntity> getHDD() {
+
+        return itemRepository.findByItemCdContainingKeyword("HDD");
+    }
+
+    public List<ItemEntity> getPOWER() {
+
+        return itemRepository.findByItemCdContainingKeyword("POWER");
+    }
+
+    public List<ItemEntity> getCASE() {
+
+        return itemRepository.findByItemCdContainingKeyword("CASE");
+    }
+
 }
 
 

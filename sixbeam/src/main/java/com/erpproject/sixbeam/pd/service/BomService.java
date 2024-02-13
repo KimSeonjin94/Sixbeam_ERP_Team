@@ -25,9 +25,8 @@ public class BomService {
     }
 
     // BOM 저장 메서드
-    public List<FitemEntity> save(BomEntity bomEntity) {
+/*    public void save(BomEntity bomDto) {
 
-        List<ItemEntity> itemsContainingWith = itemRepository.findByItemCdContainingKeyword("F");
         List<FitemEntity> itemEntities = new ArrayList<>();
         for (ItemEntity item : itemsContainingWith) {
             ItemEntity itemEntity = new ItemEntity();
@@ -38,6 +37,6 @@ public class BomService {
             itemEntities.add(itemEntity);
         }
 
-        return itemRepository.saveAll(itemEntities);
-    }
+        itemRepository.save();
+    }*/
 }

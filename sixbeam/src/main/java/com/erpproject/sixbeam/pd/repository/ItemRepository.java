@@ -14,7 +14,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, String> {
     List<ItemEntity> findByItemCdStartingWith(@Param("prefix") String prefix);
 
     // 특정 문자열이 아이템 코드에 포함된 아이템 엔티티를 반환하는 메서드.
-    @Query("SELECT i FROM ItemEntity i WHERE i.itemCd LIKE CONCAT('%', :keyword, '%')")
+    @Query("SELECT i FROM ItemEntity i WHERE i.itemStnd LIKE CONCAT('%', :keyword, '%')")
     List<ItemEntity> findByItemCdContainingKeyword(@Param("keyword") String keyword);
 
 }
