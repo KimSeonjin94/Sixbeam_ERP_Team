@@ -6,13 +6,17 @@ import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
+import com.erpproject.sixbeam.pur.dto.OrinPutDto;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
+import com.erpproject.sixbeam.ss.dto.EstimateDto;
+import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -39,13 +43,15 @@ public class OrinPutService {
         return this.itemRepository.findAll();
     }
 
-    public void save(OrinPutEntity orinPutEntity) {
-        // 새로운 주문 코드 생성
-        String newOrinputCd = generateNewOrinputCd();
-        orinPutEntity.setOrinputCd(newOrinputCd);
-
-        // 엔티티 저장
-        orinPutRepository.save(orinPutEntity);
+    public void save(List<OrinPutDto> orinPutDtos) {
+        List<OrinPutEntity> entities = new ArrayList<>();
+        for (OrinPutDto orinputDto : orinPutDtos) {
+            OrinPutEntity orinPutEntity = orinputDto.toEntity();
+            String newOrinputCd = generateNewOrinputCd();
+            orinPutEntity.setOrinputCd(newOrinputCd);
+            entities.add(orinPutEntity);
+        }
+        orinPutRepository.saveAll(entities);
     }
 
     private String generateNewOrinputCd() {

@@ -164,7 +164,7 @@ $('.table.item').on('change input', '.selectbox, .itemamt', function() {
     var itemup = parseFloat($row.find('.itemup').val().replace(/[^\d.-]/g, '')); // 숫자가 아닌 문자 제거
 
     if ($(this).hasClass('selectbox')) { // .selectbox에서의 변경인 경우에만 처리
-        var valueitemname = $(this).val();
+        var valueitemname = $(this).find(':selected').attr("data-itemNm");
         var valueitmestnd = $(this).find(':selected').attr("data-itemStnd");
         var valueitmeup = parseFloat($(this).find(':selected').attr("data-itemUp")); // 문자열을 숫자로 변환
 
@@ -243,7 +243,7 @@ $(document).ready(function() {
 
     // 데이터가 변경될 때마다 합계를 다시 계산합니다.
     // 예를 들어, 행이 추가되거나 삭제될 때, 입력 값이 변경될 때 등
-    $('#estimateitem').on('input', '.itemamt, .itemup, .itemsp, .itemvar, .itemsum', function() {
+    $('.table.item').on('input', '.itemamt, .itemup, .itemsp, .itemvar, .itemsum', function() {
         calculateTotals();
     });
 });
@@ -301,12 +301,18 @@ $(document).ready(function() {
         var accountCode = $('#accountCode').val();
         // 견적 일자의 현재 값을 가져옴
         var currentDate = $('#currentDate').val();
+        // 발주 요청 일자(발주에서 사용)
+        var requestDate = $('#orinputReqDate').val()
+        // 납기 일자(발주에서 사용)
+        var deliveryDate = $('#orinputDlvyDate').val()
 
         $('.table.item tbody tr').each(function(index) {
             // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
-            $(this).find('input[name^="estimateDtos["][name$="].estimateDt"]').val(currentDate);
-            $(this).find('input[name^="estimateDtos["][name$="].accountEntity.accountCd"]').val(accountCode);
-            $(this).find('input[name^="estimateDtos["][name$="].estimateNm"]').val(selectedEmp);
+            $(this).find('.RegisDate').val(currentDate);
+            $(this).find('.AccountCode').val(accountCode);
+            $(this).find('.EmpInfoId').val(selectedEmp);
+            $(this).find('.OrinputReqDate').val(requestDate);
+            $(this).find('.OrinputDlvyDate').val(deliveryDate);
         });
 
         var formData = new FormData(this);
