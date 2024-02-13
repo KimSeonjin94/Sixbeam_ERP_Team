@@ -13,16 +13,42 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@IdClass(CheckEntityId.class)
 @Table(name = "st_check_tb")
 public class CheckEntity {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "check_cd")
+    private Long checkCd;
+
+    @Column(name = "check_amt")
+    private Integer checkAmt;
+
+    @ManyToOne
+    @JoinColumn(name = "whmove_cd")
+    private WhmoveEntity whmoveEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "item_cd")
+    private ItemEntity itemEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "whregist_cd")
+    private WhregistEntity whregistEntity;
+
+}
+    /* 2024-02-08 이전
     @Column(name = "check_dt")
     private LocalDate checkDt;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "item_cd")
+    @JoinColumn(name = "whmove_cd")
+    private WhmoveEntity whmoveEntity;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "item_cd" )
     private ItemEntity itemEntity;
 
     @Column(name = "check_up")
@@ -33,4 +59,6 @@ public class CheckEntity {
 
     @Column(name = "check_amt")
     private Integer checkAmt;
-}
+
+     */
+

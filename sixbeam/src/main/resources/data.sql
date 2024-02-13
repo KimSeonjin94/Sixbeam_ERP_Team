@@ -1,7 +1,7 @@
 -- 회원정보 --
 		
-INSERT INTO sixbeam_erp.hr_empinfo_tb(empinfo_id, empinfo_account_no, empinfo_addr, empinfo_bank, empinfo_birth, empinfo_email, empinfo_etc, empinfo_join_dt, empinfo_nm, empinfo_phone, empinfo_pw, empinfo_qr, empinfo_quit_dt, empinfo_sex, empinfo_totalnoy, depart_cd, position_cd) VALUES		
-(20241001,'123-456-0001','수원시 권선구','Bank 0','1990-01-01','employee1@example.com',NULL,'2024-02-06','임호진','123-456-0000','0',NULL,'2024-02-06',_binary ''hr_empinfo_tb,0,107,301),		
+insert into sixbeam_erp.hr_empinfo_tb(empinfo_id, empinfo_account_no, empinfo_addr, empinfo_bank, empinfo_birth, empinfo_email, empinfo_etc, empinfo_join_dt, empinfo_nm, empinfo_phone, empinfo_pw, empinfo_qr, empinfo_quit_dt, empinfo_sex, empinfo_totalnoy, depart_cd, position_cd) values
+(20241001,'123-456-0001','수원시 권선구','Bank 0','1990-01-01','employee1@example.com',null,'2024-02-06','임호진','123-456-0000','0',null,'2024-02-06',_binary ''hr_empinfo_tb,0,107,301),
 (20241002,'123-456-0002','수원시 권선구','Bank 1','1991-01-01','employee2@example.com',NULL,'2024-02-06','천준호','123-456-0001','1',NULL,'2024-03-06',_binary '\0',0,107,301),		
 (20241003,'123-456-0003','수원시 권선구','Bank 2','1992-01-01','employee3@example.com',NULL,'2024-02-06','임지환','123-456-0002','2',NULL,'2024-04-06',_binary '',0,107,301),		
 (20241004,'123-456-0004','수원시 권선구','Bank 3','1993-01-01','employee4@example.com',NULL,'2024-02-06','이상효','123-456-0003','3',NULL,'2024-05-06',_binary '\0',0,107,301),		
@@ -62,11 +62,11 @@ INSERT INTO sixbeam_erp.hr_empinfo_tb(empinfo_id, empinfo_account_no, empinfo_ad
 (20241059,'123-456-0019','수원시 권선구','Bank 18','2008-01-01','employee19@example.com',NULL,'2024-02-06','이충현','123-456-0018','18',NULL,'2025-08-06',_binary '',0,121,315),		
 (20241060,'123-456-0020','수원시 권선구','Bank 19','2009-01-01','employee20@example.com',NULL,'2024-02-06','박박박','123-456-0019','19',NULL,'2025-09-06',_binary '\0',0,121,315);		
 -- 부서 db--  
-INSERT INTO  sixbeam_erp.hr_empinfo_tb(depart_cd, depart_nm) VALUES (101,'인사'),(102,'생산'),(103,'재고'),(104,'영업'),(105,'구매'),(106,'회계');
+insert into  sixbeam_erp.hr_empinfo_tb(depart_cd, depart_nm) values (101,'인사'),(102,'생산'),(103,'재고'),(104,'영업'),(105,'구매'),(106,'회계');
 -- 사원 db--  
-INSERT INTO hr_position_tb(position_cd, position_nm) VALUES (301,'사원'),(302,'사원'),(303,'주임'),(304,'대리'),(305,'과장'),(306,'차장'),(307,'부장');
+insert into hr_position_tb(position_cd, position_nm) values (301,'사원1'),(302,'사원2'),(303,'주임'),(304,'대리'),(305,'과장'),(306,'차장'),(307,'부장');
 -- 거래처 db --  
-INSERT INTO ac_account_tb (account_acnb, account_add, account_bank, account_cd, account_etc, account_nb, account_nm, account_pic, account_rep, account_sectors)
+insert into ac_account_tb (account_acnb, account_add, account_bank, account_cd, account_etc, account_nb, account_nm, account_pic, account_rep, account_sectors)
 values
 ('685-0473786985', '서울시 광진구', '카카오뱅크', 'CPN0831580507', null, '0831580507', '롯데', '임지환', '신격호', '유통'),
 ('783-6930006568', '경기도 성남시', '하나은행', 'CPN0896202274', null, '0896202274', '소니', '김선진', '모리타아키오', '제조'),
@@ -102,7 +102,7 @@ values
 ('642-0290265811', '경기도 수원시 ', '우리은행', 'RTS1010101010', '소매매출', '8832918761', '개인거래', '김선진', 'CUSTOMER', '소매');
 
 -- 재무상태표 db --  
-INSERT INTO `ac_bs_tb` VALUES (200000000,250000000,10000000,0,100000000,0,200000000,260000000,0,0,'Balancesh2023Q4');
+insert into `ac_bs_tb` VALUES (200000000,250000000,10000000,0,100000000,0,200000000,260000000,0,0,'Balancesh2023Q4');
 
 
 -- 창고등록 DB --
@@ -111,31 +111,31 @@ insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values("WHR100
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values("WHR1003","자재창고");
 
 -- item db --
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (800000, 'F1001', 'ASSEMBLE-PC', 'PC-DESKTOP');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (850000, 'F1002', 'ASSEMBLE-PC', 'PC-DESKTOP');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (500000, 'F1003', 'ASSEMBLE-PC', 'PC-DESKTOP');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (1000000, 'F1004', 'ASSEMBLE-PC', 'PC-DESKTOP');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (1500000, 'F1005', 'ASSEMBLE-PC', 'PC-DESKTOP');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (410000, 'R1001', 'INTEL-CPU', 'CPU-I5-13600K');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (510000, 'R1002', 'AMD-CPU', 'CPU-R7-G5');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (55000, 'R1003', 'SAMSUNG-RAM', 'RAM-DDR5-16GB');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (29000, 'R1004', 'SKHYNIX-RAM', 'RAM-DDR4-8GB');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (98000, 'R1005', 'ASUS-MAINBOARD', 'MAINBOARD-H610M');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (170000, 'R1006', 'ASROCK-MAINBOARD', 'MAINBOARD-B760M');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (269000, 'R1007', 'GIGABYTE-MAINBOARD', 'MAINBOARD-B650M');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (403000, 'R1008', 'ASUS-VGA', 'VGA-RTX4060');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (791000, 'R1009', 'ZOTAC-VGA', 'VGA-RTX4070');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (538000, 'R1010', 'EMTEK-VGA', 'VGA-RTX4060TI');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (128000, 'R1011', 'SKHYNIX-SSD', 'SSD-1TB');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (115000, 'R1012', 'WESTERNDIGITAL-HDD', 'HDD-4TB');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (68000, 'R1013', 'SAMSUNG-SSD', 'SSD-512GB');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (98000, 'R1014', 'DARKFLASH-CASE', 'CASE-ITX');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (45000, 'R1015', 'BRAVOTEC-CASE', 'CASE-MATX');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (126000, 'R1016', 'SEASONIC-POWER', 'POWER-750W');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (54500, 'R1017', 'MICRONICS-POWER', 'POWER-500W');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (77500, 'R1018', 'LOGITECH-KEYBOARD', 'KEYBOARD-T');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (189000, 'R1019', 'HANSUNG-KEYBOARD', 'KEYBOARD-TL');
-INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES (72900, 'R1020', 'RAZER-MOUSE', 'MOUSE-WL');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (800000, 'F1001', 'ASSEMBLE-PC', 'PC-DESKTOP');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (850000, 'F1002', 'ASSEMBLE-PC', 'PC-DESKTOP');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (500000, 'F1003', 'ASSEMBLE-PC', 'PC-DESKTOP');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (1000000, 'F1004', 'ASSEMBLE-PC', 'PC-DESKTOP');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (1500000, 'F1005', 'ASSEMBLE-PC', 'PC-DESKTOP');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (410000, 'R1001', 'INTEL-CPU', 'CPU-I5-13600K');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (510000, 'R1002', 'AMD-CPU', 'CPU-R7-G5');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (55000, 'R1003', 'SAMSUNG-RAM', 'RAM-DDR5-16GB');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (29000, 'R1004', 'SKHYNIX-RAM', 'RAM-DDR4-8GB');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (98000, 'R1005', 'ASUS-MAINBOARD', 'MAINBOARD-H610M');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (170000, 'R1006', 'ASROCK-MAINBOARD', 'MAINBOARD-B760M');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (269000, 'R1007', 'GIGABYTE-MAINBOARD', 'MAINBOARD-B650M');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (403000, 'R1008', 'ASUS-VGA', 'VGA-RTX4060');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (791000, 'R1009', 'ZOTAC-VGA', 'VGA-RTX4070');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (538000, 'R1010', 'EMTEK-VGA', 'VGA-RTX4060TI');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (128000, 'R1011', 'SKHYNIX-SSD', 'SSD-1TB');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (115000, 'R1012', 'WESTERNDIGITAL-HDD', 'HDD-4TB');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (68000, 'R1013', 'SAMSUNG-SSD', 'SSD-512GB');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (98000, 'R1014', 'DARKFLASH-CASE', 'CASE-ITX');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (45000, 'R1015', 'BRAVOTEC-CASE', 'CASE-MATX');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (126000, 'R1016', 'SEASONIC-POWER', 'POWER-750W');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (54500, 'R1017', 'MICRONICS-POWER', 'POWER-500W');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (77500, 'R1018', 'LOGITECH-KEYBOARD', 'KEYBOARD-T');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (189000, 'R1019', 'HANSUNG-KEYBOARD', 'KEYBOARD-TL');
+insert into sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) values (72900, 'R1020', 'RAZER-MOUSE', 'MOUSE-WL');
 
 -- 창고이동 DB --
 insert into sixbeam_erp.st_whmove_tb (whmove_amt,whmove_dt,empinfo_id,item_cd,whmove_cd,whmove_gb,whregist_cd) values
@@ -231,20 +231,50 @@ insert into sixbeam_erp.st_whmove_tb (whmove_amt,whmove_dt,empinfo_id,item_cd,wh
 (20	,"2024-09-30"	,"20241007"	,"R1020"	,"WHM2024-10090"	,"출고"	,"WHR1001");
 
 
+("2024-01-31"	,"CPN9769359992"	,"20241001"	,"서울시 강남구 역삼동 123-45"	,"REL20240131-1001"	,"010-1234-5678"	,"김철수"	,"06012"	,"WHM2024-10061"	,"SS2024-02-02-101"),
+("2024-02-01"	,"CPN8956377612"	,"20241005"	,"경기도 수원시 장안구 영통동 678-90"	,"REL20240201-1002"	,"010-9876-5432"	,"이영희"	,"16473"	,"WHM2024-10062"	,"SS2024-02-02-102"),
+("2024-02-15"	,"CPN9769359992"	,"20241007"	,"부산광역시 해운대구 송정동 56-78"	,"REL20240215-1003"	,"010-1111-2222"	,"박민준"	,"48058"	,"WHM2024-10063"	,"SS2024-02-02-103"),
+("2024-03-02"	,"CPN8766713365"	,"20241001"	,"인천광역시 남동구 만수동 12-34"	,"REL20240302-1004"	,"010-5555-6666"	,"정지수"	,"21536"	,"WHM2024-10064"	,"SS2024-02-02-104"),
+("2024-03-20"	,"CPN8641151763"	,"20241005"	,"대구광역시 중구 삼덕동 987-65"	,"REL20240320-1005"	,"010-9999-8888"	,"최영호"	,"41907"	,"WHM2024-10065"	,"SS2024-02-02-105"),
+("2024-08-12"	,"CPN7551487293"	,"20241007"	,"대전광역시 서구 둔산동 345-67"	,"REL20240812-1006"	,"010-4321-8765"	,"김하늘"	,"35247"	,"WHM2024-10066"	,"SS2024-02-02-106"),
+("2024-08-25"	,"CPN7422636804"	,"20241001"	,"광주광역시 동구 서석동 89-01"	,"REL20240825-1007"	,"010-8765-4321"	,"이태양"	,"61425"	,"WHM2024-10067"	,"SS2024-02-02-107"),
+("2024-09-03"	,"CPN6814402423"	,"20241005"	,"울산광역시 남구 삼산동 234-56"	,"REL20240903-1008"	,"010-2468-1357"	,"박소은"	,"44702"	,"WHM2024-10068"	,"SS2024-02-02-108"),
+("2024-09-18"	,"CPN6543637212"	,"20241007"	,"경북 포항시 북구 용흥동 901-23"	,"REL20240918-1009"	,"010-7890-4321"	,"정우진"	,"37856"	,"WHM2024-10069"	,"SS2024-02-02-109"),
+("2024-09-30"	,"CPN6357090862"	,"20241001"	,"전북 전주시 완산구 효자동 345-67"	,"REL20240930-1010"	,"010-6543-2109"	,"최민서"	,"55024"	,"WHM2024-10070"	,"SS2024-02-02-110"),
+("2024-09-30"	,"CPN6287772501"	,"20241005"	,"전남 목포시 용당동 789-01"	,"REL20240930-1011"	,"010-7777-8888"	,"아저씨"	,"58731"	,"WHM2024-10071"	,"SS2024-02-02-111"),
+("2024-09-30"	,"CPN6234714473"	,"20241007"	,"경남 창원시 의창구 사림동 234-56"	,"REL20240930-1012"	,"010-3333-4444"	,"홍길동"	,"51402"	,"WHM2024-10072"	,"SS2024-02-02-112"),
+("2024-09-30"	,"CPN5836847354"	,"20241001"	,"충북 청주시 상당구 문의동 012-34"	,"REL20240930-1013"	,"010-0000-9999"	,"이순신"	,"28645"	,"WHM2024-10073"	,"SS2024-02-02-113"),
+("2024-09-30"	,"CPN5593852744"	,"20241005"	,"충남 아산시 배방읍 석정리 567-89"	,"REL20240930-1014"	,"010-5678-4321"	,"김영희"	,"31456"	,"WHM2024-10074"	,"SS2024-02-02-114"),
+("2024-09-30"	,"CPN5431051314"	,"20241007"	,"강원 원주시 부론동 890-12"	,"REL20240930-1015"	,"010-1357-2468"	,"이철수"	,"26473"	,"WHM2024-10075"	,"SS2024-02-02-115"),
+("2024-09-30"	,"CPN5277628939"	,"20241001"	,"경기 안양시 만안구 박달동 345-67"	,"REL20240930-1016"	,"010-8765-1234"	,"박민준"	,"13924"	,"WHM2024-10076"	,"SS2024-02-02-116"),
+("2024-09-30"	,"CPN5221945160"	,"20241005"	,"인천 서구 청라동 012-34"	,"REL20240930-1017"	,"010-4444-5555"	,"정우진"	,"22658"	,"WHM2024-10077"	,"SS2024-02-02-117"),
+("2024-09-30"	,"CPN4308575449"	,"20241007"	,"대전 유성구 구암동 789-01"	,"REL20240930-1018"	,"010-8888-9999"	,"김하늘"	,"34105"	,"WHM2024-10078"	,"SS2024-02-02-118"),
+("2024-09-30"	,"CPN4282222263"	,"20241001"	,"광주 북구 우치로 234-56"	,"REL20240930-1019"	,"010-6666-7777"	,"이태양"	,"61472"	,"WHM2024-10079"	,"SS2024-02-02-119"),
+("2024-09-30"	,"CPN4244014868"	,"20241005"	,"울산 중구 성안동 567-89"	,"REL20240930-1020"	,"010-2222-3333"	,"박소은"	,"44012"	,"WHM2024-10080"	,"SS2024-02-02-120"),
+("2024-09-30"	,"CPN3184469866"	,"20241007"	,"경북 경주시 보문로 012-34"	,"REL20240930-1021"	,"010-7890-1234"	,"최영호"	,"38036"	,"WHM2024-10081"	,"SS2024-02-02-121"),
+("2024-09-30"	,"CPN3058270672"	,"20241001"	,"전북 익산시 망성동 901-23"	,"REL20240930-1022"	,"010-5678-9012"	,"홍길순"	,"54629"	,"WHM2024-10082"	,"SS2024-02-02-122"),
+("2024-09-30"	,"CPN2266939105"	,"20241005"	,"전남 여수시 국동 345-67"	,"REL20240930-1023"	,"010-1234-5670"	,"김철수"	,"59602"	,"WHM2024-10083"	,"SS2024-02-02-123"),
+("2024-09-30"	,"CPN1856927584"	,"20241007"	,"경남 진주시 남강로 789-01"	,"REL20240930-1024"	,"010-9876-5430"	,"송중기"	,"52814"	,"WHM2024-10084"	,"SS2024-02-02-124"),
+("2024-09-30"	,"CPN1203760813"	,"20241001"	,"충북 청주시 청원구 오창읍 234-56"	,"REL20240930-1025"	,"010-1111-2220"	,"한예슬"	,"28671"	,"WHM2024-10085"	,"SS2024-02-02-125"),
+("2024-09-30"	,"CPN1173291319"	,"20241005"	,"충남 서산시 동문로 890-12"	,"REL20240930-1026"	,"010-5555-6660"	,"송혜교"	,"35648"	,"WHM2024-10086"	,"SS2024-02-02-126"),
+("2024-09-30"	,"CPN1029807529"	,"20241007"	,"강원 춘천시 효자동 012-34"	,"REL20240930-1027"	,"010-9999-8880"	,"이민호"	,"26415"	,"WHM2024-10087"	,"SS2024-02-02-127"),
+("2024-09-30"	,"CPN0896202274"	,"20241001"	,"경기 성남시 분당구 정자동 567-89"	,"REL20240930-1028"	,"010-4321-8760"	,"손예진"	,"13573"	,"WHM2024-10088"	,"SS2024-02-02-128"),
+("2024-09-30"	,"CPN0831580507"	,"20241005"	,"인천 강화군 강화읍 012-34"	,"REL20240930-1029"	,"010-8765-4320"	,"조정석"	,"23021"	,"WHM2024-10089"	,"SS2024-02-02-129"),
+("2024-09-30"	,"CPN0764320143"	,"20241007"	,"대전 대덕구 비래동 901-23"	,"REL20240930-1030"	,"010-2468-1350"	,"한가인"	,"34509"	,"WHM2024-10090"	,"SS2024-02-02-130");
 
 
 
 -- 견적 컬럼설정 --  
 SET SQL_SAFE_UPDATES = 0;
-UPDATE sixbeam_erp.SS_ESTIMATE_TB
-SET
+update sixbeam_erp.SS_ESTIMATE_TB
+set
     ESTIMATE_SP = ESTIMATE_AMT * ESTIMATE_UP,
     ESTIMATE_VAT = ESTIMATE_SP / 10,
     ESTIMATE_TAMT = ESTIMATE_SP + ESTIMATE_VAT;
 SET SQL_SAFE_UPDATES = 1;
 
 -- 견적 db--  
-INSERT INTO sixbeam_erp.SS_ESTIMATE_TB (
+insert into sixbeam_erp.SS_ESTIMATE_TB (
 estimate_cd,
 empinfo_id,
 account_cd,
@@ -255,7 +285,7 @@ ESTIMATE_NM,
 ESTIMATE_AMT,
 ESTIMATE_UP,
 ESTIMATE_ETC)
-VALUES
+values
 ('ES2024-02-02-101',20241001,'CPN9769359992','F1001',null,'20240131', '김철수', 5, 800000, '더미 텍스트'),
 ('ES2024-02-02-102',20241005,'CPN8956377612','F1002',null,'20240201', '이영희', 8, 850000,  '더미 텍스트'),
 ('ES2024-02-02-103',20241007,'CPN9769359992','F1003',null,'20240215', '박민준', 3, 500000,  '더미 텍스트'),
@@ -291,7 +321,7 @@ VALUES
 ('ES2024-02-02-133',20241007, 'RTS1010101010', 'R1020', null, '20260110', '이동욱', 15, 72900,  '더미 텍스트');
 
 -- 판매 db --  
-INSERT INTO sixbeam_erp.SS_SALE_TB (
+insert into sixbeam_erp.SS_SALE_TB (
     SALE_UPLOAD_DT,
     SALE_BILLING_DT,
     SALE_BILLING_ST,
@@ -302,41 +332,41 @@ INSERT INTO sixbeam_erp.SS_SALE_TB (
     ESTIMATE_CD,
     release_cd
 )
-VALUES
-('20240131', '20240131', false, null, '판매대기중', '20240131', 'SS2024-02-02-101', 'ES2024-02-02-101', null),
-('20240201', '20240201', false, null, '판매대기중', '20240201', 'SS2024-02-02-102', 'ES2024-02-02-102',null),
-('20240215', '20240215', false, null, '판매대기중', '20240215', 'SS2024-02-02-103', 'ES2024-02-02-103', null),
-('20240302', '20240302', false, null, '판매대기중', '20240302', 'SS2024-02-02-104', 'ES2024-02-02-104', null),
-('20240320', '20240320', false, null, '판매대기중', '20240320', 'SS2024-02-02-105', 'ES2024-02-02-105', null),
-('20240812', '20240812', false, null, '판매대기중', '20240812', 'SS2024-02-02-106', 'ES2024-02-02-106', null),
-('20240825', '20240825', false, null, '판매대기중', '20240825', 'SS2024-02-02-107', 'ES2024-02-02-107', null),
-('20240903', '20240903', false, null, '판매대기중', '20240903', 'SS2024-02-02-108', 'ES2024-02-02-108', null),
-('20240918', '20240918', false, null, '판매대기중', '20240918', 'SS2024-02-02-109', 'ES2024-02-02-109', null),
-('20240930', '20240930', false,null, '판매대기중', '20240930', 'SS2024-02-02-110', 'ES2024-02-02-110', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-111', 'ES2024-02-02-111', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-112', 'ES2024-02-02-112', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-113', 'ES2024-02-02-113', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-114', 'ES2024-02-02-114', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-115', 'ES2024-02-02-115', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-116', 'ES2024-02-02-116', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-117', 'ES2024-02-02-117', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-118', 'ES2024-02-02-118', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-119', 'ES2024-02-02-119', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-120', 'ES2024-02-02-120', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-121', 'ES2024-02-02-121', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-122', 'ES2024-02-02-122', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-123', 'ES2024-02-02-123', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-124', 'ES2024-02-02-124', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-125', 'ES2024-02-02-125', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-126', 'ES2024-02-02-126', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-127', 'ES2024-02-02-127', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-128', 'ES2024-02-02-128', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-129', 'ES2024-02-02-129', null),
-('20240930', '20240930', false, null, '판매대기중', '20240930', 'SS2024-02-02-130', 'ES2024-02-02-130', null);
+values
+('20240131', '20240131', true, '20240131', '판매 완료', '20240131', 'SS2024-02-02-101', 'ES2024-02-02-101', "REL20240131-1001"),
+('20240201', '20240201', true, '20240201', '판매 완료', '20240201', 'SS2024-02-02-102', 'ES2024-02-02-102',"REL20240201-1002"),
+('20240215', '20240215', true, '20240215', '판매 완료', '20240215', 'SS2024-02-02-103', 'ES2024-02-02-103', "REL20240215-1003"),
+('20240302', '20240302', true, '20240302', '판매 완료', '20240302', 'SS2024-02-02-104', 'ES2024-02-02-104',"REL20240302-1004"),
+('20240320', '20240320', true, '20240320', '판매 완료', '20240320', 'SS2024-02-02-105', 'ES2024-02-02-105', "REL20240320-1005"),
+('20240812', '20240812', true, '20240812', '판매 완료', '20240812', 'SS2024-02-02-106', 'ES2024-02-02-106', "REL20240812-1006"),
+('20240825', '20240825', true, '20240825', '판매 완료', '20240825', 'SS2024-02-02-107', 'ES2024-02-02-107', "REL20240825-1007"),
+('20240903', '20240903', true, '20240903', '판매 완료', '20240903', 'SS2024-02-02-108', 'ES2024-02-02-108', "REL20240903-1008"),
+('20240918', '20240918', true, '20240918', '판매 완료', '20240918', 'SS2024-02-02-109', 'ES2024-02-02-109', "REL20240918-1009"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-110', 'ES2024-02-02-110', "REL20240930-1010"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-111', 'ES2024-02-02-111', "REL20240930-1011"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-112', 'ES2024-02-02-112', "REL20240930-1012"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-113', 'ES2024-02-02-113', "REL20240930-1013"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-114', 'ES2024-02-02-114', "REL20240930-1014"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-115', 'ES2024-02-02-115', "REL20240930-1015"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-116', 'ES2024-02-02-116', "REL20240930-1016"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-117', 'ES2024-02-02-117', "REL20240930-1017"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-118', 'ES2024-02-02-118', "REL20240930-1018"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-119', 'ES2024-02-02-119', "REL20240930-1019"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-120', 'ES2024-02-02-120', "REL20240930-1020"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-121', 'ES2024-02-02-121', "REL20240930-1021"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-122', 'ES2024-02-02-122', "REL20240930-1022"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-123', 'ES2024-02-02-123', "REL20240930-1023"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-124', 'ES2024-02-02-124', "REL20240930-1024"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-125', 'ES2024-02-02-125', "REL20240930-1025"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-126', 'ES2024-02-02-126', "REL20240930-1026"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-127', 'ES2024-02-02-127', "REL20240930-1027"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-128', 'ES2024-02-02-128', "REL20240930-1028"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-129', 'ES2024-02-02-129', "REL20240930-1029"),
+('20240930', '20240930', true, '20240930', '판매 완료', '20240930', 'SS2024-02-02-130', 'ES2024-02-02-130', "REL20240930-1030");
 
 -- 멤버 db --  
-INSERT INTO sixbeam_erp.SS_MEMBER_TB (ESTIMATE_CD,MEMBER_ID, MEMBER_NM, MEMBER_PHONE, MEMBER_ADDR)
-VALUES
+insert into sixbeam_erp.SS_MEMBER_TB (ESTIMATE_CD,MEMBER_ID, MEMBER_NM, MEMBER_PHONE, MEMBER_ADDR)
+values
 ('ES2024-02-02-133','email1@example.com', '김철수', '010-1234-5678', '서울시 강남구'),
 ('ES2024-02-02-131','email2@example.com', '이영희', '010-2345-6789', '서울시 강서구'),
 ('ES2024-02-02-132','email3@example.com', '박민준', '010-3456-7890', '서울시 송파구');

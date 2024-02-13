@@ -26,14 +26,4 @@ public class ItemEntity {
 
     @Column(name = "ITEM_UP")
     private Long itemUp;
-
-    // 기존 데이터 수정 기능
-/*    public void patch(ItemEntity itemEntity) {
-        if (itemEntity.itemNm != null)
-            this.itemNm = itemEntity.itemNm;
-        if (itemEntity.itemStnd != null)
-            this.itemStnd = itemEntity.itemStnd;
-        if (itemEntity.itemUp != null)
-            this.itemUp = itemEntity.itemUp;
-    }*/
 }

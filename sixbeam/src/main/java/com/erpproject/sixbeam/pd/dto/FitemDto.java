@@ -2,6 +2,7 @@ package com.erpproject.sixbeam.pd.dto;
 
 import com.erpproject.sixbeam.pd.entity.FitemEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import lombok.AllArgsConstructor;
 
 public class FitemDto {
 

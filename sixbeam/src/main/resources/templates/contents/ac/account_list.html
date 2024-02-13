@@ -2,8 +2,13 @@
 <div layout:fragment="content" class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">회계</h1>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newAccount">
+            신규
+        </button>
+    </div>
 
-    <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">거래처 목록</h6>
@@ -11,36 +16,106 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-        <thead>
-        <tr>
-            <th>거래처 코드</th>
-            <th>거래처명</th>
-            <th>사업자번호</th>
-            <th>사업장 소재지</th>
-            <th>대표자명</th>
-            <th>업종</th>
-            <th>은행명</th>
-            <th>계좌번호</th>
-            <th>담당자</th>
-            <th>적요</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="account, loop : ${accountList}">
-            <td th:text="${account.accountCd}"></td>
-            <td th:text="${account.accountNm}"></td>
-            <td th:text="${account.accountNb}"></td>
-            <td th:text="${account.accountAdd}"></td>
-            <td th:text="${account.accountRep}"></td>
-            <td th:text="${account.accountSectors}"></td>
-            <td th:text="${account.accountBank}"></td>
-            <td th:text="${account.accountAcnb}"></td>
-            <td th:text="${account.accountPic}"></td>
-            <td th:text="${account.accountEtc}"></td>
-        </tbody>
+                    <thead>
+                        <tr>
+                            <th>거래처 코드</th>
+                            <th>거래처명</th>
+                            <th>사업자번호</th>
+                            <th>사업장 소재지</th>
+                            <th>대표자명</th>
+                            <th>업종</th>
+                            <th>은행명</th>
+                            <th>계좌번호</th>
+                            <th>담당자</th>
+                            <th>적요</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="account, loop : ${accountList}">
+                        <td th:text="${account.accountCd}"></td>
+                        <td th:text="${account.accountNm}"></td>
+                        <td th:text="${account.accountNb}"></td>
+                        <td th:text="${account.accountAdd}"></td>
+                        <td th:text="${account.accountRep}"></td>
+                        <td th:text="${account.accountSectors}"></td>
+                        <td th:text="${account.accountBank}"></td>
+                        <td th:text="${account.accountAcnb}"></td>
+                        <td th:text="${account.accountPic}"></td>
+                        <td th:text="${account.accountEtc}"></td>
+                    </tbody>
                 </table>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="newAccount" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newAccountLabel">거래처등록</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="/ac/account/register" method="post">
+                            <div class="modal-body-ac">
+                                    <div class="form-group row">
+                                        <label for="accountCd" class="col-sm-2 col-form-label">거래처 코드</label>
+                                        <input type="text" class="form-control col-sm-10" id="accountCd" name="accountCd">
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="accountNm" class="col-sm-2 col-form-label">거래처명</label>
+                                        <input type="text" class="form-control col-sm-10" id="accountNm" name="accountNm">
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="accountNb" class="col-sm-2 col-form-label">사업자번호</label>
+                                        <input type="text" class="form-control col-sm-10" id="accountNb" name="accountNb">
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="accountAdd" class="col-sm-2 col-form-label">사업장 소재지</label>
+                                        <input type="text" class="form-control col-sm-10" id="accountAdd" name="accountAdd">
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="accountRep" class="col-sm-2 col-form-label">대표자명</label>
+                                        <input type="text" class="form-control col-sm-10" id="accountRep" name="accountRep">
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="accountSectors" class="col-sm-2 col-form-label">업종</label>
+                                        <input type="text" class="form-control col-sm-10" id="accountSectors" name="accountSectors">
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="accountBank" class="col-sm-2 col-form-label">은행명</label>
+                                        <input type="text" class="form-control col-sm-10" id="accountBank" name="accountBank">
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="accountAcnb" class="col-sm-2 col-form-label">계좌번호</label>
+                                        <input type="text" class="form-control col-sm-10" id="accountAcnb" name="accountAcnb">
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="accountPic" class="col-sm-2 col-form-label">담당자</label>
+                                        <input type="text" class="form-control col-sm-10" id="accountPic" name="accountPic">
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="accountEtc" class="col-sm-2 col-form-label">적요</label>
+                                        <input type="text" class="form-control col-sm-8" id="accountEtc" name="accountEtc">
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">저장</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 </html>
+
+
+
+
+
+
+

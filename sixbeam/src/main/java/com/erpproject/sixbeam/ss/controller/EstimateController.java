@@ -1,15 +1,21 @@
 package com.erpproject.sixbeam.ss.controller;
 
+import com.erpproject.sixbeam.pd.dto.ItemDto;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.repository.ItemRepository;
+import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.service.EstimateService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/ss/estimate")
 @Controller
@@ -18,8 +24,16 @@ public class EstimateController {
     private EstimateService estimateService;
 
     @GetMapping("/new")
-    public String newEstimateDto(){
+    public String newEstimateDto(Model model) {
+        List<EstimateDto> estimateDtos = new ArrayList<>();
+        estimateDtos.add(new EstimateDto());
+        model.addAttribute("estimateDtos",estimateDtos);
         return "contents/ss/estimate_form";
+    }
+    @PostMapping("/create")
+    public  String createEstimateDto(@ModelAttribute("estimateDtos") List<EstimateDto> estimateDtos){
+        this.estimateService.create(estimateDtos);
+        return "redirect:contents/ss/estimate_list";
     }
     @GetMapping("/list")
     public String list(Model model){
@@ -31,6 +45,12 @@ public class EstimateController {
     public String detail(Model model, @PathVariable("id") String id){
         List<EstimateEntity> estimateEntities = estimateService.getIdList(id);
         return "";
+    }
+
+    @GetMapping("/getitemdata")
+    public Optional<ItemEntity> itemlist(Model model, @RequestParam String itemCd){
+
+        return estimateService.getItemCd(itemCd);
     }
 
 }

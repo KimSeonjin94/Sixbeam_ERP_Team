@@ -1,83 +1,54 @@
-<!--<html layout:decorate="~{layout/default}">-->
-<!--<h2>인적사항 입력</h2>-->
-<!--<form action="/submitForm" method="post">-->
-<!--    <div>-->
-<!--        <label for="name">이름:</label>-->
-<!--        <input type="text" id="name" name="name" required>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <label for="email">이메일:</label>-->
-<!--        <input type="email" id="email" name="email" required>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <label for="age">나이:</label>-->
-<!--        <input type="number" id="age" name="age" required min="0">-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <label for="gender">성별:</label>-->
-<!--        <select id="gender" name="gender">-->
-<!--            <option value="male">남성</option>-->
-<!--            <option value="female">여성</option>-->
-<!--        </select>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <button type="submit">제출</button>-->
-<!--    </div>-->
-<!--</form>-->
-<!--</html>-->
+<html layout:decorate="~{layout/default}" >
+<div layout:fragment="content" class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">회계</h1>
 
-
-
-
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>Member List</title>
-    <style>
-        table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-        th, td {
-          border: 1px solid #ddd;
-          text-align: left;
-          padding: 8px;
-        }
-        th {
-          background-color: #f2f2f2;
-        }
-        .text-center {
-          text-align: center;
-        }
-    </style>
-</head>
-<body>
-
-<table>
-    <tr>
-        <th>거래처코드</th>
-        <th>거래처명</th>
-        <th>사업자번호</th>
-        <th>사업장 소재지</th>
-        <th>대표자명</th>
-        <th>업종</th>
-        <th>은행명</th>
-        <th>계좌번호</th>
-    </tr>
-
-    <tr>
-        <td>1234567890</td>
-        <td class="text-center">[등급]</td>
-        <td>홍길동</td>
-        <td>02-123-4567</td>
-        <td>010-1234-5678</td>
-        <td class="text-center">YES</td>
-        <td class="text-center">-</td>
-        <td>서울특별시 어딘가</td>
-    </tr>
-</table>
-
-</body>
-</html>
+    <form action="/ac/account/registerform" method="post">
+        <div class="modal-body-ac">
+            <div class="form-group row">
+                <label for="accountCd" class="col-sm-2 col-form-label">거래처 코드</label>
+                <input type="text" class="form-control col-sm-10" id="accountCd" name="accountCd">
+            </div>
+            <div class="form-group row">
+                <label for="accountNm" class="col-sm-2 col-form-label">거래처명</label>
+                <input type="text" class="form-control col-sm-10" id="accountNm" name="accountNm">
+            </div>
+            <div class="form-group row">
+                <label for="accountNb" class="col-sm-2 col-form-label">사업자번호</label>
+                <input type="text" class="form-control col-sm-10" id="accountNb" name="accountNb">
+            </div>
+            <div class="form-group row">
+                <label for="accountAdd" class="col-sm-2 col-form-label">사업장 소재지</label>
+                <input type="text" class="form-control col-sm-10" id="accountAdd" name="accountAdd">
+            </div>
+            <div class="form-group row">
+                <label for="accountRep" class="col-sm-2 col-form-label">대표자명</label>
+                <input type="text" class="form-control col-sm-10" id="accountRep" name="accountRep">
+            </div>
+            <div class="form-group row">
+                <label for="accountSectors" class="col-sm-2 col-form-label">업종</label>
+                <input type="text" class="form-control col-sm-10" id="accountSectors" name="accountSectors">
+            </div>
+            <div class="form-group row">
+                <label for="accountBank" class="col-sm-2 col-form-label">은행명</label>
+                <input type="text" class="form-control col-sm-10" id="accountBank" name="accountBank">
+            </div>
+            <div class="form-group row">
+                <label for="accountAcnb" class="col-sm-2 col-form-label">계좌번호</label>
+                <input type="text" class="form-control col-sm-10" id="accountAcnb" name="accountAcnb">
+            </div>
+            <div class="form-group row">
+                <label for="accountPic" class="col-sm-2 col-form-label">담당자</label>
+                <input type="text" class="form-control col-sm-10" id="accountPic" name="accountPic">
+            </div>
+            <div class="form-group row">
+                <label for="accountEtc" class="col-sm-2 col-form-label">적요</label>
+                <input type="text" class="form-control col-sm-8" id="accountEtc" name="accountEtc">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">저장</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        </div>
+    </form>
 

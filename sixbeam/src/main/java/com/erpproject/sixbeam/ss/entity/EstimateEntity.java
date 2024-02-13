@@ -5,6 +5,7 @@ import com.erpproject.sixbeam.ac.entity.AccountEntity;
 
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,14 +32,12 @@ public class EstimateEntity {
     private LocalDate estimateDt;
 
     @Id
-    @Column(name = "ITEM_CD")
-    private String itemCd;
+    @ManyToOne
+    @JoinColumn(name = "ITEM_CD")
+    private ItemEntity itemEntity;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "CHECK_DT", referencedColumnName = "CHECK_DT"),
-            @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
-    })
+    @JoinColumn(name="check_cd")
     private CheckEntity checkEntity;
 
     @ManyToOne

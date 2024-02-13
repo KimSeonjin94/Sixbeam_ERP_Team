@@ -1,16 +1,16 @@
 package com.erpproject.sixbeam.pd.service;
 
 import com.erpproject.sixbeam.pd.dto.ItemDto;
+import com.erpproject.sixbeam.pd.entity.FitemEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.entity.RitemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -21,13 +21,14 @@ public class ItemService {
 
     private ItemEntity itemEntity;
 
+
     // 조회
-    public List<ItemEntity> getlist() {
+    public List<ItemEntity> list() {
 
         return itemRepository.findAll();
     }
 
-    
+
     // 선택 조회
     public ItemEntity selectlist(String id) {
 
@@ -36,11 +37,11 @@ public class ItemService {
 
     public ItemEntity create(ItemDto itemDto) {
 
-        ItemEntity itemEntity = itemDto.toEntity(); // dto -> 엔티티로 변환한 후 itemEntity에 저장
-        if (itemEntity.getItemCd() != null) {
-            return null;
-        }
-        return itemRepository.save(itemEntity); // itemEntity를 db에 저장
+        // dto -> 엔티티로 변환한 후 itemEntity에 저장
+        ItemEntity itemEntity = itemDto.toEntity();
+
+        // itemEntity를 db에 저장
+        return itemRepository.save(itemEntity);
     }
 
 
@@ -74,4 +75,28 @@ public class ItemService {
         if (itemEntity.getItemUp() != null)
             itemEntity.setItemUp(patchEntity.getItemUp());
     }
+
+    // ItemEntity를 FitemEntity와 RitemEntity에 저장
+    /*public void saveItemToEntities(String itemCd) {
+        Optional<ItemEntity> itemEntityOptional = itemRepository.findByItemCd(itemCd);
+        if (itemEntityOptional.isPresent()) {
+            ItemEntity itemEntity = itemEntityOptional.get();
+
+            // FitemEntity에 저장
+            FitemEntity fitemEntity = new FitemEntity();
+            fitemEntity.setFitemCd(itemEntity.getItemCd());
+            fitemEntity.setFitemName(itemEntity.getItemName());
+            // 필요한 다른 속성들도 설정
+
+            fitemRepository.save(fitemEntity);
+
+            // RitemEntity에 저장
+            RitemEntity ritemEntity = new RitemEntity();
+            ritemEntity.setRitemCd(itemEntity.getItemCd());
+            ritemEntity.setRitemName(itemEntity.getItemName());
+            // 필요한 다른 속성들도 설정
+
+            ritemRepository.save(ritemEntity);
+        }
+    }*/
 }
