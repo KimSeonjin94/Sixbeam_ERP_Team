@@ -13,5 +13,4 @@ import java.util.Optional;
 
 public interface FitemRepository extends JpaRepository<FitemEntity, String> {
 
-    Optional<FitemEntity> findById(String id);
 }

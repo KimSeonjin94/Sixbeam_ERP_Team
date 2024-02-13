@@ -9,5 +9,4 @@ import java.util.Optional;
 
 public interface RitemRepository extends JpaRepository<RitemEntity, String> {
 
-    Optional<RitemEntity> findById(String id);
 }

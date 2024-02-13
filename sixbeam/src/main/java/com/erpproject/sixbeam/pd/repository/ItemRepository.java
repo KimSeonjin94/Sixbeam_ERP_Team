@@ -1,18 +1,11 @@
 package com.erpproject.sixbeam.pd.repository;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
-import jakarta.persistence.metamodel.SingularAttribute;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public interface ItemRepository extends JpaRepository<ItemEntity, String> {
 
@@ -20,5 +13,8 @@ public interface ItemRepository extends JpaRepository<ItemEntity, String> {
     @Query("SELECT i FROM ItemEntity i WHERE i.itemCd LIKE CONCAT(:prefix, '%')")
     List<ItemEntity> findByItemCdStartingWith(@Param("prefix") String prefix);
 
+    // 특정 문자열이 아이템 코드에 포함된 아이템 엔티티를 반환하는 메서드.
+    @Query("SELECT i FROM ItemEntity i WHERE i.itemCd LIKE CONCAT('%', :keyword, '%')")
+    List<ItemEntity> findByItemCdContainingKeyword(@Param("keyword") String keyword);
 
 }

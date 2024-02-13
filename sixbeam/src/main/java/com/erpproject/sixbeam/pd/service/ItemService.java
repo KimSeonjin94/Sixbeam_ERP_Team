@@ -1,35 +1,27 @@
 package com.erpproject.sixbeam.pd.service;
 
-import com.erpproject.sixbeam.pd.dto.ItemDto;
-import com.erpproject.sixbeam.pd.entity.FitemEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
-import com.erpproject.sixbeam.pd.entity.RitemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
-@Slf4j
 @Service
+@RequiredArgsConstructor
 public class ItemService {
 
-    @Autowired
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
 
-    private ItemEntity itemEntity;
-
-
-    // 조회
-    public List<ItemEntity> list() {
+    // 모든 품목을 가져오는 메서드
+    public List<ItemEntity> getList() {
 
         return itemRepository.findAll();
     }
+}
 
 
-    // 선택 조회
+    /*// 선택 조회
     public ItemEntity selectlist(String id) {
 
         return itemRepository.findById(id).orElse(null);
@@ -77,7 +69,7 @@ public class ItemService {
     }
 
     // ItemEntity를 FitemEntity와 RitemEntity에 저장
-    /*public void saveItemToEntities(String itemCd) {
+    *//*public void saveItemToEntities(String itemCd) {
         Optional<ItemEntity> itemEntityOptional = itemRepository.findByItemCd(itemCd);
         if (itemEntityOptional.isPresent()) {
             ItemEntity itemEntity = itemEntityOptional.get();
@@ -98,5 +90,5 @@ public class ItemService {
 
             ritemRepository.save(ritemEntity);
         }
-    }*/
-}
+    }*//*
+}*/

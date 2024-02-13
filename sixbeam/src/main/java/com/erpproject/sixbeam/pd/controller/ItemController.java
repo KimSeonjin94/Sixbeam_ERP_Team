@@ -1,45 +1,41 @@
 package com.erpproject.sixbeam.pd.controller;
 
-import com.erpproject.sixbeam.pd.dto.ItemDto;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.erpproject.sixbeam.pd.service.ItemService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @RequestMapping("/pd/item")
 @Controller
-@AllArgsConstructor
-@ControllerAdvice
+@RequiredArgsConstructor
 public class ItemController {
 
-
-    private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
     @GetMapping("/new")
     public String newItemDto() {
         return "/new";
     }
 
-
     // 품목 전체 조회
     @GetMapping("/itemlist")
     public String list(Model model) {
 
-        // 1. 모든 데이터 가져오기
-        List<ItemEntity> itemEntities = itemRepository.findAll();
-
-        // 2. 모델에 데이터 등록
+        // 서비스를 통해 모든 품목을 가져옴
+        List<ItemEntity> itemEntities = itemService.getList();
+        // 가져온 품목 리스트를 모델에 담음
         model.addAttribute("itemEntities", itemEntities);
-
-        // 3. 모든 데이터 뷰페이지 반환
+        // 품목 리스트 뷰페이지 반환
         return "contents/pd/item_list";
-    }
+        }
+}
+/*
 
     // 품목 선택 조회
     @GetMapping("/rawitem_list/{id}")
@@ -54,7 +50,7 @@ public class ItemController {
         model.addAttribute("itemEntity", itemEntity);
 
         // 3. 선택 데이터 뷰페이지 반환
-        return "contents/pd/rawitem_list";
+        return "contents/pd/item_list";
     }
 
     //품목 등록
@@ -70,4 +66,4 @@ public class ItemController {
         // 3. 페이지 새로고침
         return "redirect:/item/";
     }
-}
+}*/
