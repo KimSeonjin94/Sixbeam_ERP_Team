@@ -30,11 +30,11 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr th:each = "item : ${itemEntities}">
-							<td th:text = "${item.ritemEntity.itemCd}"></td>
-							<td th:text = "${item.ritemEntity.itemNm}"></td>
-							<td th:text = "${item.ritemEntity.itemStnd}"></td>
-							<td th:text = "${item.ritemEntity.itemUp}"></td>
+						<tr th:each = "item : ${ritemEntities}">
+							<td th:text = "${item.itemCd}"></td>
+							<td th:text = "${item.itemNm}"></td>
+							<td th:text = "${item.itemStnd}"></td>
+							<td th:text = "${item.itemUp}"></td>
 						</tr>
 						</tbody>
 					</table>
