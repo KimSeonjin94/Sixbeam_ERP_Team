@@ -2,6 +2,7 @@ package com.erpproject.sixbeam.pd.dto;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.entity.RitemEntity;
+import lombok.AllArgsConstructor;
 
 public class RitemDto {
 

@@ -3,7 +3,7 @@ package com.erpproject.sixbeam.hr.service;
 import com.erpproject.sixbeam.hr.entity.DepartEntity;
 import com.erpproject.sixbeam.hr.repository.DepartRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DepartService {
     private final DepartRepository departRepository;
-
-    public List<DepartEntity>getList(){return this.departRepository.findAll();}
-
+    public List<DepartEntity> getList() {
+        return this.departRepository.findAll();
+    }
 }

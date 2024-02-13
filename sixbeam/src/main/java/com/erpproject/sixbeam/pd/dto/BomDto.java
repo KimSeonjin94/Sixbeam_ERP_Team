@@ -10,7 +10,7 @@ public class BomDto {
 
     private FitemEntity fitemEntity;
     private RitemEntity ritemEntity;
-    private int bomUseMt;
+    private Long bomUseMt;
     private Time bomWorkTm;
 
     public BomEntity toEntity() {

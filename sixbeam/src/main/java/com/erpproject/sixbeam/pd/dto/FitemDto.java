@@ -4,16 +4,12 @@ import com.erpproject.sixbeam.pd.entity.FitemEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 public class FitemDto {
 
-//    private String itemCd;
-//    private ItemEntity itemEntity;
-
     private String itemCd;
-    private String itemStnd;
+    private ItemEntity itemEntity;
 
-    /*public FitemEntity toEntity() {
-        return new FitemEntity(ItemEntity.getitemCd(); ItemEntity.getitemStnd());
-    }*/
+    public FitemEntity toEntity() {
+        return new FitemEntity(itemCd, itemEntity);
+    }
 }

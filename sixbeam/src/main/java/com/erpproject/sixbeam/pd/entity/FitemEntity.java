@@ -18,7 +18,7 @@ public class FitemEntity {
     @Column(name = "ITEM_CD", insertable = false, updatable = false)
     private String itemCd;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
     private ItemEntity itemEntity;
 }

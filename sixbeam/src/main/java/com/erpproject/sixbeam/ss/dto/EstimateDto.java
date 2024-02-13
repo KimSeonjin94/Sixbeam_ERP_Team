@@ -3,21 +3,23 @@ package com.erpproject.sixbeam.ss.dto;
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
-
+@Getter
+@Setter
 public class EstimateDto {
     private String estimateCd;
 
-
     private LocalDate estimateDt;
 
-    private String itemCd;
+    private ItemEntity itemEntity;
 
     private CheckEntity checkEntity;
-
 
     private EmpInfoEntity empInfoEntity;
 
@@ -43,7 +45,7 @@ public class EstimateDto {
         // Entity에 값을 설정하는 부분
         entity.setEstimateCd(this.estimateCd);
         entity.setEstimateDt(this.estimateDt);
-        entity.setItemCd(this.itemCd);
+        entity.setItemEntity(this.itemEntity);
         entity.setCheckEntity(this.checkEntity);
         entity.setEmpInfoEntity(this.empInfoEntity);
         entity.setAccountEntity(this.accountEntity);
