@@ -18,7 +18,12 @@ public class FitemEntity {
     @Column(name = "ITEM_CD", insertable = false, updatable = false)
     private String itemCd;
 
-    @ManyToOne
-    @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
-    private ItemEntity itemEntity;
+    @Column(name = "ITEM_NM")
+    private String itemNm;
+
+    @Column(name = "ITEM_STND")
+    private String itemStnd;
+
+    @Column(name = "ITEM_UP")
+    private Long itemUp;
 }
