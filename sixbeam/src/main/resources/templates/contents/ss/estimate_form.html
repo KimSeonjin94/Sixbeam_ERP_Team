@@ -2,25 +2,33 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action=# th:action="@{/ss/estimate/create}" th:object="${estimateDtos}  method="post">
+            <form id="formEntry" th:action="@{/ss/estimate/create}" th:object="${estimateForm}"  method="post">
                 <div class="form-group row">
-                    <label for="date" class="col-sm-2 col-form-label">견적 일자</label>
+                    <label for="currentDate" class="col-sm-2 col-form-label">견적 일자</label>
                     <div class="col-sm-4">
-                        <input type="date" class="form-control" id="date">
+                        <input type="date" class="form-control" id="currentDate">
                     </div>
-                    <label for="ac" class="col-sm-2 col-form-label">거래처 코드</label>
+                    <label for="orinputname" class="col-sm-2 col-form-label">담당자</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="ac">
+                        <select id="orinputname" class="form-control" >
+                            <option value="">담당자 선택</option>
+                            <option th:each="emplist : ${getemplist}" th:value="${emplist.empInfoId}"
+                                    th:text="${emplist.empInfoNm}"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="name" class="col-sm-2 col-form-label">담당자</label>
+                    <label for="accountCode" class="col-sm-2 col-form-label">거래처 코드</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="name">
+                        <input type="text" class="form-control" id="accountCode" list="accountCodeSelectBox"/>
+                        <datalist id="accountCodeSelectBox" >
+                            <option th:each="actlist : ${getactlist}" th:value="${actlist.accountCd}"
+                                    th:text="${actlist.accountNm}"></option>
+                        </datalist>
                     </div>
-                    <label for="acNw" class="col-sm-2 col-form-label">거래처</label>
+                    <label class="col-sm-2 col-form-label">거래처</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="acNw">
+                        <input type="text" class="form-control" id="accountName">
                     </div>
                 </div>
                 <table class="table item" id="estimateitem">
@@ -28,47 +36,108 @@
                     <tr>
                         <th>품목 코드</th>
                         <th>품목 명</th>
+                        <th>규격</th>
                         <th>수량</th>
                         <th>단가</th>
                         <th>공급가액</th>
                         <th>부가세</th>
                         <th>총액</th>
+                        <th>비고</th>
                     </tr>
                     </thead>
                     <tbody >
-                    <tr th:each="estimateDto, rowStat : *{estimateDtos}">
+                    <tr>
                         <td>
-                            <input type="hidden" th:field="*{estimateDtos[__${rowStat.index}__].estimateDt}" name="date">
-                            <input type="hidden" th:field="*{estimateDtos[__${rowStat.index}__].accountEntity.accountCd}" name="ac">
-                            <input type="hidden" th:field="*{estimateDtos[__${rowStat.index}__].estimateNm}" name="name">
-                            <input type="text" class="form-control item" th:field="*{estimateDtos[__${rowStat.index}__].itemCd}">
+                            <input type="hidden" class="" th:field="*{estimateDtos[0].estimateDt}">
+                            <input type="hidden" class="" th:field="*{estimateDtos[0].accountEntity.accountCd}" >
+                            <input type="hidden" class="" th:field="*{estimateDtos[0].estimateNm}">
+                            <input type="hidden" class="" th:field="*{estimateDtos[0].empInfoEntity.empInfoId}">
+                            <input type="text" class="form-control itemname" >
                         </td>
                         <td>
-                            <input type="text" class="form-control">
+                            <select class="selectbox form-control" th:name="'estimateDtos[' + 0 + '].itemEntity.itemCd'">
+                                <option value="" >품목 선택</option>
+                                <option th:each="itemlist : ${getitemlist}" th:value="${itemlist.itemCd}"
+                                        th:data-itemStnd="${itemlist.itemStnd}"
+                                        th:data-itemUp="${itemlist.itemUp}"
+                                        th:data-itemNm="${itemlist.itemUp}"
+                                        th:text="${itemlist.itemNm}"></option>
+                            </select>
                         </td>
                         <td>
-                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateAmt}">
+                            <input type="text" class="form-control itemstnd">
                         </td>
                         <td>
-                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateUp}">
+                            <input type="text" class="form-control itemamt" th:field="*{estimateDtos[0].estimateAmt}">
                         </td>
                         <td>
-                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateSp}">
+                            <input type="text" class="form-control itemup" th:field="*{estimateDtos[0].estimateUp}">
                         </td>
                         <td>
-                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateVat}">
+                            <input type="text" class="form-control itemsp" th:field="*{estimateDtos[0].estimateSp}">
                         </td>
                         <td>
-                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateTamt}">
+                            <input type="text" class="form-control itemvar" th:field="*{estimateDtos[0].estimateVat}">
                         </td>
                         <td>
-                            <input type="text" class="form-control" th:field="*{estimateDtos[__${rowStat.index}__].estimateEtc}">
+                            <input type="text" class="form-control itemsum" th:field="*{estimateDtos[0].estimateTamt}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" th:field="*{estimateDtos[0].estimateEtc}">
                         </td>
                     </tr>
-
-
-
+                    <tr>
+                        <td>
+                            <input type="hidden" th:field="*{estimateDtos[1].estimateDt}">
+                            <input type="hidden" th:field="*{estimateDtos[1].accountEntity.accountCd}" >
+                            <input type="hidden" th:field="*{estimateDtos[1].estimateNm}">
+                            <input type="hidden" th:field="*{estimateDtos[1].empInfoEntity.empInfoId}">
+                            <input type="text" class="form-control itemname" >
+                        </td>
+                        <td>
+                            <select class="selectbox form-control" th:name="'estimateDtos[' + 1 + '].itemEntity.itemCd'">
+                                <option value="" >품목 선택</option>
+                                <option th:each="itemlist : ${getitemlist}" th:value="${itemlist.itemCd}"
+                                        th:data-itemStnd="${itemlist.itemStnd}"
+                                        th:data-itemUp="${itemlist.itemUp}"
+                                        th:text="${itemlist.itemNm}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control itemstnd">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control itemamt" th:field="*{estimateDtos[1].estimateAmt}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control itemup" th:field="*{estimateDtos[1].estimateUp}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control itemsp" th:field="*{estimateDtos[1].estimateSp}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control itemvar" th:field="*{estimateDtos[1].estimateVat}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control itemsum" th:field="*{estimateDtos[1].estimateTamt}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" th:field="*{estimateDtos[1].estimateEtc}">
+                        </td>
+                    </tr>
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th colspan="3">합계</th>
+                        <th id="totalAmt"></th>
+                        <th id="totalUp"></th>
+                        <th id="totalSp"></th>
+                        <th id="totalVat"></th>
+                        <th id="totalSum"></th>
+                        <th></th>
+                    </tr>
+                    </tfoot>
+
                 </table>
                 <div class="row">
                     <div class="col-sm-6">
@@ -93,6 +162,24 @@
 
             </form>
             <!-- Button trigger modal -->
+            <div class="modal fade" id="cannotDeleteModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">삭제 불가</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            더 이상 삭제할 수 없습니다.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>

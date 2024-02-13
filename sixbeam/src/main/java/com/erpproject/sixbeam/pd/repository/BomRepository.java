@@ -8,6 +8,4 @@ import java.util.List;
 
 public interface BomRepository extends JpaRepository<BomEntity, BomEntityId> {
 
-    @Override
-    List<BomEntity> findAll();
 }

@@ -37,6 +37,11 @@ public class AccountController {
         return "redirect:registerform";
     }
 
+    @PostMapping("/account/edit")
+    public String editAccount(@ModelAttribute AccountDto accountDto) {
+        accountService.updateAccount(accountDto);
+        return "redirect:list";
+    }
 
 
 
