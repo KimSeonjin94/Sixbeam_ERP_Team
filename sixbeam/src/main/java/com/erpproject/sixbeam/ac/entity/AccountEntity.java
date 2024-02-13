@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.ac.entity;
 
+import com.erpproject.sixbeam.ac.dto.AccountDto;
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -35,5 +36,18 @@ public class AccountEntity {
     private String accountPic;
     @Column(name="ACCOUNT_ETC")
     private String accountEtc;
+
+    public void updateEntity(AccountDto accountDto) {
+        this.accountCd = accountDto.getAccountCd();
+        this.accountNm = accountDto.getAccountNm();
+        this.accountNb = accountDto.getAccountNb();
+        this.accountAdd = accountDto.getAccountAdd();
+        this.accountRep = accountDto.getAccountRep();
+        this.accountSectors = accountDto.getAccountSectors();
+        this.accountBank = accountDto.getAccountBank();
+        this.accountAcnb = accountDto.getAccountAcnb();
+        this.accountPic = accountDto.getAccountPic();
+        this.accountEtc = accountDto.getAccountEtc();
+    }
 
 }
