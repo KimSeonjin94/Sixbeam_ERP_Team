@@ -339,3 +339,27 @@ $(document).ready(function() {
         });
     });
 });
+
+
+
+function editAccountInfo(accountCd, accountNm , accountAdd, accountRep, accountSectors, accountBank, accountAcnb, accountPic, accountEtc)
+        {
+            $('#editAccount').modal('show');
+            $('#editAccountCd').val(accountCd);
+            $('#editAccountNm').val(accountNm);
+            $('#editAccountAdd').val(accountAdd);
+            $('#editAccountRep').val(accountRep);
+            $('#editAccountSectors').val(accountSectors);
+            $('#editAccountBank').val(accountBank);
+            $('#editAccountAcnb').val(accountAcnb);
+            $('#editAccountPic').val(accountPic);
+            $('#editAccountEtc').val(accountEtc);
+        }
+//function registerAccountFinished() {
+////             document.getElementById("createEmployeeForm").submit();
+//             alert('거래처가 등록되었습니다.');
+//         }
+//function editAccountFinished() {
+////             document.getElementById("createEmployeeForm").submit();
+//             alert('거래처 정보가 수정되었습니다.');
+//         }
