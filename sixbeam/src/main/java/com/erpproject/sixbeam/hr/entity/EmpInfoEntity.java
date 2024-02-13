@@ -20,7 +20,7 @@ public class EmpInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="HR_EMPINFO_TB_empSequence_seq")
     @SequenceGenerator(name ="HR_EMPINFO_TB_empSequence_seq", sequenceName ="HR_EMPINFO_TB_empSequence_seq",
-            initialValue = 20241001, allocationSize =1)
+            initialValue = 20241023, allocationSize =1)
     @Column(name ="empinfoId")
     private Long empInfoId;//사원아이디
     @Column(name ="empinfoPw")
