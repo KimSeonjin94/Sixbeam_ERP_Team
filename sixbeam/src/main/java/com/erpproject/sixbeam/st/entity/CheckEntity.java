@@ -29,12 +29,12 @@ public class CheckEntity {
     private WhmoveEntity whmoveEntity;
 
     @ManyToOne
-    @JoinColumn(name = "item_cd")
-    private ItemEntity itemEntity;
-
-    @ManyToOne
     @JoinColumn(name = "whregist_cd")
     private WhregistEntity whregistEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "ITEM_CD")
+    private ItemEntity itemEntity;
 
 }
     /* 2024-02-08 이전

@@ -18,11 +18,12 @@ public class CheckDto {
 
     private WhmoveEntity whmoveEntity;
 
-    private ItemEntity itemEntity;
+    private  WhregistEntity whregistEntity;
 
-    private WhregistEntity whregistEntity;
+    private  ItemEntity itemEntity;
+
     public CheckEntity toEntity() {
-        return new CheckEntity(checkCd,checkAmt,whmoveEntity,itemEntity,whregistEntity);
+        return new CheckEntity(checkCd,checkAmt,whmoveEntity,whregistEntity,itemEntity);
     }
 
 }

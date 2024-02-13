@@ -17,6 +17,7 @@ import java.time.LocalDate;
 @Table(name = "st_whmove_tb")
 public class WhmoveEntity {
 
+
     @Id
     @Column(name = "whmove_cd")
     private String whmoveCd;
