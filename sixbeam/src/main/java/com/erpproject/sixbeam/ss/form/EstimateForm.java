@@ -1,5 +1,6 @@
-package com.erpproject.sixbeam.ss.dto;
+package com.erpproject.sixbeam.ss.form;
 
+import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
