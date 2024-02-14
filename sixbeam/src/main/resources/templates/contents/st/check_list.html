@@ -13,15 +13,13 @@
                         <th>창고코드</th>
                         <th>품목코드</th>
                         <th>총수량</th>
-                        <th>결과3</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="inventory : ${inventoryList}">
                         <td th:text="${inventory['whregistCd']}"></td>
                         <td th:text="${inventory['itemCd']}"></td>
-                        <td th:text="${inventory['checkAmt']}"></td>
-                        <td th:text="${inventory['result3']}"></td>
+                        <td th:text="${inventory['currentStock']}"></td>
                     </tr>
                     </tbody>
                 </table>

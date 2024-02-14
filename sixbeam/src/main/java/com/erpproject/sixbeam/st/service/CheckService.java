@@ -111,40 +111,27 @@ public class CheckService {
         List<WhmoveEntity> whmoveEntities = whmoveRepository.findByWhmoveDt(date);
         List<Map<String, Object>> result = new ArrayList<>();
         for (WhmoveEntity whmoveEntity : whmoveEntities) {
+            Map<String, Object> inventoryItem = new HashMap<>();
             WhregistEntity whregistEntity = whmoveEntity.getWhregistEntity();
             ItemEntity itemEntity = whmoveEntity.getItemEntity();
+            // 입고량 조회
+            Integer incoming = checkRepository.findWhItemCheck("입고", date, whregistEntity, itemEntity);
+            int incomingAmount = (incoming != null) ? incoming.intValue() : 0;
+            // 출고량 조회
+            Integer outgoing = checkRepository.findWhItemCheck("출고", date, whregistEntity, itemEntity);
+            int outgoingAmount = (outgoing != null) ? outgoing.intValue() : 0;
+            int currentStock = incomingAmount - outgoingAmount;
 
-            Integer i = checkRepository.findWhItemCheck("입고", date, whregistEntity, itemEntity);
-            int result1 = (i != null) ? i.intValue() : 0;
-            Integer o = checkRepository.findWhItemCheck("출고", date, whregistEntity, itemEntity);
-            int result2 = (o != null) ? o.intValue() : 0;
+            inventoryItem.put("whregistCd", whregistEntity.getWhregistCd());
+            inventoryItem.put("itemCd", itemEntity.getItemCd());
+            inventoryItem.put("currentStock", currentStock);
 
-            List<Object[]> checkList = checkRepository.findtest("입고", date, whregistEntity, itemEntity);
-            List<Map<String, Object>> innerResult = new ArrayList<>(); // 내부 결과 리스트
-
-            for (Object[] row : checkList) {
-                Long checkAmt = (Long) row[3]; // 해당 행의 checkAmt 값을 가져옴
-                int outgoingAmount = getOutgoingAmount(date, whregistEntity, itemEntity); // 출고량 가져오기
-                int result3 = 0; // 기본값 설정
-
-                if (checkAmt != null) {
-                    result3 = checkAmt.intValue() - outgoingAmount; // 해당 행의 결과3 값을 계산
-                }
-
-                Map<String, Object> item = new HashMap<>();
-                item.put("whmoveDt", row[0]);
-                item.put("whregistCd", row[1]);
-                item.put("itemCd", row[2]);
-                item.put("checkAmt", checkAmt);
-                item.put("result3", result3); // 결과3 값을 맵에 추가
-                innerResult.add(item);
+            result.add(inventoryItem);
             }
+            return result;
 
-            result.addAll(innerResult); // 내부 결과를 외부 결과에 추가
         }
-        return result; // 최종 결과 반환
     }
-}
 
 /*
     private final CheckRepository checkRepository;
