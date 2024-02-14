@@ -339,22 +339,26 @@ $(document).ready(function() {
         });
     });
 });
+$('#successModal').on('hidden.bs.modal', function () {
+    // 페이지를 새로 고침
+    window.location.reload();
+});
 
 
 
 function editAccountInfo(accountCd, accountNm , accountAdd, accountRep, accountSectors, accountBank, accountAcnb, accountPic, accountEtc)
-        {
-            $('#editAccount').modal('show');
-            $('#editAccountCd').val(accountCd);
-            $('#editAccountNm').val(accountNm);
-            $('#editAccountAdd').val(accountAdd);
-            $('#editAccountRep').val(accountRep);
-            $('#editAccountSectors').val(accountSectors);
-            $('#editAccountBank').val(accountBank);
-            $('#editAccountAcnb').val(accountAcnb);
-            $('#editAccountPic').val(accountPic);
-            $('#editAccountEtc').val(accountEtc);
-        }
+{
+    $('#editAccount').modal('show');
+    $('#editAccountCd').val(accountCd);
+    $('#editAccountNm').val(accountNm);
+    $('#editAccountAdd').val(accountAdd);
+    $('#editAccountRep').val(accountRep);
+    $('#editAccountSectors').val(accountSectors);
+    $('#editAccountBank').val(accountBank);
+    $('#editAccountAcnb').val(accountAcnb);
+    $('#editAccountPic').val(accountPic);
+    $('#editAccountEtc').val(accountEtc);
+}
 //function registerAccountFinished() {
 ////             document.getElementById("createEmployeeForm").submit();
 //             alert('거래처가 등록되었습니다.');
@@ -363,3 +367,81 @@ function editAccountInfo(accountCd, accountNm , accountAdd, accountRep, accountS
 ////             document.getElementById("createEmployeeForm").submit();
 //             alert('거래처 정보가 수정되었습니다.');
 //         }
+
+// 테이블의 행 클릭 이벤트 핸들러
+$('.table.item a[data-id]').on('click', function() {
+    console.log($(this).data('id'));
+    var estimateId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    // AJAX 요청
+    $.ajax({
+        url: '/ss/estimate/list/detail/' + estimateId, // 서버 엔드포인트
+        type: 'GET',
+        success: function(data) {
+            data.forEach(function(value, key) {
+                console.log(key + ': ' + value);
+            });
+            if (data && data.length > 0) {
+                // 성공 시 모달 내용 업데이트
+                var modaltBody = $('#entity .table.item tbody');
+                modaltBody.empty();
+                $('#updateCurrentDate').val(data[0].estimateDt);
+                $('#updateaccountCode').val(data[0].accountEntity.accountCd);
+                $('#updatename').val(data[0].empInfoEntity.empInfoNm);
+                $('#updateaccountName').val(data[0].accountEntity.accountNm);
+                for(var i =0;i<data.length;i++){
+                    var row = $('<tr>'); // 행 생성
+
+                    // 각 셀에 입력 요소 추가
+                    row.append('<td><input type="text" class="form-control" value="' + data[i].itemEntity.itemCd + '"></td>');
+                    row.append('<td><input type="text" class="form-control" value="' + data[i].itemEntity.itemNm + '"></td>');
+                    row.append('<td><input type="text" class="form-control" value="' + data[i].itemEntity.itemStnd + '"></td>');
+                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateAmt + '"></td>');
+                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateUp + '"></td>');
+                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateSp + '"></td>');
+                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateVat + '"></td>');
+                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateTamt + '"></td>');
+                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateEtc + '"></td>');
+                    modaltBody.append(row);
+
+                }
+                // 모달 표시
+                $('#detail').modal('show');
+            } else {
+                console.error('데이터가 비어있습니다.');
+            }
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+});
+$(document).ready(function() {
+    $('#entity').submit(function(event) {
+        // 폼의 기본 동작인 서버로의 POST 요청 방지
+        event.preventDefault();
+
+        // 폼 데이터를 JSON 객체로 직렬화
+        var formData = $('#entity').serializeArray();
+        console.log(formData);
+
+        // AJAX 요청 설정
+        $.ajax({
+            url: '/ss/estimate/update',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function(response) {
+                // 성공 시 동작
+                window.location.href = response.redirectUrl;
+                console.log('서버로부터 응답 받음:', response);
+                // 추가적인 동작 수행 가능
+            },
+            error: function(xhr, status, error) {
+                // 오류 시 동작
+                console.error('오류 발생:', error);
+                // 오류 처리 또는 메시지 표시
+            }
+        });
+    });
+});
+

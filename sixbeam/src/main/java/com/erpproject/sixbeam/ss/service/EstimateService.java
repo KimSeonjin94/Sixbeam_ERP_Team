@@ -88,6 +88,12 @@ public class EstimateService {
         estimateRepository.saveAll(entities);
 
     }
+    public void updateAll(List<EstimateEntity> estimateEntities){
+        for (EstimateEntity estimate : estimateEntities) {
+            // 각 견적 엔티티를 저장 또는 업데이트합니다.
+            estimateRepository.save(estimate);
+        }
+    }
     private String generateNewEstimateCd() {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "ES" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-";
@@ -96,7 +102,7 @@ public class EstimateService {
         String maxCd = estimateRepository.getMaxEstimateCd();
         if (maxCd == null) {
             // 초기값 설정
-            maxCd = "1001";
+            maxCd = "101";
         }
         int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(maxCd.lastIndexOf("-") + 1)) + 1 : 1;
 
