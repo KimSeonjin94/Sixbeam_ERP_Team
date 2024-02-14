@@ -22,6 +22,19 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
+    // itemCd가 F로 시작하는 품목을 가져오는 메서드
+    public List<ItemEntity> getFlist() {
+
+        return itemRepository.findByItemCdStartingWith("F");
+    }
+
+    // itemCd가 R로 시작하는 품목을 가져오는 메서드
+    public List<ItemEntity> getRlist() {
+
+        return itemRepository.findByItemCdStartingWith("R");
+    }
+
+
     public List<ItemEntity> getCPU() {
 
         return itemRepository.findByItemCdContainingKeyword("CPU");

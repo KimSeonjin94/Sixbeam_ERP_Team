@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.pd.service;
 
+import com.erpproject.sixbeam.pd.dto.BomDto;
 import com.erpproject.sixbeam.pd.entity.BomEntity;
 import com.erpproject.sixbeam.pd.entity.FitemEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
@@ -22,6 +23,9 @@ public class BomService {
     public List<BomEntity> getList() {
 
         return bomRepository.findAll();
+    }
+
+    public void create(List<BomDto> bomDtos) {
     }
 
     // BOM 저장 메서드
