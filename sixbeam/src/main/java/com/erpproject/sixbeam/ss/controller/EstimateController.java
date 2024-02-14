@@ -14,13 +14,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.beans.PropertyEditorSupport;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequestMapping("/ss/estimate")
@@ -42,7 +45,7 @@ public class EstimateController {
         EstimateForm form=new EstimateForm();
         List<AccountEntity> accountEntity = this.accountService.getList();
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
-        List<ItemEntity> itemEntity = this.itemService.list();
+        List<ItemEntity> itemEntity = this.itemService.getList();
         form.getEstimateDtos().add(new EstimateDto());
         form.getEstimateDtos().add(new EstimateDto());
         model.addAttribute("getactlist",accountEntity);
@@ -59,7 +62,7 @@ public class EstimateController {
             logger.info("Submitted form data: {}", estimateDtos);
         }
         this.estimateService.create(estimateDtos);
-        return "redirect:ss/estimate/list";
+        return "redirect:/ss/estimate/list";
     }
     @GetMapping("/list")
     public String list(Model model){
@@ -67,7 +70,7 @@ public class EstimateController {
         List< EstimateEntity> estimateEntities = estimateService.getList();
         List<AccountEntity> accountEntity = this.accountService.getList();
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
-        List<ItemEntity> itemEntity = this.itemService.list();
+        List<ItemEntity> itemEntity = this.itemService.getList();
         form.getEstimateDtos().add(new EstimateDto());
         form.getEstimateDtos().add(new EstimateDto());
         model.addAttribute("getactlist",accountEntity);
@@ -78,11 +81,19 @@ public class EstimateController {
         return "contents/ss/estimate_list";
     }
     @GetMapping(value = "/list/detail/{id}")
-    public String detail(Model model, @PathVariable("id") String id){
+    public ResponseEntity<List<EstimateEntity>> detail(@PathVariable("id") String id){
         List<EstimateEntity> estimateEntities = estimateService.getIdList(id);
-        return "";
+        System.out.println(estimateEntities.toString());
+        return ResponseEntity.ok(estimateEntities);
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<Map<String, String>> updateEstimate(@RequestBody List<EstimateEntity> estimates){
+        estimateService.updateAll(estimates);
+        Map<String, String> response = new HashMap<>();
+        response.put("redirectUrl", "/ss/estimate/list");
+        return ResponseEntity.ok(response);
+    }
     @GetMapping("/getitemdata")
     public Optional<ItemEntity> itemlist(Model model, @RequestParam String itemCd){
 

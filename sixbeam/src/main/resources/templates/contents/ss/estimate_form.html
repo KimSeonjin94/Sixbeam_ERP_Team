@@ -48,10 +48,10 @@
                     <tbody >
                     <tr>
                         <td>
-                            <input type="hidden" class="" th:field="*{estimateDtos[0].estimateDt}">
-                            <input type="hidden" class="" th:field="*{estimateDtos[0].accountEntity.accountCd}" >
-                            <input type="hidden" class="" th:field="*{estimateDtos[0].estimateNm}">
-                            <input type="hidden" class="" th:field="*{estimateDtos[0].empInfoEntity.empInfoId}">
+                            <input type="hidden" class="RegisDate" th:field="*{estimateDtos[0].estimateDt}">
+                            <input type="hidden" class="AccountCode" th:field="*{estimateDtos[0].accountEntity.accountCd}" >
+                            <input type="hidden" class="estimateNm" th:field="*{estimateDtos[0].estimateNm}">
+                            <input type="hidden" class="EmpInfoId" th:field="*{estimateDtos[0].empInfoEntity.empInfoId}">
                             <input type="text" class="form-control itemname" >
                         </td>
                         <td>
@@ -88,10 +88,10 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="hidden" th:field="*{estimateDtos[1].estimateDt}">
-                            <input type="hidden" th:field="*{estimateDtos[1].accountEntity.accountCd}" >
-                            <input type="hidden" th:field="*{estimateDtos[1].estimateNm}">
-                            <input type="hidden" th:field="*{estimateDtos[1].empInfoEntity.empInfoId}">
+                            <input type="hidden" class="RegisDate" th:field="*{estimateDtos[1].estimateDt}">
+                            <input type="hidden" class="AccountCode" th:field="*{estimateDtos[1].accountEntity.accountCd}" >
+                            <input type="hidden" class="estimateNm" th:field="*{estimateDtos[1].estimateNm}">
+                            <input type="hidden" class="EmpInfoId" th:field="*{estimateDtos[1].empInfoEntity.empInfoId}">
                             <input type="text" class="form-control itemname" >
                         </td>
                         <td>
@@ -180,7 +180,24 @@
                     </div>
                 </div>
             </div>
-
+            <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel2">성공</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            등록되었습니다.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
