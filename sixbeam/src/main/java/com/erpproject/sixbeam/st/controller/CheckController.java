@@ -32,7 +32,7 @@ public class CheckController {
         return "redirect:/sixbeam/home";
     }
 
-    //전체 조회
+    //전체 조회---------------------------------------------------------------------------------------
     @GetMapping("/checktotal")
     @ResponseBody
     public int getTotalCheckAmt(@RequestParam("date") LocalDate date) {
@@ -51,7 +51,7 @@ public class CheckController {
         return checkService.getTotalIncoming(date);
     }
 
-    //아이템별 조회
+    //아이템별 조회---------------------------------------------------------------------------------------
     @GetMapping("/checkitemincoming")
     @ResponseBody
     public int getItemIncoming(@RequestParam("date") LocalDate date, ItemEntity itemEntity) {
@@ -70,7 +70,7 @@ public class CheckController {
         return checkService.getTotalItemCheckAmt(date, itemEntity);
     }
 
-    //창고별 조회
+    //창고별 조회---------------------------------------------------------------------------------------
     @GetMapping("/checkwhincoming")
     @ResponseBody
     public int getWhIncoming(@RequestParam("date") LocalDate date, WhregistEntity whregistEntity) {
@@ -89,13 +89,39 @@ public class CheckController {
         return checkService.getTotalWhCheckAmt(date, whregistEntity);
     }
 
+    //창고,품목별 조회---------------------------------------------------------------------------------------
+    @GetMapping("/checkwhitemincoming")
+    @ResponseBody
+    public int getWhItemIncoming(@RequestParam("date") LocalDate date, WhregistEntity whregistEntity, ItemEntity itemEntity) {
+        return checkService.getWhItemIncoming(date, whregistEntity, itemEntity);
+    }
 
+    @GetMapping("/checkwhitemoutcoming")
+    @ResponseBody
+    public int getWhItemOutcoming(@RequestParam("date") LocalDate date, WhregistEntity whregistEntity, ItemEntity itemEntity) {
+        return checkService.getWhItemOutgoing(date, whregistEntity, itemEntity);
+    }
+
+    @GetMapping("/checkwhitemtotal")
+    @ResponseBody
+    public int getTotalWhItemCheckAmt(@RequestParam("date") LocalDate date, WhregistEntity whregistEntity, ItemEntity itemEntity) {
+        return checkService.getTotalWhItemCheckAmt(date, whregistEntity, itemEntity);
+    }
+
+/*
     // 특정 날짜를 기준으로 원하는 column들만 조회하는 엔드포인트
     @GetMapping("/byDate")
-    public String getInventoryByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, Model model) {
-        List<Map<String, Object>> inventoryList = checkService.getInventoryByDate(date);
+    public String getCheckByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, Model model) {
+        List<Map<String, Object>> inventoryList = checkService.getCheckByDate(date);
         model.addAttribute("inventoryList", inventoryList);
         return "contents/st/check_list";
+    }
+*/
+@GetMapping("/byDatetest")
+public String getChecktest(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, Model model) {
+    List<Map<String, Object>> inventoryList = checkService.getChecktest(date);
+    model.addAttribute("inventoryList", inventoryList);
+    return "contents/st/check_list";
     }
 }
 

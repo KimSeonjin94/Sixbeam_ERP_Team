@@ -42,7 +42,7 @@ public class EstimateController {
         EstimateForm form=new EstimateForm();
         List<AccountEntity> accountEntity = this.accountService.getList();
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
-        List<ItemEntity> itemEntity = this.itemService.list();
+        List<ItemEntity> itemEntity = this.itemService.getList();
         form.getEstimateDtos().add(new EstimateDto());
         form.getEstimateDtos().add(new EstimateDto());
         model.addAttribute("getactlist",accountEntity);
@@ -67,7 +67,7 @@ public class EstimateController {
         List< EstimateEntity> estimateEntities = estimateService.getList();
         List<AccountEntity> accountEntity = this.accountService.getList();
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
-        List<ItemEntity> itemEntity = this.itemService.list();
+        List<ItemEntity> itemEntity = this.itemService.getList();
         form.getEstimateDtos().add(new EstimateDto());
         form.getEstimateDtos().add(new EstimateDto());
         model.addAttribute("getactlist",accountEntity);

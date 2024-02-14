@@ -25,9 +25,19 @@ public interface CheckRepository extends JpaRepository<CheckEntity, Long> {
     @Query("SELECT SUM(c.checkAmt) FROM CheckEntity c WHERE c.whmoveEntity.whmoveGb = :whmoveGb AND c.whmoveEntity.whmoveDt <= :date AND c.whmoveEntity.whregistEntity = :whregistEntity")
     Integer findWhCheck(@Param("whmoveGb") String whmoveGb, @Param("date") LocalDate date, @Param("whregistEntity") WhregistEntity whregistEntity);
 
+    //날짜 및 창고,품목별 Check 테이블 총 재고 조회
+    @Query("SELECT SUM(c.checkAmt) FROM CheckEntity c WHERE c.whmoveEntity.whmoveGb = :whmoveGb AND c.whmoveEntity.whmoveDt <= :date AND c.whmoveEntity.whregistEntity = :whregistEntity AND c.whmoveEntity.itemEntity = :itemEntity")
+    Integer findWhItemCheck(@Param("whmoveGb") String whmoveGb, @Param("date") LocalDate date, @Param("whregistEntity") WhregistEntity whregistEntity, @Param("itemEntity") ItemEntity itemEntity);
+
     // 원하는 column들만 조회되도록 쿼리 메서드 수정
-    @Query("SELECT c.whmoveEntity.whmoveDt, c.whmoveEntity.whregistEntity.whregistCd, c.whmoveEntity.itemEntity, c.checkAmt FROM CheckEntity c WHERE c.whmoveEntity.whmoveDt = :date")
-    List<Object[]> findInventoryByDate(@Param("date") LocalDate date);
+    @Query("SELECT c.whmoveEntity.whmoveDt, c.whmoveEntity.whregistEntity.whregistCd, c.whmoveEntity.itemEntity.itemCd, c.checkAmt FROM CheckEntity c WHERE c.whmoveEntity.whmoveDt = :date")
+    List<Object[]> findCheckByDate(@Param("date") LocalDate date);
+
+    //test
+    @Query("SELECT c.whmoveEntity.whmoveDt, c.whmoveEntity.whregistEntity.whregistCd, c.whmoveEntity.itemEntity.itemCd, " +
+            "(SELECT SUM(c.checkAmt) FROM CheckEntity c WHERE c.whmoveEntity.whmoveGb = :whmoveGb AND c.whmoveEntity.whmoveDt <= :date AND c.whmoveEntity.whregistEntity = :whregistEntity AND c.whmoveEntity.itemEntity = :itemEntity) as Amt FROM CheckEntity c WHERE c.whmoveEntity.whmoveDt = :date")
+    List<Object[]> findtest(@Param("whmoveGb") String whmoveGb, @Param("date") LocalDate date, @Param("whregistEntity") WhregistEntity whregistEntity, @Param("itemEntity") ItemEntity itemEntity);
+
 }
 
 
