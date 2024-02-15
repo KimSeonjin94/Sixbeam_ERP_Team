@@ -5,17 +5,17 @@ import com.erpproject.sixbeam.pd.Form.BomForm;
 import com.erpproject.sixbeam.pd.dto.BomDto;
 import com.erpproject.sixbeam.pd.entity.BomEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
-import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.service.BomService;
 import com.erpproject.sixbeam.pd.service.ItemService;
-import com.erpproject.sixbeam.ss.form.EstimateForm;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/pd/bom")
@@ -88,8 +88,28 @@ public class BomController {
         return "contents/pd/bom_list";
     }
 
-    /*@GetMapping("/list/detail/{id}")
-    public String detail(Model model, @PathVariable("id") String itemCd) {
-        List<BomEntity> bomEntities =
-    }*/
+    @GetMapping("/list/detail/{id}")
+    public ResponseEntity<List<BomEntity>> detail(@PathVariable("id") String itemCd) {
+
+        List<BomEntity> bomEntities = bomService.getIdList(itemCd);
+
+//        System.out.println(bomEntities.toString());
+
+        return ResponseEntity.status(HttpStatus.OK).body(bomEntities);
+    }
+
+    @PostMapping("/update")
+    public String updateBom(@ModelAttribute BomForm bomForm) {
+
+        List<BomDto> bomDtos = bomForm.getBomDtos();
+        bomService.updateAll(bomDtos);
+
+        return "redirect:/ss/bom/bomlist";
+    }
+
+    @GetMapping("/getitemdata")
+    public Optional<ItemEntity> itemList(Model model, @RequestParam String itemCd) {
+
+        return bomService.getItemCd(itemCd);
+    }
 }

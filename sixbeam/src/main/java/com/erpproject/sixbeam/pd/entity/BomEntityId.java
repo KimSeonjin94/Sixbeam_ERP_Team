@@ -2,13 +2,14 @@ package com.erpproject.sixbeam.pd.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BomEntityId implements Serializable {
 
     private FitemEntity fitemEntity;
