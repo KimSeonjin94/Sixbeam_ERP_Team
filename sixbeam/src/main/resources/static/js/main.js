@@ -346,11 +346,12 @@ $('#successModal').on('hidden.bs.modal', function () {
 
 
 
-function editAccountInfo(accountCd, accountNm , accountAdd, accountRep, accountSectors, accountBank, accountAcnb, accountPic, accountEtc)
+function setAccountInfo(accountCd, accountNm , accountNb, accountAdd, accountRep, accountSectors, accountBank, accountAcnb, accountPic, accountEtc)
 {
     $('#editAccount').modal('show');
     $('#editAccountCd').val(accountCd);
     $('#editAccountNm').val(accountNm);
+    $('#editAccountNb').val(accountNb);
     $('#editAccountAdd').val(accountAdd);
     $('#editAccountRep').val(accountRep);
     $('#editAccountSectors').val(accountSectors);
@@ -359,14 +360,16 @@ function editAccountInfo(accountCd, accountNm , accountAdd, accountRep, accountS
     $('#editAccountPic').val(accountPic);
     $('#editAccountEtc').val(accountEtc);
 }
-//function registerAccountFinished() {
-////             document.getElementById("createEmployeeForm").submit();
-//             alert('거래처가 등록되었습니다.');
-//         }
-//function editAccountFinished() {
-////             document.getElementById("createEmployeeForm").submit();
-//             alert('거래처 정보가 수정되었습니다.');
-//         }
+function registerAccountFinished() {
+
+
+             alert('거래처가 등록되었습니다.')
+         }
+function editAccountFinished() {
+
+
+    alert('거래처 정보가 수정되었습니다.');
+         }
 
 // 테이블의 행 클릭 이벤트 핸들러
 $('.table.item a[data-id]').on('click', function() {
