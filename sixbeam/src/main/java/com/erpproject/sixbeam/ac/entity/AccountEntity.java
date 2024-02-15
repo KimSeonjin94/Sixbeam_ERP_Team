@@ -37,17 +37,17 @@ public class AccountEntity {
     @Column(name="ACCOUNT_ETC")
     private String accountEtc;
 
-    public void updateEntity(AccountDto accountDto) {
-        this.accountCd = accountDto.getAccountCd();
-        this.accountNm = accountDto.getAccountNm();
-        this.accountNb = accountDto.getAccountNb();
-        this.accountAdd = accountDto.getAccountAdd();
-        this.accountRep = accountDto.getAccountRep();
-        this.accountSectors = accountDto.getAccountSectors();
-        this.accountBank = accountDto.getAccountBank();
-        this.accountAcnb = accountDto.getAccountAcnb();
-        this.accountPic = accountDto.getAccountPic();
-        this.accountEtc = accountDto.getAccountEtc();
+    public void updateEntity(AccountDto dto) {
+        this.accountCd = dto.getAccountCd();
+        this.accountNm = dto.getAccountNm();
+        this.accountNb = dto.getAccountNb();
+        this.accountAdd = dto.getAccountAdd();
+        this.accountRep = dto.getAccountRep();
+        this.accountSectors = dto.getAccountSectors();
+        this.accountBank = dto.getAccountBank();
+        this.accountAcnb = dto.getAccountAcnb();
+        this.accountPic = dto.getAccountPic();
+        this.accountEtc = dto.getAccountEtc();
     }
 
 }

@@ -40,9 +40,10 @@
                     <tbody>
                     <tr th:each="account  : ${accountList}">
                         <td>
-                            <a href="#" th:onclick="editAccountInfo
+                            <a href="#" th:onclick="setAccountInfo
                             ([[${account.accountCd}]],
                             [[${account.accountNm}]],
+                            [[${account.accountNb}]],
                             [[${account.accountAdd}]],
                             [[${account.accountRep}]],
                             [[${account.accountSectors}]],
@@ -144,43 +145,43 @@
                             <div class="modal-body-ac">
                                 <div class="form-group row">
                                     <label for="editAccountCd" class="col-sm-2 col-form-label">거래처 코드</label>
-                                    <input type="text" class="form-control col-sm-10" id="editAccountCd" name="editAccountCd">
+                                    <input type="text" class="form-control col-sm-10" id="editAccountCd" name="accountCd">
                                 </div>
                                 <div class="form-group row">
                                     <label for="editAccountNm" class="col-sm-2 col-form-label">거래처명</label>
-                                    <input type="text" class="form-control col-sm-10" id="editAccountNm" name="editAccountNm">
+                                    <input type="text" class="form-control col-sm-10" id="editAccountNm" name="accountNm">
                                 </div>
                                 <div class="form-group row">
                                     <label for="editAccountNb" class="col-sm-2 col-form-label">사업자번호</label>
-                                    <input type="text" class="form-control col-sm-10" id="editAccountNb" name="editAccountNb">
+                                    <input type="text" class="form-control col-sm-10" id="editAccountNb" name="accountNb">
                                 </div>
                                 <div class="form-group row">
                                     <label for="editAccountAdd" class="col-sm-2 col-form-label">사업장 소재지</label>
-                                    <input type="text" class="form-control col-sm-10" id="editAccountAdd" name="editAccountAdd">
+                                    <input type="text" class="form-control col-sm-10" id="editAccountAdd" name="accountAdd">
                                 </div>
                                 <div class="form-group row">
                                     <label for="editAccountRep" class="col-sm-2 col-form-label">대표자명</label>
-                                    <input type="text" class="form-control col-sm-10" id="editAccountRep" name="editAccountRep">
+                                    <input type="text" class="form-control col-sm-10" id="editAccountRep" name="accountRep">
                                 </div>
                                 <div class="form-group row">
                                     <label for="editAccountSectors" class="col-sm-2 col-form-label">업종</label>
-                                    <input type="text" class="form-control col-sm-10" id="editAccountSectors" name="editAccountSectors">
+                                    <input type="text" class="form-control col-sm-10" id="editAccountSectors" name="accountSectors">
                                 </div>
                                 <div class="form-group row">
                                     <label for="editAccountBank" class="col-sm-2 col-form-label">은행명</label>
-                                    <input type="text" class="form-control col-sm-10" id="editAccountBank" name="editAccountBank">
+                                    <input type="text" class="form-control col-sm-10" id="editAccountBank" name="accountBank">
                                 </div>
                                 <div class="form-group row">
                                     <label for="editAccountAcnb" class="col-sm-2 col-form-label">계좌번호</label>
-                                    <input type="text" class="form-control col-sm-10" id="editAccountAcnb" name="editAccountAcnb">
+                                    <input type="text" class="form-control col-sm-10" id="editAccountAcnb" name="accountAcnb">
                                 </div>
                                 <div class="form-group row">
                                     <label for="editAccountPic" class="col-sm-2 col-form-label">담당자</label>
-                                    <input type="text" class="form-control col-sm-10" id="editAccountPic" name="editAccountPic">
+                                    <input type="text" class="form-control col-sm-10" id="editAccountPic" name="accountPic">
                                 </div>
                                 <div class="form-group row">
                                     <label for="editAccountEtc" class="col-sm-2 col-form-label">적요</label>
-                                    <input type="text" class="form-control col-sm-8" id="editAccountEtc" name="editAccountEtc">
+                                    <input type="text" class="form-control col-sm-8" id="editAccountEtc" name="accountEtc">
                                 </div>
                             </div>
                             <div class="modal-footer">
