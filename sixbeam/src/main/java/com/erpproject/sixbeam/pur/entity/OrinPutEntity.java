@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @IdClass(OrinPutEntityId.class)
-@Table(name="PUR_ORINPUT_TB", indexes = {
+@Table(name = "PUR_ORINPUT_TB", indexes = {
         @Index(name = "idx_orinput_cd", columnList = "orinputCd")
 })
 public class OrinPutEntity {

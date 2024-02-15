@@ -12,7 +12,6 @@ import java.sql.Time;
 
 
 @IdClass(BomEntityId.class)
-@Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString

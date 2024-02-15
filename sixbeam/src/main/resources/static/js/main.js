@@ -1,5 +1,5 @@
 (function($) {
-  "use strict"; // Start of use strict
+    "use strict"; // Start of use strict
 
     // Toggle the side navigation
     $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
@@ -84,98 +84,89 @@
         });
     });
     $(document).ready(function() {
-        $('#addnewrowbtn').click(function() {
-            addRow();
+        $('.addnewrowbtn').click(function() {
+            addnewrow();
         });
-
+        $('.deleterowbtn').click(function() {
+            deleteLastRow();
+        });
+    });
+    $(document).ready(function() {
+        $('#addnewrowbtn').click(function() {
+            addnewrow();
+        });
         $('#deleterowbtn').click(function() {
             deleteLastRow();
         });
     });
 
-    function addRow() {
-        // 테이블 선택
-        const $table = $('.table.item');
+    function addnewrow() {
+        // 테이블의 마지막 행을 복제합니다.
+        var $lastRow = $('.table.item tbody tr:last');
+        var $newRow = $lastRow.clone();
 
-        // 이전 행 선택
-        const $previousRow = $table.find('tr').last();
-
-        // 새 행 추가
-        const $newRow = $previousRow.clone().appendTo($table).find('input').val('');
-
-        // 복제된 새 행의 input 요소 초기화
-        //$newRow.find('input').val('');
-    }
-    function deleteLastRow() {
-        // 테이블 선택
-        const $table = $('.table.item');
-
-        // 마지막 행 삭제
-        $table.find('tr:last').remove();
-    }
-    $(document).ready(function() {
-        $('.form-control.item').on('change', function() {
-            // 현재 이벤트가 발생한 input 요소를 선택
-            var currentInput = $(this);
-            //input 값 저장
-            var itemCd = $(this).val();
-            // 해당 input이 속한 row를 찾아서 인덱스를 가져옴
-            var rowIndex = currentInput.closest('tr').index();
-            // AJAX 요청
-            $.ajax({
-                type: 'GET',
-                url: '/getitemdata',
-                data: { itemCd: itemCd },
-                success: function(response) {
-                    // 응답을 받았을 때 데이터를 테이블에 반영
-                    var itemNwColumn = response.itemNw;
-
-                    // 현재 행의 첫 번째 열 값을 업데이트
-                    currentInput.closest('tr').find('td:eq(1)').find('input').val(itemNwColumn);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
+        // 복제된 행의 name 속성에 포함된 인덱스를 증가시킵니다.
+        $newRow.find('input, select').each(function() {
+            var name = $(this).attr('name');
+            if (name) {
+                var match = name.match(/(\d+)/);
+                if (match) {
+                    var index = parseInt(match[0], 10);
+                    var newName = name.replace('[' + index + ']', '[' + (index + 1) + ']');
+                    $(this).attr('name', newName);
                 }
-            });
+            }
+
+            // 입력 필드의 값을 초기화합니다.
+            if($(this).is('input[type="text"]')) {
+                $(this).val('');
+            } else if($(this).is('select')) {
+                $(this).val($(this).find('option:first').val());
+            } else if($(this).is('input[type="hidden"]')) {
+                // 숨겨진 필드의 처리가 필요한 경우 여기에 로직을 추가
+            }
+        });
+
+        // 새로운 행을 테이블에 추가합니다.
+        $newRow.appendTo('.table.item tbody');
+    }
+
+    function deleteLastRow() {
+        // tbody 내의 행을 대상으로 선택
+        const $tbody = $('.table.item tbody');
+
+        // tbody 내의 행 개수 확인
+        const rowCount = $tbody.find('tr').length;
+
+        // 행이 1개만 남았을 때, 모달 표시
+        if (rowCount <= 1) {
+            $('#cannotDeleteModal').modal('show');
+        } else {
+            // 그 외의 경우, 마지막 행 삭제
+            $tbody.find('tr:last').remove();
+        }
+    }
+
+
+
+
+})(jQuery); // End of use strict
+$(document).ready(function() {
+    //id를 currentData로 하면 현재 날짜를 볼러 올 수 있도록 하는 제이쿼리
+    $('#currentDate').val(new Date().toISOString().substring(0,10));
+
+    //거래처 코드 선택하면 거래처명이 나올 수 있도록 하는 제이쿼리
+    $("#accountCode").on('input', function() {
+        var inputVal = $(this).val();
+        $("#accountCodeSelectBox option").each(function() {
+            if ($(this).val() === inputVal) {
+                var accountNm = $(this).text();
+                $("#accountName").val(accountNm);
+                return false; // 반복문 종료
+            }
         });
     });
-    $('[name="date"]').each(function() {
-        // 현재 요소의 값을 변경
-        $(this).val($('#date').val());
-
-    });
-    $('[name="ac"]').each(function() {
-        // 현재 요소의 값을 변경
-        $(this).val($('#ac').val());
-
-    });
-    $('[name="name"]').each(function() {
-        // 현재 요소의 값을 변경
-        $(this).val("newValue");
-
-    });
-    $('[name="acNw"]').each(function() {
-        // 현재 요소의 값을 변경
-        $(this).val("newValue");
-
-    });
-})(jQuery); // End of use strict
-
-//id를 currentData로 하면 현재 날짜를 볼러 올 수 있도록 하는 제이쿼리
-$('#currentDate').val(new Date().toISOString().substring(0,10));
-
-//거래처 코드 선택하면 거래처명이 나올 수 있도록 하는 제이쿼리
-$("#accountCode").on('input', function() {
-    var inputVal = $(this).val();
-    $("#accountCodeSelectBox option").each(function() {
-        if ($(this).val() === inputVal) {
-            var accountNm = $(this).text();
-            $("#accountName").val(accountNm);
-            return false; // 반복문 종료
-        }
-    });
 });
-
 //테이블에서 품목 코드 선택하면 폼목명, 단가 불러오고 수량 작성하면 공급가액, 부가세, 총합 계산되도록 하는 제이쿼리
 $('.table.item').on('change input', '.selectbox, .itemamt', function() {
     var $row = $(this).closest('tr');
@@ -183,7 +174,7 @@ $('.table.item').on('change input', '.selectbox, .itemamt', function() {
     var itemup = parseFloat($row.find('.itemup').val().replace(/[^\d.-]/g, '')); // 숫자가 아닌 문자 제거
 
     if ($(this).hasClass('selectbox')) { // .selectbox에서의 변경인 경우에만 처리
-        var valueitemname = $(this).val();
+        var valueitemname = $(this).find(':selected').attr("data-itemNm");
         var valueitmestnd = $(this).find(':selected').attr("data-itemStnd");
         var valueitmeup = parseFloat($(this).find(':selected').attr("data-itemUp")); // 문자열을 숫자로 변환
 
@@ -210,50 +201,232 @@ $('#orinputform').submit(function(event) {
 });
 
 function orinPutSaveData() {
-        // 품목 데이터 수집
-        const items = [];
-        $('#orinputitem tbody tr').each(function () {
-            const item = {
-                // 각 행에서 필요한 데이터를 수집하여 객체로 만듦
-                // 예시: itemCd, itemName, itemStnd, itemAmt, itemUp, itemSp, itemVar, itemSum
-                itemCd: $(this).find('.selectbox').val(),
-                itemName: $(this).find('.itemname').val(),
-                itemStnd: $(this).find('.itemstnd').val(),
-                itemAmt: $(this).find('.itemamt').val(),
-                itemUp: $(this).find('.itemup').val(),
-                itemSp: $(this).find('.itemsp').val(),
-                itemVar: $(this).find('.itemvar').val(),
-                itemSum: $(this).find('.itemsum').val()
-            };
-            items.push(item);
+    // 품목 데이터 수집
+    const items = [];
+    $('#orinputitem tbody tr').each(function () {
+        const item = {
+            // 각 행에서 필요한 데이터를 수집하여 객체로 만듦
+            // 예시: itemCd, itemName, itemStnd, itemAmt, itemUp, itemSp, itemVar, itemSum
+            itemCd: $(this).find('.selectbox').val(),
+            itemName: $(this).find('.itemname').val(),
+            itemStnd: $(this).find('.itemstnd').val(),
+            itemAmt: $(this).find('.itemamt').val(),
+            itemUp: $(this).find('.itemup').val(),
+            itemSp: $(this).find('.itemsp').val(),
+            itemVar: $(this).find('.itemvar').val(),
+            itemSum: $(this).find('.itemsum').val()
+        };
+        items.push(item);
+    });
+
+    // 기타 필요한 데이터 수집 (발주 일자, 담당자, 거래처 등)
+
+    // 데이터를 JSON 형식으로 만듦
+    const data = {
+        currentDate: $('#currentDate').val(),
+        orinputname: $('#orinputname').val(),
+        accountCode: $('#accountCode').val(),
+        accountName: $('#accountName').val(),
+        orinputReqDate: $('#orinputReqDate').val(),
+        orinputDlvyDate: $('#orinputDlvyDate').val(),
+        items: items
+    };
+
+    // Ajax를 사용하여 서버로 데이터 전송
+    $.ajax({
+        type: 'POST',
+        url: '/pur/orinput/save',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (response) {
+            // 저장 성공 시 처리
+            console.log('Data saved successfully!');
+        },
+        error: function (error) {
+            // 저장 실패 시 처리
+            console.error('Error while saving data:', error);
+        }
+    });
+}
+$(document).ready(function() {
+    calculateTotals();
+
+    // 데이터가 변경될 때마다 합계를 다시 계산합니다.
+    // 예를 들어, 행이 추가되거나 삭제될 때, 입력 값이 변경될 때 등
+    $('.table.item').on('input', '.itemamt, .itemup, .itemsp, .itemvar, .itemsum', function() {
+        calculateTotals();
+    });
+});
+function calculateTotals() {
+    var totalAmt = 0, totalUp = 0, totalSp = 0, totalVat = 0, totalSum = 0;
+
+    $('.itemamt').each(function() {
+        totalAmt += parseInt($(this).val()) || 0;
+    });
+    $('.itemup').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalUp += parseInt(value) || 0;
+    });
+    $('.itemsp').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalSp += parseInt(value) || 0;
+    });
+    $('.itemvar').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalVat += parseInt(value) || 0;
+    });
+    $('.itemsum').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalSum += parseInt(value) || 0;
+    });
+
+    // 계산된 합계를 통화 형식으로 표시
+    $('#totalAmt').text(totalAmt);
+    $('#totalUp').text(formatCurrency(totalUp));
+    $('#totalSp').text(formatCurrency(totalSp));
+    $('#totalVat').text(formatCurrency(totalVat));
+    $('#totalSum').text(formatCurrency(totalSum));
+}
+
+function formatCurrency(value) {
+    // 숫자를 지역화된 통화 문자열로 변환 (소수점 없이)
+    return "₩" + value.toLocaleString('ko-KR');
+}
+
+$(document).ready(function() {
+    // 폼이 제출될 때마다 실행되도록 변경
+    $('.formEntry').submit(function(e) {
+        // 폼 제출을 막음
+        e.preventDefault();
+
+        // 입력 필드에서 숫자가 아닌 문자 제거
+        $('.itemamt, .itemup, .itemsp, .itemvar, .itemsum').each(function() {
+            var value = $(this).val().replace(/[^0-9]/g, '');
+            $(this).val(value);
         });
 
-        // 기타 필요한 데이터 수집 (발주 일자, 담당자, 거래처 등)
+        // 폼 데이터 변경
+        var selectedEmp = $('#orinputname').val();
+        // 거래처 코드의 현재 값을 가져옴
+        var accountCode = $('#accountCode').val();
+        // 견적 일자의 현재 값을 가져옴
+        var currentDate = $('#currentDate').val();
+        // 발주 요청 일자(발주에서 사용)
+        var requestDate = $('#orinputReqDate').val()
+        // 납기 일자(발주에서 사용)
+        var deliveryDate = $('#orinputDlvyDate').val()
 
-        // 데이터를 JSON 형식으로 만듦
-        const data = {
-            currentDate: $('#currentDate').val(),
-            orinputname: $('#orinputname').val(),
-            accountCode: $('#accountCode').val(),
-            accountName: $('#accountName').val(),
-            orinputReqDate: $('#orinputReqDate').val(),
-            orinputDlvyDate: $('#orinputDlvyDate').val(),
-            items: items
-        };
+        $('.table.item tbody tr').each(function(index) {
+            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+            $(this).find('.RegisDate').val(currentDate);
+            $(this).find('.AccountCode').val(accountCode);
+            $(this).find('.EmpInfoId').val(selectedEmp);
+            $(this).find('.OrinputReqDate').val(requestDate);
+            $(this).find('.OrinputDlvyDate').val(deliveryDate);
+        });
 
-        // Ajax를 사용하여 서버로 데이터 전송
+        var formData = new FormData(this);
+
+        // FormData 객체를 반복하여 폼 데이터 확인
+        formData.forEach(function(value, key) {
+            console.log(key + ': ' + value);
+        });
+
+        // AJAX를 사용하여 폼 데이터 제출
         $.ajax({
-            type: 'POST',
-            url: '/pur/orinput/save',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (response) {
-                // 저장 성공 시 처리
-                console.log('Data saved successfully!');
+            type: $(this).attr('method'), // POST 또는 GET
+            url: $(this).attr('action'),
+            data: $(this).serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                // 성공적으로 제출된 경우의 처리 로직
+                console.log('Form Submitted Successfully');
             },
-            error: function (error) {
-                // 저장 실패 시 처리
-                console.error('Error while saving data:', error);
+            error: function(response) {
+                // 오류 처리 로직
+
+                console.log('Error Submitting Form');
             }
         });
-    }
+    });
+});
+$('#successModal').on('hidden.bs.modal', function () {
+    // 페이지를 새로 고침
+    window.location.reload();
+});
+
+
+
+function editAccountInfo(accountCd, accountNm , accountAdd, accountRep, accountSectors, accountBank, accountAcnb, accountPic, accountEtc)
+{
+    $('#editAccount').modal('show');
+    $('#editAccountCd').val(accountCd);
+    $('#editAccountNm').val(accountNm);
+    $('#editAccountAdd').val(accountAdd);
+    $('#editAccountRep').val(accountRep);
+    $('#editAccountSectors').val(accountSectors);
+    $('#editAccountBank').val(accountBank);
+    $('#editAccountAcnb').val(accountAcnb);
+    $('#editAccountPic').val(accountPic);
+    $('#editAccountEtc').val(accountEtc);
+}
+//function registerAccountFinished() {
+////             document.getElementById("createEmployeeForm").submit();
+//             alert('거래처가 등록되었습니다.');
+//         }
+//function editAccountFinished() {
+////             document.getElementById("createEmployeeForm").submit();
+//             alert('거래처 정보가 수정되었습니다.');
+//         }
+
+// 테이블의 행 클릭 이벤트 핸들러
+$('.table.item a[data-id]').on('click', function() {
+    console.log($(this).data('id'));
+    var estimateId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    // AJAX 요청
+    $.ajax({
+        url: '/ss/estimate/list/detail/' + estimateId, // 서버 엔드포인트
+        type: 'GET',
+        success: function(data) {
+            data.forEach(function(value, key) {
+                console.log(key + ': ' + value);
+            });
+            if (data && data.length > 0) {
+                // 성공 시 모달 내용 업데이트
+                var modaltBody = $('.formEntry .table.item tbody');
+                modaltBody.empty();
+                $('#updateCurrentDate').val(data[0].estimateDt);
+                $('#updateaccountCode').val(data[0].accountEntity.accountCd);
+                $('#updatename').val(data[0].empInfoEntity.empInfoNm);
+                $('#updateaccountName').val(data[0].accountEntity.accountNm);
+                // 데이터 항목별로 행 추가
+                data.forEach(function(item, index) {
+                    var row = $('<tr>'); // 행 생성
+
+                    // 각 셀에 입력 요소와 name 속성 추가
+                    row.append('<td><input type="hidden" name="estimateDtos[' + index + '].estimateDt" class="form-control" value="' + item.estimateDt + '">'+
+                    '<input type="hidden" name="estimateDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
+                    '<input type="hidden" name="estimateDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
+                    '<input type="hidden" name="estimateDtos[' + index + '].estimateCd" class="form-control" value="' + item.estimateCd+ '">'+
+                    '<input type="text" class="form-control" name="estimateDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
+                    row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
+                    row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateAmt" class="form-control itemamt" value="' + item.estimateAmt + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateUp" class="form-control itemup" value="' + item.estimateUp + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateSp" class="form-control itemsp" value="' + item.estimateSp + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateVat" class="form-control itemvar" value="' + item.estimateVat + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateTamt" class="form-control itemsum" value="' + item.estimateTamt + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateEtc" class="form-control" value="' + item.estimateEtc + '"></td>');
+                    modaltBody.append(row); // 생성된 행을 테이블에 추가
+                });
+
+                $('#detail').modal('show'); // 모달 표시
+            } else {
+                console.error('데이터가 비어있습니다.');
+            }
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+});
+

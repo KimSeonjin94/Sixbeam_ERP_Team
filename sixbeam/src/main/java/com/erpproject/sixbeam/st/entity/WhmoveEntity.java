@@ -17,12 +17,13 @@ import java.time.LocalDate;
 @Table(name = "st_whmove_tb")
 public class WhmoveEntity {
 
+
     @Id
     @Column(name = "whmove_cd")
     private String whmoveCd;
 
     @ManyToOne
-    @JoinColumn(name = "empinfoId")
+    @JoinColumn(name = "empinfo_id")
     private EmpInfoEntity empInfoEntity;
 
 
