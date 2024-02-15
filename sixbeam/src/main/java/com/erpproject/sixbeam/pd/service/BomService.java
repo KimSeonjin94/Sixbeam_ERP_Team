@@ -12,6 +12,7 @@ import com.erpproject.sixbeam.pd.repository.RitemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +45,7 @@ public class BomService {
 
     public void create(List<BomDto> bomDtos) {
 
-        List<BomEntity> bomEntities =new ArrayList<>();
-        String newBomCd = generatedNewBomCd();
+        List<BomEntity> bomEntities = new ArrayList<>();
 
         for (BomDto bomDto : bomDtos) {
 
@@ -57,14 +57,24 @@ public class BomService {
 
             BomEntity bomEntity = bomDto.toEntity();
 
-            bomEntity.setBomCd(newBomCd);
-
-
-
+            bomEntities.add(bomEntity);
         }
+        bomRepository.saveAll(bomEntities);
     }
 
-    public void generatedNewBomCd() {
+    public void updateAll(List<BomDto> bomDtos) {
 
+        for (BomDto bomDto : bomDtos) {
+
+            FitemEntity fitemEntity = fitemRepository.findById(bomDto.getFitemEntity().getItemCd()).orElseThrow(() -> new EntityNotFoundException("Fitem not found"));
+            RitemEntity ritemEntity = ritemRepository.findById(bomDto.getRitemEntity().getItemCd()).orElseThrow(() -> new EntityNotFoundException("Ritem not found"));
+
+            bomDto.setFitemEntity(fitemEntity);
+            bomDto.setRitemEntity(ritemEntity);
+
+            BomEntity bomEntity = bomDto.toEntity();
+
+            bomRepository.save(bomEntity);
+        }
     }
 }

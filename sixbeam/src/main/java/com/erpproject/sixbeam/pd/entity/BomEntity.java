@@ -16,7 +16,6 @@ import java.sql.Time;
 @Table(name = "PD_BOM_TB")
 public class BomEntity {
 
-
     @Id
     @ManyToOne
     @JoinColumn(name = "FITEM_CD")
