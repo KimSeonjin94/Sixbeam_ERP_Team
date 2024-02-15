@@ -88,11 +88,11 @@ public class EstimateController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Map<String, String>> updateEstimate(@RequestBody List<EstimateEntity> estimates){
-        estimateService.updateAll(estimates);
-        Map<String, String> response = new HashMap<>();
-        response.put("redirectUrl", "/ss/estimate/list");
-        return ResponseEntity.ok(response);
+    public String updateEstimate(@ModelAttribute EstimateForm form){
+        List<EstimateDto> estimateDtos= form.getEstimateDtos();
+        estimateService.updateAll(estimateDtos);
+
+        return "redirect:/ss/estimate/list";
     }
     @GetMapping("/getitemdata")
     public Optional<ItemEntity> itemlist(Model model, @RequestParam String itemCd){
