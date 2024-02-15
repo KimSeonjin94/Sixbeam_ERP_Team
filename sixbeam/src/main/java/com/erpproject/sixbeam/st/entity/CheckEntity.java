@@ -33,7 +33,7 @@ public class CheckEntity {
     private WhregistEntity whregistEntity;
 
     @ManyToOne
-    @JoinColumn(name = "ITEM_CD")
+    @JoinColumn(name = "item_cd")
     private ItemEntity itemEntity;
 
 }

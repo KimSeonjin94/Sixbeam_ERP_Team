@@ -1,25 +1,28 @@
 package com.erpproject.sixbeam.st.service;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
+import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.repository.CheckRepository;
+import com.erpproject.sixbeam.st.repository.WhmoveRepository;
+import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class CheckService {
 
     private final CheckRepository checkRepository;
+    private final WhmoveRepository whmoveRepository;
 
-    //통합 조회
+    //통합 조회------------------------------------------------------------------------------
     public int getTotalOutgoing(LocalDate whmoveDt) {
         Integer totalOutgoing = checkRepository.findTotalCheck("출고", whmoveDt);
         return totalOutgoing != null ? totalOutgoing.intValue() : 0;
@@ -36,7 +39,7 @@ public class CheckService {
         return totalIncoming - totalOutgoing;
     }
 
-    //품목별 조회
+    //품목별 조회------------------------------------------------------------------------------
     public int getItemIncoming(LocalDate whmoveDt, ItemEntity itemEntity) {
         Integer itemIncoming = checkRepository.findItemCheck("입고", whmoveDt, itemEntity);
         return itemIncoming != null ? itemIncoming.intValue() : 0;
@@ -53,7 +56,7 @@ public class CheckService {
         return totalItemIncoming - totalItemOutgoing;
     }
 
-    //창고별 조회
+    //창고별 조회------------------------------------------------------------------------------
     public int getWhIncoming(LocalDate whmoveDt, WhregistEntity whregistEntity) {
         Integer whIncoming = checkRepository.findWhCheck("입고", whmoveDt, whregistEntity);
         return whIncoming != null ? whIncoming.intValue() : 0;
@@ -70,11 +73,29 @@ public class CheckService {
         return totalWhIncoming - totalWhOutgoing;
     }
 
+    //창고,품목별 조회------------------------------------------------------------------------------
+    public int getWhItemIncoming(LocalDate whmoveDt, WhregistEntity whregistEntity, ItemEntity itemEntity) {
+        Integer whItemIncoming = checkRepository.findWhItemCheck("입고", whmoveDt, whregistEntity, itemEntity);
+        return whItemIncoming != null ? whItemIncoming.intValue() : 0;
+    }
+
+    public int getWhItemOutgoing(LocalDate whmoveDt, WhregistEntity whregistEntity, ItemEntity itemEntity) {
+        Integer whItemOutcoming = checkRepository.findWhItemCheck("출고", whmoveDt, whregistEntity, itemEntity);
+        return whItemOutcoming != null ? whItemOutcoming.intValue() : 0;
+    }
+
+    public int getTotalWhItemCheckAmt(LocalDate whmoveDt, WhregistEntity whregistEntity, ItemEntity itemEntity) {
+        Integer totalWhItemIncoming = getWhItemIncoming(whmoveDt, whregistEntity, itemEntity);
+        Integer totalWhItemOutgoing = getWhItemOutgoing(whmoveDt, whregistEntity, itemEntity);
+        return totalWhItemIncoming - totalWhItemOutgoing;
+    }
+
+
     // 원하는 column들만 조회되도록 메서드 수정
-    public List<Map<String, Object>> getInventoryByDate(LocalDate date) {
-        List<Object[]> inventoryList = checkRepository.findInventoryByDate(date);
+    public List<Map<String, Object>> getCheckByDate(LocalDate date) {
+        List<Object[]> CheckList = checkRepository.findCheckByDate(date);
         List<Map<String, Object>> result = new ArrayList<>();
-        for (Object[] row : inventoryList) {
+        for (Object[] row : CheckList) {
             Map<String, Object> item = new HashMap<>();
             item.put("whmoveDt", row[0]);
             item.put("whregistCd", row[1]);
@@ -84,7 +105,34 @@ public class CheckService {
         }
         return result;
     }
-}
+
+    // 원하는 column들만 조회되도록 메서드 수정
+    public List<Map<String, Object>> getChecktest(LocalDate date) {
+        List<WhmoveEntity> whmoveEntities = whmoveRepository.findByWhmoveDt(date);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (WhmoveEntity whmoveEntity : whmoveEntities) {
+            Map<String, Object> inventoryItem = new HashMap<>();
+            WhregistEntity whregistEntity = whmoveEntity.getWhregistEntity();
+            ItemEntity itemEntity = whmoveEntity.getItemEntity();
+            // 입고량 조회
+            Integer incoming = checkRepository.findWhItemCheck("입고", date, whregistEntity, itemEntity);
+            int incomingAmount = (incoming != null) ? incoming.intValue() : 0;
+            // 출고량 조회
+            Integer outgoing = checkRepository.findWhItemCheck("출고", date, whregistEntity, itemEntity);
+            int outgoingAmount = (outgoing != null) ? outgoing.intValue() : 0;
+            int currentStock = incomingAmount - outgoingAmount;
+
+            inventoryItem.put("whregistCd", whregistEntity.getWhregistCd());
+            inventoryItem.put("itemCd", itemEntity.getItemCd());
+            inventoryItem.put("currentStock", currentStock);
+
+            result.add(inventoryItem);
+            }
+            return result;
+
+        }
+    }
+
 /*
     private final CheckRepository checkRepository;
 
