@@ -12,8 +12,8 @@ import java.time.LocalDate;
 @Entity
 @Table(name="PUR_INPUT_TB")
 public class InputEntity {
-    @Column(name = "INPUT_DT", nullable = false)
-    private LocalDate inputDt;
+    @Column(name = "INPUTPUR_DT", nullable = false)
+    private LocalDate inputPurDt;
     @Id
     @Column(name = "INPUTPUR_CD")
     private String inputPurCd;
