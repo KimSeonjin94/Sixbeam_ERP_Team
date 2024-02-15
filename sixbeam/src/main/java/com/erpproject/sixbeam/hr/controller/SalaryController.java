@@ -63,6 +63,27 @@ public class SalaryController {
         salaryService.deleteSalary(salaryCd);
         return "redirect:/hr/salary/list";
     }
+    @PostMapping("/update")
+    public String update(@RequestParam(value="modifySalaryCd")Long salaryCd,
+                         @RequestParam(value="modifySalarySmonth",required = false)YearMonth salarySmonth,
+                         @RequestParam(value="modifySalaryIdCd",required = false)SalaryIdEntity salaryIdCd,
+                         @RequestParam(value="modifyEmpInfoId",required = false)EmpInfoEntity empInfoId,
+                         @RequestParam(value="modifySalaryBonus",required = false)int salaryBonus,
+                         @RequestParam(value="modifySalaryAllow",required = false)int salaryAllow,
+                         @RequestParam(value="modifySalaryIncentive",required = false)int salaryIncentive,
+                         @RequestParam(value="modifySalaryTtmoney",required = false)Integer salaryTtmoney){
+        this.salaryService.updateSalary(
+                salaryCd,
+                salarySmonth,
+                salaryIdCd,
+                empInfoId,
+                salaryBonus,
+                salaryAllow,
+                salaryIncentive,
+                salaryTtmoney
+                );
+        return "redirect:/hr/salary/list";
+    }
 
 
 

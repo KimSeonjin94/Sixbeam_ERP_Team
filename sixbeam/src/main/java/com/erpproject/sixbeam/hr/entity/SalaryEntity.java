@@ -30,7 +30,7 @@ public class SalaryEntity {
 
     @ManyToOne
     @JoinColumn(name = "salaryIdCd")
-    private SalaryIdEntity salaryidEntity;//급여식별자
+    private SalaryIdEntity salaryIdEntity;//급여식별자
 
     @Column(name ="salaryBonus")
     private int salaryBonus;//상여금

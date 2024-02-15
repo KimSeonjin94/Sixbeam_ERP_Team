@@ -22,7 +22,7 @@ public class SalaryService {
                              int salaryBonus, int salaryAllow,int salaryIncentive, Integer salaryTtmoney){
         SalaryEntity salaryEntity = new SalaryEntity();
         salaryEntity.setSalarySmonth(salarySmonth);
-        salaryEntity.setSalaryidEntity(salaryIdCd);
+        salaryEntity.setSalaryIdEntity(salaryIdCd);
         salaryEntity.setEmpInfoEntity(empInfoId);
         salaryEntity.setSalaryBonus(salaryBonus);
         salaryEntity.setSalaryAllow(salaryAllow);
@@ -31,4 +31,18 @@ public class SalaryService {
         salaryRepository.save(salaryEntity);
     }
     public void deleteSalary(Long salaryCd){this.salaryRepository.deleteById(salaryCd);}
+    public void updateSalary(Long salaryCd,YearMonth salarySmonth, SalaryIdEntity salaryIdCd, EmpInfoEntity empInfoId,
+                             int salaryBonus, int salaryAllow,int salaryIncentive, Integer salaryTtmoney){
+        SalaryEntity salaryEntity = salaryRepository.findById(salaryCd)
+                .orElseThrow(() -> new RuntimeException("Depart with ID "+ salaryCd + " not fount"));
+        salaryEntity.setSalaryCd(salaryCd);
+        salaryEntity.setSalarySmonth(salarySmonth);
+        salaryEntity.setSalaryIdEntity(salaryIdCd);
+        salaryEntity.setEmpInfoEntity(empInfoId);
+        salaryEntity.setSalaryBonus(salaryBonus);
+        salaryEntity.setSalaryAllow(salaryAllow);
+        salaryEntity.setSalaryIncentive(salaryIncentive);
+        salaryEntity.setSalaryTtmoney(salaryTtmoney);
+        salaryRepository.save(salaryEntity);
+    }
 }
