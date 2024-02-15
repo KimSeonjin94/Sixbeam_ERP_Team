@@ -379,7 +379,7 @@ function editAccountInfo(accountCd, accountNm , accountAdd, accountRep, accountS
 //         }
 
 // 테이블의 행 클릭 이벤트 핸들러
-$('.table.item a[data-id]').on('click', function() {
+$('#detailEstimateCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
     var estimateId = $(this).data('id'); // data-id 속성에서 ID 가져오기
     // AJAX 요청

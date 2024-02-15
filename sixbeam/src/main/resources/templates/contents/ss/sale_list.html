@@ -28,16 +28,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="estimate : ${estimateEntities}">
-                        <td>
-                            <a href="#" id="detailEstimateCd" th:data-id="${estimate.estimateCd}">
-                                <span th:text="${estimate.estimateCd}"></span>
-                            </a>
-                        </td>
-                        <td th:text="${estimate.accountEntity.accountNm}"></td>
-                        <td th:text="${estimate.empInfoEntity.empInfoNm}"></td>
-                        <td th:text="${#numbers.formatDecimal(estimate.estimateSp, 0, 'COMMA', 0, 'POINT')} + '원'"></td>
-                    </tr>
+                    <th th:each="th:each="sale : ${saleEntities}"
+
 
                     </tbody>
                 </table>
@@ -56,7 +48,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form class="formEntry" th:action="@{/ss/estimate/create}" th:object="${estimateForm}"
+                            <form class="formEntry" th:action="@{}" th:object="${}"
                                   method="post">
                                 <div class="form-group row">
                                     <label for="currentDate" class="col-sm-2 col-form-label">견적 일자</label>
