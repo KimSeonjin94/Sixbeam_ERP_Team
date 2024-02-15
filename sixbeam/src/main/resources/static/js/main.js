@@ -368,6 +368,31 @@ function editAccountInfo(accountCd, accountNm , accountAdd, accountRep, accountS
 //             alert('거래처 정보가 수정되었습니다.');
 //         }
 
+
+$('.table.item a[data-id]').on('click', function() {
+    console.log($(this).data('id')); // 클릭된 요소의 ID를 콘솔에 출력
+    var whregistCd = $(this).data('id');
+    $.ajax({
+        url: '/whregist/list/detail/' + whregistCd,
+        type: 'GET',
+        success: function(data) {
+            console.log(data); // 받은 데이터를 콘솔에 출력하여 확인
+            if (data && data.length > 0) {
+                $('#updatewhregistCode').val(data[0].whregistEntity.whregistCd);
+                $('#updatewhregistName').val(data[0].whregistEntity.whregistNm);
+                $('#detail').modal('show');
+            } else {
+                console.error('데이터가 비어있습니다.');
+            }
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+});
+
+
+
 // 테이블의 행 클릭 이벤트 핸들러
 $('.table.item a[data-id]').on('click', function() {
     console.log($(this).data('id'));
