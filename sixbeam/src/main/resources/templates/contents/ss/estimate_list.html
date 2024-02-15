@@ -56,7 +56,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="formEntry" th:action="@{/ss/estimate/create}" th:object="${estimateForm}"
+                            <form class="formEntry" th:action="@{/ss/estimate/create}" th:object="${estimateForm}"
                                   method="post">
                                 <div class="form-group row">
                                     <label for="currentDate" class="col-sm-2 col-form-label">견적 일자</label>
@@ -225,10 +225,7 @@
                                                id="deleterowbtn">
                                     </div>
                                     <div class="col-sm-6 text-md-right">
-                                        <button type="button" class="btn btn-primary">저장</button>
-                                        <button type="button" class="btn btn-danger">
-                                            초기화
-                                        </button>
+                                        <button type="submit" class="btn btn-primary">저장</button>
                                     </div>
                                 </div>
 
@@ -250,7 +247,7 @@
                         <div class="modal-body">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form id="entity" th:action="@{/ss/estimate/create}" method="post">
+                                    <form class="formEntry" th:action="@{/ss/estimate/update}"  th:object="${estimateForm}" method="post">
                                         <div class="form-group row">
                                             <label for="updateCurrentDate" class="col-sm-2 col-form-label">견적일자</label>
                                             <div class="col-sm-4">
@@ -264,11 +261,11 @@
                                         <div class="form-group row">
                                             <label for="accountCode" class="col-sm-2 col-form-label">거래처 코드</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updateaccountCode">
+                                                <input type="text" class="form-control" id="updateaccountCode" readonly>
                                             </div>
                                             <label class="col-sm-2 col-form-label">거래처</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updateaccountName">
+                                                <input type="text" class="form-control" id="updateaccountName" readonly>
                                             </div>
                                         </div>
                                         <table class="table item">
@@ -288,10 +285,18 @@
                                             <tbody>
                                             </tbody>
                                         </table>
-                                        <div class="col-sm-12 text-md-right">
-                                            <button type="submit" class="btn btn-primary">저장</button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기
-                                            </button>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <input type='button'
+                                                       value='품목 추가'
+                                                       class="btn btn-secondary addnewrowbtn">
+                                                <input type='button'
+                                                       value='품목 삭제'
+                                                       class="btn btn-danger deleterowbtn">
+                                            </div>
+                                            <div class="col-sm-6 text-md-right">
+                                                <button type="submit" class="btn btn-primary">저장</button>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
