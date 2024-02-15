@@ -2,7 +2,7 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form id="formEntry" th:action="@{/ss/estimate/create}" th:object="${estimateForm}"  method="post">
+            <form class="formEntry" th:action="@{/ss/estimate/create}" th:object="${estimateForm}"  method="post">
                 <div class="form-group row">
                     <label for="currentDate" class="col-sm-2 col-form-label">견적 일자</label>
                     <div class="col-sm-4">

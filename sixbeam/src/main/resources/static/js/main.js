@@ -84,43 +84,53 @@
         });
     });
     $(document).ready(function() {
+        $('.addnewrowbtn').click(function() {
+            addnewrow();
+        });
+        $('.deleterowbtn').click(function() {
+            deleteLastRow();
+        });
+    });
+    $(document).ready(function() {
+        $('#addnewrowbtn').click(function() {
+            addnewrow();
+        });
         $('#deleterowbtn').click(function() {
             deleteLastRow();
         });
     });
 
-    $(document).ready(function() {
-        $('#addnewrowbtn').click(function() {
-            // 테이블의 마지막 행을 복제합니다.
-            var $lastRow = $('.table.item tbody tr:last');
-            var $newRow = $lastRow.clone();
+    function addnewrow() {
+        // 테이블의 마지막 행을 복제합니다.
+        var $lastRow = $('.table.item tbody tr:last');
+        var $newRow = $lastRow.clone();
 
-            // 복제된 행의 name 속성에 포함된 인덱스를 증가시킵니다.
-            $newRow.find('input, select').each(function() {
-                var name = $(this).attr('name');
-                if (name) {
-                    var match = name.match(/(\d+)/);
-                    if (match) {
-                        var index = parseInt(match[0], 10);
-                        var newName = name.replace('[' + index + ']', '[' + (index + 1) + ']');
-                        $(this).attr('name', newName);
-                    }
+        // 복제된 행의 name 속성에 포함된 인덱스를 증가시킵니다.
+        $newRow.find('input, select').each(function() {
+            var name = $(this).attr('name');
+            if (name) {
+                var match = name.match(/(\d+)/);
+                if (match) {
+                    var index = parseInt(match[0], 10);
+                    var newName = name.replace('[' + index + ']', '[' + (index + 1) + ']');
+                    $(this).attr('name', newName);
                 }
+            }
 
-                // 입력 필드의 값을 초기화합니다.
-                if($(this).is('input[type="text"]')) {
-                    $(this).val('');
-                } else if($(this).is('select')) {
-                    $(this).val($(this).find('option:first').val());
-                } else if($(this).is('input[type="hidden"]')) {
-                    // 숨겨진 필드의 처리가 필요한 경우 여기에 로직을 추가
-                }
-            });
-
-            // 새로운 행을 테이블에 추가합니다.
-            $newRow.appendTo('.table.item tbody');
+            // 입력 필드의 값을 초기화합니다.
+            if($(this).is('input[type="text"]')) {
+                $(this).val('');
+            } else if($(this).is('select')) {
+                $(this).val($(this).find('option:first').val());
+            } else if($(this).is('input[type="hidden"]')) {
+                // 숨겨진 필드의 처리가 필요한 경우 여기에 로직을 추가
+            }
         });
-    });
+
+        // 새로운 행을 테이블에 추가합니다.
+        $newRow.appendTo('.table.item tbody');
+    }
+
     function deleteLastRow() {
         // tbody 내의 행을 대상으로 선택
         const $tbody = $('.table.item tbody');
@@ -285,7 +295,7 @@ function formatCurrency(value) {
 
 $(document).ready(function() {
     // 폼이 제출될 때마다 실행되도록 변경
-    $('#formEntry').submit(function(e) {
+    $('.formEntry').submit(function(e) {
         // 폼 제출을 막음
         e.preventDefault();
 
@@ -382,30 +392,34 @@ $('.table.item a[data-id]').on('click', function() {
             });
             if (data && data.length > 0) {
                 // 성공 시 모달 내용 업데이트
-                var modaltBody = $('#entity .table.item tbody');
+                var modaltBody = $('.formEntry .table.item tbody');
                 modaltBody.empty();
                 $('#updateCurrentDate').val(data[0].estimateDt);
                 $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                 $('#updatename').val(data[0].empInfoEntity.empInfoNm);
                 $('#updateaccountName').val(data[0].accountEntity.accountNm);
-                for(var i =0;i<data.length;i++){
+                // 데이터 항목별로 행 추가
+                data.forEach(function(item, index) {
                     var row = $('<tr>'); // 행 생성
 
-                    // 각 셀에 입력 요소 추가
-                    row.append('<td><input type="text" class="form-control" value="' + data[i].itemEntity.itemCd + '"></td>');
-                    row.append('<td><input type="text" class="form-control" value="' + data[i].itemEntity.itemNm + '"></td>');
-                    row.append('<td><input type="text" class="form-control" value="' + data[i].itemEntity.itemStnd + '"></td>');
-                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateAmt + '"></td>');
-                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateUp + '"></td>');
-                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateSp + '"></td>');
-                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateVat + '"></td>');
-                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateTamt + '"></td>');
-                    row.append('<td><input type="text" class="form-control" value="' + data[i].estimateEtc + '"></td>');
-                    modaltBody.append(row);
+                    // 각 셀에 입력 요소와 name 속성 추가
+                    row.append('<td><input type="hidden" name="estimateDtos[' + index + '].estimateDt" class="form-control" value="' + item.estimateDt + '">'+
+                    '<input type="hidden" name="estimateDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
+                    '<input type="hidden" name="estimateDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
+                    '<input type="hidden" name="estimateDtos[' + index + '].estimateCd" class="form-control" value="' + item.estimateCd+ '">'+
+                    '<input type="text" class="form-control" name="estimateDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
+                    row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
+                    row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateAmt" class="form-control itemamt" value="' + item.estimateAmt + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateUp" class="form-control itemup" value="' + item.estimateUp + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateSp" class="form-control itemsp" value="' + item.estimateSp + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateVat" class="form-control itemvar" value="' + item.estimateVat + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateTamt" class="form-control itemsum" value="' + item.estimateTamt + '"></td>');
+                    row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateEtc" class="form-control" value="' + item.estimateEtc + '"></td>');
+                    modaltBody.append(row); // 생성된 행을 테이블에 추가
+                });
 
-                }
-                // 모달 표시
-                $('#detail').modal('show');
+                $('#detail').modal('show'); // 모달 표시
             } else {
                 console.error('데이터가 비어있습니다.');
             }
@@ -413,35 +427,6 @@ $('.table.item a[data-id]').on('click', function() {
         error: function(error) {
             console.log('Error:', error);
         }
-    });
-});
-$(document).ready(function() {
-    $('#entity').submit(function(event) {
-        // 폼의 기본 동작인 서버로의 POST 요청 방지
-        event.preventDefault();
-
-        // 폼 데이터를 JSON 객체로 직렬화
-        var formData = $('#entity').serializeArray();
-        console.log(formData);
-
-        // AJAX 요청 설정
-        $.ajax({
-            url: '/ss/estimate/update',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
-            success: function(response) {
-                // 성공 시 동작
-                window.location.href = response.redirectUrl;
-                console.log('서버로부터 응답 받음:', response);
-                // 추가적인 동작 수행 가능
-            },
-            error: function(xhr, status, error) {
-                // 오류 시 동작
-                console.error('오류 발생:', error);
-                // 오류 처리 또는 메시지 표시
-            }
-        });
     });
 });
 

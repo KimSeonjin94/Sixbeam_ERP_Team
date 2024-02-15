@@ -88,10 +88,21 @@ public class EstimateService {
         estimateRepository.saveAll(entities);
 
     }
-    public void updateAll(List<EstimateEntity> estimateEntities){
-        for (EstimateEntity estimate : estimateEntities) {
+    public void updateAll(List<EstimateDto> estimateDtos){
+        for (EstimateDto estimateDto : estimateDtos) {
             // 각 견적 엔티티를 저장 또는 업데이트합니다.
-            estimateRepository.save(estimate);
+            EmpInfoEntity empInfoEntity = empInfoRepository.findById(estimateDto.getEmpInfoEntity().getEmpInfoId())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            AccountEntity accountEntity = accountRepository.findById(estimateDto.getAccountEntity().getAccountCd())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            ItemEntity itemEntity = itemRepository.findById(estimateDto.getItemEntity().getItemCd())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+
+            estimateDto.setEmpInfoEntity(empInfoEntity);
+            estimateDto.setAccountEntity(accountEntity);
+            estimateDto.setItemEntity(itemEntity);
+            EstimateEntity estimateEntity = estimateDto.toEntity();
+            estimateRepository.save(estimateEntity);
         }
     }
     private String generateNewEstimateCd() {
