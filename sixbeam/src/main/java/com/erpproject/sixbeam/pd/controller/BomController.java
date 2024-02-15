@@ -88,8 +88,10 @@ public class BomController {
         return "contents/pd/bom_list";
     }
 
-    /*@GetMapping("/list/detail/{id}")
+    @GetMapping("/list/detail/{id}")
     public String detail(Model model, @PathVariable("id") String itemCd) {
-        List<BomEntity> bomEntities =
-    }*/
+
+        List<BomEntity> bomEntities = bomService.(id);
+        System.out.println(bomEntities.toString());
+    }
 }

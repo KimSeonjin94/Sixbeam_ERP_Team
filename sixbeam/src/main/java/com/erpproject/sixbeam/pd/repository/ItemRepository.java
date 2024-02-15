@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface ItemRepository extends JpaRepository<ItemEntity, String> {
 
@@ -17,6 +18,5 @@ public interface ItemRepository extends JpaRepository<ItemEntity, String> {
     // 특정 문자열이 아이템 코드에 포함된 아이템 엔티티를 반환하는 메서드.
     @Query("SELECT i FROM ItemEntity i WHERE i.itemStnd LIKE CONCAT('%', :keyword, '%')")
     List<ItemEntity> findByItemCdContainingKeyword(@Param("keyword") String keyword);
-
 
 }
