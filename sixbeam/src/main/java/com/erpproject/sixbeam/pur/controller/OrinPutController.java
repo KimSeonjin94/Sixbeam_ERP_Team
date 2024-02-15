@@ -8,16 +8,17 @@ import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.pur.form.OrinPutForm;
 import com.erpproject.sixbeam.pur.service.OrinPutService;
 import com.erpproject.sixbeam.ss.dto.EstimateDto;
+import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.form.EstimateForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/pur/orinput")
 @RequiredArgsConstructor
@@ -30,6 +31,13 @@ public class OrinPutController {
         List<OrinPutEntity> orinputEntity = this.orinputService.getList();
         model.addAttribute("orinputEntity",orinputEntity);
         return "contents/pur/orinput_list";
+    }
+
+    @GetMapping(value = "/list/detail/{id}")
+    public ResponseEntity<List<OrinPutEntity>> detail(@PathVariable("id") String id){
+        List<OrinPutEntity> orinPutEntities = this.orinputService.getIdList(id);
+        System.out.println(orinPutEntities.toString());
+        return ResponseEntity.ok(orinPutEntities);
     }
 
     @GetMapping("/create")
@@ -54,22 +62,11 @@ public class OrinPutController {
         return "redirect:/pur/orinput/list"; // 저장 후 목록 페이지로 리다이렉트
     }
 
-    private OrinPutEntity convertToEntity(OrinPutDto orinPutDto) {
-        OrinPutEntity orinPutEntity = new OrinPutEntity();
-        // DTO에서 엔티티로 필드 값을 복사
-        orinPutEntity.setOrinputReqDt(orinPutDto.getOrinputReqDt());
-        orinPutEntity.setOrinputOrDt(orinPutDto.getOrinputOrDt());
-        orinPutEntity.setEmpInfoEntity(orinPutDto.getEmpInfoEntity());
-        orinPutEntity.setItemEntity(orinPutDto.getItemEntity());
-        orinPutEntity.setOrinputAmt(orinPutDto.getOrinputAmt());
-        orinPutEntity.setOrinputUp(orinPutDto.getOrinputUp());
-        orinPutEntity.setOrinputSp(orinPutDto.getOrinputSp());
-        orinPutEntity.setOrinputVat(orinPutDto.getOrinputVat());
-        orinPutEntity.setOrinputSum(orinPutDto.getOrinputSum());
-        orinPutEntity.setAccountEntity(orinPutDto.getAccountEntity());
-        orinPutEntity.setOrinputDlvyDt(orinPutDto.getOrinputDlvyDt());
-        orinPutEntity.setOrinputEtc(orinPutDto.getOrinputEtc());
-        return orinPutEntity;
-    }
+    @PostMapping("/update")
+    public String updateOrinput(@ModelAttribute OrinPutForm form){
+        List<OrinPutDto> orinPutDtos= form.getOrinputDtos();
+        orinputService.updateAll(orinPutDtos);
 
+        return "redirect:/pur/orinput/list";
+    }
 }

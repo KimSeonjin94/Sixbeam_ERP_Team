@@ -11,6 +11,7 @@ import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
 import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,23 +44,57 @@ public class OrinPutService {
         return this.itemRepository.findAll();
     }
 
-    public void save(List<OrinPutDto> orinPutDtos) {
-        List<OrinPutEntity> entities = new ArrayList<>();
-        for (OrinPutDto orinputDto : orinPutDtos) {
-            OrinPutEntity orinPutEntity = orinputDto.toEntity();
-            String newOrinputCd = generateNewOrinputCd();
-            orinPutEntity.setOrinputCd(newOrinputCd);
-            entities.add(orinPutEntity);
-        }
-        orinPutRepository.saveAll(entities);
+    public List<OrinPutEntity> getIdList(String id) {
+
+        return this.orinPutRepository.findByOrinputCd(id);
     }
 
-    private String generateNewOrinputCd() {
+    public void updateAll(List<OrinPutDto> orinPutDtos){
+        for (OrinPutDto orinputDto : orinPutDtos) {
+            // 각 견적 엔티티를 저장 또는 업데이트합니다.
+            EmpInfoEntity empInfoEntity = empInfoRepository.findById(orinputDto.getEmpInfoEntity().getEmpInfoId())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            AccountEntity accountEntity = accountRepository.findById(orinputDto.getAccountEntity().getAccountCd())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            ItemEntity itemEntity = itemRepository.findById(orinputDto.getItemEntity().getItemCd())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+
+            orinputDto.setEmpInfoEntity(empInfoEntity);
+            orinputDto.setAccountEntity(accountEntity);
+            orinputDto.setItemEntity(itemEntity);
+            OrinPutEntity orinPutEntity = orinputDto.toEntity();
+            orinPutRepository.save(orinPutEntity);
+        }
+    }
+    public void save(List<OrinPutDto> orinPutDtos) {
+        //List<OrinPutEntity> entities = new ArrayList<>();
+        for (OrinPutDto orinputDto : orinPutDtos) {
+            EmpInfoEntity empInfoEntity = empInfoRepository.findById(orinputDto.getEmpInfoEntity().getEmpInfoId())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            AccountEntity accountEntity = accountRepository.findById(orinputDto.getAccountEntity().getAccountCd())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            ItemEntity itemEntity = itemRepository.findById(orinputDto.getItemEntity().getItemCd())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+
+            orinputDto.setEmpInfoEntity(empInfoEntity);
+            orinputDto.setAccountEntity(accountEntity);
+            orinputDto.setItemEntity(itemEntity);
+
+            OrinPutEntity orinPutEntity = orinputDto.toEntity();
+            String newOrinputCd = generateNewOrinputCd(orinputDto.getOrinputOrDt());
+            orinPutEntity.setOrinputCd(newOrinputCd);
+            //entities.add(orinPutEntity);
+            orinPutRepository.save(orinPutEntity);
+        }
+        //orinPutRepository.saveAll(entities);
+    }
+
+    private String generateNewOrinputCd(LocalDate orinputDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
-        String prefix = "OR" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";
+        String prefix = "OR" + orinputDate.format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";
 
         // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
-        String maxCd = orinPutRepository.getMaxOrinputCd();
+        String maxCd = orinPutRepository.getMaxOrinputCd(orinputDate);
         int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(maxCd.lastIndexOf("-") + 1)) + 1 : 1;
 
         // 4자리 숫자 부분을 형식에 맞게 생성
