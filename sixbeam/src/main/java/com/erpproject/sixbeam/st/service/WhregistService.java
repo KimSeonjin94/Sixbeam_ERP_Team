@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.st.service;
 
+import com.erpproject.sixbeam.st.dto.WhregistDto;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,15 @@ public class WhregistService {
         }
     }
 
-    public void create(String whregistCd, String whregistNm) {
+    public void pageCreate(String whregistCd, String whregistNm) {
         WhregistEntity w = new WhregistEntity();
         w.setWhregistCd(whregistCd);
         w.setWhregistNm(whregistNm);
         this.whregistRepository.save(w);
+    }
+
+    public void modalCreate(WhregistDto whregistDto) {
+        WhregistEntity whregistEntity = whregistDto.toEntity();
+        this.whregistRepository.save(whregistEntity);
     }
 }

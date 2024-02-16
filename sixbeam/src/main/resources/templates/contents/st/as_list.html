@@ -1,5 +1,13 @@
 <html layout:decorate="~{layout/default}">
 <div layout:fragment="content" class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">AS 관리</h1>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newas">
+            신규
+        </button>
+    </div>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -20,7 +28,6 @@
                     </thead>
                     <tbody>
                     <tr th:each="as : ${asEntityList}">
-
                         <td>
                             <a th:href="@{|/st/as/detail/${as.asCd}|}" th:text="${as.asCd}"></a>
                         </td>
@@ -33,6 +40,42 @@
                     </tbody>
                 </table>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="newas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newasLabel">AS 신규 등록</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formEntry" th:action="@{/as/create}" th:object="${asForm}" method="post">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">창고코드</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="whregistCode">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">창고명</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="whregistName">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 text-md-right">
+                                        <button type="button" class="btn btn-primary">저장</button>
+                                        <button type="button" class="btn btn-danger">초기화</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
