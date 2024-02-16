@@ -22,6 +22,5 @@ public class AccountDto {
 
         return new AccountEntity(accountCd, accountNm, accountNb, accountAdd, accountRep,
                 accountSectors, accountBank, accountAcnb, accountPic, accountEtc);
-
     }
 }
