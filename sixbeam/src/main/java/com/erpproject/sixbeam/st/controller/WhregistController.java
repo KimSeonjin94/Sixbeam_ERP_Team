@@ -49,6 +49,7 @@ public class WhregistController {
         whregistService.modalCreate(whregistDto);
         return "redirect:list";
     }
+    ///
 
 
 
