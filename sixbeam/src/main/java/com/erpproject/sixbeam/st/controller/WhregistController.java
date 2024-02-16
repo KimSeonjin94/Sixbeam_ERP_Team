@@ -42,11 +42,8 @@ public class WhregistController {
         return "contents/st/whregist_form";
     }
     @PostMapping("/create")
-    public String whregistCreate(@Valid WhregistDto whregistDto, BindingResult bindingResult ) {
-        if (bindingResult.hasErrors()) {
-            return "contents/st/whregist_form";
-        }
-        this.whregistService.pageCreate(whregistDto.getWhregistCd(), whregistDto.getWhregistNm());
+    public String whregistCreate(@RequestParam(value="whregistCd") String whregistCd,@RequestParam(value="whregistNm") String whregistNm ) {
+       this.whregistService.pageCreate(whregistCd,whregistNm);
         return "redirect:/st/whregist/list";
     }
     //창고현황-신규 모달에서 창고 등록
