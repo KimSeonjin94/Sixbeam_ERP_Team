@@ -41,4 +41,5 @@ public class DepartController {
         departService.deleteDepart(departCd);
         return "redirect:/hr/depart/list";
     }
+    //ㅋㅋㅋㅋㅋ
 }
