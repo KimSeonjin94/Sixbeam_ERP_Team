@@ -8,22 +8,22 @@ import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pur.dto.OrinPutDto;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
+import com.erpproject.sixbeam.pur.repository.InputRepository;
 import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
-import com.erpproject.sixbeam.ss.dto.EstimateDto;
-import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class OrinPutService {
     private final OrinPutRepository orinPutRepository;
+    private final InputRepository inputRepository;
     private final AccountRepository accountRepository;
     private final EmpInfoRepository empInfoRepository;
     private final ItemRepository itemRepository;
@@ -101,5 +101,21 @@ public class OrinPutService {
         String sequenceNumberString = String.format("%04d", sequenceNumber);
 
         return prefix + sequenceNumberString;
+    }
+
+    @Transactional
+    public void delete(List<String> orinputIds) {
+        for (String orinputId : orinputIds) {
+            // ORINPUT_CD를 참조하는 InputEntity가 있는지 확인
+            boolean isReferenced = inputRepository.existsByOrinputEntity_OrinputCd(orinputId);
+            if (isReferenced) {
+                // ORINPUT_CD를 참조하는 엔티티가 존재하면 삭제를 거부
+                throw new IllegalStateException("ORINPUT_CD를 참조하는 다른 엔티티가 존재하여 삭제할 수 없습니다.");
+            } else {
+                // ORINPUT_CD를 참조하는 엔티티가 없으면 삭제를 진행
+                List<OrinPutEntity> orinPutEntities = orinPutRepository.findByOrinputCd(orinputId);
+                orinPutRepository.deleteAll(orinPutEntities);
+            }
+        }
     }
 }

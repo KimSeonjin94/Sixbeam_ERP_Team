@@ -435,7 +435,8 @@ $('#orinput[data-id]').on('click', function() {
                     var row = $('<tr>'); // 행 생성
 
                     // 각 셀에 입력 요소와 name 속성 추가
-                    row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.estimateDt + '">'+
+                    row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputCd" class="form-control" value="' + item.orinputCd + '">'+
+                    '<input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.orinputOrDt + '">'+
                     '<input type="hidden" name="orinputDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
                     '<input type="hidden" name="orinputDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
                     '<input type="hidden" name="orinputDtos[' + index + '].orinputReqDt" class="form-control" value="' + item.orinputReqDt + '">'+
@@ -462,3 +463,39 @@ $('#orinput[data-id]').on('click', function() {
         }
     });
 });
+
+$('#orinputcddelete').click(function() {
+    // AJAX 요청을 사용하여 서버에 삭제 불가능 여부를 확인
+    $.ajax({
+        url: '/pur/orinput/delete'
+        type: 'GET', // 또는 POST, HTTP 메서드에 따라 변경
+        success: function(response) {
+            if (response.deleteError) {
+                // 삭제 불가능한 경우 모달을 표시
+                $('#deleteErrorModal').modal('show');
+            } else {
+                // 삭제 가능한 경우 삭제 요청을 서버에 보냄
+                $('#deleteOrinputForm').submit();
+            }
+        },
+        error: function() {
+            // 오류 처리
+            console.error('Error occurred while checking delete error.');
+        }
+    });
+});
+
+/*
+function deleteSelectedOrinput() {
+    // 선택한 발주 정보의 ID 가져오기
+    var selectedOrinputId = $('#dataTable input[name="selectedOrinPut"]:checked').map(function(){
+        return $(this).val();
+    }).get();
+
+    // 선택한 ID를 hidden input에 설정
+    $('#selectedOrinputInput').val(selectedOrinputId);
+
+    // 삭제 폼 submit
+    $('#deleteOrinputForm').submit();
+}
+*/

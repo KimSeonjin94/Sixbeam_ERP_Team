@@ -77,4 +77,17 @@ public class OrinPutController {
 
         return "redirect:/pur/orinput/list";
     }
+
+    @PostMapping("/delete")
+    public String deleteOrinput(@RequestParam("selectedOrinput") List<String> selectedOrinputIds, Model model) {
+        try {
+            // 선택된 발주 정보를 삭제
+            orinputService.delete(selectedOrinputIds);
+            return "redirect:/pur/orinput/list"; // 삭제 후 목록 페이지로 리다이렉트
+        } catch (IllegalStateException e) {
+            // ORINPUT_CD를 참조하는 다른 엔티티가 있을 때 모달 창 표시
+            model.addAttribute("deleteError", true);
+            return "redirect:/pur/orinput/list";
+        }
+    }
 }
