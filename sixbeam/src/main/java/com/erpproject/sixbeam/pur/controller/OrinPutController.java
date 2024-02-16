@@ -28,8 +28,16 @@ public class OrinPutController {
 
     @GetMapping("/list")
     public String OrinPutlist(Model model) {
+        OrinPutForm form = new OrinPutForm();
         List<OrinPutEntity> orinputEntity = this.orinputService.getList();
+        List<AccountEntity> accountEntity = this.orinputService.getactList();
+        List<EmpInfoEntity> empInfoEntity = this.orinputService.getemplist();
+        List<ItemEntity> itemEntity = this.orinputService.getitemlist();
         model.addAttribute("orinputEntity",orinputEntity);
+        model.addAttribute("getactlist",accountEntity);
+        model.addAttribute("getemplist",empInfoEntity);
+        model.addAttribute("getitemlist",itemEntity);
+        model.addAttribute("orinputForm",form);
         return "contents/pur/orinput_list";
     }
 
