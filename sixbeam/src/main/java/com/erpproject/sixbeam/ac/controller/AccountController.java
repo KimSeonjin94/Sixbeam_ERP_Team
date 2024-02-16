@@ -31,18 +31,16 @@ public class AccountController {
         return "redirect:list";
     }
 
-    @PostMapping("/account/registerform")
-    public String registerAccountByPage(@ModelAttribute AccountDto accountDto) {
-        accountService.saveAccount(accountDto);
-        return "redirect:registerform";
-    }
+//    @PostMapping("/account/registerform")
+//    public String registerAccountByPage(@ModelAttribute AccountDto accountDto) {
+//        accountService.saveAccount(accountDto);
+//        return "redirect:registerform";
+//    }
 
     @PostMapping("/account/edit")
-    public String editAccount(@ModelAttribute AccountDto accountDto) {
-        accountService.updateAccount(accountDto);
+    public String editAccount(@ModelAttribute AccountDto editAccountDto) {
+        accountService.updateAccount(editAccountDto);
         return "redirect:list";
     }
-
-
 
 }

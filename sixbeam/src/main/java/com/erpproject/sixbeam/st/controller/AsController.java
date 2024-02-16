@@ -35,5 +35,7 @@ public class AsController {
         return "contents/st/as_detail";
     }
 
+    //public String create(Model model, @Path)
+
 
 }

@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.st.controller;
 
+import com.erpproject.sixbeam.st.dto.WhregistDto;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.service.WhregistService;
 import lombok.RequiredArgsConstructor;
@@ -32,15 +33,21 @@ public class WhregistController {
         model.addAttribute("whregistEntity", whregistEntity);
         return "contents/st/whregist_detail";
     }
-
+    //창고등록 페이지상에서 창고 등록
     @GetMapping("/create")
     public String whregistCreate() {
         return "contents/st/whregist_form";
     }
     @PostMapping("/create")
     public String whregistCreate(@RequestParam(value = "whregistCd") String whregistCd, @RequestParam(value = "whregistNm") String whregistNm) {
-        this.whregistService.create(whregistCd, whregistNm);
+        this.whregistService.pageCreate(whregistCd, whregistNm);
         return "contents/st/whregist_list";
+    }
+    //창고현황-신규 모달에서 창고 등록
+    @PostMapping("/modalcreate")
+    public String modalCreate(@ModelAttribute WhregistDto whregistDto) {
+        whregistService.modalCreate(whregistDto);
+        return "redirect:list";
     }
 
 

@@ -71,7 +71,7 @@ insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values("WHR100
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values("WHR1002","생산창고");
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values("WHR1003","자재창고");
 
--- item db --
+---- item db ----
 INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES
 (1363500, 'F1001', 'ASSEMBLE-PC', 'PC-DESKTOP'),
 (1935000, 'F1002', 'ASSEMBLE-PC', 'PC-DESKTOP'),
@@ -99,8 +99,39 @@ INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES
 (189000, 'R1019', 'HANSUNG-KEYBOARD', 'KEYBOARD-TL'),
 (72900, 'R1020', 'RAZER-MOUSE', 'MOUSE-WL');
 
--- bom DB --
-INSERT INTO sixbeam_erp.pd_bom_tb (fitem_cd, ritem_cd, bom_use_mt, bom_work_tm) VALUES
+---- fitem db ----
+insert into sixbeam_erp.pd_fitem_tb (item_cd, item_nm, item_stnd, item_up) values
+('F1001', 'ASSEMBLE-PC', 'PC-DESKTOP', 1363500),
+('F1002', 'ASSEMBLE-PC', 'PC-DESKTOP', 1935000),
+('F1003', 'ASSEMBLE-PC', 'PC-DESKTOP', 1504500),
+('F1004', 'ASSEMBLE-PC', 'PC-DESKTOP', 1520500),
+('F1005', 'ASSEMBLE-PC', 'PC-DESKTOP', 2092000);
+
+---- ritem db ----
+insert into sixbeam_erp.pd_ritem_tb (item_cd, item_nm, item_stnd, item_up) values
+('R1001', 'INTEL-CPU', 'CPU-I5-13600K', 410000),
+('R1002', 'AMD-CPU', 'CPU-R7-G5', 510000),
+('R1003', 'SAMSUNG-RAM', 'RAM-DDR5-16GB', 55000),
+('R1004', 'SKHYNIX-RAM', 'RAM-DDR4-8GB', 29000),
+('R1005', 'ASUS-MAINBOARD', 'MAINBOARD-H610M', 98000),
+('R1006', 'ASROCK-MAINBOARD', 'MAINBOARD-B760M', 170000),
+('R1007', 'GIGABYTE-MAINBOARD', 'MAINBOARD-B650M', 269000),
+('R1008', 'ASUS-VGA', 'VGA-RTX4060', 403000),
+('R1009', 'ZOTAC-VGA', 'VGA-RTX4070', 791000),
+('R1010', 'EMTEK-VGA', 'VGA-RTX4060TI', 538000),
+('R1011', 'SKHYNIX-SSD', 'SSD-1TB', 128000),
+('R1012', 'WESTERNDIGITAL-HDD', 'HDD-4TB', 115000),
+('R1013', 'SAMSUNG-SSD', 'SSD-512GB', 68000),
+('R1014', 'DARKFLASH-CASE', 'CASE-ITX', 98000),
+('R1015', 'BRAVOTEC-CASE', 'CASE-MATX', 45000),
+('R1016', 'SEASONIC-POWER', 'POWER-750W', 126000),
+('R1017', 'MICRONICS-POWER', 'POWER-500W', 54500),
+('R1018', 'LOGITECH-KEYBOARD', 'KEYBOARD-T', 77500),
+('R1019', 'HANSUNG-KEYBOARD', 'KEYBOARD-TL', 189000),
+('R1020', 'RAZER-MOUSE', 'MOUSE-WL', 72900);
+
+---- bom db ----
+insert into sixbeam_erp.pd_bom_tb (fitem_cd, ritem_cd, bom_use_mt, bom_work_tm) values
 ('F1001', 'R1001', 1, '00:45:00'),
 ('F1001', 'R1003', 2, '00:45:00'),
 ('F1001', 'R1005', 1, '00:45:00'),
@@ -139,53 +170,21 @@ INSERT INTO sixbeam_erp.pd_bom_tb (fitem_cd, ritem_cd, bom_use_mt, bom_work_tm) 
 ('F1005', 'R1014', 1, '01:20:00'),
 ('F1005', 'R1016', 1, '01:20:00');
 
--- fitem db --
-INSERT INTO sixbeam_erp.pd_fitem_tb (item_cd, item_nm, item_stnd, item_up) VALUES
-('F1001', 'ASSEMBLE-PC', 'PC-DESKTOP', 1363500),
-('F1002', 'ASSEMBLE-PC', 'PC-DESKTOP', 1935000),
-('F1003', 'ASSEMBLE-PC', 'PC-DESKTOP', 1504500),
-('F1004', 'ASSEMBLE-PC', 'PC-DESKTOP', 1520500),
-('F1005', 'ASSEMBLE-PC', 'PC-DESKTOP', 2092000);
-
--- ritem db --
-INSERT INTO sixbeam_erp.pd_ritem_tb (item_cd, item_nm, item_stnd, item_up) VALUES
-('R1001', 'INTEL-CPU', 'CPU-I5-13600K', 410000),
-('R1002', 'AMD-CPU', 'CPU-R7-G5', 510000),
-('R1003', 'SAMSUNG-RAM', 'RAM-DDR5-16GB', 55000),
-('R1004', 'SKHYNIX-RAM', 'RAM-DDR4-8GB', 29000),
-('R1005', 'ASUS-MAINBOARD', 'MAINBOARD-H610M', 98000),
-('R1006', 'ASROCK-MAINBOARD', 'MAINBOARD-B760M', 170000),
-('R1007', 'GIGABYTE-MAINBOARD', 'MAINBOARD-B650M', 269000),
-('R1008', 'ASUS-VGA', 'VGA-RTX4060', 403000),
-('R1009', 'ZOTAC-VGA', 'VGA-RTX4070', 791000),
-('R1010', 'EMTEK-VGA', 'VGA-RTX4060TI', 538000),
-('R1011', 'SKHYNIX-SSD', 'SSD-1TB', 128000),
-('R1012', 'WESTERNDIGITAL-HDD', 'HDD-4TB', 115000),
-('R1013', 'SAMSUNG-SSD', 'SSD-512GB', 68000),
-('R1014', 'DARKFLASH-CASE', 'CASE-ITX', 98000),
-('R1015', 'BRAVOTEC-CASE', 'CASE-MATX', 45000),
-('R1016', 'SEASONIC-POWER', 'POWER-750W', 126000),
-('R1017', 'MICRONICS-POWER', 'POWER-500W', 54500),
-('R1018', 'LOGITECH-KEYBOARD', 'KEYBOARD-T', 77500),
-('R1019', 'HANSUNG-KEYBOARD', 'KEYBOARD-TL', 189000),
-('R1020', 'RAZER-MOUSE', 'MOUSE-WL', 72900);
-
--- inout db --
-INSERT INTO sixbeam_erp.pd_inout_tb (inout_cmpt_cd, empinfo_id, wmmove_cd) VALUES
-('CMPT240202041', 20241001, 'WHM2024-10067'),
-('CMPT240202042', 20241005, 'WHM2024-10071'),
-('CMPT240202043', 20241001, 'WHM2024-10079'),
-('CMPT240202044', 20241005, 'WHM2024-10086'),
-('CMPT240202045', 20241007, 'WHM2024-10090');
-
-
--- order db --
-INSERT INTO sixbeam_erp.pd_order_tb (order_cd, order_inst_dt, order_deliv_dt, empinfo_id, item_cd, order_amt, order_st) VALUES
+---- order db ----
+insert into sixbeam_erp.pd_order_tb (order_cd, order_inst_dt, order_deliv_dt, empinfo_id, item_cd, order_amt, order_st) values
 ('OD2024-001', '2024-01-31 08:00:00.000000', '2024-02-28 17:00:00.000000', 20241002, 'F1001', 12, false),
 ('OD2024-002', '2024-01-31 08:00:00.000000', '2024-02-28 17:00:00.000000', 20241008, 'F1002', 7, false),
 ('OD2024-003', '2024-02-01 08:00:00.000000', '2024-04-05 17:00:00.000000', 20241014, 'F1003', 15, false),
 ('OD2024-004', '2024-02-04 08:00:00.000000', '2024-03-31 17:00:00.000000', 20241020, 'F1004', 21, false),
 ('OD2024-005', '2024-02-10 08:00:00.000000', '2024-03-31 17:00:00.000000', 20241002, 'F1005', 43, true);
+
+---- inout db ----
+insert into sixbeam_erp.pd_inout_tb (inout_cmpt_cd, empinfo_id, wmmove_cd) values
+('CMPT240202041', 20241001, 'WHM2024-10067'),
+('CMPT240202042', 20241005, 'WHM2024-10071'),
+('CMPT240202043', 20241001, 'WHM2024-10079'),
+('CMPT240202044', 20241005, 'WHM2024-10086'),
+('CMPT240202045', 20241007, 'WHM2024-10090');
 
 
 -- 창고이동 DB --
