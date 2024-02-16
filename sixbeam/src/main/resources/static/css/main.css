@@ -5332,6 +5332,7 @@ button.bg-dark:focus {
   margin: 0 !important;
 }
 
+
 .mt-0,
 .my-0 {
   margin-top: 0 !important;
@@ -8212,4 +8213,138 @@ a:focus {
 
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
+}
+
+
+
+
+/*
+---- 여기서부터는 회계부분(ac)에 적용되는 커스텀 css입니다 ----
+*/
+
+
+.btn-primary-ac {
+  color: #fff;
+  /* background-color: #4e73df;*/
+  background-color: #0085FF;
+  border-color: #4e73df;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn-primary-ac:hover {
+  color: #fff;
+  /* background-color: #2e59d9; */
+  background-color: #2796FF;
+  border-color: #2653d4;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn-primary-ac:focus, .btn-primary-ac.focus {
+  color: #fff;
+  /* background-color: #2e59d9; */
+  background-color: #2796FF;
+  border-color: #2653d4;
+  box-shadow: 0 0 0 0.2rem rgba(105, 136, 228, 0.5);
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn-primary-ac.disabled, .btn-primary-ac:disabled {
+  color: #fff;
+  /* background-color: #4e73df; */
+  background-color: #0085FF;
+  border-color: #4e73df;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+
+.m-0-ac {
+ position : relative;
+ line-height : 38px;
+ margin : 0;
+}
+
+
+
+.btn-danger-ac {
+  color: #fff;
+  background-color: #e74a3b;
+  border-color: #e74a3b;
+  margin-left: 10px;
+}
+
+.btn-danger-ac:hover {
+  color: #fff;
+  background-color: #e02d1b;
+  border-color: #d52a1a;
+  margin-left: 10px;
+}
+
+.btn-danger-ac:focus, .btn-danger.focus {
+  color: #fff;
+  background-color: #e02d1b;
+  border-color: #d52a1a;
+  box-shadow: 0 0 0 0.2rem rgba(235, 101, 88, 0.5);
+  margin-left: 10px;
+}
+
+.btn-danger-ac.disabled, .btn-danger:disabled {
+  color: #fff;
+  background-color: #e74a3b;
+  border-color: #e74a3b;
+  margin-left: 10px;
+}
+
+.btn-danger-ac:not(:disabled):not(.disabled):active, .btn-danger:not(:disabled):not(.disabled).active,
+.show > .btn-danger.dropdown-toggle {
+  color: #fff;
+  background-color: #d52a1a;
+  border-color: #ca2819;
+  margin-left: 10px;
+}
+
+.btn-danger-ac:not(:disabled):not(.disabled):active:focus, .btn-danger:not(:disabled):not(.disabled).active:focus,
+.show > .btn-danger.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(235, 101, 88, 0.5);
+  margin-left: 10px;
+}
+
+.btn-warning-ac {
+  color: #fff;
+  background-color: #f6c23e;
+  border-color: #f6c23e;
+}
+
+.btn-warning-ac:hover {
+  color: #fff;
+  background-color: #f4b619;
+  border-color: #f4b30d;
+}
+
+.btn-warning-ac:focus, .btn-warning.focus {
+  color: #fff;
+  background-color: #f4b619;
+  border-color: #f4b30d;
+  box-shadow: 0 0 0 0.2rem rgba(247, 203, 91, 0.5);
+}
+
+.btn-warning-ac.disabled, .btn-warning:disabled {
+  color: #fff;
+  background-color: #f6c23e;
+  border-color: #f6c23e;
+}
+
+.btn-warning-ac:not(:disabled):not(.disabled):active, .btn-warning:not(:disabled):not(.disabled).active,
+.show > .btn-warning.dropdown-toggle {
+  color: #fff;
+  background-color: #f4b30d;
+  border-color: #e9aa0b;
+}
+
+.btn-warning-ac:not(:disabled):not(.disabled):active:focus, .btn-warning:not(:disabled):not(.disabled).active:focus,
+.show > .btn-warning.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(247, 203, 91, 0.5);
 }
