@@ -27,45 +27,33 @@ public class EstimateEntity {
     @Id
     @Column(name = "ESTIMATE_CD")
     private String estimateCd;
-
     @Column(name = "ESTIMATE_DT")
     private LocalDate estimateDt;
-
     @Id
     @ManyToOne
     @JoinColumn(name = "ITEM_CD")
     private ItemEntity itemEntity;
-
     @ManyToOne
     @JoinColumn(name="check_cd")
     private CheckEntity checkEntity;
-
     @ManyToOne
     @JoinColumn(name="empinfoId")
     private EmpInfoEntity empInfoEntity;
-
     @ManyToOne
     @JoinColumn(name="ACCOUNT_CD")
     private AccountEntity accountEntity;
-
     @Column(name = "ESTIMATE_NM")
     private String estimateNm;
-
     @Column(name = "ESTIMATE_AMT")
     private Integer estimateAmt;
-
     @Column(name = "ESTIMATE_UP")
     private Integer estimateUp;
-
     @Column(name = "ESTIMATE_SP")
     private Integer estimateSp;
-
     @Column(name = "ESTIMATE_VAT")
     private Integer estimateVat;
-
     @Column(name = "ESTIMATE_TAMT")
     private Integer estimateTamt;
-
     @Column(name = "ESTIMATE_ETC")
     private String estimateEtc;
 }

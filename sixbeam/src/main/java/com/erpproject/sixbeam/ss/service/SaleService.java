@@ -4,15 +4,13 @@ import com.erpproject.sixbeam.ac.repository.AccountRepository;
 import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -49,4 +47,15 @@ public class SaleService {
         }
         return deduplicatedList;
     }
+    public List<EstimateEntity> getEstimateIdList(String id) {
+
+        return this.estimateRepository.findByEstimateCd(id);
+    }
+    public List<SaleEntity> getList(){
+        return this.saleRepository.findAll();
+    }
+    public Optional<SaleEntity> getId(String id){
+        return this.saleRepository.findById(id);
+    }
+
 }

@@ -34,8 +34,8 @@
                 <table class="table item" id="estimateitem">
                     <thead>
                     <tr>
-                        <th>품목 코드</th>
                         <th>품목 명</th>
+                        <th>품목 코드</th>
                         <th>규격</th>
                         <th>수량</th>
                         <th>단가</th>
@@ -60,8 +60,8 @@
                                 <option th:each="itemlist : ${getitemlist}" th:value="${itemlist.itemCd}"
                                         th:data-itemStnd="${itemlist.itemStnd}"
                                         th:data-itemUp="${itemlist.itemUp}"
-                                        th:data-itemNm="${itemlist.itemUp}"
-                                        th:text="${itemlist.itemNm}"></option>
+                                        th:data-itemNm="${itemlist.itemNm}"
+                                        th:text="${itemlist.itemCd}"></option>
                             </select>
                         </td>
                         <td>
@@ -88,19 +88,20 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="hidden" class="RegisDate" th:field="*{estimateDtos[1].estimateDt}">
-                            <input type="hidden" class="AccountCode" th:field="*{estimateDtos[1].accountEntity.accountCd}" >
-                            <input type="hidden" class="estimateNm" th:field="*{estimateDtos[1].estimateNm}">
-                            <input type="hidden" class="EmpInfoId" th:field="*{estimateDtos[1].empInfoEntity.empInfoId}">
+                            <input type="hidden" class="RegisDate" th:field="*{estimateDtos[0].estimateDt}">
+                            <input type="hidden" class="AccountCode" th:field="*{estimateDtos[0].accountEntity.accountCd}" >
+                            <input type="hidden" class="estimateNm" th:field="*{estimateDtos[0].estimateNm}">
+                            <input type="hidden" class="EmpInfoId" th:field="*{estimateDtos[0].empInfoEntity.empInfoId}">
                             <input type="text" class="form-control itemname" >
                         </td>
                         <td>
-                            <select class="selectbox form-control" th:name="'estimateDtos[' + 1 + '].itemEntity.itemCd'">
+                            <select class="selectbox form-control" th:name="'estimateDtos[' + 0 + '].itemEntity.itemCd'">
                                 <option value="" >품목 선택</option>
                                 <option th:each="itemlist : ${getitemlist}" th:value="${itemlist.itemCd}"
                                         th:data-itemStnd="${itemlist.itemStnd}"
                                         th:data-itemUp="${itemlist.itemUp}"
-                                        th:text="${itemlist.itemNm}"></option>
+                                        th:data-itemNm="${itemlist.itemNm}"
+                                        th:text="${itemlist.itemCd}"></option>
                             </select>
                         </td>
                         <td>
