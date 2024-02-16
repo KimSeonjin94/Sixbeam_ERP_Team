@@ -194,60 +194,6 @@ $('.table.item').on('change input', '.selectbox, .itemamt', function() {
     }
 });
 
-// 폼 제출 시 데이터 저장 함수 호출
-$('#orinputform').submit(function(event) {
-    event.preventDefault(); // 기본 제출 이벤트 막기
-    orinPutSaveData(); // 데이터 저장 함수 호출
-});
-
-function orinPutSaveData() {
-    // 품목 데이터 수집
-    const items = [];
-    $('#orinputitem tbody tr').each(function () {
-        const item = {
-            // 각 행에서 필요한 데이터를 수집하여 객체로 만듦
-            // 예시: itemCd, itemName, itemStnd, itemAmt, itemUp, itemSp, itemVar, itemSum
-            itemCd: $(this).find('.selectbox').val(),
-            itemName: $(this).find('.itemname').val(),
-            itemStnd: $(this).find('.itemstnd').val(),
-            itemAmt: $(this).find('.itemamt').val(),
-            itemUp: $(this).find('.itemup').val(),
-            itemSp: $(this).find('.itemsp').val(),
-            itemVar: $(this).find('.itemvar').val(),
-            itemSum: $(this).find('.itemsum').val()
-        };
-        items.push(item);
-    });
-
-    // 기타 필요한 데이터 수집 (발주 일자, 담당자, 거래처 등)
-
-    // 데이터를 JSON 형식으로 만듦
-    const data = {
-        currentDate: $('#currentDate').val(),
-        orinputname: $('#orinputname').val(),
-        accountCode: $('#accountCode').val(),
-        accountName: $('#accountName').val(),
-        orinputReqDate: $('#orinputReqDate').val(),
-        orinputDlvyDate: $('#orinputDlvyDate').val(),
-        items: items
-    };
-
-    // Ajax를 사용하여 서버로 데이터 전송
-    $.ajax({
-        type: 'POST',
-        url: '/pur/orinput/save',
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-        success: function (response) {
-            // 저장 성공 시 처리
-            console.log('Data saved successfully!');
-        },
-        error: function (error) {
-            // 저장 실패 시 처리
-            console.error('Error while saving data:', error);
-        }
-    });
-}
 $(document).ready(function() {
     calculateTotals();
 
@@ -458,3 +404,61 @@ $('.table.item a[data-id]').on('click', function() {
     });
 });
 
+function formatToKRW(value) {
+    return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(value);
+}
+
+// 테이블의 행 클릭 이벤트 핸들러
+$('#orinput[data-id]').on('click', function() {
+    console.log($(this).data('id'));
+    var orinputId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    // AJAX 요청
+    $.ajax({
+        url: '/pur/orinput/list/detail/' + orinputId, // 서버 엔드포인트
+        type: 'GET',
+        success: function(data) {
+            data.forEach(function(value, key) {
+                console.log(key + ': ' + value);
+            });
+            if (data && data.length > 0) {
+                // 성공 시 모달 내용 업데이트
+                var modaltBody = $('.formEntry .table.item tbody');
+                modaltBody.empty();
+                $('#updateCurrentDate').val(data[0].orinputOrDt);
+                $('#updateaccountCode').val(data[0].accountEntity.accountCd);
+                $('#updatename').val(data[0].empInfoEntity.empInfoNm);
+                $('#updateaccountName').val(data[0].accountEntity.accountNm);
+                $('#orinputReqDate').val(data[0].orinputReqDt);
+                $('#orinputDlvyDate').val(data[0].orinputDlvyDt);
+                // 데이터 항목별로 행 추가
+                data.forEach(function(item, index) {
+                    var row = $('<tr>'); // 행 생성
+
+                    // 각 셀에 입력 요소와 name 속성 추가
+                    row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.estimateDt + '">'+
+                    '<input type="hidden" name="orinputDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
+                    '<input type="hidden" name="orinputDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
+                    '<input type="hidden" name="orinputDtos[' + index + '].orinputReqDt" class="form-control" value="' + item.orinputReqDt + '">'+
+                    '<input type="hidden" name="orinputDtos[' + index + '].orinputDlvyDt" class="form-control" value="' + item.orinputDlvyDt + '">'+
+                    '<input type="text" class="form-control" name="orinputDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
+                    row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
+                    row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
+                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputAmt" class="form-control itemamt" value="' + item.orinputAmt + '"></td>');
+                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputUp" class="form-control itemup" value="' + formatToKRW(item.orinputUp) + '"></td>');
+                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSp" class="form-control itemsp" value="' + formatToKRW(item.orinputSp) + '"></td>');
+                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputVat" class="form-control itemvar" value="' + formatToKRW(item.orinputVat) + '"></td>');
+                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSum" class="form-control itemsum" value="' + formatToKRW(item.orinputSum) + '"></td>');
+                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputEtc" class="form-control" value="' + item.orinputEtc + '"></td>');
+                    modaltBody.append(row); // 생성된 행을 테이블에 추가
+                });
+                // 모달 표시
+                $('#detail').modal('show');
+            } else {
+                console.error('데이터가 비어있습니다.');
+            }
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+});

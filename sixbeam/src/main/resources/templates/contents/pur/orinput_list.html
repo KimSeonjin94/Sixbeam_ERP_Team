@@ -42,7 +42,7 @@
                             <input th:type="checkbox" th:name="selectedOrinPut" th:value="${orinput.orinputCd}">
                         </td>
                         <td>
-                            <a href="#" th:data-id="${orinput.orinputCd}">
+                            <a href="#" id="orinput" th:data-id="${orinput.orinputCd}">
                                 <span th:text="${orinput.orinputCd}">></span>
                             </a>
                         </td>
@@ -76,7 +76,7 @@
                         <div class="modal-body">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form class="formEntry" th:action="@{/pur/orinput/save}" method="post">
+                                    <form class="formEntry" th:action="@{/pur/orinput/update}" th:object="${orinputForm}" method="post">
                                         <div class="form-group row">
                                             <label for="updateCurrentDate" class="col-sm-2 col-form-label">발주일자</label>
                                             <div class="col-sm-4">
