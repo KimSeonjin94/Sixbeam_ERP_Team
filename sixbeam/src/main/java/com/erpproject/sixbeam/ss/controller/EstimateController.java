@@ -88,7 +88,7 @@ public class EstimateController {
     }
 
     @PostMapping("/update")
-    public String updateEstimate(@ModelAttribute EstimateForm form){
+    public String updateEst0imate(@ModelAttribute EstimateForm form){
         List<EstimateDto> estimateDtos= form.getEstimateDtos();
         estimateService.updateAll(estimateDtos);
 
