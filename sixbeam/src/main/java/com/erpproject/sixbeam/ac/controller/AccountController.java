@@ -4,12 +4,11 @@ import com.erpproject.sixbeam.ac.dto.AccountDto;
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,6 +16,7 @@ import java.util.List;
 @RequestMapping("/ac")
 @Controller
 public class AccountController {
+
     private final AccountService accountService;
 
     @GetMapping("/account/list")
@@ -31,16 +31,16 @@ public class AccountController {
         return "redirect:list";
     }
 
+
+
+
+
 //    @PostMapping("/account/registerform")
 //    public String registerAccountByPage(@ModelAttribute AccountDto accountDto) {
 //        accountService.saveAccount(accountDto);
 //        return "redirect:registerform";
 //    }
 
-    @PostMapping("/account/edit")
-    public String editAccount(@ModelAttribute AccountDto editAccountDto) {
-        accountService.updateAccount(editAccountDto);
-        return "redirect:list";
-    }
+
 
 }

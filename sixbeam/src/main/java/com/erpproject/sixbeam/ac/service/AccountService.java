@@ -21,26 +21,28 @@ public class AccountService {
         AccountEntity accountEntity = accountDto.toEntity();
         accountRepository.save(accountEntity);
     }
-    @Transactional
-    public void updateAccount(AccountDto editAccountDto) {
-        AccountEntity accountEntity = editAccountDto.toEntity();
-        accountRepository.save(accountEntity);
-    }
-//    @Transactional
-//    public void updateAccount(AccountDto accountDto) {
-//        AccountEntity accountEntity = accountRepository.findById(accountDto.getAccountCd())
-//                .orElseThrow(() -> new EntityNotFoundException("Account not found"));
-//        accountEntity.setAccountCd(accountDto.getAccountCd());
-//        accountEntity.setAccountNm(accountDto.getAccountNm());
-//        accountEntity.setAccountNb(accountDto.getAccountNb());
-//        accountEntity.setAccountAdd(accountDto.getAccountAdd());
-//        accountEntity.setAccountRep(accountDto.getAccountRep());
-//        accountEntity.setAccountSectors(accountDto.getAccountSectors());
-//        accountEntity.setAccountBank(accountDto.getAccountBank());
-//        accountEntity.setAccountAcnb(accountDto.getAccountAcnb());
-//        accountEntity.setAccountPic(accountDto.getAccountPic());
-//        accountEntity.setAccountEtc(accountDto.getAccountEtc());
-//        accountRepository.save(accountEntity);
-//    }
 
+    public AccountEntity updateAccount(String accountCd , AccountDto accountDto) {
+
+        AccountEntity editAccountEntity = accountDto.toEntity();
+
+        AccountEntity accountEntity = accountRepository.findById(accountCd)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid account Id:" + accountCd));
+
+        accountEntity.setAccountCd(editAccountEntity.getAccountCd());
+        accountEntity.setAccountNm(editAccountEntity.getAccountNm());
+        accountEntity.setAccountNb(editAccountEntity.getAccountNb());
+        accountEntity.setAccountAdd(editAccountEntity.getAccountAdd());
+        accountEntity.setAccountRep(editAccountEntity.getAccountRep());
+        accountEntity.setAccountSectors(editAccountEntity.getAccountSectors());
+        accountEntity.setAccountBank(editAccountEntity.getAccountBank());
+        accountEntity.setAccountAcnb(editAccountEntity.getAccountAcnb());
+        accountEntity.setAccountPic(editAccountEntity.getAccountPic());
+        accountEntity.setAccountEtc(editAccountEntity.getAccountEtc());
+
+        return accountRepository.save(accountEntity);
+    }
 }
+
+
+
