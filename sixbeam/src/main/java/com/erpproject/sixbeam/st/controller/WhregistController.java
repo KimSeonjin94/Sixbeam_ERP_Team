@@ -2,9 +2,12 @@ package com.erpproject.sixbeam.st.controller;
 
 import com.erpproject.sixbeam.st.dto.WhregistDto;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
+import com.erpproject.sixbeam.st.form.WhregistForm;
 import com.erpproject.sixbeam.st.service.WhregistService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
@@ -39,9 +42,12 @@ public class WhregistController {
         return "contents/st/whregist_form";
     }
     @PostMapping("/create")
-    public String whregistCreate(@RequestParam(value = "whregistCd") String whregistCd, @RequestParam(value = "whregistNm") String whregistNm) {
-        this.whregistService.pageCreate(whregistCd, whregistNm);
-        return "contents/st/whregist_list";
+    public String whregistCreate(@Valid WhregistDto whregistDto, BindingResult bindingResult ) {
+        if (bindingResult.hasErrors()) {
+            return "contents/st/whregist_form";
+        }
+        this.whregistService.pageCreate(whregistDto.getWhregistCd(), whregistDto.getWhregistNm());
+        return "redirect:/st/whregist/list";
     }
     //창고현황-신규 모달에서 창고 등록
     @PostMapping("/modalcreate")
