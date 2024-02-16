@@ -20,7 +20,8 @@ public class AccountDto {
 
     public AccountEntity toEntity() {
 
-        return new AccountEntity(accountCd, accountNm, accountNb, accountAdd, accountRep, accountSectors, accountBank, accountAcnb, accountPic, accountEtc);
+        return new AccountEntity(accountCd, accountNm, accountNb, accountAdd, accountRep,
+                accountSectors, accountBank, accountAcnb, accountPic, accountEtc);
 
     }
 }
