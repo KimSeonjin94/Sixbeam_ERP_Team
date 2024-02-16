@@ -1,0 +1,369 @@
+<!--1. create(0)-->
+<!--2. 하이퍼링크로 update(0)-->
+<!--3. 수정버튼으로 update(0)-->
+<!--4. delete(0)-->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Information</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div layout:fragment="content" class="container-fluid">
+
+    <!-- 큰제목 -->
+    <h1 class="h3 mb-2 text-gray-800">급여</h1>
+    <div class = "btn-group" role = "group" aria-label = "Basic example">
+        <!-- 등록버튼 -->
+        <button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#newestimate">
+            등록
+        </button>
+        <button type="button" class="btn btn-warning" data-toggle="modal" onclick="updateSelectedSalary()">
+            수정
+        </button>
+        <!-- 삭제 버튼 -->
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryModal">
+            삭제
+        </button>
+    </div>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">급여</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>체크</th>
+                        <th>급여월</th>
+                        <th>사원ID</th>
+                        <th>이름</th>
+                        <th>상여금</th>
+                        <th>수당금</th>
+                        <th>성과금</th>
+                        <th>총지급액</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="salary : ${salaryList}">
+                        <!--체크박스-->
+                        <td>
+                            <input th:type="checkbox" th:name="selectedSalarys" th:value="${salary.salaryCd}">
+                        </td>
+                        <!--급여월-->
+                        <td>
+                            <a href="#" th:onclick="openEditSalaryPage([[${salary.salaryCd}]],[[${salary.salarySmonth}]],[[${salary.salaryIdEntity.salaryIdCd}]], [[${salary.empInfoEntity.empInfoId}]])" style="color: blue; cursor: pointer;">
+                                <span th:text="${salary.salarySmonth}"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" th:onclick="openEditSalaryPage([[${salary.salaryCd}]],[[${salary.salarySmonth}]],[[${salary.salaryIdEntity.salaryIdCd}]], [[${salary.empInfoEntity.empInfoId}]])" style="color: blue; cursor: pointer;">
+                                <span th:text="${salary.empInfoEntity.empInfoId}"></span>
+                                </a>
+                        </td>
+                        <td th:text="${salary.empInfoEntity.empInfoNm}"></td>
+                        <td th:text="${salary.salaryBonus}"></td>
+                        <td th:text="${salary.salaryAllow}"></td>
+                        <td th:text="${salary.salaryIncentive}"></td>
+                        <td th:text="${salary.salaryTtmoney}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 등록하는 모달 -->
+    <div class = "modal fade" id = "newestimate" tabindex = "-1" aria-labelledby = "exampleModalLabel"
+         aria-hidden = "true">
+        <div class = "modal-dialog modal-dialog-centered">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h5 class = "modal-title" id = "newestimateLabel">등록</h5>
+                    <button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+                        <span aria-hidden = "true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row no-gutters">
+                        <div class="col-md-8 mb-3">
+                            <form id="createSalaryForm" th:action="@{/hr/salary/create}" method="post">
+                                <input type="hidden" id="salaryCd" name="salaryCd">
+                                <!--급여월-->
+                                <div class="form-group">
+                                    <label for="salarySmonth">급여월</label>
+                                    <input type="month" class="form-control" id="salarySmonth" name="salarySmonth">
+                                </div>
+                                <!--사원번호-->
+                                <div class="form-group">
+                                    <label for="salaryIdCd">급여식별자</label>
+                                    <select class="form-control" id="salaryIdCd" name="salaryIdCd">
+                                        <option>선택하세요</option>
+                                        <option th:each="sal : ${salaryIdList}" th:value="${sal.salaryIdCd}" th:text="${sal.salaryIdCd}"></option>
+                                    </select>
+                                </div>
+                                <!--사원번호-->
+                                <div class="form-group">
+                                    <label for="empInfoId">사원번호</label>
+                                    <select class="form-control" id="empInfoId" name="empInfoId" onchange="updateEmpName()">
+                                        <option>선택하세요</option>
+                                        <option th:each="emp : ${empInfoList}" th:value="${emp.empInfoId}" th:text="${emp.empInfoId}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="empInfoNm">사원 이름</label>
+                                    <input type="text" class="form-control" id="empInfoNm" name="empInfoNm" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="salaryBonus">상여금</label>
+                                    <input type="text" class="form-control" id="salaryBonus" name="salaryBonus">
+                                </div>
+                                <div class="form-group">
+                                    <label for="salaryAllow">수당금</label>
+                                    <input type="text" class="form-control" id="salaryAllow" name="salaryAllow">
+                                </div>
+                                <div class="form-group">
+                                    <label for="salaryIncentive">성과금</label>
+                                    <input type="text" class="form-control" id="salaryIncentive" name="salaryIncentive">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>>
+                <div class="modal-footer">
+                    <!-- submit 버튼을 추가하고 폼 전송을 위한 액션을 지정 -->
+                    <button type="button" class="btn btn-primary" onclick="createSalary()">저장</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 수정하는 모달 -->
+    <div  class="modal fade" id="updateNoteModal" tabindex="-1" aria-labelledby="updateNoteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="employeeModalLabel">수정</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row no-gutters">
+                        <div class="col-md-8 mb-3">
+                            <form id="updateSalaryForm" th:action="@{/hr/salary/update}" method="post">
+                                <!--급여코드-->
+                                <input type="hidden" id="modifySalaryCd" name="modifySalaryCd">
+                                <!--급여월-->
+                                <input type="hidden" id="modifySalarySmonth" name="modifySalarySmonth">
+                                <!--급여식별자-->
+                                <input type="hidden" id="modifySalaryIdCd" name="modifySalaryIdCd">
+                                <!--사원ID-->
+                                <input type="hidden" id="modifyEmpInfoId" name="modifyEmpInfoId">
+                                <!--상여금-->
+                                <div class="form-group">
+                                    <label for="modifySalaryBonus">상여금</label>
+                                    <input type="text" class="form-control" id="modifySalaryBonus" name="modifySalaryBonus">
+                                </div>
+                                <!--수당금-->
+                                <div class="form-group">
+                                    <label for="modifySalaryAllow">수당금</label>
+                                    <input type="text" class="form-control" id="modifySalaryAllow" name="modifySalaryAllow">
+                                </div>
+                                <!--성과금-->
+                                <div class="form-group">
+                                    <label for="modifySalaryIncentive">성과금</label>
+                                    <input type="text" class="form-control" id="modifySalaryIncentive" name="modifySalaryIncentive">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- submit 버튼을 추가하고 폼 전송을 위한 액션을 지정 -->
+                    <button type="button" class="btn btn-primary" onclick="updateSalary()">저장</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 삭제하는 모달 -->
+    <div class="modal fade" id="deleteSalaryModal" tabindex="-1" aria-labelledby="deleteEmployeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteEmployeeModalLabel"> 삭제</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>선택한 삭제하시겠습니까?</p>
+                    <form id="deleteSalaryForm" th:action="@{/hr/salary/delete}" method="post">
+                        <input type="hidden" id="selectedSalarysInput" name="selectedSalarys">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="deleteSelectedSalary()">삭제</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        function updateEmpName() {
+            var selectedEmpId = $('#empInfoId').val();
+            var employeeInfoList = /*[[${empInfoList}]]*/;
+
+            // 선택된 ID에 해당하는 직원 찾기
+            var emp = employeeInfoList.find(function(emp) {
+                return emp.empInfoId == selectedEmpId;
+            });
+
+            if (emp) {
+                // 모달창에 사원 이름을 넣는 작업
+                $('#empInfoNm').val(emp.empInfoNm);
+            } else {
+                console.error("Employee not found for ID: " + selectedEmpId);
+            }
+        }
+        function updateSalary() {
+            var selectedSalaryId = $('#modifySalaryIdCd').val();
+            var salaryIdList = /*[[${salaryIdList}]]*/;
+            var sal = salaryIdList.find(function (sal) {
+                return sal.salaryIdCd == selectedSalaryId;
+            });
+
+            // 기본 급여, 상여금, 수당금, 성과금 값을 가져옴
+            var basicSalary = sal.basicSalary || 0;
+            var salaryBonus = parseInt($('#modifySalaryBonus').val() || 0, 10);
+            var salaryAllow = parseInt($('#modifySalaryAllow').val() || 0, 10);
+            var salaryIncentive = parseInt($('#modifySalaryIncentive').val() || 0, 10);
+
+            // 총지급액 계산
+            var salaryTtmoney = basicSalary + salaryBonus + salaryAllow + salaryIncentive;
+
+            // 각각의 필드에 값을 적용
+            $('#modifySalaryBonus').val(salaryBonus);
+            $('#modifySalaryAllow').val(salaryAllow);
+            $('#modifySalaryIncentive').val(salaryIncentive);
+
+            // updateSalaryForm에 salaryTtmoney를 추가하여 전송
+            var salaryForm = document.getElementById('updateSalaryForm');
+            if (salaryForm) {
+                // 폼에 hidden 필드를 추가하고 값을 설정
+                var hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'modifySalaryTtmoney';
+                hiddenInput.value = salaryTtmoney;
+                salaryForm.appendChild(hiddenInput);
+
+                // 폼을 서버로 전송
+                salaryForm.submit();
+            } else {
+                console.error("updateSalaryForm not found");
+            }
+
+            alert('수정되었습니다.');
+        }
+        function createSalary() {
+            var selectedSalaryId = $('#salaryIdCd').val();
+            var salaryIdList = /*[[${salaryIdList}]]*/;
+            var sal = salaryIdList.find(function(sal){
+                return sal.salaryIdCd == selectedSalaryId;
+            });
+            // 기본 급여, 상여금, 수당금, 성과금 값을 가져옴
+            var basicSalary = sal.basicSalary || 0;
+            var salaryBonus = parseInt($('#salaryBonus').val() || 0, 10);
+            var salaryAllow = parseInt($('#salaryAllow').val() || 0, 10);
+            var salaryIncentive = parseInt($('#salaryIncentive').val() || 0, 10);
+            // 총지급액 계산
+            var salaryTtmoney = basicSalary + salaryBonus + salaryAllow + salaryIncentive;
+
+            // 각각의 필드에 값을 적용
+            $('#salaryBonus').val(salaryBonus);
+            $('#salaryAllow').val(salaryAllow);
+            $('#salaryIncentive').val(salaryIncentive);
+            $('#salaryTtmoney').text(salaryTtmoney);
+
+            // createSalaryForm에 salaryTtmoney를 추가하여 전송
+            var salaryForm = document.getElementById('createSalaryForm');
+            if (salaryForm) {
+                // 폼에 hidden 필드를 추가하고 값을 설정
+                var hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'salaryTtmoney';
+                hiddenInput.value = salaryTtmoney;
+                salaryForm.appendChild(hiddenInput);
+
+                // 폼을 서버로 전송
+                salaryForm.submit();
+            } else {
+                console.error("createSalaryForm not found");
+            }
+        }
+        function openEditSalaryPage(salaryCd, salarySmonth, salaryIdCd, empInfoId) {
+            // 모달 창에 필드값 할당
+            $('#modifySalaryCd').val(salaryCd);
+            $('#modifySalarySmonth').val(salarySmonth);
+            $('#modifySalaryIdCd').val(salaryIdCd);
+            $('#modifyEmpInfoId').val(empInfoId);
+
+            // 모달 창 띄우기
+            $('#updateNoteModal').modal('show');
+        }
+        function deleteSelectedSalary(){
+            var selectedSalarys = [];
+            $('input[name="selectedSalarys"]:checked').each(function(){
+                selectedSalarys.push($(this).val());
+            });
+            if(selectedSalarys.length === 0){
+                alert('선택된 항목이 없습니다.');
+            }else{
+                $('#selectedSalarysInput').val(selectedSalarys.join(', '));
+                document.getElementById("deleteSalaryForm").submit();
+                $('#deleteSalaryModal').modal('hide');
+                alert('삭제됨');
+            }
+        }
+        function updateSelectedSalary() {
+            var salaryList = /*[[${salaryList}]]*/ [];
+            var selectedSalarys = [];
+            $('input[name="selectedSalarys"]:checked').each(function() {
+                selectedSalarys.push($(this).val());
+            });
+            var selectedSalaryData = [];
+            selectedSalarys.forEach(function(salaryCd) {
+                var salary = salaryList.find(function(sa) {
+                    return sa.salaryCd == salaryCd;
+                });
+
+                if (salary) {
+                    selectedSalaryData.push(salary);
+                }
+            });
+
+            // updateSelectedEmpInfo 함수 호출
+            selectedSalaryData.forEach(function(salary) {
+                openEditSalaryPage(
+                    salary.salaryCd,
+                    salary.salarySmonth,
+                    salary.salaryIdEntity.salaryIdCd,
+                    salary.empInfoEntity.empInfoId
+                );
+            });
+        }
+
+    </script>
+</div>
+</body>
+</html>

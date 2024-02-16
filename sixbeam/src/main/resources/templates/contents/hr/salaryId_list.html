@@ -1,0 +1,249 @@
+<!--1. create(0)-->
+<!--2. 하이퍼링크로 update(0)-->
+<!--3. 수정버튼으로 update(0)-->
+<!--4. delete(0)-->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Information</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div layout:fragment="content" class="container-fluid">
+
+    <!-- 큰제목 -->
+    <h1 class="h3 mb-2 text-gray-800">급여</h1>
+    <div class = "btn-group" role = "group" aria-label = "Basic example">
+        <!-- 등록버튼 -->
+        <button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#newestimate">
+            등록
+        </button>
+        <button type="button" class="btn btn-warning" data-toggle="modal" onclick="updateSelectedSalaryId()">
+            수정
+        </button>
+        <!-- 삭제 버튼 -->
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryIdModal">
+            삭제
+        </button>
+    </div>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">급여</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>체크</th>
+                        <th>급여식별자</th>
+                        <th>부서명</th>
+                        <th>직책명</th>
+                        <th>기본급여</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="salaryId : ${salaryIdList}">
+                        <td>
+                            <input th:type="checkbox" th:name="selectedSalaryIds" th:value="${salaryId.salaryIdCd}">
+                        </td>
+                        <td>
+                            <a href="#" th:onclick="openEditSalaryIdPage([[${salaryId.salaryIdCd}]],[[${salaryId.departEntity.departCd}]],[[${salaryId.positionEntity.positionCd}]],[[${salaryId.basicSalary}]])"
+                               style="color: blue; cursor: pointer;">
+                                <span th:text="${salaryId.salaryIdCd}" class="salaryId-cd"></span>
+                            </a>
+                        </td>
+                        <td th:text="${salaryId.departEntity.departNm}"></td>
+                        <td th:text="${salaryId.positionEntity.positionNm}"></td>
+                        <td th:text="${salaryId.basicSalary}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 하이퍼링크로 수정하는 모달 -->
+    <div  class="modal fade" id="updateNoteModal" tabindex="-1" aria-labelledby="updateNoteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="employeeModalLabel">급여 수정</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row no-gutters">
+                        <div class="col-md-8 mb-3">
+                            <form id="updateSalaryIdForm" th:action="@{/hr/salaryId/update}" method="post">
+                                <!--급여식별자-->
+                                <div class ="form-group">
+                                    <label for="salaryIdCd">급여식별자</label>
+                                    <input type="text" class="form-control" id="salaryIdCd" name="salaryIdCd" readonly>
+                                </div>
+                                <!-- 부서 -->
+                                <div class="form-group">
+                                    <label for="departCd">부서</label>
+                                    <select class="form-control" id="departCd" name="departCd">
+                                        <option th:each="depart : ${departList}" th:value="${depart.departCd}" th:text="${depart.departNm}"></option>
+                                    </select>
+                                </div>
+                                <!-- 직책 -->
+                                <div class="form-group">
+                                    <label for="positionCd">직책</label>
+                                    <select class="form-control" id="positionCd" name="positionCd">
+                                        <option th:each="posi : ${positionList}" th:value="${posi.positionCd}" th:text="${posi.positionNm}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="basicSalary">기본급여</label>
+                                    <input type="text" class="form-control" id="basicSalary" name="basicSalary">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- submit 버튼을 추가하고 폼 전송을 위한 액션을 지정 -->
+                    <button type="button" class="btn btn-primary" onclick="updateSalaryId()">저장</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 등록하는 모달 -->
+    <div class = "modal fade" id = "newestimate" tabindex = "-1" aria-labelledby = "exampleModalLabel"
+         aria-hidden = "true">
+        <div class = "modal-dialog modal-dialog-centered">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h5 class = "modal-title" id = "newestimateLabel">급여등록</h5>
+                    <button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+                        <span aria-hidden = "true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row no-gutters">
+                        <div class="col-md-8 mb-3">
+                            <form id="createSalaryIdForm" th:action="@{/hr/salaryId/create}" method="post">
+                                <!--급여식별자-->
+                                <div class ="form-group">
+                                    <label for="createSalaryIdCd">급여식별자</label>
+                                    <input type="text" class="form-control" id="createSalaryIdCd" name="createSalaryIdCd" readonly>
+                                </div>
+                                <!-- 부서 -->
+                                <div class="form-group">
+                                    <label for="createDepartCd">부서</label>
+                                    <select class="form-control" id="createDepartCd" name="createDepartCd">
+                                        <option th:each="depart : ${departList}" th:value="${depart.departCd}" th:text="${depart.departNm}"></option>
+                                    </select>
+                                </div>
+                                <!-- 직책 -->
+                                <div class="form-group">
+                                    <label for="createPositionCd">직책</label>
+                                    <select class="form-control" id="createPositionCd" name="createPositionCd">
+                                        <option th:each="posi : ${positionList}" th:value="${posi.positionCd}" th:text="${posi.positionNm}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="createBasicSalary">기본급여</label>
+                                    <input type="text" class="form-control" id="createBasicSalary" name="createBasicSalary">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>>
+                <div class="modal-footer">
+                    <!-- submit 버튼을 추가하고 폼 전송을 위한 액션을 지정 -->
+                    <button type="button" class="btn btn-primary" onclick="createSalaryId()">저장</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 삭제하는 모달 -->
+    <div class="modal fade" id="deleteSalaryIdModal" tabindex="-1" aria-labelledby="deleteEmployeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteEmployeeModalLabel">급여 삭제</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>선택한 급여식별을 삭제하시겠습니까?</p>
+                    <form id="deleteSalaryIdForm" th:action="@{/hr/salaryId/delete}" method="post">
+                        <input type="hidden" id="selectedSalaryIdsInput" name="selectedSalaryIds">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="deleteSelectedSalaryId()">삭제</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        function openEditSalaryIdPage(salaryIdCd,departCd,positionCd,basicSalary){
+            $('#updateNoteModal').modal('show');
+            $('#salaryIdCd').val(salaryIdCd);
+            $('#departCd').val(departCd);
+            $('#positionCd').val(positionCd);
+            $('#basicSalary').val(basicSalary);
+        }
+        function updateSalaryId(){
+            document.getElementById("updateSalaryIdForm").submit();
+            alert('수정되었습니다.')
+        }
+        function updateSelectedSalaryId(){
+            var salaryIdList = /*[[${salaryIdList}]]*/[];
+            var selectedSalaryIds = [];
+            $('input[name="selectedSalaryIds"]:checked').each(function(){
+                selectedSalaryIds.push($(this).val());
+            });
+            var selectedSalaryIdData = [];
+            selectedSalaryIds.forEach(function(salaryIdCd){
+                var salaryId = salaryIdList.find(function(sa){
+                    return sa.salaryIdCd == salaryIdCd;
+                });
+                if(salaryId){
+                    selectedSalaryIdData.push(salaryId);
+                }
+
+            });
+            selectedSalaryIdData.forEach(function(salaryId){
+                openEditSalaryIdPage(salaryId.salaryIdCd,salaryId.departEntity.departCd,salaryId.positionEntity.positionCd,salaryId.basicSalary);
+            });
+        }
+        function createSalaryId(){
+            document.getElementById("createSalaryIdForm").submit();
+            alert('추가되었습니다.')
+        }
+        function deleteSelectedSalaryId(){
+            var selectedSalaryIds = [];
+            $('input[name="selectedSalaryIds"]:checked').each(function(){
+                selectedSalaryIds.push($(this).val());
+            });
+            if(selectedSalaryIds.length === 0){
+                alert('선택된 항목이 없습니다.');
+            }else{
+                $('#selectedSalaryIdsInput').val(selectedSalaryIds.join(', '));
+                document.getElementById("deleteSalaryIdForm").submit();
+                $('#deleteSalaryIdModal').modal('hide');
+                alert('삭제됨');
+            }
+        }
+    </script>
+</div>
+</body>
+</html>
