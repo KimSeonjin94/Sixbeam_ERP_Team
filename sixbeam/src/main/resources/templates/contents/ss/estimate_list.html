@@ -56,7 +56,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form class="formEntry" th:action="@{/ss/estimate/create}" th:object="${estimateForm}"
+                            <form class="formEntry" th:action="@{/ss/sale/create}" th:object="${saleDto}"
                                   method="post">
                                 <div class="form-group row">
                                     <label for="currentDate" class="col-sm-2 col-form-label">견적 일자</label>
@@ -213,77 +213,6 @@
                                 </div>
 
                             </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="subjectestimateLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="subjectestimateLabel">견적 수정</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="card shadow mb-4">
-                                <div class="card-body">
-                                    <form class="formEntry" th:action="@{/ss/estimate/update}"  th:object="${estimateForm}" method="post">
-                                        <div class="form-group row">
-                                            <label for="updateCurrentDate" class="col-sm-2 col-form-label">견적일자</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updateCurrentDate" readonly>
-                                            </div>
-                                            <label for="updatename" class="col-sm-2 col-form-label">담당자</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updatename" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="accountCode" class="col-sm-2 col-form-label">거래처 코드</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updateaccountCode" readonly>
-                                            </div>
-                                            <label class="col-sm-2 col-form-label">거래처</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updateaccountName" readonly>
-                                            </div>
-                                        </div>
-                                        <table class="table item">
-                                            <thead>
-                                            <tr>
-                                                <th>품목 명</th>
-                                                <th>품목 코드</th>
-                                                <th>규격</th>
-                                                <th>수량</th>
-                                                <th>단가</th>
-                                                <th>공급가액</th>
-                                                <th>부가세</th>
-                                                <th>총액</th>
-                                                <th>비고</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <input type='button'
-                                                       value='품목 추가'
-                                                       class="btn btn-secondary addnewrowbtn">
-                                                <input type='button'
-                                                       value='품목 삭제'
-                                                       class="btn btn-danger deleterowbtn">
-                                            </div>
-                                            <div class="col-sm-6 text-md-right">
-                                                <button type="submit" class="btn btn-primary">저장</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
