@@ -18,11 +18,11 @@ import lombok.Setter;
 
 public class SalaryIdEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="HR_SALARYID_TB_salaryCd_seq")
-    @SequenceGenerator(name ="HR_SALARYID_TB_salaryCd_seq", sequenceName ="HR_SALARYID_TB_salaryCd_seq",
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="HR_SALARYID_TB_salaryIdCd_seq")
+    @SequenceGenerator(name ="HR_SALARYID_TB_salaryIdCd_seq", sequenceName ="HR_SALARYID_TB_salaryIdCd_seq",
             initialValue = 801, allocationSize =1)
-    @Column(name ="salaryCd")
-    private Long salaryCd;//급여식별자
+    @Column(name ="salaryIdCd")
+    private Long salaryIdCd;//급여식별자
     @ManyToOne
     @JoinColumn(name ="departCd")
     private DepartEntity departEntity;//부서코드

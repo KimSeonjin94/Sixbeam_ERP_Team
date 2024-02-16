@@ -30,7 +30,7 @@ public class EmpInfoController {
     @Autowired
     private final PositionService positionService;
     @GetMapping("/list")
-    public String Empinfolist(Model model) {
+    public String list(Model model) {
         List<EmpInfoEntity> employeeInfoList = this.empInfoService.getList();
         model.addAttribute("employeeInfoList", employeeInfoList);
         List<DepartEntity>departList = this.departService.getList();
