@@ -9,6 +9,7 @@ import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -69,7 +70,7 @@ public class SaleService {
     }
     private String generateNewSaleCd(LocalDate saleDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
-        String prefix = "SS" + saleDate.format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";
+        String prefix = "SS" + saleDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-";
 
         // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
         String maxCd = saleRepository.getMaxSaleCd(saleDate);

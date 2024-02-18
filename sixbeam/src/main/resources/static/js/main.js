@@ -317,13 +317,13 @@ function setAccountInfo(accountCd, accountNm , accountNb, accountAdd, accountRep
     $('#editAccountEtc').val(accountEtc);
 }
 function registerAccountFinished() {
-             alert('거래처가 등록되었습니다.')
-         }
+    alert('거래처가 등록되었습니다.')
+}
 function editAccountFinished() {
-            alert('거래처 정보가 수정되었습니다.');
-         }
+    alert('거래처 정보가 수정되었습니다.');
+}
 function deleteAccountFinished() {
-            alert('거래처가 삭제되었습니다.');
+    alert('거래처가 삭제되었습니다.');
 }
 
 $('.table.item a[data-id]').on('click', function() {
@@ -354,6 +354,7 @@ $('.table.item a[data-id]').on('click', function() {
 $('#detailEstimateCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
     var estimateId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    $('#estimatedetail').modal('hide');
     // AJAX 요청
     $.ajax({
         url: '/ss/estimate/list/detail/' + estimateId, // 서버 엔드포인트
@@ -366,6 +367,7 @@ $('#detailEstimateCd[data-id]').on('click', function() {
                 // 성공 시 모달 내용 업데이트
                 var modaltBody = $('.formEntry .table.item tbody');
                 modaltBody.empty();
+                $('#estimateCd').val(data[0].estimateCd);
                 $('#updateCurrentDate').val(data[0].estimateDt);
                 $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                 $('#updatename').val(data[0].empInfoEntity.empInfoNm);
@@ -376,7 +378,7 @@ $('#detailEstimateCd[data-id]').on('click', function() {
 
                     // 각 셀에 입력 요소와 name 속성 추가
                     row.append('<td><input type="hidden" name="estimateDtos[' + index + '].estimateDt" class="form-control" value="' + item.estimateDt + '">'+
-                    '<input type="hidden" name="estimateDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
+                    '<input type="hidden" name="estimateDtos[' + index + '].accountEntity.accountCd" class="form-control" value="' + item.accountEntity.accountCd + '">'+
                     '<input type="hidden" name="estimateDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
                     '<input type="hidden" name="estimateDtos[' + index + '].estimateCd" class="form-control" value="' + item.estimateCd+ '">'+
                     '<input type="text" class="form-control" name="estimateDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');

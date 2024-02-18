@@ -22,10 +22,8 @@ public class SaleEntity {
     @Id
     @Column(name = "SALE_CD")
     private String saleCd;
-
-    @ManyToOne
-    @JoinColumn(name = "ESTIMATE_CD", referencedColumnName = "ESTIMATE_CD")
-    private EstimateEntity estimateEntity;
+    @Column(name = "ESTIMATE_CD")
+    private String estimateCd;
     @Column(name = "SALE_UPLOAD_DT")
     private LocalDate saleUploadDt;
     @Column(name = "SALE_BILLING_DT")

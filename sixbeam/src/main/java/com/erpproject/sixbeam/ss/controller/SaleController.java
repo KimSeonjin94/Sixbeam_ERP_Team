@@ -1,8 +1,10 @@
 package com.erpproject.sixbeam.ss.controller;
 
+import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
+import com.erpproject.sixbeam.ss.form.EstimateForm;
 import com.erpproject.sixbeam.ss.service.EstimateService;
 import com.erpproject.sixbeam.ss.service.SaleService;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +44,10 @@ public class SaleController {
         model.addAttribute("saleDto",saleDto);
         return "contents/ss/sale_form";
     }
-
+    @PostMapping("/create")
+    public  String createEstimateDto(@ModelAttribute SaleDto saleDto){
+        this.saleService.create(saleDto);
+        return "redirect:/ss/estimate/list";
+    }
 
 }
