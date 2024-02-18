@@ -2,6 +2,7 @@ package com.erpproject.sixbeam.st.entity;
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,15 +30,16 @@ public class AsEntity {
     @JoinColumn(name = "empinfoId")
     private EmpInfoEntity empInfoEntity;
 
-
     @ManyToOne
     @JoinColumn(name = "account_cd")
     private AccountEntity accountEntity;
 
     @ManyToOne
-    @JoinColumn(name = "whmove_cd")
-    private WhmoveEntity whmoveEntity;
+    @JoinColumn(name = "ITEM_CD")
+    private ItemEntity itemEntity;
 
+    @Column(name = "as_amt")
+    private Integer asAmt;
 
     @Column(name = "as_st")
     private String asSt;

@@ -2,11 +2,18 @@ package com.erpproject.sixbeam.st.dto;
 
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
+@Getter
+@Setter
 public class AsDto {
 
     private LocalDate asDt;
@@ -17,18 +24,30 @@ public class AsDto {
 
     private AccountEntity accountEntity;
 
-    private WhmoveEntity whmoveEntity;
+    private ItemEntity itemEntity;
+
+    private Integer asAmt;
 
     private String asSt;
 
-    private LocalDate asCmptDt;
+    private LocalDate ascmptDt;
 
     private String asTi;
 
     private String asMo;
 
     public AsEntity toEntity() {
-        return new AsEntity(asDt, asCd, empInfoEntity, accountEntity, whmoveEntity, asSt, asCmptDt, asTi, asMo);
+        AsEntity entity = new AsEntity();
+        entity.setAsDt(this.asDt);
+        entity.setAsCd(this.asCd);
+        entity.setEmpInfoEntity(this.empInfoEntity);
+        entity.setAccountEntity(this.accountEntity);
+        entity.setItemEntity(this.itemEntity);
+        entity.setAsAmt(this.asAmt);
+        entity.setAsSt(this.asSt);
+        entity.setAscmptDt(this.ascmptDt);
+        entity.setAsTi(this.asTi);
+        entity.setAsMo(this.asMo);
+        return entity;
     }
-
 }
