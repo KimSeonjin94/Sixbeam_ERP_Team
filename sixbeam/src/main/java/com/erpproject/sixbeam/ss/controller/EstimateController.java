@@ -21,10 +21,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.beans.PropertyEditorSupport;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RequestMapping("/ss/estimate")
 @Controller
@@ -55,14 +52,18 @@ public class EstimateController {
         return "contents/ss/estimate_form";
     }
     @PostMapping("/create")
-    public  String createEstimateDto(@ModelAttribute EstimateForm form){
+    public  ResponseEntity<?> createEstimateDto(@ModelAttribute EstimateForm form){
         List<EstimateDto> estimateDtos= form.getEstimateDtos();
-        for(int i=0; i<estimateDtos.size(); i++){
-
-            logger.info("Submitted form data: {}", estimateDtos);
+        try {
+            this.estimateService.create(estimateDtos);
+            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/ss/estimate/list"));
+        }catch (Exception e){
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "저장에 실패 하였습니다.");
+            errorResponse.put("redirectUrl", "/ss/estimate/new");
+            return ResponseEntity.badRequest().body(errorResponse);
         }
-        this.estimateService.create(estimateDtos);
-        return "redirect:/ss/estimate/list";
     }
     @GetMapping("/list")
     public String list(Model model){
@@ -88,11 +89,23 @@ public class EstimateController {
     }
 
     @PostMapping("/update")
-    public String updateEst0imate(@ModelAttribute EstimateForm form){
+    public ResponseEntity<?> updateEstimate(@ModelAttribute EstimateForm form){
         List<EstimateDto> estimateDtos= form.getEstimateDtos();
-        estimateService.updateAll(estimateDtos);
-
-        return "redirect:/ss/estimate/list";
+        try {
+            estimateService.updateAll(estimateDtos);
+            // 성공 응답
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("redirectUrl", "/ss/estimate/list");
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            // 실패 응답
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "업데이트에 실패하였습니다.");
+            errorResponse.put("redirectUrl", "/ss/estimate/list");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
     @GetMapping("/getitemdata")
     public Optional<ItemEntity> itemlist(Model model, @RequestParam String itemCd){

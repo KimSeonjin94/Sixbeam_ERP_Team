@@ -3,6 +3,7 @@ package com.erpproject.sixbeam.ss.dto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
+import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +27,7 @@ public class SaleDto {
 
     private  LocalDate salePaymentDt;
 
-    private ReleaseEntity releaseEntity;
+    private WhregistEntity whregistEntity;
 
     private String saleShippingSt;
     private LocalDate saleShippingDt;
@@ -38,7 +39,7 @@ public class SaleDto {
         saleEntity.setSaleBillingDt(this.saleBillingDt);
         saleEntity.setSaleBillingSt(this.saleBillingSt);
         saleEntity.setSalePaymentDt(this.salePaymentDt);
-        saleEntity.setReleaseEntity(this.releaseEntity);
+        saleEntity.setWhregistEntity(this.whregistEntity);
         saleEntity.setSaleShippingSt(this.saleShippingSt);
         saleEntity.setSaleShippingDt(this.saleShippingDt);
 

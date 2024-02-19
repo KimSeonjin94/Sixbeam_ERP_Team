@@ -36,52 +36,41 @@ $(document).ready(function() {
         buttons: [
             {
                 extend: 'copy',
-                className: 'btn-left'
+                className: 'btn-left mr-sm-1'
             },
             {
                 extend: 'excel',
-                className: 'btn-left'
+                className: 'btn-left mr-sm-1'
             },
             {
                 extend: 'print',
-                className: 'btn-left'
+                className: 'btn-left mr-auto'
             },
             {
                 text: '신규',
-                className: 'btn-right',
+                className: 'btn-right ml-sm-1',
                 action: function ( e, dt, node, config ) {
-                    // Action for '신규'
+                    $('#new').modal('show');
                 }
             },
             {
                 text: '수정',
-                className: 'btn-right',
+                className: 'btn-right ml-sm-1',
                 action: function ( e, dt, node, config ) {
-                    // Action for '수정'
+                    $('#detail').modal('show');
                 }
             }
         ],
-        initComplete: function() {
-            // `.btn-left` 버튼들을 첫 번째 `.col-md-6` 내부로 이동
-            $('.dt-buttons .btn-left').appendTo("#dataTableEstimate_wrapper .col-md-6:first");
 
-            // `.btn-right` 버튼들을 두 번째 `.col-md-6` 내부로 이동
-            // 여기서는 `.dt-buttons` div 안에 신규 및 수정 버튼이 있으므로, 이를 대상으로 이동시킵니다.
-            $('.dt-buttons .btn-right').appendTo("#dataTableEstimate_wrapper .col-md-6:eq(1)");
-        },
-        "order": [[0, "desc"]]
+        "order": [[0, "desc"]],
+        initComplete: function() {
+            // DataTables 초기화가 완료된 후 클래스 추가
+            this.api().buttons().container().addClass("col-sm-12 d-flex justify-content-between");
+
+        }
     });
+
 });
-//커스텀 버튼 추가 함수
-//$(document).ready(function() {
-//    $('#테이블id').DataTable({
-//        "columnDefs": [{
-//            "targets": -1,
-//            "data": null,
-//            "defaultContent": "추가할 버튼 html입역"
-//        }]
-//    });
-//});
 
 
 

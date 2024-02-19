@@ -2,15 +2,6 @@
 <div layout:fragment="content" class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">판매 조회</h1>
-    <div class="btn-group" role="group" aria-label="Basic example">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newestimate">
-            신규
-        </button>
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#subjectestimate">
-            수정
-        </button>
-    </div>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -18,7 +9,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table item table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table item table-bordered" id="dataTableEstimate" width="100%" cellspacing="0">
                     <thead>
                     <tr>
                         <th>판매 코드</th>
@@ -26,7 +17,6 @@
                         <th>계산서 발급일자</th>
                         <th>계산서 발급 상태</th>
                         <th>결제 일자</th>
-                        <th>결제 상태</th>
                         <th>출고 코드</th>
                         <th>출고 상태</th>
                         <th>출고 일자</th>
@@ -44,7 +34,7 @@
                         </td>
                         <td th:text="${sale.salePaymentDt}">
                         </td>
-                        <td th:text="${sale.releaseEntity?.releaseCd}">
+                        <td th:text="${sale.WhregistEntity?.whregistCd}">
                         </td>
                         <td th:text="${sale.saleShippingSt}">
                         </td>
@@ -59,7 +49,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="newsale" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="new" tabindex="-1" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
