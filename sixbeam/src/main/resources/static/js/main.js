@@ -317,16 +317,14 @@ function setAccountInfo(accountCd, accountNm , accountNb, accountAdd, accountRep
     $('#editAccountEtc').val(accountEtc);
 }
 function registerAccountFinished() {
-
-
              alert('거래처가 등록되었습니다.')
          }
 function editAccountFinished() {
-
-
-    alert('거래처 정보가 수정되었습니다.');
+            alert('거래처 정보가 수정되었습니다.');
          }
-
+function deleteAccountFinished() {
+            alert('거래처가 삭제되었습니다.');
+}
 
 $('.table.item a[data-id]').on('click', function() {
     console.log($(this).data('id')); // 클릭된 요소의 ID를 콘솔에 출력
