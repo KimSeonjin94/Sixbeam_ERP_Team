@@ -44,6 +44,11 @@ public class AccountService {
 
         return accountRepository.save(accountEntity);
     }
+    @Transactional
+    public void deleteAccount(String accountCd) {
+        accountRepository.findById(accountCd).ifPresent(accountRepository::delete);
+    }
+
 }
 
 

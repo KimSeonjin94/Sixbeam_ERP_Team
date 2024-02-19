@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -34,6 +35,12 @@ public class AccountController {
     @PostMapping("/account/edit")
     public String editAccount(@ModelAttribute AccountDto accountDto) {
         accountService.updateAccount(accountDto);
+        return "redirect:list";
+    }
+
+    @PostMapping("/account/delete")
+    public String deleteAccount(@RequestParam(name = "accountCd") String accountCd) {
+        accountService.deleteAccount(accountCd);
         return "redirect:list";
     }
 

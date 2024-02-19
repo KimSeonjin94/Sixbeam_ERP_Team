@@ -2,24 +2,6 @@
 <div layout:fragment="content" class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">회계</h1>
-<!--    <div class="btn-group" role="group" aria-label="Basic example">-->
-<!--        &lt;!&ndash; Button trigger modal &ndash;&gt;-->
-<!--        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newAccount">-->
-<!--            신규-->
-<!--        </button>-->
-<!--    </div>-->
-<!--    <div class="btn-group" role="group" aria-label="Basic example">-->
-<!--        &lt;!&ndash; Button trigger modal &ndash;&gt;-->
-<!--        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editAccount">-->
-<!--            수정-->
-<!--        </button>-->
-<!--    </div>-->
-<!--    <div class="btn-group" role="group" aria-label="Basic example">-->
-<!--        &lt;!&ndash; Button trigger modal &ndash;&gt;-->
-<!--        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#">-->
-<!--            삭제-->
-<!--        </button>-->
-<!--    </div>-->
 
     <div class="card shadow mb-4">
         <div class="card-header py-3" style="display: flex;">
@@ -63,9 +45,9 @@
                     </thead>
 
                     <tbody>
-                    <tr th:each="account  : ${accountList}">
+                    <tr th:each="account : ${accountList}">
                         <td>
-                            <input th:type="checkbox" th:name="selectedInfo" >
+                            <input type="checkbox" class="selectedInfo" th:value="${account.accountCd}">
                         </td>
                         <td>
                             <a href="#" th:onclick="setAccountInfo
@@ -231,16 +213,16 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <p>선택한 거래처를 삭제하시겠습니까?</p>
-<!--                            <form id="deleteEmployeeForm" th:action="@{/hr/empinfo/delete}" method="post">-->
-<!--                                <input type="hidden" id="selectedEmployeesInput" name="selectedEmployees">-->
-<!--                            </form>-->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="deleteAccountInfo()">삭제</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                        </div>
+                        <form id="deleteForm" action="/ac/account/delete" method="post">
+                            <div class="modal-body-ac">
+                                <p>선택한 거래처를 삭제하시겠습니까?</p>
+                                <input type="hidden" name="accountCd" id="deleteAccountInfo" value=""/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" onclick="prepareDelete()">삭제</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
