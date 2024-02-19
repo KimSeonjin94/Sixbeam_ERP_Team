@@ -1,20 +1,23 @@
 <html layout:decorate="~{layout/default}">
 <div layout:fragment="content" class="container-fluid">
-    <!-- Page Heading -->
-    <h5 class="my-3 border-bottom pb-2">창고 등록</h5>
-    <div class="btn-group" role="group" aria-label="Basic example">
-        <!-- Button trigger modal -->
-    <form th:action="@{/whregist/create}" th:object="${whregistForm}" method="post">
-        <div class="mb-3">
-            <label for="subject" class="form-label">창고코드</label>
-            <input type="text" name="subject" id="subject" class="form-control">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form th:action="@{/st/whregist/create}" method="post">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">창고 등록</label>
+                        <div class="mb-3">
+                            <label for="whregistCd" class="form-label">창고코드</label>
+                            <input type="text" class="form-control" id="whregistCd">
+                        </div>
+                        <div class="mb-3">
+                            <label for="whregistNm" class="form-label">창고명</label>
+                            <input type="text" class="form-control" id="whregistNm">
+                        </div>
+                        <input type="submit" value="저장" class="btn btn-primary my-2">
+                </div>
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="content" class="form-label">창고명</label>
-            <textarea name="content" id="content" class="form-control"></textarea>
-        </div>
-        <input type="submit" value="저장" class="btn btn-primary my-2">
-
-    </form>
+    </div>
 </div>
 </html>
+//

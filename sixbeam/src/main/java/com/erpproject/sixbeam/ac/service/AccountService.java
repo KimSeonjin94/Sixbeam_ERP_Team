@@ -14,20 +14,22 @@ import java.util.List;
 public class AccountService {
     private final AccountRepository accountRepository;
 
+    AccountEntity accountEntity;
+
     public List<AccountEntity> getList() {
         return this.accountRepository.findAll(); }
 
     public void saveAccount(AccountDto accountDto) {
-        AccountEntity accountEntity = accountDto.toEntity();
+        accountEntity = accountDto.toEntity();
         accountRepository.save(accountEntity);
     }
 
-    public AccountEntity updateAccount(String accountCd , AccountDto accountDto) {
+    public AccountEntity updateAccount(AccountDto accountDto) {
 
         AccountEntity editAccountEntity = accountDto.toEntity();
 
-        AccountEntity accountEntity = accountRepository.findById(accountCd)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid account Id:" + accountCd));
+        accountEntity = accountRepository.findById(editAccountEntity.getAccountCd())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid account Id:" + editAccountEntity.getAccountCd()));
 
         accountEntity.setAccountCd(editAccountEntity.getAccountCd());
         accountEntity.setAccountNm(editAccountEntity.getAccountNm());
