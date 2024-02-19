@@ -166,6 +166,18 @@ $(document).ready(function() {
             }
         });
     });
+
+    //창고 코드 선택하면 창고명이 나올 수 있도록 하는 제이쿼리
+    $("#whregistCode").on('input', function() {
+        var inputVal = $(this).val();
+        $("#whregistCodeSelectBox option").each(function() {
+            if ($(this).val() === inputVal) {
+                var whregistNm = $(this).text();
+                $("#whregistName").val(whregistNm);
+                return false; // 반복문 종료
+            }
+        });
+    });
 });
 //테이블에서 품목 코드 선택하면 폼목명, 단가 불러오고 수량 작성하면 공급가액, 부가세, 총합 계산되도록 하는 제이쿼리
 $('.table.item').on('change input', '.selectbox, .itemamt', function() {
@@ -494,7 +506,7 @@ function formatToKRW(value) {
 }
 
 // 테이블의 행 클릭 이벤트 핸들러
-$('#orinput[data-id]').on('click', function() {
+$('#detailOrinputCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
     var orinputId = $(this).data('id'); // data-id 속성에서 ID 가져오기
     // AJAX 요청
@@ -520,7 +532,8 @@ $('#orinput[data-id]').on('click', function() {
                     var row = $('<tr>'); // 행 생성
 
                     // 각 셀에 입력 요소와 name 속성 추가
-                    row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.estimateDt + '">'+
+                    row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputCd" class="form-control" value="' + item.orinputCd + '">'+
+                    '<input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.orinputOrDt + '">'+
                     '<input type="hidden" name="orinputDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
                     '<input type="hidden" name="orinputDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
                     '<input type="hidden" name="orinputDtos[' + index + '].orinputReqDt" class="form-control" value="' + item.orinputReqDt + '">'+
@@ -559,3 +572,28 @@ $(document).ready(function() {
         $('#failModal').modal('show');
     }
 });
+
+
+$('#orinputcddelete').click(function() {
+    deleteSelectedOrinput();
+});
+
+function deleteSelectedOrinput() {
+    // 선택한 발주 정보의 ID 가져오기
+    var selectedOrinputId = $('#dataTable input[name="selectedOrinPut"]:checked').map(function(){
+        return $(this).val();
+    }).get();
+
+    // 선택한 ID를 hidden input에 설정
+    $('#selectedOrinputInput').val(selectedOrinputId);
+
+    // 삭제 폼 submit
+    $('#deleteOrinputForm').submit();
+}
+
+function refreshPage() {
+    window.location.reload(); // 페이지 새로고침
+}
+
+
+

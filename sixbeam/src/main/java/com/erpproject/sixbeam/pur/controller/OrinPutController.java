@@ -11,10 +11,12 @@ import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.form.EstimateForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,5 +78,19 @@ public class OrinPutController {
         orinputService.updateAll(orinPutDtos);
 
         return "redirect:/pur/orinput/list";
+    }
+
+    @PostMapping("/delete")
+    public String deleteOrinput(@RequestParam("selectedOrinput") List<String> selectedOrinputIds, RedirectAttributes redirectAttributes) {
+        try {
+            // 선택된 발주 정보를 삭제
+            orinputService.delete(selectedOrinputIds);
+            return "redirect:/pur/orinput/list"; // 삭제 후 목록 페이지로 리다이렉트
+        } catch (IllegalStateException e) {
+            // ORINPUT_CD를 참조하는 다른 엔티티가 있을 때 모달 창 표시
+            //model.addAttribute("deleteError", true);
+            redirectAttributes.addAttribute("deleteError",true);
+            return "redirect:/pur/orinput/list";
+        }
     }
 }
