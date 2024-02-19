@@ -8,9 +8,11 @@ import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.service.ItemService;
 import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.entity.AsEntity;
+import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.form.AsForm;
 import com.erpproject.sixbeam.st.service.AsService;
 import com.erpproject.sixbeam.st.service.WhmoveService;
+import com.erpproject.sixbeam.st.service.WhregistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,7 @@ public class AsController {
     private final AsService asService;
     private final AccountService accountService;
     private final EmpInfoService empInfoService;
+    private final WhregistService whregistService;
     private final ItemService itemService;
 
     @GetMapping("/")
@@ -53,11 +56,13 @@ public class AsController {
         List<AccountEntity> accountEntity = this.accountService.getList();
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
         List<ItemEntity> itemEntitiy = this.itemService.getList();
+        List<WhregistEntity> whregistEntity = this.whregistService.getList();
         form.getAsDtos().add(new AsDto());
         form.getAsDtos().add(new AsDto());
         model.addAttribute("getactlist",accountEntity);
         model.addAttribute("getemplist",empInfoEntity);
         model.addAttribute("getitemlist",itemEntitiy);
+        model.addAttribute("getwhregistlist", whregistEntity);
         model.addAttribute("asForm",form);
         return "contents/st/as_form";
     }

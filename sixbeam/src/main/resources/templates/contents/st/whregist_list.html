@@ -25,8 +25,13 @@
                     <tbody>
                     <tr th:each="whregist : ${whregistEntityList}">
                         <td>
-                            <a th:href="@{|/st/whregist/detail/${whregist.whregistCd}|}" th:text="${whregist.whregistCd}"></a>
+                        <a href="#" id="detailwhregistCd" th:data-id="${whregist.whregistCd}">
+                            <span th:text="${whregist.whregistCd}"></span>
+                        </a>
                         </td>
+<!--                        <td>-->
+<!--                            <a th:href="@{|/st/whregist/detail/${whregist.whregistCd}|}" th:text="${whregist.whregistCd}"></a>-->
+<!--                        </td>-->
                         <td th:text="${whregist.whregistNm}"></td>
                     </tr>
                     </tbody>
@@ -68,7 +73,7 @@
                 </div>
             </div>
             <!-- 수정 모달-->
-            <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="subjectwhregistLabel" aria-hidden="true">
+            <div class="modal fade" id="updatewhregist" tabindex="-1" aria-labelledby="subjectwhregistLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -80,7 +85,7 @@
                         <div class="modal-body">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form id="entity" th:action="@{/whregist/create}" method="post">
+                                    <form id="entity" th:action="@{/st/whregist/modalcreate}" th:object="${whregistForm}" method="post">
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">창고코드</label>
                                             <div class="col-sm-4">

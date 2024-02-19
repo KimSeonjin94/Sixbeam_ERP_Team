@@ -38,6 +38,10 @@ public class AsEntity {
     @JoinColumn(name = "ITEM_CD")
     private ItemEntity itemEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "whregist_cd")
+    private WhregistEntity whregistEntity;
+
     @Column(name = "as_amt")
     private Integer asAmt;
 

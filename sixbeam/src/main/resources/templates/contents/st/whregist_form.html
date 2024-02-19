@@ -2,7 +2,7 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form th:action="@{/st/whregist/create}" method="post">
+            <form th:action="@{/st/whregist/create}" th:object="${whregistForm}" method="post">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">창고 등록</label>
                         <div class="mb-3">
