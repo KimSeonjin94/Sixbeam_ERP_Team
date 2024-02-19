@@ -1,6 +1,7 @@
 package com.erpproject.sixbeam.pur.entity;
 
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
+import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,8 +22,8 @@ public class InputEntity {
     @JoinColumn(name = "ORINPUT_CD", referencedColumnName = "ORINPUT_CD")
     private OrinPutEntity orinputEntity;
     @ManyToOne
-    @JoinColumn(name = "WHMOVE_CD", nullable = false)
-    private WhmoveEntity whmoveEntity;
+    @JoinColumn(name = "WHREGIST_CD")
+    private WhregistEntity whregistEntity;
     @Column(name = "INPUTPRG_ST", nullable = false)
     private String inputPrgSt;
     @Column(name = "INPUTSI_DT")
