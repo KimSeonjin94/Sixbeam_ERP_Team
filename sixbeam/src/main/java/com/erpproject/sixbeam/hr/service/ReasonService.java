@@ -28,8 +28,10 @@ public class ReasonService {
         reasonEntity.setReasonNm(reasonNm);
         reasonRepository.save(reasonEntity);
     }
-    public void deleteReason(Long reasonCd){
-        this.reasonRepository.deleteById(reasonCd);
+    public void deleteReason(List<Long> reasonCds) {
+        for (Long reasonCd : reasonCds) {
+            this.reasonRepository.deleteById(reasonCd);
+        }
     }
 }
 

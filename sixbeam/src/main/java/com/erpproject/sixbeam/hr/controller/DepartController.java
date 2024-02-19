@@ -37,7 +37,7 @@ public class DepartController {
         return "redirect:/hr/depart/list";
     }
     @PostMapping("/delete")
-    public String delete(@RequestParam(value = "selectedDeparts") Long departCd){
+    public String delete(@RequestParam(value = "selectedDeparts") List<Long> departCd){
         departService.deleteDepart(departCd);
         return "redirect:/hr/depart/list";
     }

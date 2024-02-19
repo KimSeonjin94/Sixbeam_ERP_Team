@@ -38,7 +38,7 @@ public class ReasonController {
         return "redirect:/hr/reason/list";
     }
     @PostMapping("/delete")
-    public String delete(@RequestParam(value = "selectedReasons") Long reasonCd){
+    public String delete(@RequestParam(value = "selectedReasons") List<Long> reasonCd){
         reasonService.deleteReason(reasonCd);
         return "redirect:/hr/reason/list";
     }

@@ -51,8 +51,8 @@ public class EmpInfoController {
             @RequestParam(value = "employeeEmail",required = false) String empInfoEmail,
             @RequestParam(value = "employeeJoinDt",required = false)LocalDate empInfoJoinDt,
             @RequestParam(value = "employeeQuitDt",required = false)LocalDate empInfoQuitDt,
-            @RequestParam(value = "employeePosition",required = false)PositionEntity positionCd,
-            @RequestParam(value = "employeeDepart",required = false)DepartEntity departCd,
+            @RequestParam(value = "positionCd",required = false)PositionEntity positionCd,
+            @RequestParam(value = "departCd",required = false)DepartEntity departCd,
             @RequestParam(value = "employeeBank",required = false) String empInfoBank,
             @RequestParam(value = "employeeAccountNo",required = false) String empInfoAccountNo,
             @RequestParam(value = "employeeQr",required = false) String empInfoQr,
@@ -117,7 +117,7 @@ public class EmpInfoController {
         return "redirect:/hr/empinfo/list";
     }
     @PostMapping("/delete")
-    public String delete( @RequestParam(value = "selectedEmployees") Long empInfoId) {
+    public String delete( @RequestParam(value = "selectedEmployees")List<Long>empInfoId) {
         empInfoService.deleteEmployee(empInfoId);
         return "redirect:/hr/empinfo/list"; // Redirect to the employee list page or any other appropriate page
     }
