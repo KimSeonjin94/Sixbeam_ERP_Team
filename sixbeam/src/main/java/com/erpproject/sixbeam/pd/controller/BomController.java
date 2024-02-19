@@ -109,11 +109,4 @@ public class BomController {
 
         return "redirect:/ss/bom/bomlist";
     }
-
-    // ??
-    @GetMapping("/getitemdata")
-    public Optional<ItemEntity> itemList(Model model, @RequestParam String itemCd) {
-
-        return bomService.getItemCd(itemCd);
-    }
 }

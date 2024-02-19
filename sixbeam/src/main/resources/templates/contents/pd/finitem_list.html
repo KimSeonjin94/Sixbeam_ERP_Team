@@ -39,20 +39,6 @@
 						</tbody>
 					</table>
 				</div>
-				
-				<!-- 신규 품목 입력시 가격 정규화-->
-				<script>
-					const itemUpInput = document.getElementById('itemUp');
-					
-					itemUpInput.addEventListener('input', (event) => {
-						const inputValue = event.target.value;
-						const formattedValue = onlyNumbers.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-						event.target.value = formattedValue;
-						const start = event.target.selectionStart;
-						const end = event.target.selectionEnd;
-						event.target.setSelectionRange(start, end); // 커서 위치 유지
-					});
-				</script>
 			</div>
 		</div>
 	</div>

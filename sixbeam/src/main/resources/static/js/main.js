@@ -460,3 +460,22 @@ $('#orinput[data-id]').on('click', function() {
         }
     });
 });
+
+// pd 사용 js
+function setItemInfo(itemCd, itemNm , itemStnd, itemUp)
+{
+    $('#editItem').modal('show');
+    $('#editItemCd').val(itemCd);
+    $('#editItemNm').val(itemNm);
+    $('#editItemStnd').val(itemStnd);
+    $('#editItemUp').val(itemUp);
+}
+function registerItemFinished() {
+    alert('품목이 등록되었습니다.')
+}
+function editItemFinished() {
+    alert('품목 정보가 수정되었습니다.');
+}
+function deleteItemFinished() {
+    alert('품목이 삭제되었습니다.');
+}
