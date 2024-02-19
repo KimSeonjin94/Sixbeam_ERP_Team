@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface OrinPutRepository extends JpaRepository<OrinPutEntity, OrinPutEntityId> {
     List<OrinPutEntity> findByOrinputCd(String id);
+
     @Query("SELECT MAX(o.orinputCd) FROM OrinPutEntity o WHERE o.orinputOrDt = :orinputDate")
     String getMaxOrinputCd(@Param("orinputDate")LocalDate orinputDate);
 }
