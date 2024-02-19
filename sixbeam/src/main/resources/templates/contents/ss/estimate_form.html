@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="accountCode" class="col-sm-2 col-form-label">거래처 코드</label>
+                    <label for="accountCodeSelectBox" class="col-sm-2 col-form-label">거래처 코드</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="accountCode" list="accountCodeSelectBox"/>
                         <datalist id="accountCodeSelectBox" >
@@ -88,14 +88,14 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="hidden" class="RegisDate" th:field="*{estimateDtos[0].estimateDt}">
-                            <input type="hidden" class="AccountCode" th:field="*{estimateDtos[0].accountEntity.accountCd}" >
-                            <input type="hidden" class="estimateNm" th:field="*{estimateDtos[0].estimateNm}">
-                            <input type="hidden" class="EmpInfoId" th:field="*{estimateDtos[0].empInfoEntity.empInfoId}">
+                            <input type="hidden" class="RegisDate" th:field="*{estimateDtos[1].estimateDt}">
+                            <input type="hidden" class="AccountCode" th:field="*{estimateDtos[1].accountEntity.accountCd}" >
+                            <input type="hidden" class="estimateNm" th:field="*{estimateDtos[1].estimateNm}">
+                            <input type="hidden" class="EmpInfoId" th:field="*{estimateDtos[1].empInfoEntity.empInfoId}">
                             <input type="text" class="form-control itemname" >
                         </td>
                         <td>
-                            <select class="selectbox form-control" th:name="'estimateDtos[' + 0 + '].itemEntity.itemCd'">
+                            <select class="selectbox form-control" th:name="'estimateDtos[' + 1 + '].itemEntity.itemCd'">
                                 <option value="" >품목 선택</option>
                                 <option th:each="itemlist : ${getitemlist}" th:value="${itemlist.itemCd}"
                                         th:data-itemStnd="${itemlist.itemStnd}"
@@ -192,6 +192,24 @@
                         </div>
                         <div class="modal-body">
                             등록되었습니다.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" tabindex="-1" role="dialog" id="failModal" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">실패</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>데이터 저장에 실패하였습니다.</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
