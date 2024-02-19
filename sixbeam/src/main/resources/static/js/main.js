@@ -166,6 +166,18 @@ $(document).ready(function() {
             }
         });
     });
+
+    //창고 코드 선택하면 창고명이 나올 수 있도록 하는 제이쿼리
+    $("#whregistCode").on('input', function() {
+        var inputVal = $(this).val();
+        $("#whregistCodeSelectBox option").each(function() {
+            if ($(this).val() === inputVal) {
+                var whregistNm = $(this).text();
+                $("#whregistName").val(whregistNm);
+                return false; // 반복문 종료
+            }
+        });
+    });
 });
 //테이블에서 품목 코드 선택하면 폼목명, 단가 불러오고 수량 작성하면 공급가액, 부가세, 총합 계산되도록 하는 제이쿼리
 $('.table.item').on('change input', '.selectbox, .itemamt', function() {
@@ -407,9 +419,10 @@ function formatToKRW(value) {
 }
 
 // 테이블의 행 클릭 이벤트 핸들러
-$('#orinput[data-id]').on('click', function() {
+$('#detailOrinputCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
     var orinputId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    $('#orinputdetail').modal('hide');
     // AJAX 요청
     $.ajax({
         url: '/pur/orinput/list/detail/' + orinputId, // 서버 엔드포인트
@@ -422,6 +435,7 @@ $('#orinput[data-id]').on('click', function() {
                 // 성공 시 모달 내용 업데이트
                 var modaltBody = $('.formEntry .table.item tbody');
                 modaltBody.empty();
+                $('#orinputCd').val(data[0].orinputCd);
                 $('#updateCurrentDate').val(data[0].orinputOrDt);
                 $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                 $('#updatename').val(data[0].empInfoEntity.empInfoNm);
@@ -462,28 +476,11 @@ $('#orinput[data-id]').on('click', function() {
     });
 });
 
+
 $('#orinputcddelete').click(function() {
-    // AJAX 요청을 사용하여 서버에 삭제 불가능 여부를 확인
-    $.ajax({
-        url: '/pur/orinput/delete'
-        type: 'GET', // 또는 POST, HTTP 메서드에 따라 변경
-        success: function(response) {
-            if (response.deleteError) {
-                // 삭제 불가능한 경우 모달을 표시
-                $('#deleteErrorModal').modal('show');
-            } else {
-                // 삭제 가능한 경우 삭제 요청을 서버에 보냄
-                $('#deleteOrinputForm').submit();
-            }
-        },
-        error: function() {
-            // 오류 처리
-            console.error('Error occurred while checking delete error.');
-        }
-    });
+    deleteSelectedOrinput();
 });
 
-/*
 function deleteSelectedOrinput() {
     // 선택한 발주 정보의 ID 가져오기
     var selectedOrinputId = $('#dataTable input[name="selectedOrinPut"]:checked').map(function(){
@@ -496,4 +493,10 @@ function deleteSelectedOrinput() {
     // 삭제 폼 submit
     $('#deleteOrinputForm').submit();
 }
-*/
+
+function refreshPage() {
+    window.location.reload(); // 페이지 새로고침
+}
+
+
+

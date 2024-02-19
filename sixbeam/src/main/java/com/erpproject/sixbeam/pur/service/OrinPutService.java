@@ -33,7 +33,7 @@ public class OrinPutService {
     }
 
     public List<AccountEntity> getactList() {
-        return this.accountRepository.findAll();
+        return this.accountRepository.findAccountCdByEtc("구매처");
     }
 
     public List<EmpInfoEntity> getemplist(){
