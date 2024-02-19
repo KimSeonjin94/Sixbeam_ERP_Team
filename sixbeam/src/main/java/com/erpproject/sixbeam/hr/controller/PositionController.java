@@ -38,7 +38,7 @@ public class PositionController {
         return "redirect:/hr/position/list";
     }
     @PostMapping("/delete")
-    public String delete(@RequestParam(value = "selectedPositions") Long positionCd){
+    public String delete(@RequestParam(value = "selectedPositions") List<Long> positionCd){
         positionService.deletePosition(positionCd);
         return "redirect:/hr/position/list";
     }

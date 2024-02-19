@@ -2,6 +2,8 @@
 <!--2. 하이퍼링크로 update(0)-->
 <!--3. 수정버튼으로 update(0)-->
 <!--4. delete(0)-->
+<!--5. 여러개 삭제(0)-->
+<!--6. 여러개 수정(0)-->
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
 <head>
     <meta charset="UTF-8">
@@ -172,26 +174,67 @@
             document.getElementById("updateReasonForm").submit();
             alert('수정되었습니다.')
         }
-        function updateSelectedReason(){
-            var reasonList = /*[[${reasonList}]]*/[];
+        function updateSelectedReason() {
+            var reasonList = /*[[${reasonList}]]*/ [];
             var selectedReasons = [];
-            $('input[name="selectedReasons"]:checked').each(function(){
+            $('input[name="selectedReasons"]:checked').each(function () {
                 selectedReasons.push($(this).val());
             });
-            var selectedReasonData = [];
-            selectedReasons.forEach(function(reasonCd){
-                var reason = reasonList.find(function(re){
-                    return re.reasonCd == reasonCd;
-                });
-                if(reason){
-                    selectedReasonData.push(reason);
-                }
 
-            });
-            selectedReasonData.forEach(function(reason){
-                openEditReasonPage(reason.reasonCd,reason.reasonNm);
-            });
+            if (selectedReasons.length === 0) {
+                alert('선택된 항목이 없습니다.');
+            } else {
+                // 새로운 모달창 생성
+                var newModal = $('<div class="modal fade" id="updateMultipleReasonModal" tabindex="-1" role="dialog" aria-labelledby="updateMultipleReasonModalLabel" aria-hidden="true">' +
+                '<div class="modal-dialog modal-dialog-scrollable">' +
+                '<div class="modal-content">' +
+                '<div class="modal-header">' +
+                '<h5 class="modal-title" id="updateMultipleReasonModalLabel">여러 개의 이유 수정</h5>' +
+                '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                '<span aria-hidden="true">&times;</span>' +
+                '</button>' +
+                '</div>' +
+                '<div class="modal-body" id="multipleReasonModalBodyContent"></div>' +
+                '<div class="modal-footer">' +
+                '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>');
+
+                // 선택된 체크박스의 정보로 모달창에 데이터 채우기
+                var hyperlinksHtml = '';
+
+                selectedReasons.forEach(function (reasonCd) {
+                    var reason = reasonList.find(function (re) {
+                        return re.reasonCd == reasonCd;
+                    });
+
+                    if (reason) {
+                        // 하이퍼링크 추가
+                        hyperlinksHtml += '<a href="#" onclick="openEditReasonPage(' +
+                        reason.reasonCd + ',\'' +
+                        reason.reasonNm + '\')" style="color: blue; cursor: pointer;">' +
+                        reason.reasonCd + '</a><br>';
+                    }
+                });
+
+                // 모달창에 하이퍼링크 추가
+                newModal.find('#multipleReasonModalBodyContent').html(hyperlinksHtml);
+
+                // 기존의 모달창 닫기
+                $('#updateNoteReasonModal').modal('hide');
+
+                // 하이퍼링크 클릭 시 새로운 모달창 닫기
+                newModal.find('a').click(function () {
+                    newModal.modal('hide');
+                });
+
+                // 모달창 열기
+                newModal.modal('show');
+            }
         }
+
         function createReason(){
             document.getElementById("createReasonForm").submit();
             alert('추가되었습니다.')

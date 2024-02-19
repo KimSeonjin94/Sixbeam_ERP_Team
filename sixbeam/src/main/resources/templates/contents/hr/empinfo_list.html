@@ -6,7 +6,15 @@
 <!--6. 삭제 기능 -> 퇴사일을 기준으로 현재 날짜가 퇴사일보다 크면 데이터에 표시가 안되게 하기-->
 <!--7. 지금 삭제 기능을 아예 없애는 걸로 했지만, 나중에 불리언값 추가 해놓기(지금은 완전삭제지만, 데이터베이스에 정보를 남기고 싶음)-->
 <!--8. 체크박스해서 수정기능도 넣어놓기(0)-->
-<!--9. 체크 다중했을때 선택해서 수정하는 기능 넣기(다중이 안됨)-->
+<!--9. 체크 다중했을때 선택해서 수정하는 기능 넣기(0)-->
+<!--10. 체크 다중했을때 삭제하는 기능 넣기(0)-->
+<!--11. 로그인했을경우 그 부서마다 권한주기-->
+<!--1. create(0)-->
+<!--2. 하이퍼링크로 update(0)-->
+<!--3. 수정버튼으로 update(0)-->
+<!--4. delete(0)-->
+<!--5. 여러개 삭제(0)-->
+<!--6. 여러개 수정(0)-->
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
 <head>
     <meta charset="UTF-8">
@@ -25,7 +33,7 @@
 <div layout:fragment="content" class="container-fluid">
 
     <!-- 큰제목 -->
-    <h1 class="h3 mb-2 text-gray-800">사원정보</h1>
+    <h1 class="h3 mb-2 text-gray-800">사원정보zz</h1>
     <div class = "btn-group" role = "group" aria-label = "Basic example">
         <!-- 등록버튼 -->
         <button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#newestimate">
@@ -67,7 +75,13 @@
                         </td>
                         <td th:text="${employee.empInfoJoinDt}"></td>
                         <td>
-                            <a href="#" th:onclick="openEditEmployeePage([[${employee.empInfoId}]],[[${employee.empInfoNm}]],[[${employee.empInfoPw}]],[[${employee.empInfoSex}]],[[${employee.empInfoBirth}]],[[${employee.empInfoAddr}]],[[${employee.empInfoPhone}]],[[${employee.empInfoEmail}]],[[${employee.empInfoJoinDt}]],[[${employee.empInfoQuitDt}]],[[${employee.positionEntity.positionNm}]],[[${employee.departEntity.departNm}]],[[${employee.empInfoBank}]],[[${employee.empInfoAccountNo}]],[[${employee.empInfoQr}]],[[${employee.empInfoTotalnoy}]],[[${employee.empInfoEtc}]])"
+                            <a href="#" th:onclick="openEditEmployeePage([[${employee.empInfoId}]],
+                            [[${employee.empInfoNm}]],[[${employee.empInfoPw}]],[[${employee.empInfoSex}]],
+                            [[${employee.empInfoBirth}]],[[${employee.empInfoAddr}]],[[${employee.empInfoPhone}]],
+                            [[${employee.empInfoEmail}]],[[${employee.empInfoJoinDt}]],[[${employee.empInfoQuitDt}]],
+                            [[${employee.positionEntity.positionCd}]],[[${employee.departEntity.departCd}]],
+                            [[${employee.empInfoBank}]],[[${employee.empInfoAccountNo}]],[[${employee.empInfoQr}]],
+                            [[${employee.empInfoTotalnoy}]],[[${employee.empInfoEtc}]])"
                                style="color: blue; cursor: pointer;">
                                 <span th:text="${employee.empInfoNm}" class="employee-nm"></span>
                             </a>
@@ -125,13 +139,14 @@
                                     <input type="password" class="form-control" id="employeePassword" name="employeePassword">
                                 </div>
                                 <!-- 성별 -->
-                                <div class="form-group">
-                                    <label for="employeeSex">성별</label>
-                                    <select class="form-control" id="employeeSex" name="employeeSex" >
-                                        <option value="true" name="1">남자</option>
-                                        <option value="false" name="0">여자</option>
-                                    </select>
-                                </div>
+<!--                                <div class="form-group">-->
+<!--                                    <label for="employeeSex">성별</label>-->
+<!--                                    <select class="form-control" id="employeeSex" name="employeeSex"  >-->
+<!--                                        <option value="true" name="1">남자</option>-->
+<!--                                        <option value="false" name="0">여자</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+                                <input type="hidden" id="employeeSex" name="employeeSex">
                                 <!-- 생일 -->
                                 <div class="form-group">
                                     <label for="employeeBirth">생일</label>
@@ -164,15 +179,15 @@
                                 </div>
                                 <!-- 직책 -->
                                 <div class="form-group">
-                                    <label for="employeePosition">직책</label>
-                                    <select class="form-control" id="employeePosition" name="employeePosition">
+                                    <label for="positionCd">직책</label>
+                                    <select class="form-control" id="positionCd" name="positionCd">
                                         <option th:each="posi : ${positionList}" th:value="${posi.positionCd}" th:text="${posi.positionNm}"></option>
                                     </select>
                                 </div>
                                 <!-- 부서 -->
                                 <div class="form-group">
-                                    <label for="employeeDepart">부서</label>
-                                    <select class="form-control" id="employeeDepart" name="employeeDepart">
+                                    <label for="departCd">부서</label>
+                                    <select class="form-control" id="departCd" name="departCd">
                                         <option th:each="depart : ${departList}" th:value="${depart.departCd}" th:text="${depart.departNm}"></option>
                                     </select>
                                 </div>
@@ -358,7 +373,7 @@
         </div>
     </div>
     <script th:inline="javascript">
-        function openEditEmployeePage(employeeId, employeeNm, employeePassword, employeeSex, employeeBirth, employeeAddr, employeePhone, employeeEmail, employeeJoinDt, employeeQuitDt, employeePosition, employeeDepart, employeeBank, employeeAccountNo, employeeQr, employeeTotalnoy, employeeEtc) {
+        function openEditEmployeePage(employeeId, employeeNm, employeePassword, employeeSex, employeeBirth, employeeAddr, employeePhone, employeeEmail, employeeJoinDt, employeeQuitDt, positionCd, departCd, employeeBank, employeeAccountNo, employeeQr, employeeTotalnoy, employeeEtc) {
             $('#updateNoteModal').modal('show');
             $('#employeeId').val(employeeId);
             $('#employeeName').val(employeeNm);
@@ -370,8 +385,8 @@
             $('#employeeEmail').val(employeeEmail);
             $('#employeeJoinDt').val(employeeJoinDt);
             $('#employeeQuitDt').val(employeeQuitDt);
-            $('#employeePosition').val(employeePosition);
-            $('#employeeDepart').val(employeeDepart);
+            $('#positionCd').val(positionCd);
+            $('#departCd').val(departCd);
             $('#employeeBank').val(employeeBank);
             $('#employeeAccountNo').val(employeeAccountNo);
             $('#employeeQr').val(employeeQr);
@@ -388,40 +403,77 @@
             $('input[name="selectedEmployees"]:checked').each(function() {
                 selectedEmployees.push($(this).val());
             });
-            var selectedEmployeeData = [];
-            selectedEmployees.forEach(function(employeeId) {
-                var employee = employeeInfoList.find(function(emp) {
-                    return emp.empInfoId == employeeId;
+
+            if (selectedEmployees.length === 0) {
+                alert('선택된 항목이 없습니다.');
+            } else {
+                // 새로운 모달창 생성
+                var newModal = $('<div class="modal fade" id="updateMultipleEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="updateMultipleEmployeeModalLabel" aria-hidden="true">' +
+                '<div class="modal-dialog modal-dialog-scrollable">' +
+                '<div class="modal-content">' +
+                '<div class="modal-header">' +
+                '<h5 class="modal-title" id="updateMultipleEmployeeModalLabel">여러 명의 직원 수정</h5>' +
+                '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                '<span aria-hidden="true">&times;</span>' +
+                '</button>' +
+                '</div>' +
+                '<div class="modal-body" id="multipleEmployeeModalBodyContent"></div>' +
+                '<div class="modal-footer">' +
+                '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>');
+
+                // 선택된 체크박스의 정보로 모달창에 데이터 채우기
+                var hyperlinksHtml = '';
+
+                selectedEmployees.forEach(function(employeeId) {
+                    var employee = employeeInfoList.find(function(emp) {
+                        return emp.empInfoId == employeeId;
+                    });
+
+                    if (employee) {
+                        // 하이퍼링크 추가
+                        hyperlinksHtml += '<a href="#" onclick="openEditEmployeePage(' +
+                        employee.empInfoId + ',\'' +
+                        employee.empInfoNm + '\',' +
+                        employee.empInfoPw + ',\'' +
+                        employee.empInfoSex + '\',' +
+                        employee.empInfoBirth + ',\'' +
+                        employee.empInfoAddr + '\',' +
+                        employee.empInfoPhone + ',\'' +
+                        employee.empInfoEmail + '\',' +
+                        employee.empInfoJoinDt + ',' +
+                        employee.empInfoQuitDt + ',\'' +
+                        employee.positionEntity.positionNm + '\',\'' +
+                        employee.departEntity.departNm + '\',\'' +
+                        employee.empInfoBank + '\',' +
+                        employee.empInfoAccountNo + ',\'' +
+                        employee.empInfoQr + '\',' +
+                        employee.empInfoTotalnoy + ',\'' +
+                        employee.empInfoEtc + '\'' +
+                        ')">' +
+                        employee.empInfoId + '</a><br>';
+                    }
                 });
 
-                if (employee) {
-                    selectedEmployeeData.push(employee);
-                }
-            });
+                // 모달창에 하이퍼링크 추가
+                newModal.find('#multipleEmployeeModalBodyContent').html(hyperlinksHtml);
 
-            // updateSelectedEmpInfo 함수 호출
-            selectedEmployeeData.forEach(function(employee) {
-                openEditEmployeePage(
-                    employee.empInfoId,
-                    employee.empInfoNm,
-                    employee.empInfoPw,
-                    employee.empInfoSex,
-                    employee.empInfoBirth,
-                    employee.empInfoAddr,
-                    employee.empInfoPhone,
-                    employee.empInfoEmail,
-                    employee.empInfoJoinDt,
-                    employee.empInfoQuitDt,
-                    employee.positionEntity.positionNm,
-                    employee.departEntity.departNm,
-                    employee.empInfoBank,
-                    employee.empInfoAccountNo,
-                    employee.empInfoQr,
-                    employee.empInfoTotalnoy,
-                    employee.empInfoEtc
-                );
-            });
+                // 기존의 모달창 닫기
+                $('#updateNoteEmployeeModal').modal('hide');
+
+                // 하이퍼링크 클릭 시 새로운 모달창 닫기
+                newModal.find('a').click(function () {
+                    newModal.modal('hide');
+                });
+
+                // 모달창 열기
+                newModal.modal('show');
+            }
         }
+
         function createEmpInfo() {
             document.getElementById("createEmployeeForm").submit();
             alert('추가되었습니다.');

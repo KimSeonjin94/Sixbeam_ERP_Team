@@ -1,7 +1,9 @@
 <!--1. create(0)-->
-<!--2. 하이퍼링크로 update(O)-->
+<!--2. 하이퍼링크로 update(0)-->
 <!--3. 수정버튼으로 update(0)-->
 <!--4. delete(0)-->
+<!--5. 여러개 삭제(0)-->
+<!--6. 여러개 수정(0)-->
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
 <head>
     <meta charset="UTF-8">
@@ -177,25 +179,65 @@
             document.getElementById("updateDepartForm").submit();
             alert('수정되었습니다.')
         }
-        function updateSelectedDepart(){
-            var departList = /*[[${departList}]]*/[];
+        function updateSelectedDepart() {
+            var departList = /*[[${departList}]]*/ [];
             var selectedDeparts = [];
-            $('input[name="selectedDeparts"]:checked').each(function(){
+            $('input[name="selectedDeparts"]:checked').each(function () {
                 selectedDeparts.push($(this).val());
             });
-            var selectedDepartData = [];
-            selectedDeparts.forEach(function(departCd){
-                var depart = departList.find(function(de){
-                    return de.departCd == departCd;
-                });
-                if(depart){
-                    selectedDepartData.push(depart);
-                }
 
-            });
-            selectedDepartData.forEach(function(depart){
-                openEditDepartPage(depart.departCd,depart.departNm);
-            });
+            if (selectedDeparts.length === 0) {
+                alert('선택된 항목이 없습니다.');
+            } else {
+                // 새로운 모달창 생성
+                var newModal = $('<div class="modal fade" id="updateMultipleDepartModal" tabindex="-1" role="dialog" aria-labelledby="updateMultipleDepartModalLabel" aria-hidden="true">' +
+                '<div class="modal-dialog modal-dialog-scrollable">' +
+                '<div class="modal-content">' +
+                '<div class="modal-header">' +
+                '<h5 class="modal-title" id="updateMultipleDepartModalLabel">여러 개의 부서 수정</h5>' +
+                '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                '<span aria-hidden="true">&times;</span>' +
+                '</button>' +
+                '</div>' +
+                '<div class="modal-body" id="multipleDepartModalBodyContent"></div>' +
+                '<div class="modal-footer">' +
+                '<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>');
+
+                // 선택된 체크박스의 정보로 모달창에 데이터 채우기
+                var hyperlinksHtml = '';
+
+                selectedDeparts.forEach(function (departCd) {
+                    var depart = departList.find(function (de) {
+                        return de.departCd == departCd;
+                    });
+
+                    if (depart) {
+                        // 하이퍼링크 추가
+                        hyperlinksHtml += '<a href="#" onclick="openEditDepartPage(' +
+                        depart.departCd + ',\'' +
+                        depart.departNm + '\')" style="color: blue; cursor: pointer;">' +
+                        depart.departCd + '</a><br>';
+                    }
+                });
+
+                // 모달창에 하이퍼링크 추가
+                newModal.find('#multipleDepartModalBodyContent').html(hyperlinksHtml);
+
+                // 기존의 모달창 닫기
+                $('#updateNoteDepartModal').modal('hide');
+
+                // 하이퍼링크 클릭 시 새로운 모달창 닫기
+                newModal.find('a').click(function () {
+                    newModal.modal('hide');
+                });
+
+                // 모달창 열기
+                newModal.modal('show');
+            }
         }
         function createDepart(){
             document.getElementById("createDepartForm").submit();
