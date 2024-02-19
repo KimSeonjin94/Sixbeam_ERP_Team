@@ -1,10 +1,166 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form class="formEntry" th:action="@{/st/release/create}" th:object="${releaseForm}"  method="post">
+                <div class="form-group row">
+                    <label for="currentDate" class="col-sm-2 col-form-label">출하 등록일자</label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" id="currentDate">
+                    </div>
+                    <label for="releasename" class="col-sm-2 col-form-label">담당자</label>
+                    <div class="col-sm-4">
+                        <select id="releasename" class="form-control" >
+                            <option th:each="emplist : ${getemplist}" th:value="${emplist.empInfoId}"
+                                    th:text="${emplist.empInfoNm}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="accountCode" class="col-sm-2 col-form-label">거래처 코드</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="accountCode" list="accountCodeSelectBox"/>
+                        <datalist id="accountCodeSelectBox" >
+                            <option th:each="actlist : ${getactlist}" th:value="${actlist.accountCd}"
+                                    th:text="${actlist.accountNm}"></option>
+                        </datalist>
+                    </div>
+                    <label class="col-sm-2 col-form-label">거래처</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="accountName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">수취인</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="releaseRv">
+                    </div>
+                    <label class="col-sm-2 col-form-label">연락처</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="releasePhone">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">우편번호</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="releaseZc">
+                    </div>
+                    <label for="whregistname" class="col-sm-2 col-form-label">창고명</label>
+                    <div class="col-sm-4">
+                        <select id="whregistname" class="form-control" >
+                            <option th:each="whregistlist : ${getwhregistlist}" th:value="${whregistlist.whregistCd}"
+                                    th:text="${whregistlist.whregistNm}"></option>
+                        </select>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">주소</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="releaseAddr">
+                    </div>
+                </div>
+                <table class="table item" id="releaseitem">
+                    <thead>
+                    <tr>
+                        <th>품목코드</th>
+                        <th>품목명</th>
+                        <th>규격</th>
+                        <th>수량</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="hidden" class="RegisDate" th:field="*{releaseDtos[0].releaseDt}">
+                            <input type="hidden" class="AccountCode" th:field="*{releaseDtos[0].accountEntity.accountCd}">
+                            <input type="hidden" class="EmpInfoId" th:field="*{releaseDtos[0].empInfoEntity.empInfoId}">
+                            <select class="selectbox form-control" th:name="'releaseDtos[' + 0 + '].itemEntity.itemCd'">
+                                <option value="" >품목 선택</option>
+                                <option th:each="itemlist : ${getitemlist}" th:value="${itemlist.itemCd}"
+                                        th:data-itemNm="${itemlist.itemNm}"
+                                        th:data-itemStnd="${itemlist.itemStnd}"
+                                        th:text="${itemlist.itemCd}"></option>
+                            </select>
+                        </td>
+                        <td><input type="text" class="form-control itemname"></td>
+                        <td><input type="text" class="form-control itemstnd"></td>
+                        <td><input type="text" class="form-control itemamt" th:field="*{releaseDtos[0].releaseAmt}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="hidden" class="RegisDate" th:field="*{releaseDtos[0].releaseDt}">
+                            <input type="hidden" class="AccountCode" th:field="*{releaseDtos[0].accountEntity.accountCd}">
+                            <input type="hidden" class="EmpInfoId" th:field="*{releaseDtos[0].empInfoEntity.empInfoId}">
+                            <select class="selectbox form-control" th:name="'releaseDtos[' + 0 + '].itemEntity.itemCd'">
+                                <option value="" >품목 선택</option>
+                                <option th:each="itemlist : ${getitemlist}" th:value="${itemlist.itemCd}"
+                                        th:data-itemNm="${itemlist.itemNm}"
+                                        th:data-itemStnd="${itemlist.itemStnd}"
+                                        th:text="${itemlist.itemCd}"></option>
+                            </select>
+                        </td>
+                        <td><input type="text" class="form-control itemname"></td>
+                        <td><input type="text" class="form-control itemstnd"></td>
+                        <td><input type="text" class="form-control itemamt" th:field="*{releaseDtos[0].releaseAmt}"></td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th colspan="3">합계</th>
+                        <th id="totalAmt"></th>
+                    </tr>
+                    </tfoot>
+                </table>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type='button'
+                               value='품목 추가'
+                               class="btn btn-secondary"
+                               id="addnewrowbtn">
+                        <input type='button'
+                               value='품목 삭제'
+                               class="btn btn-danger"
+                               id="deleterowbtn">
+                    </div>
+                    <div class="col-sm-6 text-md-right">
+                        <button type="submit" class="btn btn-primary">
+                            저장
+                        </button>
+                        <button type="reset" class="btn btn-danger">
+                            초기화
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!-- Button trigger modal -->
+            <div class="modal fade" id="cannotDeleteModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">삭제 불가</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            더 이상 삭제할 수 없습니다.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </html>
+
+
+
+
+
+
+
+
+
+

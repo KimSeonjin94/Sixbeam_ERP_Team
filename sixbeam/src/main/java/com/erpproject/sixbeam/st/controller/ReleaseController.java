@@ -1,7 +1,19 @@
 package com.erpproject.sixbeam.st.controller;
 
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
+import com.erpproject.sixbeam.ac.service.AccountService;
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.hr.service.EmpInfoService;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.service.ItemService;
+import com.erpproject.sixbeam.st.dto.AsDto;
+import com.erpproject.sixbeam.st.dto.ReleaseDto;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
+import com.erpproject.sixbeam.st.entity.WhregistEntity;
+import com.erpproject.sixbeam.st.form.AsForm;
+import com.erpproject.sixbeam.st.form.ReleaseForm;
 import com.erpproject.sixbeam.st.service.ReleaseService;
+import com.erpproject.sixbeam.st.service.WhregistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +29,11 @@ import java.util.List;
 public class ReleaseController {
 
     private final ReleaseService releaseService;
+    private final EmpInfoService empInfoService;
+    private final AccountService accountService;
+    private final WhregistService whregistService;
+    private final ItemService itemService;
+
     @GetMapping("/")
     public String root() {
         return "redirect:/sixbeam/home";
@@ -33,5 +50,21 @@ public class ReleaseController {
         model.addAttribute("releaseEntity",releaseEntity);
         return "contents/st/release_detail";
     }
-
+    //출하등록_페이지
+    @GetMapping("/create")
+    public String releaseCreate(Model model){
+        ReleaseForm form = new ReleaseForm();
+        List<AccountEntity> accountEntity = this.accountService.getList();
+        List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
+        List<WhregistEntity> whregistEntitiy = this.whregistService.getList();
+        List<ItemEntity> itemEntitiy = this.itemService.getList();
+        form.getReleaseDtos().add(new ReleaseDto());
+        form.getReleaseDtos().add(new ReleaseDto());
+        model.addAttribute("getactlist",accountEntity);
+        model.addAttribute("getemplist",empInfoEntity);
+        model.addAttribute("getitemlist",itemEntitiy);
+        model.addAttribute("getwhregistlist",whregistEntitiy);
+        model.addAttribute("releaseForm",form);
+        return "contents/st/release_form";
+    }
 }

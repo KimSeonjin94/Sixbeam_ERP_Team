@@ -395,18 +395,34 @@ function deleteAccountFinished() {
     alert('거래처가 삭제되었습니다.');
 }
 
-$('.table.item a[data-id]').on('click', function() {
-    console.log($(this).data('id')); // 클릭된 요소의 ID를 콘솔에 출력
-    var whregistCd = $(this).data('id');
+$('#detailwhregistCd[data-id]').on('click', function() {
+    // 클릭된 요소의 ID를 콘솔에 출력
+    console.log($(this).data('id'));
+
+    // 클릭된 요소의 ID를 변수에 저장
+    var whregistId = $(this).data('id');
+
     $.ajax({
-        url: '/whregist/list/detail/' + whregistCd,
+        url: '/st/whregist/list/detail/' + whregistId,
         type: 'GET',
         success: function(data) {
             console.log(data); // 받은 데이터를 콘솔에 출력하여 확인
             if (data && data.length > 0) {
-                $('#updatewhregistCode').val(data[0].whregistEntity.whregistCd);
-                $('#updatewhregistName').val(data[0].whregistEntity.whregistNm);
-                $('#detail').modal('show');
+                if (data[0].hasOwnProperty('whregistCd') && data[0].hasOwnProperty('whregistNm')) {
+                    $('#updatewhregistCode').val(data[0].whregistCd);
+                    $('#updatewhregistName').val(data[0].whregistNm);
+
+                    data.forEach(function(item, index) {
+                        var row = $('<tr>'); // 행 생성
+                        row.append('<td><input type="hidden" name="whregistDtos[' + index + '].whregistCd" class="form-control" value="' + item.whregistCd+ '">'+
+                            '<input type="hidden" name="whregistDtos[' + index + '].whregistNm" class="form-control" value="' + item.whregistNm+ '"></td>');
+                        $('#detailTableBody').append(row); // 수정: 생성된 행을 테이블에 추가
+                    });
+
+                    $('#detail').modal('show');
+                } else {
+                    console.error('데이터 구조가 올바르지 않습니다.');
+                }
             } else {
                 console.error('데이터가 비어있습니다.');
             }
