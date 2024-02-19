@@ -34,8 +34,10 @@ public class SalaryIdService {
         salaryIdEntity.setBasicSalary(basicSalary);
         salaryIdRepository.save(salaryIdEntity);
     }
-    public void deleteSalaryId(Long salaryIdCd){
-        this.salaryIdRepository.deleteById(salaryIdCd);
+    public void deleteSalaryId(List<Long> salaryIdCds) {
+        for (Long salaryIdCd : salaryIdCds) {
+            this.salaryIdRepository.deleteById(salaryIdCd);
     }
+}
 }
 

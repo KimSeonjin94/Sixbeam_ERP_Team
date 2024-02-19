@@ -12,22 +12,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DepartService {
     private final DepartRepository departRepository;
+
     public List<DepartEntity> getList() {
         return this.departRepository.findAll();
     }
-    public void updateDepart(Long departCd,String departNm){
+
+    public void updateDepart(Long departCd, String departNm) {
         DepartEntity departEntity = departRepository.findById(departCd)
-                .orElseThrow(() -> new RuntimeException("Depart with ID "+ departNm + " not fount"));
+                .orElseThrow(() -> new RuntimeException("Depart with ID " + departNm + " not fount"));
         departEntity.setDepartCd(departCd);
         departEntity.setDepartNm(departNm);
         departRepository.save(departEntity);
     }
-    public void createDepart(String departNm){
+
+    public void createDepart(String departNm) {
         DepartEntity departEntity = new DepartEntity();
         departEntity.setDepartNm(departNm);
         departRepository.save(departEntity);
     }
-    public void deleteDepart(Long departCd){
-        this.departRepository.deleteById(departCd);
+
+    public void deleteDepart(List<Long> departCds) {
+        for (Long departCd : departCds) {
+            this.departRepository.deleteById(departCd);
+        }
     }
 }
