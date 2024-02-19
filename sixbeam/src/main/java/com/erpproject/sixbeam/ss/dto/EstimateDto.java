@@ -19,8 +19,6 @@ public class EstimateDto {
 
     private ItemEntity itemEntity;
 
-    private CheckEntity checkEntity;
-
     private EmpInfoEntity empInfoEntity;
 
     private AccountEntity accountEntity;
@@ -46,7 +44,6 @@ public class EstimateDto {
         entity.setEstimateCd(this.estimateCd);
         entity.setEstimateDt(this.estimateDt);
         entity.setItemEntity(this.itemEntity);
-        entity.setCheckEntity(this.checkEntity);
         entity.setEmpInfoEntity(this.empInfoEntity);
         entity.setAccountEntity(this.accountEntity);
         entity.setEstimateNm(this.estimateNm);

@@ -1,8 +1,5 @@
 package com.erpproject.sixbeam.pur.service;
 
-
-import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
-
 import com.erpproject.sixbeam.pur.dto.InputDto;
 
 import com.erpproject.sixbeam.pur.entity.InputEntity;

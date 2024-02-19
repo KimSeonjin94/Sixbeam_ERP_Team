@@ -54,7 +54,7 @@ public class SalaryIdController {
         return "redirect:/hr/salaryId/list";
     }
     @PostMapping("/delete")
-    public String delete(@RequestParam(value = "selectedSalaryIds") Long salaryIdCd){
+    public String delete(@RequestParam(value = "selectedSalaryIds") List<Long> salaryIdCd){
         salaryIdService.deleteSalaryId(salaryIdCd);
         return "redirect:/hr/salaryId/list";
     }

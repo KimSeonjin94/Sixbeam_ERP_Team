@@ -15,12 +15,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmpInfoService {
     private final EmpInfoRepository empInfoRepository;
-    public List<EmpInfoEntity> getList(){
+
+    public List<EmpInfoEntity> getList() {
         return this.empInfoRepository.findAll();
     }
-    public void deleteEmployee(Long empInfoId){
-        this.empInfoRepository.deleteById(empInfoId);
+
+    public void deleteEmployee(List<Long> empInfoIds) {
+        for (Long empInfoId : empInfoIds) {
+            this.empInfoRepository.deleteById(empInfoId);
+        }
     }
+
     public void createEmployee(
             String empInfoPw,
             String empInfoNm,
@@ -98,7 +103,6 @@ public class EmpInfoService {
         empInfoEntity.setEmpInfoQr(empInfoQr);
         empInfoEntity.setEmpInfoTotalnoy(empInfoTotalnoy);
         empInfoEntity.setEmpInfoEtc(empInfoEtc);
-
         empInfoRepository.save(empInfoEntity);
     }
 }

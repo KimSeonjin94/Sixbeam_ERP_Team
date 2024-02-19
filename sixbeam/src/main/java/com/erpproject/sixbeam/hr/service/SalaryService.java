@@ -30,7 +30,12 @@ public class SalaryService {
         salaryEntity.setSalaryTtmoney(salaryTtmoney);
         salaryRepository.save(salaryEntity);
     }
-    public void deleteSalary(Long salaryCd){this.salaryRepository.deleteById(salaryCd);}
+//    public void deleteSalary(Long salaryCd){this.salaryRepository.deleteById(salaryCd);}
+    public void deleteSalary(List<Long> salaryCds){
+        for(Long salaryCd :salaryCds){
+            this.salaryRepository.deleteById(salaryCd);
+        }
+    }
     public void updateSalary(Long salaryCd,YearMonth salarySmonth, SalaryIdEntity salaryIdCd, EmpInfoEntity empInfoId,
                              int salaryBonus, int salaryAllow,int salaryIncentive, Integer salaryTtmoney){
         SalaryEntity salaryEntity = salaryRepository.findById(salaryCd)

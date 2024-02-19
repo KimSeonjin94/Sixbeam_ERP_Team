@@ -307,10 +307,79 @@ $(document).ready(function() {
         });
     });
 });
-$('#successModal').on('hidden.bs.modal', function () {
-    // 페이지를 새로 고침
-    window.location.reload();
-});
+//$(document).ready(function() {
+//    // 폼이 제출될 때마다 실행되도록 변경
+//    $('.formEntry').submit(function(e) {
+//        // 폼 제출을 막음
+//        e.preventDefault();
+//
+//        // 입력 필드에서 숫자가 아닌 문자 제거
+//        $('.itemamt, .itemup, .itemsp, .itemvar, .itemsum').each(function() {
+//            var value = $(this).val().replace(/[^0-9]/g, '');
+//            $(this).val(value);
+//        });
+//
+//        // 폼 데이터 변경
+//        var selectedEmp = $('#orinputname').val();
+//        // 거래처 코드의 현재 값을 가져옴
+//        var accountCode = $('#accountCode').val();
+//        // 견적 일자의 현재 값을 가져옴
+//        var currentDate = $('#currentDate').val();
+//        // 발주 요청 일자(발주에서 사용)
+//        var requestDate = $('#orinputReqDate').val()
+//        // 납기 일자(발주에서 사용)
+//        var deliveryDate = $('#orinputDlvyDate').val()
+//
+//        $('.table.item tbody tr').each(function(index) {
+//            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+//            $(this).find('.RegisDate').val(currentDate);
+//            $(this).find('.AccountCode').val(accountCode);
+//            $(this).find('.EmpInfoId').val(selectedEmp);
+//            $(this).find('.OrinputReqDate').val(requestDate);
+//            $(this).find('.OrinputDlvyDate').val(deliveryDate);
+//        });
+//
+//        var formData = new FormData(this);
+//
+//        // FormData 객체를 반복하여 폼 데이터 확인
+//        formData.forEach(function(value, key) {
+//            console.log(key + ': ' + value);
+//        });
+//
+//        // AJAX를 사용하여 폼 데이터 제출
+//        $.ajax({
+//            type: $(this).attr('method'), // POST 또는 GET
+//            url: $(this).attr('action'),
+//            data: $(this).serialize(), // 폼 데이터 직렬화
+//            success: function(response) {
+//                // 성공 시 리다이렉션
+//                $('#successModal').modal('show');
+//                // 모달이 닫힐 때 리다이렉션
+//                $('#successModal').on('hidden.bs.modal', function () {
+//                    window.location.href = response.redirectUrl;
+//                });
+//            },
+//            error: function(xhr) {
+//                // 오류 처리 로직
+//                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
+//                // 서버로부터 받은 에러 메시지를 알림
+//                // 오류 처리 로직
+//                var response = JSON.parse(xhr.responseText);
+//                // 오류 메시지 모달 표시
+//                $('#failModal').modal('show'); // 올바른 셀렉터 사용
+//                // 모달이 닫힐 때 리다이렉션
+//                $('#failModal').on('hidden.bs.modal', function () {
+//                    window.location.href = response.redirectUrl;
+//                });
+//                console.log('Error Submitting Form');
+//            }
+//        });
+//    });
+//});
+//$('#successModal').on('hidden.bs.modal', function () {
+//    // 페이지를 새로 고침
+//    window.location.reload();
+//});
 
 
 
@@ -329,13 +398,13 @@ function setAccountInfo(accountCd, accountNm , accountNb, accountAdd, accountRep
     $('#editAccountEtc').val(accountEtc);
 }
 function registerAccountFinished() {
-             alert('거래처가 등록되었습니다.')
-         }
+    alert('거래처가 등록되었습니다.')
+}
 function editAccountFinished() {
-            alert('거래처 정보가 수정되었습니다.');
-         }
+    alert('거래처 정보가 수정되었습니다.');
+}
 function deleteAccountFinished() {
-            alert('거래처가 삭제되었습니다.');
+    alert('거래처가 삭제되었습니다.');
 }
 
 $('.table.item a[data-id]').on('click', function() {
@@ -366,6 +435,7 @@ $('.table.item a[data-id]').on('click', function() {
 $('#detailEstimateCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
     var estimateId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    $('#estimatedetail').modal('hide');
     // AJAX 요청
     $.ajax({
         url: '/ss/estimate/list/detail/' + estimateId, // 서버 엔드포인트
@@ -378,6 +448,7 @@ $('#detailEstimateCd[data-id]').on('click', function() {
                 // 성공 시 모달 내용 업데이트
                 var modaltBody = $('.formEntry .table.item tbody');
                 modaltBody.empty();
+                $('#estimateCd').val(data[0].estimateCd);
                 $('#updateCurrentDate').val(data[0].estimateDt);
                 $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                 $('#updatename').val(data[0].empInfoEntity.empInfoNm);
@@ -388,7 +459,7 @@ $('#detailEstimateCd[data-id]').on('click', function() {
 
                     // 각 셀에 입력 요소와 name 속성 추가
                     row.append('<td><input type="hidden" name="estimateDtos[' + index + '].estimateDt" class="form-control" value="' + item.estimateDt + '">'+
-                    '<input type="hidden" name="estimateDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
+                    '<input type="hidden" name="estimateDtos[' + index + '].accountEntity.accountCd" class="form-control" value="' + item.accountEntity.accountCd + '">'+
                     '<input type="hidden" name="estimateDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
                     '<input type="hidden" name="estimateDtos[' + index + '].estimateCd" class="form-control" value="' + item.estimateCd+ '">'+
                     '<input type="text" class="form-control" name="estimateDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
@@ -422,7 +493,6 @@ function formatToKRW(value) {
 $('#detailOrinputCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
     var orinputId = $(this).data('id'); // data-id 속성에서 ID 가져오기
-    $('#orinputdetail').modal('hide');
     // AJAX 요청
     $.ajax({
         url: '/pur/orinput/list/detail/' + orinputId, // 서버 엔드포인트
@@ -435,7 +505,6 @@ $('#detailOrinputCd[data-id]').on('click', function() {
                 // 성공 시 모달 내용 업데이트
                 var modaltBody = $('.formEntry .table.item tbody');
                 modaltBody.empty();
-                $('#orinputCd').val(data[0].orinputCd);
                 $('#updateCurrentDate').val(data[0].orinputOrDt);
                 $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                 $('#updatename').val(data[0].empInfoEntity.empInfoNm);
@@ -474,6 +543,18 @@ $('#detailOrinputCd[data-id]').on('click', function() {
             console.log('Error:', error);
         }
     });
+});
+$(document).ready(function() {
+    // 모달의 'data-show-modal' 값을 읽어와 boolean으로 변환
+    var showModal = $('#successModal').data('show-modal') === true;
+    var failModal = $('#failModal').data('show-modal') === false;
+    // 값이 true일 경우 모달 표시
+    if (showModal) {
+        $('#successModal').modal('show');
+    }
+    if(failModal){
+        $('#failModal').modal('show');
+    }
 });
 
 

@@ -12,23 +12,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PositionService {
     private final PositionRepository positionRepository;
+
     public List<PositionEntity> getList() {
         return this.positionRepository.findAll();
     }
-    public void updatePosition(Long positionCd,String positionNm){
+
+    public void updatePosition(Long positionCd, String positionNm) {
         PositionEntity positionEntity = positionRepository.findById(positionCd)
-                .orElseThrow(() -> new RuntimeException("position with ID "+ positionNm + " not fount"));
+                .orElseThrow(() -> new RuntimeException("position with ID " + positionNm + " not fount"));
         positionEntity.setPositionCd(positionCd);
         positionEntity.setPositionNm(positionNm);
         positionRepository.save(positionEntity);
     }
-    public void createPosition(String positionNm){
+
+    public void createPosition(String positionNm) {
         PositionEntity positionEntity = new PositionEntity();
         positionEntity.setPositionNm(positionNm);
         positionRepository.save(positionEntity);
     }
-    public void deletePosition(Long positionCd){
-        this.positionRepository.deleteById(positionCd);
+
+    public void deletePosition(List<Long> positionCds) {
+        for (Long positionCd : positionCds) {
+            this.positionRepository.deleteById(positionCd);
+        }
     }
 }
 

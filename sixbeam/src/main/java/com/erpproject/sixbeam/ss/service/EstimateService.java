@@ -68,7 +68,7 @@ public class EstimateService {
 
     public void create(List<EstimateDto> estimateDtos) {
         List<EstimateEntity> entities = new ArrayList<>();
-        String newEstimateCd = generateNewEstimateCd();
+        String newEstimateCd = generateNewEstimateCd(estimateDtos.get(0).getEstimateDt());
         for (EstimateDto estimateDto : estimateDtos) {
             EmpInfoEntity empInfoEntity = empInfoRepository.findById(estimateDto.getEmpInfoEntity().getEmpInfoId())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
@@ -105,12 +105,12 @@ public class EstimateService {
             estimateRepository.save(estimateEntity);
         }
     }
-    private String generateNewEstimateCd() {
+    private String generateNewEstimateCd(LocalDate estimateDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
-        String prefix = "ES" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-";
+        String prefix = "ES" + estimateDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-";
 
         // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
-        String maxCd = estimateRepository.getMaxEstimateCd();
+        String maxCd = estimateRepository.getMaxEstimateCd(estimateDate);
         if (maxCd == null) {
             // 초기값 설정
             maxCd = "101";
