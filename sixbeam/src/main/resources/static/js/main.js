@@ -381,7 +381,7 @@ $(document).ready(function() {
 //    window.location.reload();
 //});
 
-
+// AC에서 사용
 
 function setAccountInfo(accountCd, accountNm , accountNb, accountAdd, accountRep, accountSectors, accountBank, accountAcnb, accountPic, accountEtc)
 {
@@ -403,13 +403,6 @@ function registerAccountFinished() {
 function editAccountFinished() {
     alert('거래처 정보가 수정되었습니다.');
 }
-function deleteAccountFinished() {
-    alert('거래처가 삭제되었습니다.');
-}
-//function setAccountIdForDeletion(accountCd) {
-//  document.getElementById('deleteAccountInfo').value = accountCd;
-//}
-
 // 선택된 계정 ID를 수집하여 폼에 설정하는 함수
 function prepareDelete() {
     // 체크박스의 값(계정 ID)을 저장할 배열
@@ -426,10 +419,11 @@ function prepareDelete() {
     // 숨겨진 입력 필드에 값을 설정
     document.getElementById('deleteAccountInfo').value = accountIdsToDelete;
 
+    alert('거래처가 삭제되었습니다.');
     // 폼을 제출하여 서버에 삭제 요청을 보냅니다
     document.getElementById('deleteForm').submit();
 }
-
+// AC 끝
 
 
 $('#detailwhregistCd[data-id]').on('click', function() {
