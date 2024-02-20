@@ -4,9 +4,9 @@
         <div class="card-body">
             <form class="formEntry" th:action="@{/st/as/create}" th:object="${asForm}" method="post">
                 <div class="form-group row">
-                    <label for="asDt" class="col-sm-2 col-form-label">AS 등록일자</label>
+                    <label for="currentDate" class="col-sm-2 col-form-label">AS 등록일자</label>
                     <div class="col-sm-4">
-                        <input type="date" class="form-control" id="asDt">
+                        <input type="date" class="form-control" id="currentDate">
                     </div>
                     <label for="empInfoId" class="col-sm-2 col-form-label">담당자</label>
                     <div class="col-sm-4">
@@ -17,9 +17,9 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="accountCd" class="col-sm-2 col-form-label">거래처 코드</label>
+                    <label for="accountCode" class="col-sm-2 col-form-label">거래처 코드</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="accountCd" list="accountCodeSelectBox"/>
+                        <input type="text" class="form-control" id="accountCode" list="accountCodeSelectBox"/>
                         <datalist id="accountCodeSelectBox">
                             <option th:each="actlist : ${getactlist}" th:value="${actlist.accountCd}"
                                     th:text="${actlist.accountNm}"></option>
@@ -45,9 +45,9 @@
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="asTi">
                     </div>
-                    <label for="whregistNm" class="col-sm-2 col-form-label">창고명</label>
+                    <label for="whregistCode" class="col-sm-2 col-form-label">창고명</label>
                     <div class="col-sm-4">
-                        <select id="whregistNm" class="form-control">
+                        <select id="whregistCode" class="form-control">
                             <option th:each="whregistlist : ${getwhregistlist}" th:value="${whregistlist.whregistCd}"
                                     th:text="${whregistlist.whregistNm}"></option>
                         </select>
@@ -71,14 +71,14 @@
                     <tbody>
                     <tr>
                         <td>
-                            <input type="hidden" class="RegisDate" th:name="*{asDtos[0].asDt}">
-                            <input type="hidden" class="AccountCode" th:name="*{asDtos[0].accountEntity.accountCd}">
-                            <input type="hidden" class="EmpInfoId" th:name="*{asDtos[0].empInfoEntity.empInfoId}">
-                            <input type="hidden" class="WhregistCode" th:name="*{asDtos[0].whregistEntity.whregistCd}">
-                            <input type="hidden" class="AsSt" th:name="*{asDtos[0].asSt}">
-                            <input type="hidden" class="AscmptDt" th:name="*{asDtos[0].ascmptDt}">
-                            <input type="hidden" class="AsTi" th:name="*{asDtos[0].asTi}">
-                            <input type="hidden" class="AsMo" th:name="*{asDtos[0].asMo}">
+                            <input type="hidden" class="RegisDate" th:field="*{asDtos[0].asDt}">
+                            <input type="hidden" class="AccountCode" th:field="*{asDtos[0].accountEntity.accountCd}">
+                            <input type="hidden" class="EmpInfoId" th:field="*{asDtos[0].empInfoEntity.empInfoId}">
+                            <input type="hidden" class="WhregistCode" th:field="*{asDtos[0].whregistEntity.whregistCd}">
+                            <input type="hidden" class="AsSt" th:field="*{asDtos[0].asSt}">
+                            <input type="hidden" class="AscmptDt" th:field="*{asDtos[0].ascmptDt}">
+                            <input type="hidden" class="AsTi" th:field="*{asDtos[0].asTi}">
+                            <input type="hidden" class="AsMo" th:field="*{asDtos[0].asMo}">
 
                             <select class="selectbox form-control" th:name="'asDtos[' + 0 + '].itemEntity.itemCd'">
                                 <option value="">품목 선택</option>

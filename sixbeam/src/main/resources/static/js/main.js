@@ -260,13 +260,13 @@ $(document).ready(function() {
         // 폼 제출을 막음
         e.preventDefault();
 
-        var asDt = $('#asDt').val();
+        var asDt = $('#currentDate').val();
         var empInfoId = $('#empInfoId').val();
-        var accountCd = $('#accountCd').val();
+        var accountCd = $('#accountCode').val();
         var ascmptDt = $('#ascmptDt').val();
         var asSt = $('#asSt').val();
         var asTi = $('#asTi').val();
-        var whregistNm = $('#whregistNm').val();
+        var whregistNm = $('#whregistCode').val();
         var asMo = $('#asMo').val();
 
 
@@ -286,7 +286,7 @@ $(document).ready(function() {
 
         // FormData 객체를 반복하여 폼 데이터 확인
         formData.forEach(function(value, key) {
-            console.log(key + ': ' + value);
+            console.log(`${key}: ${value}`);
         });
 
         // AJAX를 사용하여 폼 데이터 제출
