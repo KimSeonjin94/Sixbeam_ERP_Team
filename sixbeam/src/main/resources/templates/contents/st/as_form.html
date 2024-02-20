@@ -4,22 +4,22 @@
         <div class="card-body">
             <form class="formEntry" th:action="@{/st/as/create}" th:object="${asForm}" method="post">
                 <div class="form-group row">
-                    <label for="currentDate" class="col-sm-2 col-form-label">AS 등록일자</label>
+                    <label for="asDt" class="col-sm-2 col-form-label">AS 등록일자</label>
                     <div class="col-sm-4">
-                        <input type="date" class="form-control" id="currentDate">
+                        <input type="date" class="form-control" id="asDt">
                     </div>
-                    <label for="asname" class="col-sm-2 col-form-label">담당자</label>
+                    <label for="empInfoId" class="col-sm-2 col-form-label">담당자</label>
                     <div class="col-sm-4">
-                        <select id="asname" class="form-control">
+                        <select id="empInfoId" class="form-control">
                             <option th:each="emplist : ${getemplist}" th:value="${emplist.empInfoId}"
                                     th:text="${emplist.empInfoNm}"></option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="accountCode" class="col-sm-2 col-form-label">거래처 코드</label>
+                    <label for="accountCd" class="col-sm-2 col-form-label">거래처 코드</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="accountCode" list="accountCodeSelectBox"/>
+                        <input type="text" class="form-control" id="accountCd" list="accountCodeSelectBox"/>
                         <datalist id="accountCodeSelectBox">
                             <option th:each="actlist : ${getactlist}" th:value="${actlist.accountCd}"
                                     th:text="${actlist.accountNm}"></option>
@@ -27,7 +27,7 @@
                     </div>
                     <label class="col-sm-2 col-form-label">거래처</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="accountName">
+                        <input type="text" class="form-control" id="accountNm">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -45,9 +45,9 @@
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="asTi">
                     </div>
-                    <label for="whregistname" class="col-sm-2 col-form-label">창고명</label>
+                    <label for="whregistNm" class="col-sm-2 col-form-label">창고명</label>
                     <div class="col-sm-4">
-                        <select id="whregistname" class="form-control">
+                        <select id="whregistNm" class="form-control">
                             <option th:each="whregistlist : ${getwhregistlist}" th:value="${whregistlist.whregistCd}"
                                     th:text="${whregistlist.whregistNm}"></option>
                         </select>
