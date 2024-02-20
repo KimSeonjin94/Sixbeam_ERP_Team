@@ -105,6 +105,12 @@ public class EstimateService {
             estimateRepository.save(estimateEntity);
         }
     }
+    public void delete(List<EstimateDto> estimateDtos){
+        for(EstimateDto estimateDto : estimateDtos){
+            List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(estimateDto.getEstimateCd());
+            estimateRepository.deleteAll(estimateEntities);
+        }
+    }
     private String generateNewEstimateCd(LocalDate estimateDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "ES" + estimateDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-";

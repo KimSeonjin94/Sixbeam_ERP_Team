@@ -8267,8 +8267,6 @@ body.sidebar-toggled footer.sticky-footer {
  margin : 0;
 }
 
-
-
 .btn.btn-danger-ac {
   color: #fff;
   background-color: #e74a3b;
@@ -8347,4 +8345,78 @@ body.sidebar-toggled footer.sticky-footer {
 .btn.btn-warning-ac:not(:disabled):not(.disabled):active:focus, .btn-warning:not(:disabled):not(.disabled).active:focus,
 .show > .btn-warning.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(247, 203, 91, 0.5);
+}
+
+
+
+/*--- pd css ---*/
+.btn.btn-success-pd {
+  color: #fff;
+  background-color: #28a745; /* Success color */
+  border-color: #28a745; /* Success color */
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn.btn-success-pd:hover {
+  color: #fff;
+  background-color: #218838; /* Darker shade for hover */
+  border-color: #1e7e34; /* Darker shade for hover */
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn.btn-success-pd:focus,
+.btn-success-pd.focus {
+  color: #fff;
+  background-color: #218838; /* Darker shade for focus */
+  border-color: #1e7e34; /* Darker shade for focus */
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5); /* Adjusted shadow color */
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn.btn-success-pd.disabled,
+.btn-success-pd:disabled {
+  color: #fff;
+  background-color: #28a745; /* Success color */
+  border-color: #28a745; /* Success color */
+  margin-right: 10px;
+  margin-left: 10px;
+
+.btn.btn-secondary-ac {
+  color: #fff;
+  background-color: #858796;
+  border-color: #858796;
+}
+
+.btn.btn-secondary-ac:hover {
+  color: #fff;
+  background-color: #717384;
+  border-color: #6b6d7d;
+}
+
+.btn.btn-secondary-ac:focus, .btn.btn-secondary.focus {
+  color: #fff;
+  background-color: #717384;
+  border-color: #6b6d7d;
+  box-shadow: 0 0 0 0.2rem rgba(151, 153, 166, 0.5);
+}
+
+.btn.btn-secondary-ac.disabled, .btn.btn-secondary-ac:disabled {
+  color: #fff;
+  background-color: #858796;
+  border-color: #858796;
+}
+
+.btn.btn-secondary-ac:not(:disabled):not(.disabled):active, .btn.btn-secondary-ac:not(:disabled):not(.disabled).active,
+.show > .btn.btn-secondary.dropdown-toggle {
+  color: #fff;
+  background-color: #6b6d7d;
+  border-color: #656776;
+}
+
+.btn.btn-secondary-ac:not(:disabled):not(.disabled):active:focus, .btn.btn-secondary-ac:not(:disabled):not(.disabled).active:focus,
+.show > .btn.btn-secondary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(151, 153, 166, 0.5);
 }
