@@ -9,18 +9,17 @@ import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequestMapping("/pd/item")
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class ItemController {
 
     private final ItemService itemService;
@@ -38,13 +37,27 @@ public class ItemController {
     @PostMapping("/create")
     public String createItem(@ModelAttribute ItemDto itemDto) {
         itemService.saveItem(itemDto);
-        return "redirect:/pd/item/list";
+        return "redirect:/pd/item/itemlist";
     }
     // 품목 수정
-    @PostMapping("/edit")
-    public String editAccount(@ModelAttribute ItemDto itemDto) {
+    @PostMapping("/update")
+    public String editItem(@ModelAttribute ItemDto itemDto) {
+
         itemService.updateItem(itemDto);
         return "redirect:/pd/item/itemlist";
     }
+    // 품목 삭제
+    @PostMapping("/delete")
+    public String deleteItem(@RequestParam String itemCd) {
 
+        itemService.deleteItem(itemCd);
+        return "redirect:/pd/item/itemlist";
+    }
+
+    @PostMapping("/item/createform")
+    public String registerAccountByPage(@ModelAttribute ItemDto itemDto) {
+
+        itemService.saveItem(itemDto);
+        return "redirect:createform";
+    }
 }
