@@ -1,10 +1,9 @@
 package com.erpproject.sixbeam.pd.service;
 
-import com.erpproject.sixbeam.pd.dto.BomDto;
-import com.erpproject.sixbeam.pd.entity.BomEntity;
+import com.erpproject.sixbeam.pd.dto.ItemDto;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
-import com.erpproject.sixbeam.pd.repository.BomRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -75,7 +74,27 @@ public class ItemService {
         return itemRepository.findByItemCdContainingKeyword("CASE");
     }
 
+    public void saveItem(ItemDto itemDto) {
+        ItemEntity itemEntity = itemDto.toEntity();
+        itemRepository.save(itemEntity);
+    }
+
+    public ItemEntity updateItem(ItemDto itemDto) {
+        // dto -> entity
+        ItemEntity editItemEntity = itemDto.toEntity();
+        // itemCd에 해당하는 entity 검색
+        ItemEntity itemEntity = itemRepository.findById(editItemEntity.getItemCd())
+                .orElseThrow(() -> new EntityNotFoundException("ItemCd not found"));
+        // 각 필드 업데이트
+        itemEntity.setItemCd(editItemEntity.getItemCd());
+        itemEntity.setItemNm(editItemEntity.getItemNm());
+        itemEntity.setItemStnd(editItemEntity.getItemStnd());
+        itemEntity.setItemUp(editItemEntity.getItemUp());
+        // 엔티티 반환 후 저장
+        return itemRepository.save(itemEntity);
+    }
 }
+
 
 
     /*// 선택 조회

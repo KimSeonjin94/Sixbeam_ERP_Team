@@ -24,7 +24,7 @@ public class BomController {
     private final BomService bomService;
     private final ItemService itemService;
 
-    // BOM 등록 페이지
+    // BOM 데이터 등록 페이지
     @GetMapping("/new")
     public String newBomDto(Model model) {
 
@@ -57,6 +57,7 @@ public class BomController {
         return "/contents/pd/bom_form";
     }
 
+    // 새 bom 작성
     @PostMapping("/create")
     public String createBomDto(@ModelAttribute BomForm bomForm) {
 
@@ -67,6 +68,7 @@ public class BomController {
         return "redirect:/pd/bom/bomlist";
     }
 
+    // bom 리스트 출력
     @GetMapping("/bomlist")
     public String list(Model model) {
 
@@ -87,6 +89,7 @@ public class BomController {
         return "contents/pd/bom_list";
     }
 
+    // id로 리스트 조회
     @GetMapping("/list/detail/{id}")
     public ResponseEntity<List<BomEntity>> detail(@PathVariable("id") String itemCd) {
 
@@ -97,6 +100,7 @@ public class BomController {
         return ResponseEntity.status(HttpStatus.OK).body(bomEntities);
     }
 
+    // 수정
     @PostMapping("/update")
     public String updateBom(@ModelAttribute BomForm bomForm) {
 
@@ -104,11 +108,5 @@ public class BomController {
         bomService.updateAll(bomDtos);
 
         return "redirect:/ss/bom/bomlist";
-    }
-
-    @GetMapping("/getitemdata")
-    public Optional<ItemEntity> itemList(Model model, @RequestParam String itemCd) {
-
-        return bomService.getItemCd(itemCd);
     }
 }

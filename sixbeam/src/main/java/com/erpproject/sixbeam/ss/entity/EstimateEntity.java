@@ -34,9 +34,6 @@ public class EstimateEntity {
     @JoinColumn(name = "ITEM_CD")
     private ItemEntity itemEntity;
     @ManyToOne
-    @JoinColumn(name="check_cd")
-    private CheckEntity checkEntity;
-    @ManyToOne
     @JoinColumn(name="empinfoId")
     private EmpInfoEntity empInfoEntity;
     @ManyToOne
