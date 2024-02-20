@@ -17,7 +17,8 @@
                         <th>계산서 발급일자</th>
                         <th>계산서 발급 상태</th>
                         <th>결제 일자</th>
-                        <th>출고 코드</th>
+                        <th>창고 코드</th>
+                        <th>창고</th>
                         <th>출고 상태</th>
                         <th>출고 일자</th>
                     </tr>
@@ -35,6 +36,8 @@
                         <td th:text="${sale.salePaymentDt}">
                         </td>
                         <td th:text="${sale.WhregistEntity?.whregistCd}">
+                        </td>
+                        <td th:text="${sale.WhregistEntity?.whregistNm}">
                         </td>
                         <td th:text="${sale.saleShippingSt}">
                         </td>
