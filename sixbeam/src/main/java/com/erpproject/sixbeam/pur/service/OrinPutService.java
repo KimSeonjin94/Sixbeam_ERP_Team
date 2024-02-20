@@ -110,7 +110,7 @@ public class OrinPutService {
             boolean isReferenced = inputRepository.existsByOrinputEntity_OrinputCd(orinputId);
             if (isReferenced) {
                 // ORINPUT_CD를 참조하는 엔티티가 존재하면 삭제를 거부
-                throw new IllegalStateException("ORINPUT_CD를 참조하는 다른 엔티티가 존재하여 삭제할 수 없습니다.");
+                throw new IllegalStateException("구매 진행이 되어 삭제 불가 합니다.");
             } else {
                 // ORINPUT_CD를 참조하는 엔티티가 없으면 삭제를 진행
                 List<OrinPutEntity> orinPutEntities = orinPutRepository.findByOrinputCd(orinputId);

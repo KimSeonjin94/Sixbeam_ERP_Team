@@ -273,9 +273,9 @@ $(document).ready(function() {
         // 견적 일자의 현재 값을 가져옴
         var currentDate = $('#currentDate').val();
         // 발주 요청 일자(발주에서 사용)
-        var requestDate = $('#orinputReqDate').val()
+        var requestDate = $('#orinputReqDate').val();
         // 납기 일자(발주에서 사용)
-        var deliveryDate = $('#orinputDlvyDate').val()
+        var deliveryDate = $('#orinputDlvyDate').val();
 
         $('.table.item tbody tr').each(function(index) {
             // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
@@ -299,90 +299,34 @@ $(document).ready(function() {
             url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
             success: function(response) {
-                // 성공적으로 제출된 경우의 처리 로직
-                console.log('Form Submitted Successfully');
+                // 성공 시 리다이렉션
+                $('#successModal').modal('show');
+                // 모달이 닫힐 때 리다이렉션
+                $('#successModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
             },
-            error: function(response) {
+            error: function(xhr) {
                 // 오류 처리 로직
-
+                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
+                // 서버로부터 받은 에러 메시지를 알림
+                // 오류 처리 로직
+                var response = JSON.parse(xhr.responseText);
+                // 오류 메시지 모달 표시
+                $('#failModal').modal('show'); // 올바른 셀렉터 사용
+                // 모달이 닫힐 때 리다이렉션
+                $('#failModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
                 console.log('Error Submitting Form');
             }
         });
     });
 });
-//$(document).ready(function() {
-//    // 폼이 제출될 때마다 실행되도록 변경
-//    $('.formEntry').submit(function(e) {
-//        // 폼 제출을 막음
-//        e.preventDefault();
-//
-//        // 입력 필드에서 숫자가 아닌 문자 제거
-//        $('.itemamt, .itemup, .itemsp, .itemvar, .itemsum').each(function() {
-//            var value = $(this).val().replace(/[^0-9]/g, '');
-//            $(this).val(value);
-//        });
-//
-//        // 폼 데이터 변경
-//        var selectedEmp = $('#orinputname').val();
-//        // 거래처 코드의 현재 값을 가져옴
-//        var accountCode = $('#accountCode').val();
-//        // 견적 일자의 현재 값을 가져옴
-//        var currentDate = $('#currentDate').val();
-//        // 발주 요청 일자(발주에서 사용)
-//        var requestDate = $('#orinputReqDate').val()
-//        // 납기 일자(발주에서 사용)
-//        var deliveryDate = $('#orinputDlvyDate').val()
-//
-//        $('.table.item tbody tr').each(function(index) {
-//            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
-//            $(this).find('.RegisDate').val(currentDate);
-//            $(this).find('.AccountCode').val(accountCode);
-//            $(this).find('.EmpInfoId').val(selectedEmp);
-//            $(this).find('.OrinputReqDate').val(requestDate);
-//            $(this).find('.OrinputDlvyDate').val(deliveryDate);
-//        });
-//
-//        var formData = new FormData(this);
-//
-//        // FormData 객체를 반복하여 폼 데이터 확인
-//        formData.forEach(function(value, key) {
-//            console.log(key + ': ' + value);
-//        });
-//
-//        // AJAX를 사용하여 폼 데이터 제출
-//        $.ajax({
-//            type: $(this).attr('method'), // POST 또는 GET
-//            url: $(this).attr('action'),
-//            data: $(this).serialize(), // 폼 데이터 직렬화
-//            success: function(response) {
-//                // 성공 시 리다이렉션
-//                $('#successModal').modal('show');
-//                // 모달이 닫힐 때 리다이렉션
-//                $('#successModal').on('hidden.bs.modal', function () {
-//                    window.location.href = response.redirectUrl;
-//                });
-//            },
-//            error: function(xhr) {
-//                // 오류 처리 로직
-//                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
-//                // 서버로부터 받은 에러 메시지를 알림
-//                // 오류 처리 로직
-//                var response = JSON.parse(xhr.responseText);
-//                // 오류 메시지 모달 표시
-//                $('#failModal').modal('show'); // 올바른 셀렉터 사용
-//                // 모달이 닫힐 때 리다이렉션
-//                $('#failModal').on('hidden.bs.modal', function () {
-//                    window.location.href = response.redirectUrl;
-//                });
-//                console.log('Error Submitting Form');
-//            }
-//        });
-//    });
-//});
-//$('#successModal').on('hidden.bs.modal', function () {
-//    // 페이지를 새로 고침
-//    window.location.reload();
-//});
+$('#successModal').on('hidden.bs.modal', function () {
+    // 페이지를 새로 고침
+    window.location.reload();
+});
 
 // AC에서 사용
 
@@ -532,6 +476,7 @@ function formatToKRW(value) {
 $('#detailOrinputCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
     var orinputId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    $('#orinputdetail').modal('hide');
     // AJAX 요청
     $.ajax({
         url: '/pur/orinput/list/detail/' + orinputId, // 서버 엔드포인트
@@ -544,6 +489,7 @@ $('#detailOrinputCd[data-id]').on('click', function() {
                 // 성공 시 모달 내용 업데이트
                 var modaltBody = $('.formEntry .table.item tbody');
                 modaltBody.empty();
+                $('#orinputCd').val(data[0].orinputCd);
                 $('#updateCurrentDate').val(data[0].orinputOrDt);
                 $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                 $('#updatename').val(data[0].empInfoEntity.empInfoNm);
@@ -596,29 +542,57 @@ $(document).ready(function() {
     }
 });
 
+$(document).ready(function() {
+    $('#orinputcddelete').click(function() {
+        $('#deleteOrinputModal').modal('hide');
+        // 선택한 발주 정보의 ID 가져오기
+        var selectedOrinputId = $('#dataTable input[name="selectedOrinPut"]:checked').map(function(){
+            return $(this).val();
+        }).get();
 
-$('#orinputcddelete').click(function() {
-    deleteSelectedOrinput();
+        // 선택한 ID를 hidden input에 설정
+        $('#selectedOrinputInput').val(selectedOrinputId);
+        // 폼 제출
+        $('.deleteOrinputForm').submit();
+    });
+
+    // 폼 제출 이벤트 핸들러
+    $('.deleteOrinputForm').submit(function(e) {
+        // 폼 제출을 막음
+        e.preventDefault();
+
+        // AJAX를 사용하여 폼 데이터 제출
+        $.ajax({
+            type: $(this).attr('method'), // POST 또는 GET
+            url: $(this).attr('action'),
+            data: $(this).serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                // 성공 시 리다이렉션
+                $('#successModal').modal('show');
+                // 모달이 닫힐 때 리다이렉션
+                $('#successModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
+            },
+            error: function(xhr) {
+                // 오류 처리 로직
+                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
+                $('#failModal .modal-body').text(response.message); // 에러 메시지를 모달에 설정
+                // 오류 메시지 모달 표시
+                $('#failModal').modal('show'); // 올바른 셀렉터 사용
+                // 모달이 닫힐 때 리다이렉션
+                $('#failModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
+                console.log('Error Submitting Form');
+            }
+        });
+    });
 });
-
-function deleteSelectedOrinput() {
-    // 선택한 발주 정보의 ID 가져오기
-    var selectedOrinputId = $('#dataTable input[name="selectedOrinPut"]:checked').map(function(){
-        return $(this).val();
-    }).get();
-
-    // 선택한 ID를 hidden input에 설정
-    $('#selectedOrinputInput').val(selectedOrinputId);
-
-    // 삭제 폼 submit
-    $('#deleteOrinputForm').submit();
-}
 
 function refreshPage() {
     window.location.reload(); // 페이지 새로고침
 }
-
-
 
 
 // pd 사용 js

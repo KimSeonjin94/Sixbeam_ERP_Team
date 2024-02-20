@@ -149,7 +149,7 @@
                         </div>
                         <div class="modal-body">
                             <p>선택한 발주 정보를 삭제하시겠습니까?</p>
-                            <form id="deleteOrinputForm" th:action="@{/pur/orinput/delete}" method="post">
+                            <form class="deleteOrinputForm" th:action="@{/pur/orinput/delete}" method="post">
                                 <input type="hidden" id="selectedOrinputInput" name="selectedOrinput">
                             </form>
                         </div>
@@ -161,18 +161,17 @@
                 </div>
             </div>
 
-            <!-- 삭제 불가 모달 창 -->
-            <div class="modal fade" id="deleteErrorModal" tabindex="-1" aria-labelledby="deleteErrorModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+            <div class="modal fade hide" tabindex="-1" role="dialog" id="successModal" th:data-show-modal="${showModal}">
+                <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="deleteErrorModalLabel">삭제 불가 안내</h5>
+                            <h5 class="modal-title">성공</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>이미 구매가 진행이 되어 삭제가 불가 합니다.</p>
+                            <p>데이터가 성공적으로 삭제되었습니다.</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -180,7 +179,23 @@
                     </div>
                 </div>
             </div>
-
+            <div class="modal fade hide" tabindex="-1" role="dialog" id="failModal" th:data-show-modal="${showModal}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">실패</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
