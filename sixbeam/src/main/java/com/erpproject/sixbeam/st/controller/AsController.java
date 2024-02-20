@@ -6,6 +6,8 @@ import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.service.ItemService;
+import com.erpproject.sixbeam.ss.dto.EstimateDto;
+import com.erpproject.sixbeam.ss.form.EstimateForm;
 import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
@@ -14,13 +16,15 @@ import com.erpproject.sixbeam.st.service.AsService;
 import com.erpproject.sixbeam.st.service.WhmoveService;
 import com.erpproject.sixbeam.st.service.WhregistService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -66,4 +70,19 @@ public class AsController {
         model.addAttribute("asForm",form);
         return "contents/st/as_form";
     }
+    @PostMapping("/create")
+    public ResponseEntity<?> asCreateDto(@ModelAttribute AsForm form){
+        List<AsDto> asDtos= form.getAsDtos();
+        try {
+            this.asService.create(asDtos);
+            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/st/as/list"));
+        }catch (Exception e){
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "저장에 실패 하였습니다.");
+            errorResponse.put("redirectUrl", "/st/as/create");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
 }
