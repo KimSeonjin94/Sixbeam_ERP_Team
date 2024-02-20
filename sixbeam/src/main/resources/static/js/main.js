@@ -56,7 +56,10 @@
 
     $(document).ready(function () {
         var activeTabId = localStorage.getItem('activeTabId');  // 활성 탭 ID를 Local Storage에서 읽어옴
-
+        //초기 로딩시 주소가 home일떄 활성탭을 home으로 함
+        if (window.location.pathname === '/sixbeam/home') {
+            activeTabId = 'home'; // 활성 탭 ID를 'home'으로 설정
+        }
         // 초기 로딩 시 저장된 활성 탭 ID를 기준으로 해당 탭을 활성화
         if (activeTabId) {
             $('.tab-pane').removeClass('show').removeClass('active');
@@ -432,6 +435,7 @@ $('#detailEstimateCd[data-id]').on('click', function() {
                 $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                 $('#updatename').val(data[0].empInfoEntity.empInfoNm);
                 $('#updateaccountName').val(data[0].accountEntity.accountNm);
+
                 // 데이터 항목별로 행 추가
                 data.forEach(function(item, index) {
                     var row = $('<tr>'); // 행 생성
@@ -609,3 +613,58 @@ function editItemFinished() {
 function deleteItemFinished() {
     alert('품목이 삭제되었습니다.');
 }
+
+$(document).ready(function() {
+    var date = new Date();
+    var currentMonth = date.getMonth();
+    var currentYear = date.getFullYear();
+
+    function updateCalendar() {
+        var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        var months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+
+        // 현재 연도와 월을 표시
+        $('#currentYearMonth').text(`${currentYear}년 ${months[currentMonth]}`);
+
+        // 달력 초기화 및 날짜 채우기
+        var calendarHtml = '<table class="table table-bordered"><thead><tr>';
+        calendarHtml += '<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>';
+        calendarHtml += '</tr></thead><tbody><tr>';
+
+        for (let i = 0; i < firstDay; i++) {
+            calendarHtml += '<td></td>';
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            if ((day + firstDay - 1) % 7 === 0) {
+                calendarHtml += '</tr><tr>';
+            }
+            calendarHtml += `<td>${day}</td>`;
+        }
+
+        calendarHtml += '</tr></tbody></table>';
+
+        $('#calendar').html(calendarHtml);
+    }
+
+    updateCalendar();
+
+    $('#prevMonth').click(function() {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        updateCalendar();
+    });
+
+    $('#nextMonth').click(function() {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        updateCalendar();
+    });
+});

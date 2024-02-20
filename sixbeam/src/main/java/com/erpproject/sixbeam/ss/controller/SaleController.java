@@ -1,19 +1,18 @@
 package com.erpproject.sixbeam.ss.controller;
 
-import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
-import com.erpproject.sixbeam.ss.form.EstimateForm;
 import com.erpproject.sixbeam.ss.service.EstimateService;
 import com.erpproject.sixbeam.ss.service.SaleService;
+import com.erpproject.sixbeam.st.entity.WhregistEntity;
+import com.erpproject.sixbeam.st.service.WhregistService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,11 +27,9 @@ public class SaleController {
     private SaleService saleService;
     @Autowired
     private EstimateService estimateService;
+    @Autowired
+    private WhregistService whregistService;
 
-    public String create(@ModelAttribute SaleDto saleDto) {
-        saleService.create(saleDto);
-        return "redirect:/ss/sale/list";
-    }
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -45,15 +42,17 @@ public class SaleController {
 
     @GetMapping("/new")
     public String create(Model model) {
-        SaleDto saleDto = new SaleDto();
+        SaleDto saleDto= new SaleDto();
         List<EstimateEntity> estimateEntities = estimateService.getList();
+        List<WhregistEntity> whregistEntities= whregistService.getList();
         model.addAttribute("estimateEntities", estimateEntities);
         model.addAttribute("saleDto", saleDto);
+        model.addAttribute("getwhregistlist",whregistEntities);
         return "contents/ss/sale_form";
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createEstimateDto(@ModelAttribute SaleDto saleDto) {
+    public ResponseEntity<?> createSale(@ModelAttribute SaleDto saleDto) {
         try {
             this.saleService.create(saleDto);
             return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/ss/sale/list"));
