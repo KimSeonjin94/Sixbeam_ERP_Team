@@ -372,7 +372,22 @@ function prepareDelete() {
 }
 // AC 끝
 
+//재고_AS등록-------------------------------------------------------------------------------------------시작
+$('.table.Asitem').on('change input', '.selectbox, .itemamt', function() {
+    var $row = $(this).closest('tr');
+    var itemamt = parseFloat($row.find('.itemamt').val());
 
+    if ($(this).hasClass('selectbox')) { // .selectbox에서의 변경인 경우에만 처리
+        var valueitemname = $(this).find(':selected').attr("data-itemNm");
+        var valueitmestnd = $(this).find(':selected').attr("data-itemStnd");
+
+        $(this).closest('tr').find('.itemname').val(valueitemname);
+        $(this).closest('tr').find('.itemstnd').val(valueitmestnd);
+    }
+});
+
+
+//재고_창고등록-------------------------------------------------------------------------------------------시작
 $('#detailwhregistCd[data-id]').on('click', function() {
     // 클릭된 요소의 ID를 콘솔에 출력
     console.log($(this).data('id'));
@@ -410,6 +425,7 @@ $('#detailwhregistCd[data-id]').on('click', function() {
         }
     });
 });
+//재고_창고등록--------------------------------------------------------------------------------------------끝
 
 
 
