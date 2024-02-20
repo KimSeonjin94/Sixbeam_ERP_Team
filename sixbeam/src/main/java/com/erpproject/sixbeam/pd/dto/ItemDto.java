@@ -1,8 +1,11 @@
 package com.erpproject.sixbeam.pd.dto;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import lombok.Getter;
+import lombok.Setter;
 
-
+@Getter
+@Setter
 public class ItemDto {
 
     private String itemCd;

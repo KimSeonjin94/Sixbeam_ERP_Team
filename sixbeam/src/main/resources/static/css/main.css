@@ -8348,3 +8348,41 @@ body.sidebar-toggled footer.sticky-footer {
 .show > .btn-warning.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(247, 203, 91, 0.5);
 }
+
+
+
+/*--- pd css ---*/
+.btn.btn-success-pd {
+  color: #fff;
+  background-color: #28a745; /* Success color */
+  border-color: #28a745; /* Success color */
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn.btn-success-pd:hover {
+  color: #fff;
+  background-color: #218838; /* Darker shade for hover */
+  border-color: #1e7e34; /* Darker shade for hover */
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn.btn-success-pd:focus,
+.btn-success-pd.focus {
+  color: #fff;
+  background-color: #218838; /* Darker shade for focus */
+  border-color: #1e7e34; /* Darker shade for focus */
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5); /* Adjusted shadow color */
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn.btn-success-pd.disabled,
+.btn-success-pd:disabled {
+  color: #fff;
+  background-color: #28a745; /* Success color */
+  border-color: #28a745; /* Success color */
+  margin-right: 10px;
+  margin-left: 10px;
+}
