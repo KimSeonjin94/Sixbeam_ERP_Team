@@ -3,6 +3,7 @@ package com.erpproject.sixbeam.ss.service;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
+import com.erpproject.sixbeam.ss.form.SaleForm;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
@@ -19,49 +20,47 @@ public class SaleService {
     private final SaleRepository saleRepository;
     private final EstimateRepository estimateRepository;
     private final WhmoveRepository whmoveRepository;
+    private final EstimateService estimateService;
 
     public List<EstimateEntity> getEstimateList() {
-        List<EstimateEntity> estimateEntities = estimateRepository.findAll();
-        // 중복된 estimateCd를 저장할 Set
-        Set<String> uniqueEstimateCds = new HashSet<>();
 
-        // 중복 제거된 EstimateEntity 리스트
-        List<EstimateEntity> deduplicatedList = new ArrayList<>();
-
-        // 중복을 제거하면서 리스트를 생성
-        for (EstimateEntity entity : estimateEntities) {
-            if (uniqueEstimateCds.add(entity.getEstimateCd())) {
-                // estimateCd가 추가되지 않았으면 중복이므로 추가하지 않음
-                deduplicatedList.add(entity);
-            } else {
-                for (EstimateEntity entity2 : deduplicatedList) {
-                    if (entity.getEstimateCd().equals(entity2.getEstimateCd())) {
-                        entity2.setEstimateSp(entity2.getEstimateSp()+entity.getEstimateSp());
-                        entity2.setEstimateVat(entity.getEstimateVat()+entity2.getEstimateVat());
-                        entity2.setEstimateTamt(entity.getEstimateTamt()+entity2.getEstimateTamt());
-                    }
-                }
-            }
-        }
-        return deduplicatedList;
+        return estimateService.getList();
     }
+
     public List<EstimateEntity> getEstimateIdList(String id) {
 
         return this.estimateRepository.findByEstimateCd(id);
     }
-    public List<SaleEntity> getList(){
+
+    public List<SaleEntity> getList() {
         return this.saleRepository.findAll();
     }
-    public Optional<SaleEntity> getId(String id){
+
+    public Optional<SaleEntity> getId(String id) {
         return this.saleRepository.findById(id);
     }
 
-    public void create(SaleDto saleDto){
+    public void create(SaleDto saleDto) {
         SaleEntity saleEntity = saleDto.toEtity();
-        String saleCd= generateNewSaleCd(saleEntity.getSaleUploadDt());
+        String saleCd = generateNewSaleCd(saleEntity.getSaleUploadDt());
         saleEntity.setSaleCd(saleCd);
         saleRepository.save(saleEntity);
     }
+
+    public void update(SaleDto saleDto) {
+            Optional<SaleEntity> optionalSaleEntity = saleRepository.findById(saleDto.getSaleCd());
+            SaleEntity saleEntity=optionalSaleEntity.get();
+            saleRepository.save(saleEntity);
+    }
+    public void delete(SaleForm saleForm) {
+        List<SaleDto> saleDtos = saleForm.getSaleDtos();
+        for (SaleDto saleDto : saleDtos) {
+            Optional<SaleEntity> optionalSaleEntity = saleRepository.findById(saleDto.getSaleCd());
+            SaleEntity saleEntity=optionalSaleEntity.get();
+            saleRepository.save(saleEntity);
+        }
+    }
+
     private String generateNewSaleCd(LocalDate saleDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "SS" + saleDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-";

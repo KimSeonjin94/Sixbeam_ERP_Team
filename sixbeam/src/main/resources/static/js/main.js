@@ -254,58 +254,58 @@ function formatCurrency(value) {
     return "₩" + value.toLocaleString('ko-KR');
 }
 //test--------------------------------------------------------------------------------시작
-$(document).ready(function() {
-    // 폼이 제출될 때마다 실행되도록 변경
-    $('.formEntry').submit(function(e) {
-        // 폼 제출을 막음
-        e.preventDefault();
-
-        var asDt = $('#currentDate').val();
-        var empInfoId = $('#empInfoId').val();
-        var accountCd = $('#accountCode').val();
-        var ascmptDt = $('#ascmptDt').val();
-        var asSt = $('#asSt').val();
-        var asTi = $('#asTi').val();
-        var whregistNm = $('#whregistCode').val();
-        var asMo = $('#asMo').val();
-
-
-        $('.table.item tbody tr').each(function(index) {
-            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
-            $(this).find('.RegisDate').val(asDt);
-            $(this).find('.EmpInfoId').val(empInfoId);
-            $(this).find('.AccountCode').val(accountCd);
-            $(this).find('.WhregistCode').val(whregistNm);
-            $(this).find('.AsSt').val(asSt);
-            $(this).find('.AscmptDt').val(ascmptDt);
-            $(this).find('.AsTi').val(asTi);
-            $(this).find('.AsMo').val(asMo);
-        });
-
-        var formData = new FormData(this);
-
-        // FormData 객체를 반복하여 폼 데이터 확인
-        formData.forEach(function(value, key) {
-            console.log(`${key}: ${value}`);
-        });
-
-        // AJAX를 사용하여 폼 데이터 제출
-        $.ajax({
-            type: $(this).attr('method'), // POST 또는 GET
-            url: $(this).attr('action'),
-            data: $(this).serialize(), // 폼 데이터 직렬화
-            success: function(response) {
-                // 성공적으로 제출된 경우의 처리 로직
-                console.log('Form Submitted Successfully');
-            },
-            error: function(response) {
-                // 오류 처리 로직
-
-                console.log('Error Submitting Form');
-            }
-        });
-    });
-});
+//$(document).ready(function() {
+//    // 폼이 제출될 때마다 실행되도록 변경
+//    $('.formEntry').submit(function(e) {
+//        // 폼 제출을 막음
+//        e.preventDefault();
+//
+//        var asDt = $('#currentDate').val();
+//        var empInfoId = $('#empInfoId').val();
+//        var accountCd = $('#accountCode').val();
+//        var ascmptDt = $('#ascmptDt').val();
+//        var asSt = $('#asSt').val();
+//        var asTi = $('#asTi').val();
+//        var whregistNm = $('#whregistCode').val();
+//        var asMo = $('#asMo').val();
+//
+//
+//        $('.table.item tbody tr').each(function(index) {
+//            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+//            $(this).find('.RegisDate').val(asDt);
+//            $(this).find('.EmpInfoId').val(empInfoId);
+//            $(this).find('.AccountCode').val(accountCd);
+//            $(this).find('.WhregistCode').val(whregistNm);
+//            $(this).find('.AsSt').val(asSt);
+//            $(this).find('.AscmptDt').val(ascmptDt);
+//            $(this).find('.AsTi').val(asTi);
+//            $(this).find('.AsMo').val(asMo);
+//        });
+//
+//        var formData = new FormData(this);
+//
+//        // FormData 객체를 반복하여 폼 데이터 확인
+//        formData.forEach(function(value, key) {
+//            console.log(`${key}: ${value}`);
+//        });
+//
+//        // AJAX를 사용하여 폼 데이터 제출
+//        $.ajax({
+//            type: $(this).attr('method'), // POST 또는 GET
+//            url: $(this).attr('action'),
+//            data: $(this).serialize(), // 폼 데이터 직렬화
+//            success: function(response) {
+//                // 성공적으로 제출된 경우의 처리 로직
+//                console.log('Form Submitted Successfully');
+//            },
+//            error: function(response) {
+//                // 오류 처리 로직
+//
+//                console.log('Error Submitting Form');
+//            }
+//        });
+//    });
+//});
 //test--------------------------------------------------------------------------------끝
 $(document).ready(function() {
     // 폼이 제출될 때마다 실행되도록 변경
@@ -636,6 +636,53 @@ $(document).ready(function() {
             url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
             success: function(response) {
+                // 성공 시 리다이렉션
+                $('#successModal').modal('show');
+                // 모달이 닫힐 때 리다이렉션
+                $('#successModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
+            },
+            error: function(xhr) {
+                // 오류 처리 로직
+                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
+                $('#failModal .modal-body').text(response.message); // 에러 메시지를 모달에 설정
+                // 오류 메시지 모달 표시
+                $('#failModal').modal('show'); // 올바른 셀렉터 사용
+                // 모달이 닫힐 때 리다이렉션
+                $('#failModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
+                console.log('Error Submitting Form');
+            }
+        });
+    });
+});
+
+$(document).ready(function() {
+    $('#deleteAll').click(function() {
+        $('#delete').modal('hide');
+        // 선택한 발주 정보의 ID 가져오기
+        var selectedOrinputId = $('#dataTableEstimate input[name="selectedid"]:checked').map(function(){
+            return $(this).val();
+        }).get();
+
+        // 선택한 ID를 hidden input에 설정
+        $('#selectedid').val(selectedOrinputId);
+        // 폼 제출
+        $('.deleteForm').submit();
+    });
+
+    // 폼 제출 이벤트 핸들러
+    $('.deleteForm').submit(function(e) {
+        e.preventDefault();
+        // AJAX를 사용하여 폼 데이터 제출
+        $.ajax({
+            type: $(this).attr('method'), // POST 또는 GET
+            url: $(this).attr('action'),
+            data: $(this).serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                $('#successModal .modal-body').text(response.message);
                 // 성공 시 리다이렉션
                 $('#successModal').modal('show');
                 // 모달이 닫힐 때 리다이렉션

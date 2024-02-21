@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.beans.PropertyEditorSupport;
 import java.util.*;
@@ -93,7 +94,7 @@ public class EstimateController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateEstimate(@ModelAttribute EstimateForm form) {
+    public ResponseEntity<?> update(@ModelAttribute EstimateForm form) {
         List<EstimateDto> estimateDtos = form.getEstimateDtos();
         try {
             estimateService.updateAll(estimateDtos);
@@ -106,19 +107,20 @@ public class EstimateController {
             // 실패 응답
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", "업데이트에 실패하였습니다.");
+            errorResponse.put("message", "수정에 실패하였습니다.");
             errorResponse.put("redirectUrl", "/ss/estimate/list");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<?> delete(@ModelAttribute EstimateForm form) {
+    public ResponseEntity<?> delete(@RequestParam("selectedid") List<String> selectedid, RedirectAttributes redirectAttributes) {
         try {
-            List<EstimateDto> estimateDtos=form.getEstimateDtos();
-            estimateService.delete(estimateDtos);
+
+            estimateService.delete(selectedid);
             Map<String,Object> response = new HashMap<>();
             response.put("status", "success");
+            response.put("message", "삭제에 성공하였습니다.");
             response.put("redirectUrl", "/ss/estimate/list");
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {

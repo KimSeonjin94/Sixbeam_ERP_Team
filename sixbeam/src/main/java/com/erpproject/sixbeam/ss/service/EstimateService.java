@@ -8,7 +8,9 @@ import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
+import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,6 +31,7 @@ public class EstimateService {
     private final ItemRepository itemRepository;
     private final AccountRepository accountRepository;
     private final EmpInfoRepository empInfoRepository;
+    private final SaleRepository saleRepository;
 
     public List<EstimateEntity> getList() {
         List<EstimateEntity> estimateEntities = estimateRepository.findAll();
@@ -105,11 +108,17 @@ public class EstimateService {
             estimateRepository.save(estimateEntity);
         }
     }
-    public void delete(List<EstimateDto> estimateDtos){
-        for(EstimateDto estimateDto : estimateDtos){
-            List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(estimateDto.getEstimateCd());
-            estimateRepository.deleteAll(estimateEntities);
+    public void delete(List<String> estimateDtos){
+        List<EstimateEntity> estimateEntityList=new ArrayList<>();
+        for(String estimateCd : estimateDtos){
+            Optional<SaleEntity> optionalSaleEntity =saleRepository.findByEstimateCd(estimateCd);
+            if(optionalSaleEntity.isPresent()){
+                estimateEntityList.addAll(estimateRepository.findByEstimateCd(estimateCd));
+            }else{
+                throw new IllegalStateException("판매 진행이 되어 삭제 불가 합니다.");
+            }
         }
+        estimateRepository.deleteAll(estimateEntityList);
     }
     private String generateNewEstimateCd(LocalDate estimateDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
