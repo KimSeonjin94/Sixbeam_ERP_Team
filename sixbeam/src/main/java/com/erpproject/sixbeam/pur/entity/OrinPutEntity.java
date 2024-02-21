@@ -54,4 +54,13 @@ public class OrinPutEntity {
     private LocalDate orinputDlvyDt;
     @Column(name = "ORINPUT_ETC")
     private String orinputEtc;
+
+    public void setId(OrinPutEntityId id) {
+        this.orinputCd = id.getOrinputCd();
+        this.itemEntity = id.getItemEntity();
+    }
+
+    public OrinPutEntityId getId() {
+        return new OrinPutEntityId(this.orinputCd, this.itemEntity);
+    }
 }
