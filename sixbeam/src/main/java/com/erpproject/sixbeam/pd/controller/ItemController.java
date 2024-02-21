@@ -48,14 +48,14 @@ public class ItemController {
     }
     // 품목 삭제
     @PostMapping("/delete")
-    public String deleteItem(@RequestParam String itemCd) {
+    public String deleteItem(@RequestParam("itemCd") String itemCd) {
 
         itemService.deleteItem(itemCd);
         return "redirect:/pd/item/itemlist";
     }
 
     @PostMapping("/item/createform")
-    public String registerAccountByPage(@ModelAttribute ItemDto itemDto) {
+    public String registerItemByPage(@ModelAttribute ItemDto itemDto) {
 
         itemService.saveItem(itemDto);
         return "redirect:createform";
