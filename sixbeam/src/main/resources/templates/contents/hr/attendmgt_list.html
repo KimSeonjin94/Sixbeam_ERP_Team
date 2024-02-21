@@ -1,0 +1,120 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form class="formEntry" th:action="@{/hr/attendmgt/create}" th:object="${attendmgtform}"  method="post">
+                <div class="form-group row">
+                    <label for="currentDate" class="col-sm-2 col-form-label">일자</label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" id="currentDate">
+                    </div>
+                </div>
+                <table class="table item" id="estimateitem">
+                    <thead>
+                    <tr>
+                        <th>체크</th>
+                        <th>날짜</th>
+                        <th>사원</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-employee-id="1" data-employee-nm="John Doe">
+                        <td><input type="checkbox"></td>
+                        <td><input type="date" class="form-control current-date"></td>
+                        <td>
+                            <input type="text" class="form-control currentEmployeeNm"
+                                   data-toggle="modal" data-target="#employeeModal"
+                                   ondblclick="showModal();"
+                                   data-employee-id="" data-employee-nm="">
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr></tr>
+                    </tfoot>
+                </table>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <input type='button' value='추가' class="btn btn-primary" id="addnewrowbtn">
+                            <input type='button' value='삭제' class="btn btn-danger" id="deleterowbtn">
+                        </div>
+                    </div>
+                    <!-- 오른쪽에 버튼 만드는 부분 -->
+                    <div class="col-sm-6 text-md-right"></div>
+                </div>
+            </form>
+            <!-- 모달 -->
+            <!-- 사원정보 모달 -->
+            <div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="employeeModalLabel">사원 정보 입력</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">사원정보</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTableAttendmgt" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <td>사원ID</td>
+                                                <td>부서</td>
+                                                <td>이름</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <script>
+                                                function addadd(element) {
+                                                    var currentRow = $(element).closest('tr');
+                                                    var employeeId = currentRow.find('a').text().trim();
+                                                    var employeeNm = currentRow.find('td:eq(2)').text().trim();
+
+                                                    // 현재 클릭된 행의 정보를 빈칸에 적용
+                                                    $('.currentEmployeeId').val(employeeId);
+                                                    $('.currentEmployeeNm').val(employeeNm);
+
+                                                    // 모달 닫기
+                                                    $('#employeeModal').modal('hide');
+                                                }
+
+                                                function showModal() {
+                                                    // 모달 밖의 빈 칸에 해당 값 할당
+                                                    $('#employeeModal').modal('show');
+                                                }
+                                            </script>
+                                            <tr th:each="employee, rowStat : ${empInfoList}">
+                                                <td>
+                                                    <a href="#"
+                                                       style="color: blue; cursor: pointer;"
+                                                       th:onclick="addadd(this);">
+                                                        <span th:text="${employee.empInfoId}"></span>
+                                                    </a>
+                                                </td>
+                                                <td th:text="${employee.departEntity.departNm}"></td>
+                                                <td th:text="${employee.empInfoNm}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">저장</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
