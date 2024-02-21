@@ -1,6 +1,5 @@
 package com.erpproject.sixbeam.pur.entity;
 
-import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

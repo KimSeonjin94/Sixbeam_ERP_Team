@@ -37,27 +37,29 @@ public class EstimateController {
     private ItemService itemService;
 
     private static final Logger logger = LoggerFactory.getLogger(EstimateController.class);
+
     @GetMapping("/new")
     public String newEstimateDto(Model model) {
-        EstimateForm form=new EstimateForm();
+        EstimateForm form = new EstimateForm();
         List<AccountEntity> accountEntity = this.accountService.getList();
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
         List<ItemEntity> itemEntity = this.itemService.getList();
         form.getEstimateDtos().add(new EstimateDto());
         form.getEstimateDtos().add(new EstimateDto());
-        model.addAttribute("getactlist",accountEntity);
-        model.addAttribute("getemplist",empInfoEntity);
-        model.addAttribute("getitemlist",itemEntity);
-        model.addAttribute("estimateForm",form);
+        model.addAttribute("getactlist", accountEntity);
+        model.addAttribute("getemplist", empInfoEntity);
+        model.addAttribute("getitemlist", itemEntity);
+        model.addAttribute("estimateForm", form);
         return "contents/ss/estimate_form";
     }
+
     @PostMapping("/create")
-    public  ResponseEntity<?> createEstimateDto(@ModelAttribute EstimateForm form){
-        List<EstimateDto> estimateDtos= form.getEstimateDtos();
+    public ResponseEntity<?> createEstimateDto(@ModelAttribute EstimateForm form) {
+        List<EstimateDto> estimateDtos = form.getEstimateDtos();
         try {
             this.estimateService.create(estimateDtos);
             return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/ss/estimate/list"));
-        }catch (Exception e){
+        } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
             errorResponse.put("message", "저장에 실패 하였습니다.");
@@ -65,32 +67,34 @@ public class EstimateController {
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
+
     @GetMapping("/list")
-    public String list(Model model){
-        EstimateForm form=new EstimateForm();
-        List< EstimateEntity> estimateEntities = estimateService.getList();
+    public String list(Model model) {
+        EstimateForm form = new EstimateForm();
+        List<EstimateEntity> estimateEntities = estimateService.getList();
         List<AccountEntity> accountEntity = this.accountService.getList();
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
         List<ItemEntity> itemEntity = this.itemService.getList();
         form.getEstimateDtos().add(new EstimateDto());
         form.getEstimateDtos().add(new EstimateDto());
-        model.addAttribute("getactlist",accountEntity);
-        model.addAttribute("getemplist",empInfoEntity);
-        model.addAttribute("getitemlist",itemEntity);
-        model.addAttribute("estimateEntities",estimateEntities);
-        model.addAttribute("estimateForm",form);
+        model.addAttribute("getactlist", accountEntity);
+        model.addAttribute("getemplist", empInfoEntity);
+        model.addAttribute("getitemlist", itemEntity);
+        model.addAttribute("estimateEntities", estimateEntities);
+        model.addAttribute("estimateForm", form);
         return "contents/ss/estimate_list";
     }
+
     @GetMapping(value = "/list/detail/{id}")
-    public ResponseEntity<List<EstimateEntity>> detail(@PathVariable("id") String id){
+    public ResponseEntity<List<EstimateEntity>> detail(@PathVariable("id") String id) {
         List<EstimateEntity> estimateEntities = estimateService.getIdList(id);
         System.out.println(estimateEntities.toString());
         return ResponseEntity.ok(estimateEntities);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateEstimate(@ModelAttribute EstimateForm form){
-        List<EstimateDto> estimateDtos= form.getEstimateDtos();
+    public ResponseEntity<?> updateEstimate(@ModelAttribute EstimateForm form) {
+        List<EstimateDto> estimateDtos = form.getEstimateDtos();
         try {
             estimateService.updateAll(estimateDtos);
             // 성공 응답
@@ -107,10 +111,22 @@ public class EstimateController {
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
-    @GetMapping("/getitemdata")
-    public Optional<ItemEntity> itemlist(Model model, @RequestParam String itemCd){
 
-        return estimateService.getItemCd(itemCd);
+    @PostMapping("/delete")
+    public ResponseEntity<?> delete(@ModelAttribute EstimateForm form) {
+        try {
+            List<EstimateDto> estimateDtos=form.getEstimateDtos();
+            estimateService.delete(estimateDtos);
+            Map<String,Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("redirectUrl", "/ss/estimate/list");
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "삭제에 실패하였습니다.");
+            errorResponse.put("redirectUrl", "/ss/estimate/list");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
-
 }

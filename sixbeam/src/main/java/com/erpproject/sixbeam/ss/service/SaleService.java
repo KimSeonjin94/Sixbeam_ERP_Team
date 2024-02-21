@@ -1,15 +1,12 @@
 package com.erpproject.sixbeam.ss.service;
 
-import com.erpproject.sixbeam.ac.repository.AccountRepository;
-import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
-import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
+import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,9 +18,7 @@ import java.util.*;
 public class SaleService {
     private final SaleRepository saleRepository;
     private final EstimateRepository estimateRepository;
-    private final ItemRepository itemRepository;
-    private final AccountRepository accountRepository;
-    private final EmpInfoRepository empInfoRepository;
+    private final WhmoveRepository whmoveRepository;
 
     public List<EstimateEntity> getEstimateList() {
         List<EstimateEntity> estimateEntities = estimateRepository.findAll();
@@ -45,7 +40,6 @@ public class SaleService {
                         entity2.setEstimateVat(entity.getEstimateVat()+entity2.getEstimateVat());
                         entity2.setEstimateTamt(entity.getEstimateTamt()+entity2.getEstimateTamt());
                     }
-
                 }
             }
         }

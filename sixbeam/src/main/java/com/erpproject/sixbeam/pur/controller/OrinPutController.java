@@ -7,17 +7,14 @@ import com.erpproject.sixbeam.pur.dto.OrinPutDto;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.pur.form.OrinPutForm;
 import com.erpproject.sixbeam.pur.service.OrinPutService;
-import com.erpproject.sixbeam.ss.dto.EstimateDto;
-import com.erpproject.sixbeam.ss.entity.EstimateEntity;
-import com.erpproject.sixbeam.ss.form.EstimateForm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,31 +63,48 @@ public class OrinPutController {
     }
 
     @PostMapping("/save")
-    public String saveOrinPut(@ModelAttribute OrinPutForm form) {
-        List<OrinPutDto> orinPutDtos= form.getOrinputDtos();
-        this.orinputService.save(orinPutDtos);
-        return "redirect:/pur/orinput/list"; // 저장 후 목록 페이지로 리다이렉트
+    public ResponseEntity<?> saveOrinPut(@ModelAttribute OrinPutForm form) {
+        try {
+            List<OrinPutDto> orinPutDtos = form.getOrinputDtos();
+            this.orinputService.save(orinPutDtos);
+            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl","/pur/orinput/list")); // 저장 후 목록 페이지로 리다이렉트
+        } catch (Exception e){
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "저장에 실패 하였습니다.");
+            errorResponse.put("redirectUrl", "/pur/orinput/create");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @PostMapping("/update")
-    public String updateOrinput(@ModelAttribute OrinPutForm form){
-        List<OrinPutDto> orinPutDtos= form.getOrinputDtos();
-        orinputService.updateAll(orinPutDtos);
+    public ResponseEntity<?> updateOrinput(@ModelAttribute OrinPutForm form){
+        try {
+            List<OrinPutDto> orinPutDtos = form.getOrinputDtos();
+            orinputService.updateAll(orinPutDtos);
 
-        return "redirect:/pur/orinput/list";
+            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl","/pur/orinput/list"));
+        } catch (Exception e){
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "수정에 실패 하였습니다.");
+            errorResponse.put("redirectUrl", "/pur/orinput/update");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @PostMapping("/delete")
-    public String deleteOrinput(@RequestParam("selectedOrinput") List<String> selectedOrinputIds, RedirectAttributes redirectAttributes) {
+    public ResponseEntity<?> deleteOrinput(@RequestParam("selectedOrinput") List<String> selectedOrinputIds, RedirectAttributes redirectAttributes) {
         try {
             // 선택된 발주 정보를 삭제
             orinputService.delete(selectedOrinputIds);
-            return "redirect:/pur/orinput/list"; // 삭제 후 목록 페이지로 리다이렉트
+            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl","/pur/orinput/list")); // 삭제 후 목록 페이지로 리다이렉트
         } catch (IllegalStateException e) {
-            // ORINPUT_CD를 참조하는 다른 엔티티가 있을 때 모달 창 표시
-            //model.addAttribute("deleteError", true);
-            redirectAttributes.addAttribute("deleteError",true);
-            return "redirect:/pur/orinput/list";
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", e.getMessage());
+            errorResponse.put("redirectUrl", "/pur/orinput/list");
+            return ResponseEntity.badRequest().body(errorResponse);
         }
     }
 }
