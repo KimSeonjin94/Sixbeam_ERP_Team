@@ -32,6 +32,7 @@ public class RitemService {
     }
 
     public List<RitemEntity> getRitemList() {
+
         return this.ritemRepository.findAll();
     }
 }

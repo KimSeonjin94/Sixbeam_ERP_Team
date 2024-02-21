@@ -33,6 +33,7 @@ public class FitemService {
     }
 
     public List<FitemEntity> getFitemList() {
+        
         return this.fitemRepository.findAll();
     }
 }
