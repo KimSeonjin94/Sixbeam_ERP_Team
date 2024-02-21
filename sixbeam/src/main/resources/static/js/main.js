@@ -253,60 +253,7 @@ function formatCurrency(value) {
     // 숫자를 지역화된 통화 문자열로 변환 (소수점 없이)
     return "₩" + value.toLocaleString('ko-KR');
 }
-//test--------------------------------------------------------------------------------시작
-$(document).ready(function() {
-    // 폼이 제출될 때마다 실행되도록 변경
-    $('.formEntry').submit(function(e) {
-        // 폼 제출을 막음
-        e.preventDefault();
 
-        var asDt = $('#currentDate').val();
-        var empInfoId = $('#empInfoId').val();
-        var accountCd = $('#accountCode').val();
-        var ascmptDt = $('#ascmptDt').val();
-        var asSt = $('#asSt').val();
-        var asTi = $('#asTi').val();
-        var whregistNm = $('#whregistCode').val();
-        var asMo = $('#asMo').val();
-
-
-        $('.table.item tbody tr').each(function(index) {
-            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
-            $(this).find('.RegisDate').val(asDt);
-            $(this).find('.EmpInfoId').val(empInfoId);
-            $(this).find('.AccountCode').val(accountCd);
-            $(this).find('.WhregistCode').val(whregistNm);
-            $(this).find('.AsSt').val(asSt);
-            $(this).find('.AscmptDt').val(ascmptDt);
-            $(this).find('.AsTi').val(asTi);
-            $(this).find('.AsMo').val(asMo);
-        });
-
-        var formData = new FormData(this);
-
-        // FormData 객체를 반복하여 폼 데이터 확인
-        formData.forEach(function(value, key) {
-            console.log(`${key}: ${value}`);
-        });
-
-        // AJAX를 사용하여 폼 데이터 제출
-        $.ajax({
-            type: $(this).attr('method'), // POST 또는 GET
-            url: $(this).attr('action'),
-            data: $(this).serialize(), // 폼 데이터 직렬화
-            success: function(response) {
-                // 성공적으로 제출된 경우의 처리 로직
-                console.log('Form Submitted Successfully');
-            },
-            error: function(response) {
-                // 오류 처리 로직
-
-                console.log('Error Submitting Form');
-            }
-        });
-    });
-});
-//test--------------------------------------------------------------------------------끝
 $(document).ready(function() {
     // 폼이 제출될 때마다 실행되도록 변경
     $('.formEntry').submit(function(e) {
@@ -352,6 +299,7 @@ $(document).ready(function() {
             url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
             success: function(response) {
+                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
                 // 성공 시 리다이렉션
                 $('#successModal').modal('show');
                 // 모달이 닫힐 때 리다이렉션
@@ -365,6 +313,7 @@ $(document).ready(function() {
                 // 서버로부터 받은 에러 메시지를 알림
                 // 오류 처리 로직
                 var response = JSON.parse(xhr.responseText);
+                $('#failModal .modal-body').text(response.message);  //controller에서 받은 message 출력
                 // 오류 메시지 모달 표시
                 $('#failModal').modal('show'); // 올바른 셀렉터 사용
                 // 모달이 닫힐 때 리다이렉션
@@ -542,49 +491,63 @@ function formatToKRW(value) {
 }
 
 // 테이블의 행 클릭 이벤트 핸들러
-$('#detailOrinputCd[data-id]').on('click', function() {
+$('#detailPurCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
-    var orinputId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    var purId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    var purDetailUrl = "";
+    if(purId.indexOf("OR") !== -1){         //발주 조회에서 선택 했을 때
+        purDetailUrl = '/pur/orinput/list/detail/' + purId;
+    }
+    else if(purId.indexOf("PUR") !== -1){     //구매 조회에서 선택 했을 때
+        purDetailUrl = '/pur/input/list/detail/' + purId;
+    }
+    console.log(purDetailUrl);
     $('#orinputdetail').modal('hide');
     // AJAX 요청
     $.ajax({
-        url: '/pur/orinput/list/detail/' + orinputId, // 서버 엔드포인트
+        url: purDetailUrl, // 서버 엔드포인트
         type: 'GET',
         success: function(data) {
-            data.forEach(function(value, key) {
-                console.log(key + ': ' + value);
-            });
+            console.log(data[0]);
             if (data && data.length > 0) {
                 // 성공 시 모달 내용 업데이트
                 var modaltBody = $('.formEntry .table.item tbody');
                 modaltBody.empty();
-                $('#orinputCd').val(data[0].orinputCd);
-                $('#updateCurrentDate').val(data[0].orinputOrDt);
-                $('#updateaccountCode').val(data[0].accountEntity.accountCd);
-                $('#updatename').val(data[0].empInfoEntity.empInfoNm);
-                $('#updateaccountName').val(data[0].accountEntity.accountNm);
-                $('#orinputReqDate').val(data[0].orinputReqDt);
-                $('#orinputDlvyDate').val(data[0].orinputDlvyDt);
+
+                if(purId.indexOf("OR") !== -1){
+                    $('#orinputCd').val(data[0].orinputCd);
+                    $('#updateCurrentDate').val(data[0].orinputOrDt);
+                    $('#updateaccountCode').val(data[0].accountEntity.accountCd);
+                    $('#updatename').val(data[0].empInfoEntity.empInfoNm);
+                    $('#updateaccountName').val(data[0].accountEntity.accountNm);
+                    $('#orinputReqDate').val(data[0].orinputReqDt);
+                    $('#orinputDlvyDate').val(data[0].orinputDlvyDt);
+                }
+                else if(purId.indexOf("PUR") !== -1){
+                    $('#updateCurrentDate').val(data[0].inputPurDt);
+                }
+
                 // 데이터 항목별로 행 추가
                 data.forEach(function(item, index) {
                     var row = $('<tr>'); // 행 생성
-
-                    // 각 셀에 입력 요소와 name 속성 추가
-                    row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputCd" class="form-control" value="' + item.orinputCd + '">'+
-                    '<input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.orinputOrDt + '">'+
-                    '<input type="hidden" name="orinputDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
-                    '<input type="hidden" name="orinputDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
-                    '<input type="hidden" name="orinputDtos[' + index + '].orinputReqDt" class="form-control" value="' + item.orinputReqDt + '">'+
-                    '<input type="hidden" name="orinputDtos[' + index + '].orinputDlvyDt" class="form-control" value="' + item.orinputDlvyDt + '">'+
-                    '<input type="text" class="form-control" name="orinputDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
-                    row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
-                    row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputAmt" class="form-control itemamt" value="' + item.orinputAmt + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputUp" class="form-control itemup" value="' + formatToKRW(item.orinputUp) + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSp" class="form-control itemsp" value="' + formatToKRW(item.orinputSp) + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputVat" class="form-control itemvar" value="' + formatToKRW(item.orinputVat) + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSum" class="form-control itemsum" value="' + formatToKRW(item.orinputSum) + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputEtc" class="form-control" value="' + item.orinputEtc + '"></td>');
+                    if(purId.indexOf("OR") !== -1){
+                        // 각 셀에 입력 요소와 name 속성 추가
+                        row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputCd" class="form-control" value="' + item.orinputCd + '">'+
+                        '<input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.orinputOrDt + '">'+
+                        '<input type="hidden" name="orinputDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
+                        '<input type="hidden" name="orinputDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
+                        '<input type="hidden" name="orinputDtos[' + index + '].orinputReqDt" class="form-control" value="' + item.orinputReqDt + '">'+
+                        '<input type="hidden" name="orinputDtos[' + index + '].orinputDlvyDt" class="form-control" value="' + item.orinputDlvyDt + '">'+
+                        '<input type="text" class="form-control" name="orinputDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
+                        row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
+                        row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputAmt" class="form-control itemamt" value="' + item.orinputAmt + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputUp" class="form-control itemup" value="' + formatToKRW(item.orinputUp) + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSp" class="form-control itemsp" value="' + formatToKRW(item.orinputSp) + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputVat" class="form-control itemvar" value="' + formatToKRW(item.orinputVat) + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSum" class="form-control itemsum" value="' + formatToKRW(item.orinputSum) + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputEtc" class="form-control" value="' + item.orinputEtc + '"></td>');
+                    }
                     modaltBody.append(row); // 생성된 행을 테이블에 추가
                 });
                 // 모달 표시
@@ -612,21 +575,21 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-    $('#orinputcddelete').click(function() {
-        $('#deleteOrinputModal').modal('hide');
-        // 선택한 발주 정보의 ID 가져오기
-        var selectedOrinputId = $('#dataTable input[name="selectedOrinPut"]:checked').map(function(){
+    $('#purcddelete').click(function() {
+        $('#deletePurModal').modal('hide');
+        // 선택 정보의 ID 가져오기
+        var selectedPurId = $('#dataTable input[name="selectedPur"]:checked').map(function(){
             return $(this).val();
         }).get();
 
         // 선택한 ID를 hidden input에 설정
-        $('#selectedOrinputInput').val(selectedOrinputId);
+        $('#selectedPur').val(selectedPurId);
         // 폼 제출
-        $('.deleteOrinputForm').submit();
+        $('.deletePurForm').submit();
     });
 
     // 폼 제출 이벤트 핸들러
-    $('.deleteOrinputForm').submit(function(e) {
+    $('.deletePurForm').submit(function(e) {
         // 폼 제출을 막음
         e.preventDefault();
 
@@ -636,6 +599,7 @@ $(document).ready(function() {
             url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
             success: function(response) {
+                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
                 // 성공 시 리다이렉션
                 $('#successModal').modal('show');
                 // 모달이 닫힐 때 리다이렉션
@@ -646,7 +610,7 @@ $(document).ready(function() {
             error: function(xhr) {
                 // 오류 처리 로직
                 var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
-                $('#failModal .modal-body').text(response.message); // 에러 메시지를 모달에 설정
+                $('#failModal .modal-body').text(response.message);
                 // 오류 메시지 모달 표시
                 $('#failModal').modal('show'); // 올바른 셀렉터 사용
                 // 모달이 닫힐 때 리다이렉션
