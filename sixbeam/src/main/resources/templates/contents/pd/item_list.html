@@ -43,7 +43,7 @@
 					<tbody>
 					<tr th:each = "item : ${itemEntities}">
 						<td>
-							<input type = "checkbox" name = "selectedInfo" th:value = "${item.itemCd}">
+							<input type = "checkbox" class = "selectedInfo" th:value = "${item.itemCd}">
 						</td>
 						<td th:text = "${item.itemCd}"></td>
 						<td th:text = "${item.itemNm}"></td>

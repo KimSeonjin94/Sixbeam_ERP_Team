@@ -30,4 +30,8 @@ public class RitemService {
         }
         return ritemRepository.saveAll(ritemEntities);
     }
+
+    public List<RitemEntity> getRitemList() {
+        return this.ritemRepository.findAll();
+    }
 }
