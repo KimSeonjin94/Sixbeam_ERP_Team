@@ -1,47 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                border: 1px solid black;
-            }
-            th, td {
-                border: 1px solid black;
-                padding: 5px;
-                text-align: center;
-            }
-            th {
-                background-color: #f2f2f2;
-            }
-            .header {
-                background-color: lightgray;
-            }
-        </style>
-</head>
-<body>
-<table>
-    <tr>
-        <th colspan="2">재무 상태표</th>
-    </tr>
-    <tr>
-        <th colspan="2"> 2021-12-31</th>
-    </tr>
-
-    <tr>
-        <td>자산</td>
-        <td>부채</td>
-    </tr>
-
-    <tr><td>유동자산</td><td>유동부채</td></tr>
-    <tr><td>현금및현금성자산</td><td>비유동부채</td></tr>
-    <tr><td>재고자산</td><td>   </td></tr>
-    <tr><td>비유동자산</td><td>자본</td></tr>
-    <tr><td>투자자산</td><td>자본금</td></tr>
-    <tr><td>유형자산</td><td>자본잉여금</td></tr>
-    <tr><td>무형자산</td><td>이익잉여금</td></tr>
-</table>
+<html layout:decorate="~{layout/default}">
+    <div layout:fragment="content" class="container-fluid">
+        <div class="row d-flex align-items-stretch">
+            <!-- 달력 카드 -->
+            <div class="col-md-6">
+                <div class="card shadow mb-4">
+                    <div class="card-body-bs">
+                        <table border="1" class="financial-table" th:each="bs : ${balanceSheet}">
+                            <thead>
+                            <tr>
+                                <th colspan="4" class="card-header-title">재무상태표</th>
+                            </tr>
+                            <tr>
+                                <th colspan="4" class="card-header-date">
+                                <select class="selectQ">
+                                    <option value="">분기 선택</option>
+                                    <option th:each="bs : ${balanceSheet}" th:value="${bs.bsDt}"
+                                            th:text="${bs.bsDt}">
+                                    </option>
+                                </select>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th colspan="2" class="asset-column">자산</th>
+                                <th colspan="2" class="debt-column">부채</th>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-md" colspan="2">유동자산 </td>
+                                <td class="debt-column-md" colspan="2">유동부채  </td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l" >현금및현금성자산</td>
+                                <td><span class="bss" th:text="${bs.bsCash}"></span></td>
+                                <td class="debt-column-l">매입채무</td>
+                                <td><span class="bss" th:text="${bs.bsPayables}"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l" >재고자산</td>
+                                <td><span class="bss" th:text="${bs.bsInventories}"></span></td>
+                                <td class="debt-column-md" colspan="2">비유동부채</td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l" >매출채권</td>
+                                <td><span class="bss" th:text="${bs.bsReceivables}"></span></td>
+                                <td class="debt-column-l" >장기차입금</td>
+                                <td><span class="bss" th:text="${bs.bsLongBor}"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-md" colspan="2" >비유동자산 </td>
+                                <td class="capital-column-l" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l" >토지 </td>
+                                <td><span class="bss" th:text="${bs.bsLand}"></span></td>
+                                <th colspan="2" class="capital-column card-header-bs">자본</th>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l" >건물 </td>
+                                <td><span class="bss" th:text="${bs.bsBuilding}"></span></td>
+                                <td class="capital-column-l" >자본금</td>
+                                <td><span class="bss" th:text="${bs.bsCapital}"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l">유형자산</td>
+                                <td><span class="bss" th:text="${bs.bsFac}"></span></td>
+                                <td class="capital-column-l" >이익잉여금 </td>
+                                <td><span class="bss" th:text="${bs.bsEarnings}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

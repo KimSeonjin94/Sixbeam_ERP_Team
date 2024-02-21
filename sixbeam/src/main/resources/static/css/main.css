@@ -8349,6 +8349,85 @@ body.sidebar-toggled footer.sticky-footer {
 
 
 
+
+.card-header-title {
+   background : #5CAEFF;
+   text-align : center;
+   border: 1px solid black;
+}
+.card-header-date {
+    text-align : center;
+    border: 1px solid black;
+}
+
+.asset-column  {
+         padding: 0 0 0 10px;
+         text-align: left;
+         border: 1px solid black;
+}
+.debt-column  {
+         padding: 0 0 0 10px;
+         text-align: left;
+         border: 1px solid black;
+}
+.capital-column  {
+         padding: 0 0 0 10px;
+         text-align: left;
+         border: 1px solid black;
+}
+
+.asset-column-md {
+         padding: 0 0 0 20px;
+         text-align: left;
+}
+.debt-column-md {
+         padding: 0 0 0 20px;
+         text-align: left;
+}
+.capital-column-md {
+         padding: 0 0 0 20px;
+         text-align: left;
+}
+
+.asset-column-l {
+         padding: 0 0 0 40px;
+         text-align: left;
+}
+.debt-column-l {
+         padding: 0 0 0 40px;
+         text-align: left;
+}
+.capital-column-l {
+         padding: 0 0 0 40px;
+         text-align: left;
+}
+
+.financial-table {
+    height: 600px; /* 원하는 높이로 설정 */
+    margin-left: auto:
+    margin-right: auto:
+
+}
+
+.card-body-bs {
+    height: 750px;
+    display: flex; /* Flexbox를 사용하여 정렬을 설정합니다 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: center; /* 수평 중앙 정렬 */
+}
+
+
+.bss  {
+      padding: 0 0 0 20px;
+
+}
+
+
+
+
+
+
+
 /*--- pd css ---*/
 .btn.btn-success-pd {
   color: #fff;
