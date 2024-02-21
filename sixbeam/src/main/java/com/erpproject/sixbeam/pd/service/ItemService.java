@@ -3,10 +3,12 @@ package com.erpproject.sixbeam.pd.service;
 import com.erpproject.sixbeam.pd.dto.ItemDto;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -98,8 +100,16 @@ public class ItemService {
     }
 
     @Transactional
-    public void deleteItem(String itemCd) {
+    public ResponseEntity<String> deleteItem(List<String> itemCd) {
+        try {
+            for (String itemcd : itemCd) {
+                itemRepository.findById(itemcd).ifPresent(itemRepository::delete);
+            }
+        } catch (DataAccessException e) {
 
-        itemRepository.findById(itemCd).ifPresent(itemRepository::delete);
+            log.error("데이터베이스 조작 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("데이터베이스 조작 중 오류 발생");
+        }
+        return null;
     }
 }
