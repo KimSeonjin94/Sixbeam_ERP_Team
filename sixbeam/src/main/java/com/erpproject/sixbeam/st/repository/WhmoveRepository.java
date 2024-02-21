@@ -19,4 +19,7 @@ public interface WhmoveRepository extends JpaRepository<WhmoveEntity,String> {
             "(SELECT SUM(c.checkAmt) FROM CheckEntity c WHERE c.whmoveEntity.whmoveGb = :whmoveGb AND c.whmoveEntity.whmoveDt <= :date AND c.whmoveEntity.whregistEntity = :whregistEntity AND c.whmoveEntity.itemEntity = :itemEntity) as Amt FROM CheckEntity c WHERE c.whmoveEntity.whmoveDt = :date")
     List<Object[]> findtest(@Param("date") LocalDate date, @Param("whregistEntity") WhregistEntity whregistEntity, @Param("itemEntity") ItemEntity itemEntity);
 
+    @Query("SELECT MAX(w.whmoveCd) FROM WhmoveEntity w WHERE w.whmoveDt = :whmoveDate")
+    String getMaxWhmoveCd(@Param("whmoveDate") LocalDate whmoveDate);
+
 }

@@ -43,8 +43,18 @@ public class AsController {
     }
     @GetMapping("/list")
     public String list(Model model) {
-        List<AsEntity> asEntityList = this.asService.getList();
-        model.addAttribute("asEntityList",asEntityList);
+        AsForm form = new AsForm();
+        List<AsEntity> asEntity = this.asService.getList();
+        List<AccountEntity> accountEntity = this.accountService.getList();
+        List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
+        List<ItemEntity> itemEntitiy = this.itemService.getList();
+        List<WhregistEntity> whregistEntity = this.whregistService.getList();
+        model.addAttribute("getactlist",accountEntity);
+        model.addAttribute("getemplist",empInfoEntity);
+        model.addAttribute("getitemlist",itemEntitiy);
+        model.addAttribute("getwhregistlist", whregistEntity);
+        model.addAttribute("asForm",form);
+        model.addAttribute("asEntityList",asEntity);
         return "contents/st/as_list";
     }
     @GetMapping(value = "/detail/{asCd}")
@@ -70,7 +80,7 @@ public class AsController {
         model.addAttribute("asForm",form);
         return "contents/st/as_form";
     }
-    @PostMapping("/create")
+    @PostMapping("/save")
     public ResponseEntity<?> asCreateDto(@ModelAttribute AsForm form){
         List<AsDto> asDtos= form.getAsDtos();
         try {
