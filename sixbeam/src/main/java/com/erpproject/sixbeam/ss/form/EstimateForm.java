@@ -11,6 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 public class EstimateForm {
-    @Autowired
+
     private List<EstimateDto> estimateDtos= new ArrayList<>();
 }

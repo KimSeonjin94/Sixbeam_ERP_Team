@@ -1,8 +1,11 @@
 package com.erpproject.sixbeam.ss.controller;
 
+import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
+import com.erpproject.sixbeam.ss.form.EstimateForm;
+import com.erpproject.sixbeam.ss.form.SaleForm;
 import com.erpproject.sixbeam.ss.service.EstimateService;
 import com.erpproject.sixbeam.ss.service.SaleService;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
@@ -33,10 +36,12 @@ public class SaleController {
 
     @GetMapping("/list")
     public String list(Model model) {
+        SaleForm saleForm= new SaleForm();
         List<SaleEntity> saleEntities = saleService.getList();
         List<EstimateEntity> estimateEntities = estimateService.getList();
         model.addAttribute("estimateEntites", estimateEntities);
         model.addAttribute("saleEntities", saleEntities);
+        model.addAttribute("saleForm", saleForm);
         return "contents/ss/sale_list";
     }
 
@@ -63,6 +68,42 @@ public class SaleController {
             errorResponse.put("redirectUrl", "/ss/sale/new");
             return ResponseEntity.badRequest().body(errorResponse);
 
+        }
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> update(@ModelAttribute SaleDto saleDto) {
+        try {
+            saleService.update(saleDto);
+            // 성공 응답
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("redirectUrl", "/ss/sale/list");
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            // 실패 응답
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "업데이트에 실패하였습니다.");
+            errorResponse.put("redirectUrl", "/ss/sale/list");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?> delete(@ModelAttribute SaleForm form) {
+        try {
+            saleService.delete(form);
+            Map<String,Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("redirectUrl", "/ss/sale/list");
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "삭제에 실패하였습니다.");
+            errorResponse.put("redirectUrl", "/ss/sale/list");
+            return ResponseEntity.badRequest().body(errorResponse);
         }
     }
 

@@ -1,7 +1,10 @@
 package com.erpproject.sixbeam.st.service;
 
 import com.erpproject.sixbeam.pur.entity.InputEntity;
+import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
+import com.erpproject.sixbeam.ss.repository.EstimateRepository;
+import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
@@ -18,6 +21,7 @@ import java.util.Optional;
 public class WhmoveService {
 
     private final WhmoveRepository whmoveRepository;
+    private final EstimateRepository estimateRepository;
 
     public List<WhmoveEntity> getList() {
         return this.whmoveRepository.findAll();
@@ -57,16 +61,19 @@ public class WhmoveService {
 
     //[이벤트리스너_Sale]---------------------------------------------
     public void addRowSale(SaleEntity saleEntity) {
-        WhmoveEntity whmoveEntity = new WhmoveEntity();
-        String newWhmoveCd = generateNewWhmoveSaleCd(saleEntity.getSaleUploadDt());
-        whmoveEntity.setWhmoveDt(saleEntity.getSaleUploadDt());
-        //whmoveEntity.setEmpInfoEntity(saleEntity.getEstimateCd());// 담당자(견적테이블 담당자)
-        //whmoveEntity.setItemEntity(saleEntity.getEstimateCd());//품목(견적테이블 품목)
-        whmoveEntity.setWhregistEntity(saleEntity.getWhregistEntity());
-       // whmoveEntity.setWhmoveAmt(saleEntity.getEstimateCd());//수량(견적테이블 수량)
-        whmoveEntity.setWhmoveGb("출고");
-        whmoveEntity.setWhmoveCd(newWhmoveCd);
-        whmoveRepository.save(whmoveEntity);
+        List<EstimateEntity> estimateEntities = estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
+        for(EstimateEntity estimateEntity : estimateEntities) {
+            WhmoveEntity whmoveEntity = new WhmoveEntity();
+            whmoveEntity.setWhmoveDt(saleEntity.getSaleUploadDt());
+            whmoveEntity.setEmpInfoEntity(estimateEntity.getEmpInfoEntity());// 담당자(견적테이블 담당자)
+            whmoveEntity.setItemEntity(estimateEntity.getItemEntity());//품목(견적테이블 품목)
+            whmoveEntity.setWhregistEntity(saleEntity.getWhregistEntity());
+            whmoveEntity.setWhmoveAmt(estimateEntity.getEstimateAmt());//수량(견적테이블 수량)
+            whmoveEntity.setWhmoveGb("출고");
+            String newWhmoveCd = generateNewWhmoveSaleCd(saleEntity.getSaleUploadDt());
+            whmoveEntity.setWhmoveCd(newWhmoveCd);
+            whmoveRepository.save(whmoveEntity);
+        }
     }
     private String generateNewWhmoveSaleCd(LocalDate saleUploadDt) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
