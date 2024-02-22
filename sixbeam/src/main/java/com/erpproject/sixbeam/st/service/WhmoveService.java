@@ -102,7 +102,7 @@ public class WhmoveService {
     }
     private String generateNewInputCd(LocalDate inputPurDt) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
-        String prefix = "WHM" + inputPurDt.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
+        String prefix = "WHM" + inputPurDt.format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";
         // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
         String maxCd = whmoveRepository.getMaxWhmoveCd(inputPurDt);
         int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(maxCd.lastIndexOf("-") + 1)) + 1 : 1;

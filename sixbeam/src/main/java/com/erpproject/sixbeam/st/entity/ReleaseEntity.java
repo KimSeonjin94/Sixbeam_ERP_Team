@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
+@IdClass(ReleaseEntityId.class)
 @Table(name = "st_release_tb")
 public class ReleaseEntity {
 
@@ -25,6 +26,11 @@ public class ReleaseEntity {
     @Id
     @Column(name = "release_cd")
     private String releaseCd;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "ITEM_CD")
+    private ItemEntity itemEntity;
 
     @ManyToOne
     @JoinColumn(name = "account_cd")
@@ -37,10 +43,6 @@ public class ReleaseEntity {
     @ManyToOne
     @JoinColumn(name = "sale_cd")
     private SaleEntity saleEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "ITEM_CD")
-    private ItemEntity itemEntity;
 
     @ManyToOne
     @JoinColumn(name = "whregist_cd")

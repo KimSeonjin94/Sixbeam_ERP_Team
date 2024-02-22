@@ -16,6 +16,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -66,23 +67,47 @@ public class AsService {
 
             asEntity.setAsCd(newAsCd);
             asRepository.save(asEntity);
-            event.publishEvent(new RowAddedEvent(this,asEntity));//[이벤트리스너]
+            RowAddedEvent<AsEntity> asEvent = new RowAddedEvent<>(this, asEntity);
+            event.publishEvent(asEvent);
+        }
+    }
+
+    public void updateAll(List<AsDto> asDtos) {
+        for (AsDto asDto : asDtos) {
+            EmpInfoEntity empInfoEntity = empInfoRepository.findById(asDto.getEmpInfoEntity().getEmpInfoId())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            AccountEntity accountEntity = accountRepository.findById(asDto.getAccountEntity().getAccountCd())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            ItemEntity itemEntity = itemRepository.findById(asDto.getItemEntity().getItemCd())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            WhregistEntity whregistEntity = whregistRepository.findById(asDto.getWhregistEntity().getWhregistCd())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            asDto.setEmpInfoEntity(empInfoEntity);
+            asDto.setAccountEntity(accountEntity);
+            asDto.setItemEntity(itemEntity);
+            asDto.setWhregistEntity(whregistEntity);
+            AsEntity asEntity = asDto.toEntity();
+            asRepository.save(asEntity);
+        }
+    }
+    @Transactional
+    public void delete(List<String> asDtos) {
+        for (String asCd : asDtos) {
+            // ORINPUT_CD를 참조하는 엔티티가 없으면 삭제를 진행
+            List<AsEntity> asEntities = asRepository.findByAsCd(asCd);
+            asRepository.deleteAll(asEntities);
         }
     }
 
     private String generateNewAsCd(LocalDate asDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "AS" + asDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
-
         // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
         String maxCd = asRepository.getMaxAsCd(asDate);
         int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(maxCd.lastIndexOf("-") + 1)) + 1 : 1;
-
         // 4자리 숫자 부분을 형식에 맞게 생성
         String sequenceNumberString = String.format("%04d", sequenceNumber);
-
         return prefix + sequenceNumberString;
     }
-
-
 }
+

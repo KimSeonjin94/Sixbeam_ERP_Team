@@ -475,7 +475,55 @@ $('#detailwhregistCd[data-id]').on('click', function() {
     });
 });
 //재고_창고등록--------------------------------------------------------------------------------------------끝
+//재고_출하등록--------------------------------------------------------------------------------시작
+$(document).ready(function() {
+    // 폼이 제출될 때마다 실행되도록 변경
+    $('.ReleaseformEntry').submit(function(e) {
+        // 폼 제출을 막음
+        e.preventDefault();
 
+        var releaseDt = $('#currentDate').val();
+        var empInfoId = $('#empInfoId').val();
+        var accountCd = $('#accountCode').val();
+        var releaseRv = $('#releaseRv').val();
+        var releasePhone = $('#releasePhone').val();
+        var releaseZc = $('#releaseZc').val();
+        var whregistNm = $('#whregistCode').val();
+        var releaseAddr = $('#releaseAddr').val();
+
+        $('.table.item tbody tr').each(function(index) {
+            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+            $(this).find('.RegisDate').val(releaseDt);
+            $(this).find('.EmpInfoId').val(empInfoId);
+            $(this).find('.AccountCode').val(accountCd);
+            $(this).find('.WhregistCode').val(whregistNm);
+            $(this).find('.ReleaseRv').val(releaseRv);
+            $(this).find('.ReleasePhone').val(releasePhone);
+            $(this).find('.ReleaseZc').val(releaseZc);
+            $(this).find('.ReleaseAddr').val(releaseAddr);
+        });
+        var formData = new FormData(this);
+        // FormData 객체를 반복하여 폼 데이터 확인
+        formData.forEach(function(value, key) {
+            console.log(key + ': ' + value);
+        });
+        // AJAX를 사용하여 폼 데이터 제출
+        $.ajax({
+            type: $(this).attr('method'), // POST 또는 GET
+            url: $(this).attr('action'),
+            data: $(this).serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                // 성공적으로 제출된 경우의 처리 로직
+                console.log('Form Submitted Successfully');
+            },
+            error: function(response) {
+                // 오류 처리 로직
+                console.log('Error Submitting Form');
+            }
+        });
+    });
+});
+//재고_As등록--------------------------------------------------------------------------------끝
 
 // 테이블의 행 클릭 이벤트 핸들러
 $('#detailEstimateCd[data-id]').on('click', function() {
