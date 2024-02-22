@@ -29,5 +29,11 @@ public class FitemService {
             fitemEntities.add(fitemEntity);
         }
         return fitemRepository.saveAll(fitemEntities);
+
+    }
+
+    public List<FitemEntity> getFitemList() {
+        
+        return this.fitemRepository.findAll();
     }
 }

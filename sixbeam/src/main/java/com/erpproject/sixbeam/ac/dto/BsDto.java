@@ -1,11 +1,11 @@
 package com.erpproject.sixbeam.ac.dto;
 
 import com.erpproject.sixbeam.ac.entity.BsEntity;
+import lombok.Getter;
+import lombok.Setter;
 
-
-import java.time.LocalDate;
-
-
+@Getter
+@Setter
 public class BsDto {
     private String bsDt;
     private int bsCash;
