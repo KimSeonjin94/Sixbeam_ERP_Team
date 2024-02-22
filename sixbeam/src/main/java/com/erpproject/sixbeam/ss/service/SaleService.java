@@ -6,8 +6,10 @@ import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.form.SaleForm;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
+import com.erpproject.sixbeam.st.RowAddedEvent;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,6 +23,7 @@ public class SaleService {
     private final EstimateRepository estimateRepository;
     private final WhmoveRepository whmoveRepository;
     private final EstimateService estimateService;
+ //   private final ApplicationEventPublisher event;//[이벤트리스너]
 
     public List<EstimateEntity> getEstimateList() {
 
@@ -45,6 +48,7 @@ public class SaleService {
         String saleCd = generateNewSaleCd(saleEntity.getSaleUploadDt());
         saleEntity.setSaleCd(saleCd);
         saleRepository.save(saleEntity);
+    //    event.publishEvent(new RowAddedEvent(this,saleEntity));//[이벤트리스너]
     }
 
     public void update(SaleDto saleDto) {

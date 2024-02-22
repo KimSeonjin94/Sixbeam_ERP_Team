@@ -373,7 +373,56 @@ function prepareDelete() {
 }
 // AC 끝
 
-//재고_AS등록-------------------------------------------------------------------------------------------시작
+//재고_As등록--------------------------------------------------------------------------------시작
+$(document).ready(function() {
+    // 폼이 제출될 때마다 실행되도록 변경
+    $('.AsformEntry').submit(function(e) {
+        // 폼 제출을 막음
+        e.preventDefault();
+
+        var asDt = $('#currentDate').val();
+        var empInfoId = $('#empInfoId').val();
+        var accountCd = $('#accountCode').val();
+        var ascmptDt = $('#ascmptDt').val();
+        var asSt = $('#asSt').val();
+        var asTi = $('#asTi').val();
+        var whregistNm = $('#whregistCode').val();
+        var asMo = $('#asMo').val();
+
+        $('.table.item tbody tr').each(function(index) {
+            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+            $(this).find('.RegisDate').val(asDt);
+            $(this).find('.EmpInfoId').val(empInfoId);
+            $(this).find('.AccountCode').val(accountCd);
+            $(this).find('.WhregistCode').val(whregistNm);
+            $(this).find('.AsSt').val(asSt);
+            $(this).find('.AscmptDt').val(ascmptDt);
+            $(this).find('.AsTi').val(asTi);
+            $(this).find('.AsMo').val(asMo);
+        });
+        var formData = new FormData(this);
+        // FormData 객체를 반복하여 폼 데이터 확인
+        formData.forEach(function(value, key) {
+            console.log(`${key}: ${value}`);
+        });
+        // AJAX를 사용하여 폼 데이터 제출
+        $.ajax({
+            type: $(this).attr('method'), // POST 또는 GET
+            url: $(this).attr('action'),
+            data: $(this).serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                // 성공적으로 제출된 경우의 처리 로직
+                console.log('Form Submitted Successfully');
+            },
+            error: function(response) {
+                // 오류 처리 로직
+                console.log('Error Submitting Form');
+            }
+        });
+    });
+});
+//재고_As등록--------------------------------------------------------------------------------끝
+//재고_AS모달등록-------------------------------------------------------------------------------------------시작
 $('.table.Asitem').on('change input', '.selectbox, .itemamt', function() {
     var $row = $(this).closest('tr');
     var itemamt = parseFloat($row.find('.itemamt').val());
@@ -386,8 +435,7 @@ $('.table.Asitem').on('change input', '.selectbox, .itemamt', function() {
         $(this).closest('tr').find('.itemstnd').val(valueitmestnd);
     }
 });
-
-
+//재고_AS모달등록-------------------------------------------------------------------------------------------끝
 //재고_창고등록-------------------------------------------------------------------------------------------시작
 $('#detailwhregistCd[data-id]').on('click', function() {
     // 클릭된 요소의 ID를 콘솔에 출력
@@ -427,7 +475,6 @@ $('#detailwhregistCd[data-id]').on('click', function() {
     });
 });
 //재고_창고등록--------------------------------------------------------------------------------------------끝
-
 
 
 // 테이블의 행 클릭 이벤트 핸들러
@@ -501,6 +548,7 @@ $('#detailPurCd[data-id]').on('click', function() {
         purDetailUrl = '/pur/input/list/detail/' + purId;
     }
     console.log(purDetailUrl);
+    //구매 화면에서 발주선택 모달창의 행 클릭시 모달창 숨기기
     $('#orinputdetail').modal('hide');
     // AJAX 요청
     $.ajax({
@@ -523,7 +571,14 @@ $('#detailPurCd[data-id]').on('click', function() {
                     $('#orinputDlvyDate').val(data[0].orinputDlvyDt);
                 }
                 else if(purId.indexOf("PUR") !== -1){
+                    $('#orinputCode').val(data[0].orinputEntity.orinputCd);
                     $('#updateCurrentDate').val(data[0].inputPurDt);
+                    $('#updateaccountCode').val(data[0].orinputEntity.accountEntity.accountCd);
+                    $('#updatename').val(data[0].orinputEntity.empInfoEntity.empInfoNm);
+                    $('#updateaccountName').val(data[0].orinputEntity.accountEntity.accountNm);
+                    $('#orinputReqDate').val(data[0].orinputEntity.orinputReqDt);
+                    $('#orinputDlvyDate').val(data[0].orinputEntity.orinputDlvyDt);
+                    $('#whregistCode').val(data[0].whregistEntity.whregistCd);
                 }
 
                 // 데이터 항목별로 행 추가
