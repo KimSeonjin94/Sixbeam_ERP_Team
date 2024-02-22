@@ -14,5 +14,5 @@ import java.io.Serializable;
 @Setter
 public class OrinPutEntityId implements Serializable {
     private String orinputCd;
-    private ItemEntity itemEntity;
+    private String itemCd;
 }

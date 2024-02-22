@@ -579,7 +579,7 @@ $('#detailPurCd[data-id]').on('click', function() {
                     $('#updateaccountName').val(data[0].orinputEntity.accountEntity.accountNm);
                     $('#orinputReqDate').val(data[0].orinputEntity.orinputReqDt);
                     $('#orinputDlvyDate').val(data[0].orinputEntity.orinputDlvyDt);
-                    $('#whregistCode').val(data[0].whregistEntity.whregistCd);
+                    $('#whregistCode').find('option[value="' + data[0].whregistEntity.whregistCd + '"]').prop('selected', true);
                 }
 
                 // 데이터 항목별로 행 추가
@@ -603,6 +603,21 @@ $('#detailPurCd[data-id]').on('click', function() {
                         row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSum" class="form-control itemsum" value="' + formatToKRW(item.orinputSum) + '"></td>');
                         row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputEtc" class="form-control" value="' + item.orinputEtc + '"></td>');
                     }
+                    else if(purId.indexOf("PUR") !== -1){
+                        row.append('<td><input type="hidden" name="inputPurCd" class="form-control" value="' + item.inputPurCd + '">'+
+                        '<input type="hidden" name="inputPrgSt" class="form-control" value="' + item.inputPrgSt + '">'+
+                        '<input type="hidden" name="inputSiFl" class="form-control" value="' + item.inputSiFl + '">' +
+                        '<input type="text" class="form-control" name="inputDtos[' + index + '].orinputEntity.itemEntity.itemCd" value="' + item.orinputEntity.itemEntity.itemCd + '" readonly></td>');
+                        row.append('<td><input type="text" class="form-control itemname" value="' + item.orinputEntity.itemEntity.itemNm + '" readonly></td>');
+                        row.append('<td><input type="text" class="form-control itemstnd" value="' + item.orinputEntity.itemEntity.itemStnd + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputAmt" class="form-control itemamt" value="' + item.orinputEntity.orinputAmt + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputUp" class="form-control itemup" value="' + formatToKRW(item.orinputEntity.orinputUp) + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputSp" class="form-control itemsp" value="' + formatToKRW(item.orinputEntity.orinputSp) + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputVat" class="form-control itemvar" value="' + formatToKRW(item.orinputEntity.orinputVat) + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputSum" class="form-control itemsum" value="' + formatToKRW(item.orinputEntity.orinputSum) + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputEtc" class="form-control" value="' + item.orinputEntity.orinputEtc + '" readonly></td>');
+                    }
+
                     modaltBody.append(row); // 생성된 행을 테이블에 추가
                 });
                 // 모달 표시

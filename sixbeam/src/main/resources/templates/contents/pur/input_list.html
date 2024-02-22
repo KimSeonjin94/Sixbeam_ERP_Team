@@ -65,11 +65,11 @@
                         <div class="modal-body">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form class="formEntry" th:action="@{/pur/input/update}" th:object="${inputForm}" method="post">
+                                    <form class="formEntry" th:action="@{/pur/input/update}" th:object="${InputDto}" method="post">
                                         <div class="form-group row">
                                             <label for="updateCurrentDate" class="col-sm-2 col-form-label">구매일자</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updateCurrentDate" readonly>
+                                                <input type="text" name="inputPurDt" class="form-control" id="updateCurrentDate" readonly>
                                             </div>
                                             <label for="updatename" class="col-sm-2 col-form-label">담당자</label>
                                             <div class="col-sm-4">
@@ -99,11 +99,15 @@
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">발주 코드</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="orinputCode" readonly>
+                                                <input type="text" name="orinputEntity.orinputCd" class="form-control" id="orinputCode" readonly>
                                             </div>
                                             <label class="col-sm-2 col-form-label">창고 코드</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="whregistCode">
+                                                <select name="whregistEntity" class="selectbox form-control" id="whregistCode">
+                                                    <option></option>
+                                                    <option th:each="whregistlist : ${getwhregistlist}" th:value="${whregistlist.whregistCd}"
+                                                            th:text="${whregistlist.whregistNm}"></option>
+                                                </select>
                                             </div>
                                         </div>
                                         <table class="table item">

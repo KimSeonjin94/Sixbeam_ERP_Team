@@ -40,47 +40,35 @@ public class InputService {
     }
 
     public void update(InputDto inputDto) {
-        List<OrinPutEntity> orinputEntity = orinPutRepository.findByOrinputCd(inputDto.getOrinputEntity().getOrinputCd());
-    
-    
+        if(inputDto.isInputSiFl()){
+            throw new IllegalStateException("회계 반영되어 수정 불가 합니다.");
+        }
+
+        List<OrinPutEntity> orinPutEntity = orinPutRepository.findByOrinputCd(inputDto.getOrinputEntity().getOrinputCd());
+        if (orinPutEntity == null) {
+            throw new EntityNotFoundException("OrinPutEntity not found");
+        }
+
+
         WhregistEntity whregistEntity = whregistRepository.findById(inputDto.getWhregistEntity().getWhregistCd())
                 .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-    
+
         InputEntity inputEntity = inputDto.toEntity();
-    
-        String newInputCd = generateNewInputCd(inputDto.getInputPurDt());
-        inputEntity.setOrinputEntity(orinputEntity.get(0));
+
+        //저장할때는 구매코드를 새로 만들기 때문에 toEntity함수에 넣지 않아 수정할때는 따로 set 필요
+        inputEntity.setInputPurCd(inputDto.getInputPurCd());
+
+        inputEntity.setOrinputEntity(orinPutEntity.get(0));
         inputEntity.setWhregistEntity(whregistEntity);
-    
+
         inputRepository.save(inputEntity);
     }
     
     public void save(InputDto inputDto) {
-        List<OrinPutEntity> orinputEntity = orinPutRepository.findByOrinputCd(inputDto.getOrinputEntity().getOrinputCd());
-//
-//        WhregistEntity whregistEntity = whregistRepository.findById(inputDto.getWhregistEntity().getWhregistCd())
-//                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-//
-//        InputEntity inputEntity = inputDto.toEntity();
-//
-//        String newInputCd = generateNewInputCd(inputDto.getInputPurDt());
-//        inputEntity.setInputPurCd(newInputCd);
-//        inputEntity.setOrinputEntity(orinputEntity.get(0));
-//        inputEntity.setWhregistEntity(whregistEntity);
-//
-//        inputRepository.save(inputEntity);
 
-        // OrinPutEntityId 인스턴스 생성
-        String orinputCd = inputDto.getOrinputEntity().getOrinputCd();
-        inputDto.setOrinputEntity(orinputEntity.get(0));
-        ItemEntity itemEntity = inputDto.getOrinputEntity().getItemEntity();
-
-        // OrinPutEntity 조회
-        OrinPutEntity orinPutEntity = orinPutRepository.findByOrinputCdAndItemEntity(orinputCd, itemEntity);
+        List<OrinPutEntity> orinPutEntity = orinPutRepository.findByOrinputCd(inputDto.getOrinputEntity().getOrinputCd());
         if (orinPutEntity == null) {
-            // 복합 기본 키에 해당하는 엔티티가 없는 경우 처리
-            // 예를 들어 예외를 던지거나 새로운 엔티티를 생성할 수 있음
-            throw new EntityNotFoundException("OrinPutEntity not found for orinputCd: " + orinputCd + " and itemEntity: " + itemEntity);
+            throw new EntityNotFoundException("OrinPutEntity not found");
         }
 
         // WhregistEntity 조회
@@ -91,14 +79,14 @@ public class InputService {
         InputEntity inputEntity = inputDto.toEntity();
         String newInputCd = generateNewInputCd(inputDto.getInputPurDt());
         inputEntity.setInputPurCd(newInputCd);
-        inputEntity.setOrinputEntity(orinPutEntity);
+        inputEntity.setOrinputEntity(orinPutEntity.get(0));
         inputEntity.setWhregistEntity(whregistEntity);
         inputRepository.save(inputEntity);
 //        event.publishEvent(new RowAddedEvent(this,inputEntity));//[이벤트리스너]
     }
     private String generateNewInputCd(LocalDate inputDate) {
         // 현재 날짜를 기반으로 새로운 구매 코드 생성
-        String prefix = "PUR" + inputDate.format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";
+        String prefix = "PUR" + inputDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
 
         // DB에서 최대 구매 코드를 가져와서 숫자 부분 추출 후 +1 증가
         String maxCd = inputRepository.getMaxInputCd(inputDate);
@@ -116,10 +104,8 @@ public class InputService {
             // 구매 삭제시 회계반영이 되었는지 확인 후 반영이 되어있으면 삭제 불가
             boolean isReferenced = inputRepository.checkInputSiFl(inputId);
             if (isReferenced) {
-                // ORINPUT_CD를 참조하는 엔티티가 존재하면 삭제를 거부
                 throw new IllegalStateException("회계 반영되어 삭제 불가 합니다.");
             } else {
-                // ORINPUT_CD를 참조하는 엔티티가 없으면 삭제를 진행
                 List<InputEntity> inPutEntities = inputRepository.findByinputPurCd(inputId);
                 inputRepository.deleteAll(inPutEntities);
             }
