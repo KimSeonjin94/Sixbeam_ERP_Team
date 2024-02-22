@@ -549,6 +549,7 @@ $('#detailPurCd[data-id]').on('click', function() {
         purDetailUrl = '/pur/input/list/detail/' + purId;
     }
     console.log(purDetailUrl);
+    //구매 화면에서 발주선택 모달창의 행 클릭시 모달창 숨기기
     $('#orinputdetail').modal('hide');
     // AJAX 요청
     $.ajax({
@@ -571,7 +572,14 @@ $('#detailPurCd[data-id]').on('click', function() {
                     $('#orinputDlvyDate').val(data[0].orinputDlvyDt);
                 }
                 else if(purId.indexOf("PUR") !== -1){
+                    $('#orinputCode').val(data[0].orinputEntity.orinputCd);
                     $('#updateCurrentDate').val(data[0].inputPurDt);
+                    $('#updateaccountCode').val(data[0].orinputEntity.accountEntity.accountCd);
+                    $('#updatename').val(data[0].orinputEntity.empInfoEntity.empInfoNm);
+                    $('#updateaccountName').val(data[0].orinputEntity.accountEntity.accountNm);
+                    $('#orinputReqDate').val(data[0].orinputEntity.orinputReqDt);
+                    $('#orinputDlvyDate').val(data[0].orinputEntity.orinputDlvyDt);
+                    $('#whregistCode').val(data[0].whregistEntity.whregistCd);
                 }
 
                 // 데이터 항목별로 행 추가
