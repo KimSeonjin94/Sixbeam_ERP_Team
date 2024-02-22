@@ -2,7 +2,6 @@ package com.erpproject.sixbeam.ac.entity;
 
 import com.erpproject.sixbeam.ac.dto.AccountDto;
 import jakarta.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
