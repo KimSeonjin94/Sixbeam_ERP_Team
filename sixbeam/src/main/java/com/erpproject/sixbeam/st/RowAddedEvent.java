@@ -4,15 +4,19 @@ import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 @Getter
-public class RowAddedEvent<T>{
-    private Object source;
+@Setter
+public class RowAddedEvent<T> extends ApplicationEvent{
     private T entity;
+
     public RowAddedEvent(Object source, T entity) {
-        this.source =source;
+        super(source);
         this.entity = entity;
+
     }
+
 
 
 }
