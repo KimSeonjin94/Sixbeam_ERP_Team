@@ -8,6 +8,7 @@ import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import com.erpproject.sixbeam.st.RowAddedEvent;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
+import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +24,13 @@ import java.util.*;
 public class SaleService {
     private final SaleRepository saleRepository;
     private final EstimateRepository estimateRepository;
-    private final WhmoveRepository whmoveRepository;
+    private final WhregistRepository whregistRepository;
     private final EstimateService estimateService;
-    private final ApplicationEventPublisher event;//[이벤트리스너]
+    @Autowired
+    private ApplicationEventPublisher event;//[이벤트리스너]
 
-    public List<EstimateEntity> getEstimateList() {
 
-        return estimateService.getList();
-    }
 
-    public List<EstimateEntity> getEstimateIdList(String id) {
-
-        return this.estimateRepository.findByEstimateCd(id);
-    }
 
     public List<SaleEntity> getList() {
         return this.saleRepository.findAll();
@@ -46,12 +41,17 @@ public class SaleService {
     }
 
     public void create(SaleDto saleDto) {
-        SaleEntity saleEntity = saleDto.toEtity();
-        String saleCd = generateNewSaleCd(saleEntity.getSaleUploadDt());
-        saleEntity.setSaleCd(saleCd);
-        saleRepository.save(saleEntity);
-        RowAddedEvent<SaleEntity> saleEvent = new RowAddedEvent<>(this, saleEntity);
-        event.publishEvent(saleEvent);
+        try {
+            SaleEntity saleEntity = saleDto.toEtity();
+            String saleCd = generateNewSaleCd(saleEntity.getSaleUploadDt());
+            saleEntity.setSaleCd(saleCd);
+            saleEntity.setWhregistEntity(whregistRepository.findByWhregistCd(saleEntity.getWhregistEntity().getWhregistCd()).get(0));
+            saleRepository.save(saleEntity);
+            RowAddedEvent<SaleEntity> saleEvent = new RowAddedEvent<>(this, saleEntity);
+            event.publishEvent(saleEvent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void update(SaleDto saleDto) {
@@ -60,10 +60,9 @@ public class SaleService {
             saleRepository.save(saleEntity);
     }
     @Transactional
-    public void delete(SaleForm saleForm) {
-        List<SaleDto> saleDtos = saleForm.getSaleDtos();
-        for (SaleDto saleDto : saleDtos) {
-            Optional<SaleEntity> optionalSaleEntity = saleRepository.findById(saleDto.getSaleCd());
+    public void delete(List<String> saleCds) {
+        for (String saleCd : saleCds) {
+            Optional<SaleEntity> optionalSaleEntity = saleRepository.findById(saleCd);
             SaleEntity saleEntity=optionalSaleEntity.get();
             saleRepository.save(saleEntity);
         }
@@ -71,14 +70,14 @@ public class SaleService {
 
     private String generateNewSaleCd(LocalDate saleDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
-        String prefix = "SS" + saleDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-";
+        String prefix = "SS" + saleDate.format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";
 
         // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
         String maxCd = saleRepository.getMaxSaleCd(saleDate);
         int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(maxCd.lastIndexOf("-") + 1)) + 1 : 1;
 
         // 4자리 숫자 부분을 형식에 맞게 생성
-        String sequenceNumberString = String.format("%03d", sequenceNumber);
+        String sequenceNumberString = String.format("%04d", sequenceNumber);
 
         return prefix + sequenceNumberString;
     }

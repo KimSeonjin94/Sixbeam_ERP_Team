@@ -104,6 +104,7 @@ public class EstimateController {
             response.put("redirectUrl", "/ss/estimate/list");
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
+            e.printStackTrace();
             // 실패 응답
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
@@ -114,7 +115,7 @@ public class EstimateController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam("selectedid") List<String> selectedid, RedirectAttributes redirectAttributes) {
+    public ResponseEntity<?> delete(@RequestParam("selectedid") List<String> selectedid) {
         try {
 
             estimateService.delete(selectedid);

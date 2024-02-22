@@ -16,11 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequestMapping("/ss/sale")
 @Controller
@@ -44,6 +42,27 @@ public class SaleController {
         model.addAttribute("saleForm", saleForm);
         return "contents/ss/sale_list";
     }
+    @GetMapping(value = "/list/detail/{id}")
+    public ResponseEntity<Map<String, Object>> detail(@PathVariable("id") String id) {
+        Optional<SaleEntity> optionalSaleEntity = saleService.getId(id);
+
+        if (optionalSaleEntity.isPresent()) {
+            SaleEntity saleEntity = optionalSaleEntity.get();
+            List<EstimateEntity> estimateEntities = estimateService.getIdList(saleEntity.getEstimateCd());
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("saleEntity", saleEntity);
+            response.put("estimateEntities", estimateEntities);
+//            response.put("member", member);
+
+            return ResponseEntity.ok(response);
+        } else {
+            // 존재하지 않는 경우 적절한 예외 처리나 오류 응답
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "SaleEntity not found for ID: " + id);
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
 
     @GetMapping("/new")
     public String create(Model model) {
@@ -62,6 +81,7 @@ public class SaleController {
             this.saleService.create(saleDto);
             return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/ss/sale/list"));
         }catch (Exception e){
+            e.printStackTrace();
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
             errorResponse.put("message", "저장에 실패 하였습니다.");
@@ -91,9 +111,9 @@ public class SaleController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<?> delete(@ModelAttribute SaleForm form) {
+    public ResponseEntity<?> delete(@RequestParam("selectedid") List<String> selectedid) {
         try {
-            saleService.delete(form);
+            saleService.delete(selectedid);
             Map<String,Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("redirectUrl", "/ss/sale/list");
