@@ -12,8 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/pd/item")
 @Controller
@@ -38,17 +41,29 @@ public class ItemController {
         // 품목 리스트 뷰페이지 반환
         return "contents/pd/item_list";
     }
-    // 품목 신규
+    // 품목 등록
     @PostMapping("/create")
-    public String createItem(@ModelAttribute ItemDto itemDto) {
-        itemService.saveItem(itemDto);
+    public String createItem(@ModelAttribute ItemDto itemDto, RedirectAttributes redirectAttributes) {
+
+        try {
+            itemService.saveItem(itemDto);
+
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
         return "redirect:/pd/item/itemlist";
     }
+
     // 품목 수정
     @PostMapping("/update")
-    public String editItem(@ModelAttribute ItemDto itemDto) {
+    public String editItem(@ModelAttribute ItemDto itemDto, RedirectAttributes redirectAttributes) {
 
-        itemService.updateItem(itemDto);
+        try {
+            itemService.updateItem(itemDto);
+
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
         return "redirect:/pd/item/itemlist";
     }
     // 품목 삭제
