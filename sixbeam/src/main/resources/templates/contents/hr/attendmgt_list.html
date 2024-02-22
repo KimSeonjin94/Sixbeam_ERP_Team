@@ -15,15 +15,22 @@
                         <th>체크</th>
                         <th>날짜</th>
                         <th>사원</th>
+                        <th>사유</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr data-employee-id="1" data-employee-nm="John Doe">
                         <td><input type="checkbox"></td>
-                        <td><input type="date" class="form-control current-date"></td>
+                        <td><input type="date" class="form-control"></td>
                         <td>
-                            <input type="text" class="form-control" id="current[0].frog" name="current[0].frog"
+                            <input type="text" class="form-control" id="current[0].name" name="current[0].id"
                                    ondblclick="showModal();" onclick="getClickedId();" >
+                        </td>
+                        <td>
+                            <select class="form-control" id="reasonCd" name="reasonCd">
+                                <option>선택하세요</option>
+                                <option th:each="reason : ${reasonList}" th:value="${reason.reasonCd}" th:text="${reason.reasonNm}"></option>
+                            </select>
                         </td>
                     </tr>
                     </tbody>
@@ -71,12 +78,10 @@
                                             <tbody>
                                             <script>
                                                 var currentIndex;
-
                                                 function frog() {
                                                     // 현재 행을 복제하여 추가
                                                     var $lastRow = $('.table.item tbody tr:last');
                                                     var $newRow = $lastRow.clone();
-
                                                     // 복제된 행의 name 속성에 포함된 인덱스를 증가시킵니다.
                                                     $newRow.find('input, select').each(function() {
                                                         var name = $(this).attr('id');
@@ -107,8 +112,8 @@
 
                                                     var newindex=currentIndex.replace(/[^0-9]/g, '');
 
-                                                    $('#current\\[' + newindex + '\\]\\.frog').val(employeeId);
-
+                                                    $('#current\\[' + newindex + '\\]\\.id').val(employeeId);
+                                                    $('#current\\[' + newindex + '\\]\\.name').val(employeeNm);
                                                     // 모달 닫기
                                                     console.log('잘가'); // 콘솔에 출력
                                                     $('#employeeModal').modal('hide');
@@ -150,6 +155,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

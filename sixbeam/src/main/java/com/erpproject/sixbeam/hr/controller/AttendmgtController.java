@@ -1,14 +1,8 @@
 package com.erpproject.sixbeam.hr.controller;
 
 
-import com.erpproject.sixbeam.hr.entity.DepartEntity;
-import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
-import com.erpproject.sixbeam.hr.entity.PositionEntity;
-import com.erpproject.sixbeam.hr.entity.SalaryIdEntity;
-import com.erpproject.sixbeam.hr.service.DepartService;
-import com.erpproject.sixbeam.hr.service.EmpInfoService;
-import com.erpproject.sixbeam.hr.service.PositionService;
-import com.erpproject.sixbeam.hr.service.SalaryIdService;
+import com.erpproject.sixbeam.hr.entity.*;
+import com.erpproject.sixbeam.hr.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +26,8 @@ public class AttendmgtController {
     private final PositionService positionService;
     @Autowired
     private final EmpInfoService empInfoService;
+    @Autowired
+    private final ReasonService reasonService;
     @GetMapping("/list")
     public String list(Model model){
         List<EmpInfoEntity>empInfoList = this.empInfoService.getList();
@@ -42,6 +38,8 @@ public class AttendmgtController {
         model.addAttribute("departList",departList);
         List<PositionEntity> positionList = this.positionService.getList();
         model.addAttribute("positionList",positionList);
+        List<ReasonEntity>reasonList = this.reasonService.getList();
+        model.addAttribute("reasonList",reasonList);
         return "contents/hr/attendmgt_list";
     }
     @PostMapping("/update")
