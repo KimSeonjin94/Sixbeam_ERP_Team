@@ -18,24 +18,24 @@ public class StListener {
 
     //[이벤트리스너_As]-----------------------------------------------
     @EventListener
-    public void whmoveAsEvent(RowAddedEvent event) {
-        AsEntity asEntity = event.getAsEntity();
+    public void whmoveAsEvent(RowAddedEvent<AsEntity> event) {
+        AsEntity asEntity = event.getEntity();
         whmoveService.addRowAs(asEntity);
     }
     //[이벤트리스너_As]-----------------------------------------------
 
     //[이벤트리스너_Sale]---------------------------------------------
     @EventListener
-    public void whmoveSaleEvent(RowAddedEvent event) {
-        SaleEntity saleEntity = event.getSaleEntity();
+    public void whmoveSaleEvent(RowAddedEvent<SaleEntity> event) {
+        SaleEntity saleEntity = event.getEntity();
         whmoveService.addRowSale(saleEntity);
     }
     //[이벤트리스너_Sale]---------------------------------------------
 
     //[이벤트리스너_Input]---------------------------------------------
     @EventListener
-    public void whmoveInputEvent(RowAddedEvent event) {
-        InputEntity inputEntity = event.getInputEntity();
+    public void whmoveInputEvent(RowAddedEvent<InputEntity> event) {
+        InputEntity inputEntity = event.getEntity();
         whmoveService.addRowInput(inputEntity);
     }
     //[이벤트리스너_Sale]---------------------------------------------

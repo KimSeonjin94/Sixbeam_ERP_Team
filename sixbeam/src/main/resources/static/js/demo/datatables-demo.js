@@ -55,13 +55,6 @@ $(document).ready(function() {
                 }
             },
             {
-                text: '수정',
-                className: 'btn-right ml-sm-1',
-                action: function ( e, dt, node, config ) {
-                    $('#detail').modal('show');
-                }
-            },
-            {
                 text: '삭제',
                 className: 'btn-right ml-sm-1',
                 action: function ( e, dt, node, config ) {

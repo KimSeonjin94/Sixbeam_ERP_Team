@@ -12,6 +12,7 @@ import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -108,6 +109,7 @@ public class EstimateService {
             estimateRepository.save(estimateEntity);
         }
     }
+    @Transactional
     public void delete(List<String> estimateDtos){
         List<EstimateEntity> estimateEntityList=new ArrayList<>();
         for(String estimateCd : estimateDtos){
