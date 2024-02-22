@@ -28,6 +28,7 @@ import java.util.Optional;
 public class InputService {
     private final InputRepository inputRepository;
     private final OrinPutRepository orinPutRepository;
+    private final WhregistRepository whregistRepository;
 //    private final ApplicationEventPublisher event;//[이벤트리스너]
     public List<InputEntity> getList() {
         return this.inputRepository.findAll();
