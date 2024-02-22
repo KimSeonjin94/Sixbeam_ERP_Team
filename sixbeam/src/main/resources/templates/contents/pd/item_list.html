@@ -20,8 +20,8 @@
 			</div>-->
 			<div class = "btn-group" role = "group" aria-label = "Basic example">
 				<!-- Button trigger modal -->
-				<button type = "button" class = "btn btn-danger-ac" data-toggle = "modal" data-target = "#deleteItem">
-					삭제
+				<button type = "button" class = "btn btn-danger" data-toggle = "modal" data-target = "#deleteItem">
+					선택 항목 삭제
 				</button>
 			</div>
 		</div>
@@ -60,12 +60,6 @@
                                         [[${item.itemUp}]])">
 									수정
 								</button>
-								<!-- Button trigger modal -->
-								<!--<button type = "button" class = "btn btn-danger-ac" data-toggle = "modal"
-								        data-target = "#deleteItem">
-									삭제
-								</button>-->
-								<!--Button trigger modal-->
 								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
 								        data-target = "#detailItem" th:onclick = "setItemInfo
 								        ([[${item.itemCd}]],
@@ -94,7 +88,7 @@
 							</button>
 						</div>
 						
-						<form action = "/pd/item/create" method = "post">
+						<form action = "/pd/item/create" method = "post" id = "createform">
 							<div class = "modal-body-ac">
 								<div class = "form-group row">
 									<label for = "itemCd" class = "col-sm-2 col-form-label">품목 코드</label>
@@ -119,9 +113,7 @@
 							</div>
 							
 							<div class = "modal-footer">
-								<button type = "submit" class = "btn btn-primary"
-								        th:onclick = "createItemFinished()">저장
-								</button>
+								<button type = "submit" class = "btn btn-primary" th:onclick = "createItemFinished()">저장</button>
 								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
 							</div>
 						</form>
@@ -151,7 +143,7 @@
 								<div class = "form-group row">
 									<label for = "editItemNm" class = "col-sm-2 col-form-label">품목명</label>
 									<input type = "text" class = "form-control col-sm-10" id = "editItemNm"
-									       name = "itemNm" style = "text-transform: uppercase;">
+									       name = "itemNm" style = "text-transform: uppercase;" readonly>
 								</div>
 								<div class = "form-group row">
 									<label for = "editItemStnd" class = "col-sm-2 col-form-label">규격</label>
@@ -165,9 +157,7 @@
 								</div>
 							</div>
 							<div class = "modal-footer">
-								<button type = "submit" class = "btn btn-danger" th:onclick = "editItemFinished()">
-									수정
-								</button>
+								<button type = "submit" class = "btn btn-danger" th:onclick = "editItemFinished()">수정</button>
 								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
 							</div>
 						</form>
@@ -205,27 +195,3 @@
 	</div>
 </div>
 </html>
-
-<script type = "text/javascript">
-	// 데이터베이스에도 대문자로 저장하는 스크립트(?)
-	$(document).ready(function () {
-		$("#itemCd").bind("keyup", function () {
-			$(this).val($(this).val().toUpperCase());
-		});
-	})
-	
-	// oninput(onkeyup X)으로 영대문자와 숫자만 입력받는 text script문
-	function checkInput(event) {
-		const regExp = /[^A-Za-z0-9]/ig; // 영문과 숫자만 허용
-		// const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
-		const del = event.target;
-		del.value = del.value.replace(regExp, '');
-	};
-	
-	// 숫자만 입력 받는 script문
-	function checkInput2(event) {
-		const regExp = /[^0-9]/ig;
-		const del = event.target;
-		del.value = del.value.replace(regExp, '');
-	}
-</script>

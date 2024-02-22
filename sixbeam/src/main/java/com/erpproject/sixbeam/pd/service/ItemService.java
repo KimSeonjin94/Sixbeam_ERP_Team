@@ -80,27 +80,33 @@ public class ItemService {
     }
 
     public void saveItem(ItemDto itemDto) {
-        ItemEntity itemEntity = itemDto.toEntity();
-        itemRepository.save(itemEntity);
+
+            ItemEntity itemEntity = itemDto.toEntity();
+            itemRepository.save(itemEntity);
     }
 
     public void updateItem(ItemDto itemDto) {
+
         // dto -> entity
         ItemEntity editItemEntity = itemDto.toEntity();
+
         // itemCd에 해당하는 entity 검색
         ItemEntity itemEntity = itemRepository.findById(editItemEntity.getItemCd())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid account Id:" + editItemEntity.getItemCd()));
+
         // 각 필드 업데이트
         itemEntity.setItemCd(editItemEntity.getItemCd());
         itemEntity.setItemNm(editItemEntity.getItemNm());
         itemEntity.setItemStnd(editItemEntity.getItemStnd());
         itemEntity.setItemUp(editItemEntity.getItemUp());
+
         // 엔티티 반환 후 저장
         itemRepository.save(itemEntity);
     }
 
     @Transactional
     public ResponseEntity<String> deleteItem(List<String> itemCd) {
+
         try {
             for (String itemcd : itemCd) {
                 itemRepository.findById(itemcd).ifPresent(itemRepository::delete);
