@@ -10,12 +10,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrinPutRepository extends JpaRepository<OrinPutEntity, OrinPutEntityId> {
+
     List<OrinPutEntity> findByOrinputCd(String id);
 
-    OrinPutEntity findByOrinputCdAndItemEntity(String orinputCd, ItemEntity itemEntity);
     @Query("SELECT MAX(o.orinputCd) FROM OrinPutEntity o WHERE o.orinputOrDt = :orinputDate")
     String getMaxOrinputCd(@Param("orinputDate")LocalDate orinputDate);
 }

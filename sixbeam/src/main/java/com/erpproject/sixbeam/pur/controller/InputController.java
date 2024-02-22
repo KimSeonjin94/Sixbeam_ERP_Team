@@ -32,7 +32,9 @@ public class InputController {
     @GetMapping("/list")
     public String GetList(Model model) {
         List<InputEntity> inputEntity = this.inputService.getList();
+        List<WhregistEntity> whregistEntity = whregistService.getList();
         model.addAttribute("inputEntity",inputEntity);
+        model.addAttribute("getwhregistlist",whregistEntity);
         return "contents/pur/input_list";
     }
 
@@ -66,7 +68,7 @@ public class InputController {
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", "저장에 실패 하였습니다.");
+            errorResponse.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
             errorResponse.put("redirectUrl", "/pur/input/create");
             return ResponseEntity.badRequest().body(errorResponse);
         }
@@ -84,8 +86,8 @@ public class InputController {
         } catch (Exception e){
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", "수정에 실패 하였습니다.");
-            errorResponse.put("redirectUrl", "/pur/input/update");
+            errorResponse.put("message", String.format("수정에 실패 하였습니다.[%s]", e.getMessage()));
+            errorResponse.put("redirectUrl", "/pur/input/list");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
@@ -100,10 +102,10 @@ public class InputController {
             successResponse.put("message", "정상적으로 삭제되었습니다.");
             successResponse.put("redirectUrl", "/pur/input/list");
             return ResponseEntity.ok().body(successResponse); // 삭제 후 목록 페이지로 리다이렉트
-        } catch (IllegalStateException e) {
+        } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", e.getMessage());
+            errorResponse.put("message", String.format("삭제에 실패 하였습니다.[%s]", e.getMessage()));
             errorResponse.put("redirectUrl", "/pur/input/list");
             return ResponseEntity.badRequest().body(errorResponse);
         }

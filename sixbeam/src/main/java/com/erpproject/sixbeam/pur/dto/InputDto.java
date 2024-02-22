@@ -3,6 +3,7 @@ package com.erpproject.sixbeam.pur.dto;
 import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
+import jakarta.validation.constraints.Null;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,17 +13,11 @@ import java.time.LocalDate;
 @Setter
 public class InputDto {
     private LocalDate inputPurDt;
-
     private String inputPurCd;
-
     private OrinPutEntity orinputEntity;
-
     private WhregistEntity whregistEntity;
-
     private String inputPrgSt;
-
     private LocalDate inputSiDt;
-
     private boolean inputSiFl;
 
     public InputEntity toEntity() {

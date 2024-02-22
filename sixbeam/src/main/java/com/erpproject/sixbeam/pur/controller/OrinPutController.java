@@ -75,7 +75,7 @@ public class OrinPutController {
         } catch (Exception e){
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", "저장에 실패 하였습니다.");
+            errorResponse.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
             errorResponse.put("redirectUrl", "/pur/orinput/create");
             return ResponseEntity.badRequest().body(errorResponse);
         }
@@ -94,7 +94,7 @@ public class OrinPutController {
         } catch (Exception e){
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", "수정에 실패 하였습니다.");
+            errorResponse.put("message", String.format("수정에 실패 하였습니다.[%s]", e.getMessage()));
             errorResponse.put("redirectUrl", "/pur/orinput/update");
             return ResponseEntity.badRequest().body(errorResponse);
         }
@@ -113,7 +113,7 @@ public class OrinPutController {
         } catch (IllegalStateException e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", e.getMessage());
+            errorResponse.put("message", String.format("삭제에 실패 하였습니다.[%s]", e.getMessage()));
             errorResponse.put("redirectUrl", "/pur/orinput/list");
             return ResponseEntity.badRequest().body(errorResponse);
         }
