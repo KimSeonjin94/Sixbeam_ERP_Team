@@ -52,7 +52,7 @@ public class InputService {
     }
 
     public void save(InputDto inputDto) {
-          List<OrinPutEntity> orinputEntity = orinPutRepository.findByOrinputCd(inputDto.getOrinputEntity().getOrinputCd());
+        List<OrinPutEntity> orinputEntity = orinPutRepository.findByOrinputCd(inputDto.getOrinputEntity().getOrinputCd());
 //
 //        WhregistEntity whregistEntity = whregistRepository.findById(inputDto.getWhregistEntity().getWhregistCd())
 //                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
