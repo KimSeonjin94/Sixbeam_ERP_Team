@@ -21,7 +21,7 @@ public class SaleService {
     private final SaleRepository saleRepository;
     private final EstimateRepository estimateRepository;
     private final WhmoveRepository whmoveRepository;
-    private final ApplicationEventPublisher event;
+ //   private final ApplicationEventPublisher event;//[이벤트리스너]
 
     public List<EstimateEntity> getEstimateList() {
         List<EstimateEntity> estimateEntities = estimateRepository.findAll();
@@ -64,7 +64,7 @@ public class SaleService {
         String saleCd= generateNewSaleCd(saleEntity.getSaleUploadDt());
         saleEntity.setSaleCd(saleCd);
         saleRepository.save(saleEntity);
-        event.publishEvent(new RowAddedEvent(this,saleEntity));//[이벤트리스너]
+    //    event.publishEvent(new RowAddedEvent(this,saleEntity));//[이벤트리스너]
     }
     private String generateNewSaleCd(LocalDate saleDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
