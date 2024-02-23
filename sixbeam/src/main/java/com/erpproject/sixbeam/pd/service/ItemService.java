@@ -81,8 +81,31 @@ public class ItemService {
 
     public void saveItem(ItemDto itemDto) {
 
-            ItemEntity itemEntity = itemDto.toEntity();
-            itemRepository.save(itemEntity);
+        String itemNm = itemDto.getItemNm();
+        String itemStnd = itemDto.getItemStnd();
+        Long itemUp = itemDto.getItemUp();
+
+        // 품목 코드가 공백인지 확인
+        if (itemNm == null || itemNm.trim().isEmpty()) {
+            throw new IllegalArgumentException("품목명을 입력해주세요");
+
+        } else if (itemStnd == null || itemStnd.trim().isEmpty()) {
+            throw new IllegalArgumentException("규격을 입력해주세요");
+
+        } else if (itemUp == null || String.valueOf(itemUp).trim().isEmpty()) {
+            throw new IllegalArgumentException("단가를 입력해주세요");
+        }
+
+        // 새로운 아이템 코드 생성
+        String newItemCd = generateNewItemCd();
+        itemDto.setItemCd(newItemCd);
+
+        ItemEntity itemEntity = itemDto.toEntity();
+        itemRepository.save(itemEntity);
+    }
+
+    private String generateNewItemCd() {
+        return "";
     }
 
     public void updateItem(ItemDto itemDto) {

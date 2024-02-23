@@ -845,6 +845,7 @@ function refreshPage() {
 
 
 // pd 사용 js
+
 function setItemInfo(itemCd, itemNm , itemStnd, itemUp)
 {
     $('#editItem').modal('show');
@@ -853,17 +854,40 @@ function setItemInfo(itemCd, itemNm , itemStnd, itemUp)
     $('#editItemStnd').val(itemStnd);
     $('#editItemUp').val(itemUp);
 }
-function registerItemFinished() {
-    alert('품목이 등록되었습니다.')
+
+function createItemFinished() {
+
+    var itemNm = $('#itemNm').val();
+    var itemStnd = $('#itemStnd').val();
+    var itemUp = $('#itemUp').val();
+
+    // 품목 코드가 공백인 경우
+    if (!itemNm || itemNm.trim() === '') {
+        alert('품목명을 입력하세요.');
+        event.preventDefault();
+        return;
+
+    } else if (!itemStnd || itemStnd.trim() === '') {
+        alert('규격을 입력하세요.');
+        event.preventDefault();
+        return;
+
+    } else if (!itemUp || itemUp.trim() === '') {
+        alert('단가를 입력하세요.');
+        event.preventDefault();
+        return;
+
+    } else {
+        alert('품목이 등록되었습니다.')
+    }
 }
+
 function editItemFinished() {
     alert('품목 정보가 수정되었습니다.');
 }
-function deleteItemFinished() {
-    alert('품목이 삭제되었습니다.');
-}
 
-function forDelete() {
+function deleteItemFinished() {
+
     // 체크박스의 값(계정 ID)을 저장할 배열
     var selectedIds = [];
 
@@ -975,6 +999,47 @@ $(document).ready(function() {
         });
     });
 });
+
+function checkInput(event) {
+
+    // 입력된 값 가져오기
+    var inputValue = event.target.value;
+
+    // 입력된 값이 숫자와 대문자인지 확인하는 정규식
+    var regex = /^[A-Z0-9]*$/;
+
+    // 입력된 값이 한글인 경우
+    if (/[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7A3]/.test(inputValue)) {
+
+        // 빈 문자열로 설정하여 한글 입력 방지
+        event.target.value = event.target.value.replace(/[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7A3fr]/g, '');
+    }
+
+    // 입력된 값을 대문자로 변환하여 설정
+    event.target.value = inputValue.toUpperCase();
+}
+
+function checkInput2(event) {
+
+    // 입력된 값 가져오기
+    var inputValue = event.target.value;
+
+    // 숫자 이외의 입력이 발생할 경우 처리
+    if (!/^[0-9]*$/.test(inputValue)) {
+
+        // 입력을 막기 위해 빈 문자열로 설정
+        event.target.value = '';
+    }
+}
+
+function checkInput3(event) {
+
+    var inputVal = event.target.value;
+
+    var regex = /^[가-힣A-Z0-9]*$/;
+
+    event.target.value = inputVal.toUpperCase();
+}
 
 // pd 끝 라인
 
