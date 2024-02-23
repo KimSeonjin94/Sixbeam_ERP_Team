@@ -67,7 +67,6 @@ public class OrinPutService {
         }
     }
     public void save(List<OrinPutDto> orinPutDtos) {
-        //List<OrinPutEntity> entities = new ArrayList<>();
         for (OrinPutDto orinputDto : orinPutDtos) {
             EmpInfoEntity empInfoEntity = empInfoRepository.findById(orinputDto.getEmpInfoEntity().getEmpInfoId())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
@@ -83,10 +82,8 @@ public class OrinPutService {
             OrinPutEntity orinPutEntity = orinputDto.toEntity();
             String newOrinputCd = generateNewOrinputCd(orinputDto.getOrinputOrDt());
             orinPutEntity.setOrinputCd(newOrinputCd);
-            //entities.add(orinPutEntity);
             orinPutRepository.save(orinPutEntity);
         }
-        //orinPutRepository.saveAll(entities);
     }
 
     private String generateNewOrinputCd(LocalDate orinputDate) {

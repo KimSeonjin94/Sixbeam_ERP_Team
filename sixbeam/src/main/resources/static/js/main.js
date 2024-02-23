@@ -299,6 +299,7 @@ $(document).ready(function() {
             url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
             success: function(response) {
+                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
                 // 성공 시 리다이렉션
                 $('#successModal').modal('show');
                 // 모달이 닫힐 때 리다이렉션
@@ -668,18 +669,20 @@ $('#detailPurCd[data-id]').on('click', function() {
                     $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                     $('#updatename').val(data[0].empInfoEntity.empInfoNm);
                     $('#updateaccountName').val(data[0].accountEntity.accountNm);
-                    $('#orinputReqDate').val(data[0].orinputReqDt);
-                    $('#orinputDlvyDate').val(data[0].orinputDlvyDt);
+                    $('#updateorinputReqDate').val(data[0].orinputReqDt);
+                    $('#updateorinputDlvyDate').val(data[0].orinputDlvyDt);
                 }
                 else if(purId.indexOf("PUR") !== -1){
                     $('#orinputCode').val(data[0].orinputEntity.orinputCd);
                     $('#updateCurrentDate').val(data[0].inputPurDt);
+                    $('#orinputDate').val(data[0].inputPurDt);
                     $('#updateaccountCode').val(data[0].orinputEntity.accountEntity.accountCd);
                     $('#updatename').val(data[0].orinputEntity.empInfoEntity.empInfoNm);
+                    $('#orinputname').val(data[0].orinputEntity.empInfoEntity.empInfoNm);
                     $('#updateaccountName').val(data[0].orinputEntity.accountEntity.accountNm);
                     $('#orinputReqDate').val(data[0].orinputEntity.orinputReqDt);
                     $('#orinputDlvyDate').val(data[0].orinputEntity.orinputDlvyDt);
-                    $('#whregistCode').find('option[value="' + data[0].whregistEntity.whregistCd + '"]').prop('selected', true);
+                    $('#updatewhregistCode').find('option[value="' + data[0].whregistEntity.whregistCd + '"]').prop('selected', true);
                 }
 
                 // 데이터 항목별로 행 추가

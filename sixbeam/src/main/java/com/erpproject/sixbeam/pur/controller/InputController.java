@@ -32,8 +32,10 @@ public class InputController {
     @GetMapping("/list")
     public String GetList(Model model) {
         List<InputEntity> inputEntity = this.inputService.getList();
+        List<OrinPutEntity> orinPutEntity = orinPutService.getList();
         List<WhregistEntity> whregistEntity = whregistService.getList();
         model.addAttribute("inputEntity",inputEntity);
+        model.addAttribute("orinputEntities",orinPutEntity);
         model.addAttribute("getwhregistlist",whregistEntity);
         return "contents/pur/input_list";
     }
