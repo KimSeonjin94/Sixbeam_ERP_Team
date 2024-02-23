@@ -23,7 +23,7 @@ public class InputEntity {
     @Column(name = "INPUTPUR_CD")
     private String inputPurCd;
     @ManyToOne
-    @JoinColumn(name = "ORINPUT_CD", referencedColumnName = "ORINPUT_CD")
+    @JoinColumn(name = "ORINPUT_CD", nullable = false)
     private OrinPutEntity orinputEntity;
     @ManyToOne
     @JoinColumn(name = "WHREGIST_CD")

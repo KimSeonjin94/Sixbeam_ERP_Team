@@ -1,27 +1,22 @@
 package com.erpproject.sixbeam.pur.service;
 
-import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pur.dto.InputDto;
 
 import com.erpproject.sixbeam.pur.entity.InputEntity;
 
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
-import com.erpproject.sixbeam.pur.entity.OrinPutEntityId;
 import com.erpproject.sixbeam.pur.repository.InputRepository;
 import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
-import com.erpproject.sixbeam.st.RowAddedEvent;//[이벤트리스너]
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;//[이벤트리스너]
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -66,10 +61,8 @@ public class InputService {
     
     public void save(InputDto inputDto) {
 
-        List<OrinPutEntity> orinPutEntity = orinPutRepository.findByOrinputCd(inputDto.getOrinputEntity().getOrinputCd());
-        if (orinPutEntity == null) {
-            throw new EntityNotFoundException("OrinPutEntity not found");
-        }
+        OrinPutEntity orinPutEntity = orinPutRepository.findById(inputDto.getOrinputEntity().getOrinputCd()).
+                orElseThrow(() -> new EntityNotFoundException("Item not found"));
 
         // WhregistEntity 조회
         WhregistEntity whregistEntity = whregistRepository.findById(inputDto.getWhregistEntity().getWhregistCd())
@@ -79,7 +72,7 @@ public class InputService {
         InputEntity inputEntity = inputDto.toEntity();
         String newInputCd = generateNewInputCd(inputDto.getInputPurDt());
         inputEntity.setInputPurCd(newInputCd);
-        inputEntity.setOrinputEntity(orinPutEntity.get(0));
+        inputEntity.setOrinputEntity(orinPutEntity);
         inputEntity.setWhregistEntity(whregistEntity);
         inputRepository.save(inputEntity);
 //        event.publishEvent(new RowAddedEvent(this,inputEntity));//[이벤트리스너]
