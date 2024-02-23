@@ -15,8 +15,10 @@
                                 <th colspan="4" class="card-header-date">
                                     <select class="selectQ" name="bsDtForm" onchange="this.form.submit()">
                                         <option value="">분기 선택</option>
-                                        <option th:each="bsDt : ${bsDts}" th:value="${bsDt}"
-                                                th:text="${bsDt}" th:selected="${selectedBsDt == bsDt}"></option>
+                                        <option th:each="bsDt : ${bsDts}"
+                                                th:value="${bsDt}"
+                                                th:text="${bsDt}"
+                                                th:selected="${bsDt == selectedBsDt}"></option>
                                     </select>
                                 </th>
                             </tr>
@@ -66,8 +68,8 @@
                                 <td class="asset-column-md" colspan="2">비유동자산 </td>
                                 <td class="debt-column" >부채합계</td>
                                 <td class="asset-column-l" >
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsDt}"></span>
-                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                    <span class="bss" th:if="${totalDebt != null}" th:text="${totalDebt}"></span>
+                                    <span class="bss" th:unless="${totalDebt != null}"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -105,13 +107,13 @@
                             <tr>
                                 <td class="asset-column">자산합계</td>
                                 <td class="asset-column-l">
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsDt}"></span>
-                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                    <span class="bss" th:if="${totalAsset != null}" th:text="${totalAsset}"></span>
+                                    <span class="bss" th:unless="${totalAsset != null}"></span>
                                 </td>
                                 <td class="capital-column" >자본합계</td>
                                 <td class="capital-column-l" >
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsDt}"></span>
-                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                    <span class="bss" th:if="${totalCapital  != null}" th:text="${totalCapital}"></span>
+                                    <span class="bss" th:unless="${totalCapital  != null}"></span>
                                 </td>
                             </tr>
                             </tbody>
