@@ -1,0 +1,86 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container-fluid">
+    <div class="row d-flex align-items-stretch">
+        <!-- 달력 카드 -->
+        <div class="col-md-8">
+            <div class="card shadow mb-4">
+                <div class="card-body-bs">
+                    <form th:action="@{/ac/is/incomeStatement}" method="get">
+                        <table border="1" class="financial-table2">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" class="card-header-title">손익계산서</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <th>과목</th>
+                                <th class="card-header-date">
+                                    <select class="selectQ" name="isDtForm" onchange="this.form.submit()">
+                                        <option value="">분기 선택</option>
+                                        <option th:each="isDt : ${isDts}"
+                                                th:value="${isDt}"
+                                                th:text="${isDt}"
+                                                th:selected="${isDt == selectedIsDt}"></option>
+                                    </select>
+                                </th>
+                            </tr>
+                            </tr>
+                            <tr>
+                                <td>매출액</td>
+                                <td><span th:if="${incomeStatement != null}" th:text="${incomeStatement.isNetSales}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>매출원가</td>
+                                <td><span th:if="${incomeStatement != null}" th:text="${incomeStatement.isCostSales}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>매출총이익</td>
+                                <td><span  th:if="${grossProfit != null}" th:text="${grossProfit}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>영업비용</td>
+                                <td><span th:if="${operatingExpenses != null}" th:text="${operatingExpenses}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>급여</td>
+                                <td><span th:if="${incomeStatement != null}" th:text="${incomeStatement.isWages}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>영업이익</td>
+                                <td><span  th:if="${operatingIncome != null}" th:text="${operatingIncome}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>영업외이익</td>
+                                <td><span  th:if="${NonOperatingIncome  != null}" th:text="${NonOperatingIncome}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>이자수익</td>
+                                <td><span th:if="${incomeStatement != null}" th:text="${incomeStatement.isInterInc}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>영업외비용</td>
+                                <td><span  th:if="${NonOperatingExpenses  != null}" th:text="${NonOperatingExpenses}"></span></span></td>
+                            </tr>
+                            <tr>
+                                <td>이자비용</td>
+                                <td><span th:if="${incomeStatement != null}" th:text="${incomeStatement.isInterExp}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>법인세 비용 차감전 순이익</td>
+                                <td><span  th:if="${earningBeforeTaxes != null}" th:text="${earningBeforeTaxes}"></span></span></td>
+                            </tr>
+                            <tr>
+                                <td>법인세 비용</td>
+                                <td><span th:if="${incomeStatement != null}" th:text="${incomeStatement.isCortaxExp}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>당기순이익</td>
+                                <td><span  th:if="${netIncome  != null}" th:text="${netIncome}"></span></span></td>
+                            </tr>
+                        </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -21,12 +21,25 @@ public class BsController {
     @GetMapping("/bs/balanceSheet")
     public String getBalanceSheet(@RequestParam(name="bsDtForm", required = false) String bsDt , Model model) {
         if (bsDt != null && !bsDt.isEmpty()) {
+
             BsEntity balanceSheet = bsService.findBalanceSheetByBsDt(bsDt);
             model.addAttribute("balanceSheet", balanceSheet);
+
+            Integer totalAsset = balanceSheet.getBsCash() + balanceSheet.getBsInventories()
+                    + balanceSheet.getBsReceivables() + balanceSheet.getBsLand()
+                    + balanceSheet.getBsBuilding() + balanceSheet.getBsFac();
+            model.addAttribute("totalAsset", totalAsset);
+
+            Integer totalDebt = balanceSheet.getBsLongBor() + balanceSheet.getBsPayables();
+            model.addAttribute("totalDebt", totalDebt);
+
+            Integer totalCapital = balanceSheet.getBsCapital() + balanceSheet.getBsEarnings();
+            model.addAttribute("totalCapital", totalCapital);
         }
+
         List<String> bsDtList = bsService.findAllBsDts();
         model.addAttribute("bsDts", bsDtList);
-//        model.addAttribute("selectedBsDt", bsDtForm);
+        model.addAttribute("selectedBsDt", bsDt);
 
         return "contents/ac/balance_sheet";
     }
