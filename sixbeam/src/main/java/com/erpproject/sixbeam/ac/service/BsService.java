@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 public class BsService {
     private final BsRepository bsRepository;
 
-
     public BsEntity findBalanceSheetByBsDt(String bsDt) {
         return bsRepository.findByBsDt(bsDt);
     }

@@ -1,11 +1,14 @@
 package com.erpproject.sixbeam.ac.dto;
 
 import com.erpproject.sixbeam.ac.entity.IsEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 
 import java.time.LocalDate;
 
-
+@Getter
+@Setter
 public class IsDto {
     private String isDt;
     private int isNetSales;
