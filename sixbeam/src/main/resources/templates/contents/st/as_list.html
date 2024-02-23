@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="ascmptDt" class="col-sm-2 col-form-label">AS 완료일자</label>
+                                    <label for="ascmptDt" class="col-sm-2 col-form-label">완료 예정일자</label>
                                     <div class="col-sm-4">
                                         <input type="date" class="form-control" id="ascmptDt">
                                     </div>
@@ -194,18 +194,18 @@
                                             <label for="updateCurrentDate" class="col-sm-2 col-form-label">AS
                                                 등록일자</label>
                                             <div class="col-sm-4">
-                                                <input type="date" class="form-control" id="updateCurrentDate" readonly>
+                                                <input type="date" name="asDt"  class="form-control" id="updateCurrentDate" readonly>
                                             </div>
-                                            <label for="updateEmpInfoId" class="col-sm-2 col-form-label">담당자</label>
+                                            <label for="updatename" class="col-sm-2 col-form-label">담당자</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updateEmpInfoId" readonly>
+                                                <input type="text" name ="empInfoEntity.empInfoNm" class="form-control" id="updatename" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="updateaccountCode" class="col-sm-2 col-form-label">거래처
                                                 코드</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updateaccountCode" readonly>
+                                                <input type="text" name ="AccountEntity" class="form-control" id="updateaccountCode" readonly>
                                             </div>
                                             <label class="col-sm-2 col-form-label">거래처</label>
                                             <div class="col-sm-4">
@@ -213,34 +213,33 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="ascmptDt" class="col-sm-2 col-form-label">AS 완료일자</label>
+                                            <label for="updateascmptDt" class="col-sm-2 col-form-label">완료 예정일자</label>
                                             <div class="col-sm-4">
-                                                <input type="date" class="form-control" id="updateascmptDt" readonly>
+                                                <input type="date" name="ascmptDt" class="form-control" id="updateascmptDt">
                                             </div>
-                                            <label for="asSt" class="col-sm-2 col-form-label">진행상태</label>
+                                            <label for="updateasSt" class="col-sm-2 col-form-label">진행상태</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updateasSt" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="asTi" class="col-sm-2 col-form-label">접수제목</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updateasTi" readonly>
-                                            </div>
-                                            <label for="whregistCode" class="col-sm-2 col-form-label">창고명</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updatewhregistCode"
-                                                       readonly>
+                                                <input type="text" name="asSt" class="form-control" id="updateasSt">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">접수내용</label>
+                                            <label for="updateasTi" class="col-sm-2 col-form-label">접수제목</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" name="asTi" class="form-control" id="updateasTi" readonly>
+                                            </div>
+                                            <label for="updatewhregistName" class="col-sm-2 col-form-label">창고명</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" name="whregistCd" class="form-control" id="updatewhregistName" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="updateasMo" class="col-sm-2 col-form-label">접수내용</label>
                                             <div class="col-sm-8">
                                                 <textarea name="asMo" id="updateasMo" class="form-control"
                                                           rows="5"></textarea>
                                             </div>
                                         </div>
-                                        <table class="table item">
+                                        <table class="table Asitem">
                                             <thead>
                                             <tr>
                                                 <th>품목코드</th>
@@ -256,10 +255,45 @@
                                             <button type="submit" class="btn btn-primary">저장</button>
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기
                                             </button>
-
                                         </div>
                                 </form>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel2">성공</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" tabindex="-1" role="dialog" id="failModal" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">실패</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                         </div>
                     </div>
                 </div>
