@@ -35,4 +35,9 @@ public class RitemService {
 
         return this.ritemRepository.findAll();
     }
+
+    /*public List<RitemEntity> getRitemsByItemCd(String fitemCd) {
+        return ritemRepository.findByItemCd(itemCd);
+
+    }*/
 }
