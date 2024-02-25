@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -108,6 +110,31 @@ public class CheckController {
         return checkService.getTotalWhItemCheckAmt(date, whregistEntity, itemEntity);
     }
 
+    // 창고, 품목별 조회 결과를 리스트로 반환
+    @GetMapping("/checkwhitemlist")
+    @ResponseBody
+    public List<Map<String, Object>> getWhItemCheckList(@RequestParam("date") LocalDate date,
+                                                        @RequestParam("whregistCd") String whregistCd,
+                                                        @RequestParam("itemCd") String itemCd) {
+        WhregistEntity whregistEntity = new WhregistEntity();
+        whregistEntity.setWhregistCd(whregistCd);
+
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setItemCd(itemCd);
+
+        List<Map<String, Object>> resultList = new ArrayList<>();
+
+        // 조회 결과를 리스트에 추가
+        Map<String, Object> result = new HashMap<>();
+        result.put("whregistCd", whregistCd);
+        result.put("itemCd", itemCd);
+        result.put("incoming", checkService.getWhItemIncoming(date, whregistEntity, itemEntity));
+        result.put("outgoing", checkService.getWhItemOutgoing(date, whregistEntity, itemEntity));
+        result.put("currentStock", checkService.getTotalWhItemCheckAmt(date, whregistEntity, itemEntity));
+        resultList.add(result);
+
+        return resultList;
+    }
 /*
     // 특정 날짜를 기준으로 원하는 column들만 조회하는 엔드포인트
     @GetMapping("/byDate")
