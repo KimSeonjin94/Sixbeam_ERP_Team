@@ -2,17 +2,11 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form class="formEntry" th:action="@{/ss/sale/create}" th:object="${saleDto}" method="post">
+            <form class="formEntry" th:action="@{/ss/member/create}" th:object="${memberDto}"  method="post">
                 <div class="form-group row">
-                    <label for="currentDate" class="col-sm-2 col-form-label">판매 등록 일자</label>
-                    <div class="col-sm-10">
-                        <input type="date" class="form-control" id="currentDate" name="saleUploadDt">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="currentDate" class="col-sm-2 col-form-label">견적 코드</label>
+                    <label for="estimateCd" class="col-sm-2 col-form-label">견적 코드</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="estimateCd" id="estimateCd">
+                       <input type="text" class="form-control" name="estimateCd" id="estimateCd">
                     </div>
                     <div class="col-sm-2">
                         <button type="button" id="selectEstimateCd" class="btn btn-primary" data-toggle="modal"
@@ -21,38 +15,23 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="updateCurrentDate" class="col-sm-2 col-form-label">견적일자</label>
+                    <label for="memberId" class="col-sm-2 col-form-label">아이디</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="updateCurrentDate" readonly>
+                        <input type="text" class="form-control" name="memberId" id="memberId">
                     </div>
-                    <label for="updatename" class="col-sm-2 col-form-label">담당자</label>
+                    <label for="memberNm" class="col-sm-2 col-form-label">이름</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="updatename" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">거래처 코드</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="updateaccountCode" readonly>
-                    </div>
-                    <label class="col-sm-2 col-form-label">거래처</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="updateaccountName" readonly>
-                        <input type="hidden" name="saleShippingSt" th:value="판매대기중">
+                        <input type="text" class="form-control" name="memberNm" id="memberNm">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="whregistCodeSelectBox" class="col-sm-2 col-form-label">창고 코드</label>
+                    <label for="memberPhone" class="col-sm-2 col-form-label">번호</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" name="whregistEntity.whregistCd" id="whregistCode" list="whregistCodeSelectBox"/>
-                        <datalist id="whregistCodeSelectBox">
-                            <option th:each="whregistlist : ${getwhregistlist}" th:value="${whregistlist.whregistCd}"
-                                    th:text="${whregistlist.whregistNm}"></option>
-                        </datalist>
+                        <input type="text" class="form-control" name="memberPhone" id="memberPhone">
                     </div>
-                    <label class="col-sm-2 col-form-label">창고명</label>
+                    <label for="memberAddr" class="col-sm-2 col-form-label">주소</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="whregistName">
+                        <input type="text" class="form-control" name="memberAddr" id="memberAddr">
                     </div>
                 </div>
                 <table class="table item">
@@ -114,7 +93,6 @@
                                                 <td th:text="${estimate.empInfoEntity.empInfoNm}"></td>
                                                 <td th:text="${#numbers.formatDecimal(estimate.estimateSp, 0, 'COMMA', 0, 'POINT')} + '원'"></td>
                                             </tr>
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -162,4 +140,5 @@
             </div>
         </div>
     </div>
+</div>
 </html>

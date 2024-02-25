@@ -655,9 +655,6 @@ $('#detailSaleCd[data-id]').on('click', function(){
         url: '/ss/sale/list/detail/' + saleCd, // 서버 엔드포인트
         type: 'GET',
         success: function(response) {
-            response.forEach(function(value, key) {
-                console.log(key + ': ' + value);
-            });
 
             // 성공 시 모달 내용 업데이트
             var modaltBody = $('.formEntry .table.item tbody');
@@ -667,19 +664,28 @@ $('#detailSaleCd[data-id]').on('click', function(){
             $('#updateaccountCode').val(response.estimateEntities[0].accountEntity.accountCd);
             $('#updatename').val(response.estimateEntities[0].empInfoEntity.empInfoNm);
             $('#updateaccountName').val(response.estimateEntities[0].accountEntity.accountNm);
-            $('#releaseRv').val(response.estimateEntities[0].estimateNm);
-            $('#releaseZc').val(response.estimateEntities[0].accountEntity.accountAdd);
-            $('#whregistname').find()
+            $('#updatewhregistname').find('option[value="' + response.saleEntity.whregistEntity.whregistCd + '"]').prop('selected', true);
+
+
+            if (response.estimateEntities[0].accountEntity.accountNm === '개인거래') {
+                // accountNm이 '개인거래'일 경우, 특정 필드에 값을 설정
+                $('#releaseRv').val(response.memberEntity.memberNm);
+                $('#releaseAddr').val(response.memberEntity.memberAddr);
+                $('#releasePhone').val(response.memberEntity.memberPhone);
+
+            } else {
+                // '개인거래'가 아닐 경우, 다른 값이나 기본값을 설정할 수 있음
+                $('#releaseRv').val(response.estimateEntities[0].estimateNm);
+                $('#releaseAddr').val(response.estimateEntities[0].accountEntity.accountAdd);
+
+            }
+
             // 데이터 항목별로 행 추가
             response.estimateEntities.forEach(function(item, index) {
                 var row = $('<tr>'); // 행 생성
 
                 // 각 셀에 입력 요소와 name 속성 추가
-                row.append('<td><input type="hidden" name="estimateDtos[' + index + '].estimateDt" class="form-control" value="' + item.estimateDt + '">'+
-                '<input type="hidden" name="estimateDtos[' + index + '].accountEntity.accountCd" class="form-control" value="' + item.accountEntity.accountCd + '">'+
-                '<input type="hidden" name="estimateDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
-                '<input type="hidden" name="estimateDtos[' + index + '].estimateCd" class="form-control" value="' + item.estimateCd+ '">'+
-                '<input type="text" class="form-control" name="estimateDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
+                row.append('<td><input type="text" class="form-control" name="estimateDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd +'"></td>');
                 row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
                 row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
                 row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateAmt" class="form-control itemamt" value="' + item.estimateAmt + '"></td>');
@@ -698,6 +704,17 @@ $('#detailSaleCd[data-id]').on('click', function(){
             console.log('Error:', error);
         }
     });
+})
+$('#estimatedetail').on('show.bs.modal', function () {
+    // 다른 모든 모달을 숨김
+    $('#new').modal('hide');
+});
+
+// estimatedetail 모달이 닫힐 때
+$('#estimatedetail').on('hidden.bs.modal', function () {
+    // 다른 모달을 다시 보이게 함 (예를 들어, 특정 조건에 따라)
+    // 여기서는 예시로 다른 모달의 ID를 사용합니다.
+    $('#new').modal('show');
 });
 
 function formatToKRW(value) {
@@ -1044,7 +1061,7 @@ $(document).ready(function() {
 });
 
 // pd 끝 라인
-
+//달력 스크립트
 $(document).ready(function() {
     var date = new Date();
     var currentMonth = date.getMonth();
