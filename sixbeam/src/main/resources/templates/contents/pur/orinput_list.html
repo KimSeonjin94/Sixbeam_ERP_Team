@@ -7,7 +7,7 @@
         <button type="button" class="btn btn-primary">
             신규
         </button>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteOrinputModal">
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePurModal">
             삭제
         </button>
     </div>
@@ -39,10 +39,10 @@
                     <tbody>
                     <tr th:each="orinput : ${orinputEntity}">
                         <td>
-                            <input th:type="checkbox" th:name="selectedOrinPut" th:value="${orinput.orinputCd}">
+                            <input th:type="checkbox" th:name="selectedPur" th:value="${orinput.orinputCd}">
                         </td>
                         <td>
-                            <a href="#" id="detailOrinputCd" th:data-id="${orinput.orinputCd}">
+                            <a href="#" id="detailPurCd" th:data-id="${orinput.orinputCd}">
                                 <span th:text="${orinput.orinputCd}">></span>
                             </a>
                         </td>
@@ -63,6 +63,7 @@
                 </table>
             </div>
 
+            <!-- 수정창 모달 -->
             <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="subjectestimateLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -138,29 +139,30 @@
             </div>
 
             <!-- 삭제하는 모달 -->
-            <div class="modal fade" id="deleteOrinputModal" tabindex="-1" aria-labelledby="deleteOrinputModalLabel" aria-hidden="true">
+            <div class="modal fade" id="deletePurModal" tabindex="-1" aria-labelledby="deletePurModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="deleteOrinputModalLabel">발주 삭제</h5>
+                            <h5 class="modal-title" id="deletePurModalLabel">발주 삭제</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <p>선택한 발주 정보를 삭제하시겠습니까?</p>
-                            <form class="deleteOrinputForm" th:action="@{/pur/orinput/delete}" method="post">
-                                <input type="hidden" id="selectedOrinputInput" name="selectedOrinput">
+                            <form class="deletePurForm" th:action="@{/pur/orinput/delete}" method="post">
+                                <input type="hidden" id="selectedPur" name="selectedOrinput">
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" id="orinputcddelete">삭제</button>
+                            <button type="button" class="btn btn-danger" id="purcddelete">삭제</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- 성공 창 모달 -->
             <div class="modal fade hide" tabindex="-1" role="dialog" id="successModal" th:data-show-modal="${showModal}">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -171,7 +173,6 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>데이터가 성공적으로 삭제되었습니다.</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -179,6 +180,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 실패 창 모달 -->
             <div class="modal fade hide" tabindex="-1" role="dialog" id="failModal" th:data-show-modal="${showModal}">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

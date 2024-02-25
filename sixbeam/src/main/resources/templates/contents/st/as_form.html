@@ -2,15 +2,15 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form class="formEntry" th:action="@{/st/as/create}" th:object="${asForm}" method="post">
+            <form class="AsformEntry" th:action="@{/st/as/save}" th:object="${asForm}" method="post">
                 <div class="form-group row">
                     <label for="currentDate" class="col-sm-2 col-form-label">AS 등록일자</label>
                     <div class="col-sm-4">
                         <input type="date" class="form-control" id="currentDate">
                     </div>
-                    <label for="asname" class="col-sm-2 col-form-label">담당자</label>
+                    <label for="empInfoId" class="col-sm-2 col-form-label">담당자</label>
                     <div class="col-sm-4">
-                        <select id="asname" class="form-control">
+                        <select id="empInfoId" class="form-control">
                             <option th:each="emplist : ${getemplist}" th:value="${emplist.empInfoId}"
                                     th:text="${emplist.empInfoNm}"></option>
                         </select>
@@ -45,9 +45,9 @@
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="asTi">
                     </div>
-                    <label for="whregistname" class="col-sm-2 col-form-label">창고명</label>
+                    <label for="whregistCode" class="col-sm-2 col-form-label">창고명</label>
                     <div class="col-sm-4">
-                        <select id="whregistname" class="form-control">
+                        <select id="whregistCode" class="form-control">
                             <option th:each="whregistlist : ${getwhregistlist}" th:value="${whregistlist.whregistCd}"
                                     th:text="${whregistlist.whregistNm}"></option>
                         </select>
@@ -55,11 +55,11 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">접수내용</label>
-                    <div class="col-sm-4">
-                        <textarea name="asMo" id="asMo" class="form-control" rows="5"></textarea>
+                    <div class="col-sm-10">
+                        <textarea name="asMo" id="asMo" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
-                <table class="table Asitem" id="asitem">
+                <table class="table item" id="item">
                     <thead>
                     <tr>
                         <th>품목코드</th>
@@ -71,14 +71,15 @@
                     <tbody>
                     <tr>
                         <td>
-                            <input type="hidden" class="RegisDate" th:name="*{asDtos[0].asDt}">
-                            <input type="hidden" class="AccountCode" th:name="*{asDtos[0].accountEntity.accountCd}">
-                            <input type="hidden" class="EmpInfoId" th:name="*{asDtos[0].empInfoEntity.empInfoId}">
-                            <input type="hidden" class="WhregistCode" th:name="*{asDtos[0].whregistEntity.whregistCd}">
-                            <input type="hidden" class="AsSt" th:name="*{asDtos[0].asSt}">
-                            <input type="hidden" class="AscmptDt" th:name="*{asDtos[0].ascmptDt}">
-                            <input type="hidden" class="AsTi" th:name="*{asDtos[0].asTi}">
-                            <input type="hidden" class="AsMo" th:name="*{asDtos[0].asMo}">
+                            <input type="hidden" class="RegisDate" th:field="*{asDtos[0].asDt}">
+                            <input type="hidden" class="AccountCode" th:field="*{asDtos[0].accountEntity.accountCd}">
+                            <input type="hidden" class="EmpInfoId" th:field="*{asDtos[0].empInfoEntity.empInfoId}">
+                            <input type="hidden" class="WhregistCode" th:field="*{asDtos[0].whregistEntity.whregistCd}">
+                            <input type="hidden" class="AsSt" th:field="*{asDtos[0].asSt}">
+                            <input type="hidden" class="AscmptDt" th:field="*{asDtos[0].ascmptDt}">
+                            <input type="hidden" class="AsTi" th:field="*{asDtos[0].asTi}">
+                            <input type="hidden" class="AsMo" th:field="*{asDtos[0].asMo}">
+                            <input type="hidden" class="form-control itemup">
 
                             <select class="selectbox form-control" th:name="'asDtos[' + 0 + '].itemEntity.itemCd'">
                                 <option value="">품목 선택</option>
@@ -92,29 +93,6 @@
                         <td><input type="text" class="form-control itemstnd"></td>
                         <td><input type="text" class="form-control itemamt" th:field="*{asDtos[0].asAmt}"></td>
                     </tr>
-                    <tr>
-                        <td>
-                            <input type="hidden" class="RegisDate" th:field="*{asDtos[1].asDt}">
-                            <input type="hidden" class="AccountCode" th:field="*{asDtos[1].accountEntity.accountCd}">
-                            <input type="hidden" class="EmpInfoId" th:field="*{asDtos[1].empInfoEntity.empInfoId}">
-                            <input type="hidden" class="WhregistCode" th:field="*{asDtos[1].whregistEntity.whregistCd}">
-                            <input type="hidden" class="AsSt" th:field="*{asDtos[1].asSt}">
-                            <input type="hidden" class="AscmptDt" th:field="*{asDtos[1].ascmptDt}">
-                            <input type="hidden" class="AsTi" th:field="*{asDtos[1].asTi}">
-                            <input type="hidden" class="AsMo" th:field="*{asDtos[1].asMo}">
-
-                            <select class="selectbox form-control" th:name="'asDtos[' + 1 + '].itemEntity.itemCd'">
-                                <option value="">품목 선택</option>
-                                <option th:each="itemlist : ${getitemlist}" th:value="${itemlist.itemCd}"
-                                        th:data-itemNm="${itemlist.itemNm}"
-                                        th:data-itemStnd="${itemlist.itemStnd}"
-                                        th:text="${itemlist.itemCd}"></option>
-                            </select>
-                        </td>
-                        <td><input type="text" class="form-control itemname"></td>
-                        <td><input type="text" class="form-control itemstnd"></td>
-                        <td><input type="text" class="form-control itemamt" th:field="*{asDtos[1].asAmt}"></td>
-                    </tr>
                     </tbody>
                     <tfoot>
                     <tr>
@@ -124,16 +102,6 @@
                     </tfoot>
                 </table>
                 <div class="row">
-                    <div class="col-sm-6">
-                        <input type='button'
-                               value='품목 추가'
-                               class="btn btn-secondary"
-                               id="addnewrowbtn">
-                        <input type='button'
-                               value='품목 삭제'
-                               class="btn btn-danger"
-                               id="deleterowbtn">
-                    </div>
                     <div class="col-sm-6 text-md-right">
                         <button type="submit" class="btn btn-primary">
                             저장

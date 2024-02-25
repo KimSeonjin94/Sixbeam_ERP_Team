@@ -1,77 +1,124 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid black;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 5px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .header {
-            background-color: lightgray;
-        }
-    </style>
-</head>
-<body>
-
-<table>
-    <tr>
-        <th colspan="2" class="header">재무상태표</th>
-    </tr>
-    <tr>
-        <th colspan="2" class="header">2021-12-31</th>
-    </tr>
-    <tr>
-        <td colspan="2">자산</td>
-        <td>유동자산</td>
-        <td>5,000</td>
-        <td rowspan="3">부채</td>
-        <td>유동부채</td>
-        <td>5,000</td>
-    </tr>
-    <tr>
-        <td>현금및현금성자산</td>
-        <td>1,500</td>
-        <td>비유동부채</td>
-        <td>5,000</td>
-    </tr>
-    <tr>
-        <td>재고자산</td>
-        <td>3,500</td>
-    </tr>
-    <tr>
-        <td>비유동자산</td>
-        <td>45,000</td>
-        <td rowspan="3">자본</td>
-        <td>자본금</td>
-        <td>1,000</td>
-    </tr>
-    <tr>
-        <td>투자자산</td>
-        <td>10,000</td>
-        <td>자본잉여금</td>
-        <td>9,000</td>
-    </tr>
-    <tr>
-        <td>유형자산</td>
-        <td>20,000</td>
-        <td>이익잉여금</td>
-        <td>30,000</td>
-    </tr>
-    <tr>
-        <td>무형자산</td>
-        <td>15,000</td>
-        <td colspan="4"></td>
-    </tr>
-</table>
-
-</body>
+<html layout:decorate="~{layout/default}">
+    <div layout:fragment="content" class="container-fluid">
+        <div class="row d-flex align-items-stretch">
+            <!-- 달력 카드 -->
+            <div class="col-md-8">
+                <div class="card shadow mb-4">
+                    <div class="card-body-bs">
+                        <form th:action="@{/ac/bs/balanceSheet}" method="get">
+                        <table border="1" class="financial-table">
+                            <thead>
+                            <tr>
+                                <th colspan="4" class="card-header-title">재무상태표</th>
+                            </tr>
+                            <tr>
+                                <th colspan="4" class="card-header-date">
+                                    <select class="selectQ" name="bsDtForm" onchange="this.form.submit()">
+                                        <option value="">분기 선택</option>
+                                        <option th:each="bsDt : ${bsDts}" th:value="${bsDt}"
+                                                th:text="${bsDt}" th:selected="${selectedBsDt == bsDt}"></option>
+                                    </select>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th colspan="2" class="asset-column">자산</th>
+                                <th colspan="2" class="debt-column">부채</th>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-md" colspan="2">유동자산 </td>
+                                <td class="debt-column-md" colspan="2">유동부채  </td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l">현금및현금성자산</td>
+                                <td class="asset-column-l">
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsCash}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                                <td class="debt-column-l" >매입채무</td>
+                                <td class="debt-column-l" >
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsPayables}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l" >재고자산</td>
+                                <td class="asset-column-l" >
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsInventories}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                                <td class="debt-column-md" colspan="2">비유동부채</td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l" >매출채권</td>
+                                <td class="asset-column-l" >
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsReceivables}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                                <td class="debt-column-l" >장기차입금</td>
+                                <td class="debt-column-l" >
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsLongBor}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-md" colspan="2">비유동자산 </td>
+                                <td class="debt-column" >부채합계</td>
+                                <td class="asset-column-l" >
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsDt}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l" >토지 </td>
+                                <td class="asset-column-l" >
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsLand}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                                <th colspan="2" class="capital-column">자본</th>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l" >건물 </td>
+                                <td class="asset-column-l" >
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsBuilding}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                                <td class="capital-column-l" >자본금</td>
+                                <td class="capital-column-l" >
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsCapital}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column-l">유형자산</td>
+                                <td class="asset-column-l">
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsFac}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                                <td class="capital-column-l" >이익잉여금 </td>
+                                <td class="capital-column-l" >
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsEarnings}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="asset-column">자산합계</td>
+                                <td class="asset-column-l">
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsDt}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                                <td class="capital-column" >자본합계</td>
+                                <td class="capital-column-l" >
+                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${balanceSheet.bsDt}"></span>
+                                    <span class="bss" th:unless="${balanceSheet != null}"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </html>

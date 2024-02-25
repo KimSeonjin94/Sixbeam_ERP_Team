@@ -312,6 +312,7 @@ $(document).ready(function() {
                 // 서버로부터 받은 에러 메시지를 알림
                 // 오류 처리 로직
                 var response = JSON.parse(xhr.responseText);
+                $('#failModal .modal-body').text(response.message);  //controller에서 받은 message 출력
                 // 오류 메시지 모달 표시
                 $('#failModal').modal('show'); // 올바른 셀렉터 사용
                 // 모달이 닫힐 때 리다이렉션
@@ -372,7 +373,56 @@ function prepareDelete() {
 }
 // AC 끝
 
-//재고_AS등록-------------------------------------------------------------------------------------------시작
+//재고_As등록--------------------------------------------------------------------------------시작
+$(document).ready(function() {
+    // 폼이 제출될 때마다 실행되도록 변경
+    $('.AsformEntry').submit(function(e) {
+        // 폼 제출을 막음
+        e.preventDefault();
+
+        var asDt = $('#currentDate').val();
+        var empInfoId = $('#empInfoId').val();
+        var accountCd = $('#accountCode').val();
+        var ascmptDt = $('#ascmptDt').val();
+        var asSt = $('#asSt').val();
+        var asTi = $('#asTi').val();
+        var whregistNm = $('#whregistCode').val();
+        var asMo = $('#asMo').val();
+
+        $('.table.item tbody tr').each(function(index) {
+            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+            $(this).find('.RegisDate').val(asDt);
+            $(this).find('.EmpInfoId').val(empInfoId);
+            $(this).find('.AccountCode').val(accountCd);
+            $(this).find('.WhregistCode').val(whregistNm);
+            $(this).find('.AsSt').val(asSt);
+            $(this).find('.AscmptDt').val(ascmptDt);
+            $(this).find('.AsTi').val(asTi);
+            $(this).find('.AsMo').val(asMo);
+        });
+        var formData = new FormData(this);
+        // FormData 객체를 반복하여 폼 데이터 확인
+        formData.forEach(function(value, key) {
+            console.log(`${key}: ${value}`);
+        });
+        // AJAX를 사용하여 폼 데이터 제출
+        $.ajax({
+            type: $(this).attr('method'), // POST 또는 GET
+            url: $(this).attr('action'),
+            data: $(this).serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                // 성공적으로 제출된 경우의 처리 로직
+                console.log('Form Submitted Successfully');
+            },
+            error: function(response) {
+                // 오류 처리 로직
+                console.log('Error Submitting Form');
+            }
+        });
+    });
+});
+//재고_As등록--------------------------------------------------------------------------------끝
+//재고_AS모달등록-------------------------------------------------------------------------------------------시작
 $('.table.Asitem').on('change input', '.selectbox, .itemamt', function() {
     var $row = $(this).closest('tr');
     var itemamt = parseFloat($row.find('.itemamt').val());
@@ -385,8 +435,7 @@ $('.table.Asitem').on('change input', '.selectbox, .itemamt', function() {
         $(this).closest('tr').find('.itemstnd').val(valueitmestnd);
     }
 });
-
-
+//재고_AS모달등록-------------------------------------------------------------------------------------------끝
 //재고_창고등록-------------------------------------------------------------------------------------------시작
 $('#detailwhregistCd[data-id]').on('click', function() {
     // 클릭된 요소의 ID를 콘솔에 출력
@@ -426,8 +475,55 @@ $('#detailwhregistCd[data-id]').on('click', function() {
     });
 });
 //재고_창고등록--------------------------------------------------------------------------------------------끝
+//재고_출하등록--------------------------------------------------------------------------------시작
+$(document).ready(function() {
+    // 폼이 제출될 때마다 실행되도록 변경
+    $('.ReleaseformEntry').submit(function(e) {
+        // 폼 제출을 막음
+        e.preventDefault();
 
+        var releaseDt = $('#currentDate').val();
+        var empInfoId = $('#empInfoId').val();
+        var accountCd = $('#accountCode').val();
+        var releaseRv = $('#releaseRv').val();
+        var releasePhone = $('#releasePhone').val();
+        var releaseZc = $('#releaseZc').val();
+        var whregistNm = $('#whregistCode').val();
+        var releaseAddr = $('#releaseAddr').val();
 
+        $('.table.item tbody tr').each(function(index) {
+            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+            $(this).find('.RegisDate').val(releaseDt);
+            $(this).find('.EmpInfoId').val(empInfoId);
+            $(this).find('.AccountCode').val(accountCd);
+            $(this).find('.WhregistCode').val(whregistNm);
+            $(this).find('.ReleaseRv').val(releaseRv);
+            $(this).find('.ReleasePhone').val(releasePhone);
+            $(this).find('.ReleaseZc').val(releaseZc);
+            $(this).find('.ReleaseAddr').val(releaseAddr);
+        });
+        var formData = new FormData(this);
+        // FormData 객체를 반복하여 폼 데이터 확인
+        formData.forEach(function(value, key) {
+            console.log(key + ': ' + value);
+        });
+        // AJAX를 사용하여 폼 데이터 제출
+        $.ajax({
+            type: $(this).attr('method'), // POST 또는 GET
+            url: $(this).attr('action'),
+            data: $(this).serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                // 성공적으로 제출된 경우의 처리 로직
+                console.log('Form Submitted Successfully');
+            },
+            error: function(response) {
+                // 오류 처리 로직
+                console.log('Error Submitting Form');
+            }
+        });
+    });
+});
+//재고_As등록--------------------------------------------------------------------------------끝
 
 // 테이블의 행 클릭 이벤트 핸들러
 $('#detailEstimateCd[data-id]').on('click', function() {
@@ -483,55 +579,145 @@ $('#detailEstimateCd[data-id]').on('click', function() {
         }
     });
 });
+$('#detailSaleCd[data-id]').on('click', function(){
+    console.log($(this).data('id'));
+    var saleCd = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    $('#saledetail').modal('hide');
+    // AJAX 요청
+    $.ajax({
+        url: '/ss/sale/list/detail/' + saleCd, // 서버 엔드포인트
+        type: 'GET',
+        success: function(response) {
+            response.forEach(function(value, key) {
+                console.log(key + ': ' + value);
+            });
+
+            // 성공 시 모달 내용 업데이트
+            var modaltBody = $('.formEntry .table.item tbody');
+            modaltBody.empty();
+            $('#saleCd').val(response.saleEntity.saleCd);
+            $('#updateCurrentDate').val(response.saleEntity.saleUploadDt);
+            $('#updateaccountCode').val(response.estimateEntities[0].accountEntity.accountCd);
+            $('#updatename').val(response.estimateEntities[0].empInfoEntity.empInfoNm);
+            $('#updateaccountName').val(response.estimateEntities[0].accountEntity.accountNm);
+            $('#releaseRv').val(response.estimateEntities[0].estimateNm);
+            $('#releaseZc').val(response.estimateEntities[0].accountEntity.accountAdd);
+            $('#whregistname').find()
+            // 데이터 항목별로 행 추가
+            response.estimateEntities.forEach(function(item, index) {
+                var row = $('<tr>'); // 행 생성
+
+                // 각 셀에 입력 요소와 name 속성 추가
+                row.append('<td><input type="hidden" name="estimateDtos[' + index + '].estimateDt" class="form-control" value="' + item.estimateDt + '">'+
+                '<input type="hidden" name="estimateDtos[' + index + '].accountEntity.accountCd" class="form-control" value="' + item.accountEntity.accountCd + '">'+
+                '<input type="hidden" name="estimateDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
+                '<input type="hidden" name="estimateDtos[' + index + '].estimateCd" class="form-control" value="' + item.estimateCd+ '">'+
+                '<input type="text" class="form-control" name="estimateDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
+                row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
+                row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateAmt" class="form-control itemamt" value="' + item.estimateAmt + '"></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateUp" class="form-control itemup" value="' + item.estimateUp + '"></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateSp" class="form-control itemsp" value="' + item.estimateSp + '"></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateVat" class="form-control itemvar" value="' + item.estimateVat + '"></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateTamt" class="form-control itemsum" value="' + item.estimateTamt + '"></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateEtc" class="form-control" value="' + item.estimateEtc + '"></td>');
+                modaltBody.append(row); // 생성된 행을 테이블에 추가
+            });
+
+            $('#detail').modal('show'); // 모달 표시
+
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+});
 
 function formatToKRW(value) {
     return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(value);
 }
 
 // 테이블의 행 클릭 이벤트 핸들러
-$('#detailOrinputCd[data-id]').on('click', function() {
+$('#detailPurCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
-    var orinputId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    var purId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    var purDetailUrl = "";
+    if(purId.indexOf("OR") !== -1){         //발주 조회에서 선택 했을 때
+        purDetailUrl = '/pur/orinput/list/detail/' + purId;
+    }
+    else if(purId.indexOf("PUR") !== -1){     //구매 조회에서 선택 했을 때
+        purDetailUrl = '/pur/input/list/detail/' + purId;
+    }
+    console.log(purDetailUrl);
+    //구매 화면에서 발주선택 모달창의 행 클릭시 모달창 숨기기
     $('#orinputdetail').modal('hide');
     // AJAX 요청
     $.ajax({
-        url: '/pur/orinput/list/detail/' + orinputId, // 서버 엔드포인트
+        url: purDetailUrl, // 서버 엔드포인트
         type: 'GET',
         success: function(data) {
-            data.forEach(function(value, key) {
-                console.log(key + ': ' + value);
-            });
+            console.log(data[0]);
             if (data && data.length > 0) {
                 // 성공 시 모달 내용 업데이트
                 var modaltBody = $('.formEntry .table.item tbody');
                 modaltBody.empty();
-                $('#orinputCd').val(data[0].orinputCd);
-                $('#updateCurrentDate').val(data[0].orinputOrDt);
-                $('#updateaccountCode').val(data[0].accountEntity.accountCd);
-                $('#updatename').val(data[0].empInfoEntity.empInfoNm);
-                $('#updateaccountName').val(data[0].accountEntity.accountNm);
-                $('#orinputReqDate').val(data[0].orinputReqDt);
-                $('#orinputDlvyDate').val(data[0].orinputDlvyDt);
+
+                if(purId.indexOf("OR") !== -1){
+                    $('#orinputCd').val(data[0].orinputCd);
+                    $('#updateCurrentDate').val(data[0].orinputOrDt);
+                    $('#updateaccountCode').val(data[0].accountEntity.accountCd);
+                    $('#updatename').val(data[0].empInfoEntity.empInfoNm);
+                    $('#updateaccountName').val(data[0].accountEntity.accountNm);
+                    $('#orinputReqDate').val(data[0].orinputReqDt);
+                    $('#orinputDlvyDate').val(data[0].orinputDlvyDt);
+                }
+                else if(purId.indexOf("PUR") !== -1){
+                    $('#orinputCode').val(data[0].orinputEntity.orinputCd);
+                    $('#updateCurrentDate').val(data[0].inputPurDt);
+                    $('#updateaccountCode').val(data[0].orinputEntity.accountEntity.accountCd);
+                    $('#updatename').val(data[0].orinputEntity.empInfoEntity.empInfoNm);
+                    $('#updateaccountName').val(data[0].orinputEntity.accountEntity.accountNm);
+                    $('#orinputReqDate').val(data[0].orinputEntity.orinputReqDt);
+                    $('#orinputDlvyDate').val(data[0].orinputEntity.orinputDlvyDt);
+                    $('#whregistCode').find('option[value="' + data[0].whregistEntity.whregistCd + '"]').prop('selected', true);
+                }
+
                 // 데이터 항목별로 행 추가
                 data.forEach(function(item, index) {
                     var row = $('<tr>'); // 행 생성
+                    if(purId.indexOf("OR") !== -1){
+                        // 각 셀에 입력 요소와 name 속성 추가
+                        row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputCd" class="form-control" value="' + item.orinputCd + '">'+
+                        '<input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.orinputOrDt + '">'+
+                        '<input type="hidden" name="orinputDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
+                        '<input type="hidden" name="orinputDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
+                        '<input type="hidden" name="orinputDtos[' + index + '].orinputReqDt" class="form-control" value="' + item.orinputReqDt + '">'+
+                        '<input type="hidden" name="orinputDtos[' + index + '].orinputDlvyDt" class="form-control" value="' + item.orinputDlvyDt + '">'+
+                        '<input type="text" class="form-control" name="orinputDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
+                        row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
+                        row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputAmt" class="form-control itemamt" value="' + item.orinputAmt + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputUp" class="form-control itemup" value="' + formatToKRW(item.orinputUp) + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSp" class="form-control itemsp" value="' + formatToKRW(item.orinputSp) + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputVat" class="form-control itemvar" value="' + formatToKRW(item.orinputVat) + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSum" class="form-control itemsum" value="' + formatToKRW(item.orinputSum) + '"></td>');
+                        row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputEtc" class="form-control" value="' + item.orinputEtc + '"></td>');
+                    }
+                    else if(purId.indexOf("PUR") !== -1){
+                        row.append('<td><input type="hidden" name="inputPurCd" class="form-control" value="' + item.inputPurCd + '">'+
+                        '<input type="hidden" name="inputPrgSt" class="form-control" value="' + item.inputPrgSt + '">'+
+                        '<input type="hidden" name="inputSiFl" class="form-control" value="' + item.inputSiFl + '">' +
+                        '<input type="text" class="form-control" name="inputDtos[' + index + '].orinputEntity.itemEntity.itemCd" value="' + item.orinputEntity.itemEntity.itemCd + '" readonly></td>');
+                        row.append('<td><input type="text" class="form-control itemname" value="' + item.orinputEntity.itemEntity.itemNm + '" readonly></td>');
+                        row.append('<td><input type="text" class="form-control itemstnd" value="' + item.orinputEntity.itemEntity.itemStnd + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputAmt" class="form-control itemamt" value="' + item.orinputEntity.orinputAmt + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputUp" class="form-control itemup" value="' + formatToKRW(item.orinputEntity.orinputUp) + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputSp" class="form-control itemsp" value="' + formatToKRW(item.orinputEntity.orinputSp) + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputVat" class="form-control itemvar" value="' + formatToKRW(item.orinputEntity.orinputVat) + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputSum" class="form-control itemsum" value="' + formatToKRW(item.orinputEntity.orinputSum) + '" readonly></td>');
+                        row.append('<td><input type="text" name="inputDtos[' + index + '].orinputEtc" class="form-control" value="' + item.orinputEntity.orinputEtc + '" readonly></td>');
+                    }
 
-                    // 각 셀에 입력 요소와 name 속성 추가
-                    row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputCd" class="form-control" value="' + item.orinputCd + '">'+
-                    '<input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.orinputOrDt + '">'+
-                    '<input type="hidden" name="orinputDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
-                    '<input type="hidden" name="orinputDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
-                    '<input type="hidden" name="orinputDtos[' + index + '].orinputReqDt" class="form-control" value="' + item.orinputReqDt + '">'+
-                    '<input type="hidden" name="orinputDtos[' + index + '].orinputDlvyDt" class="form-control" value="' + item.orinputDlvyDt + '">'+
-                    '<input type="text" class="form-control" name="orinputDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
-                    row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
-                    row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputAmt" class="form-control itemamt" value="' + item.orinputAmt + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputUp" class="form-control itemup" value="' + formatToKRW(item.orinputUp) + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSp" class="form-control itemsp" value="' + formatToKRW(item.orinputSp) + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputVat" class="form-control itemvar" value="' + formatToKRW(item.orinputVat) + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSum" class="form-control itemsum" value="' + formatToKRW(item.orinputSum) + '"></td>');
-                    row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputEtc" class="form-control" value="' + item.orinputEtc + '"></td>');
                     modaltBody.append(row); // 생성된 행을 테이블에 추가
                 });
                 // 모달 표시
@@ -559,21 +745,21 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-    $('#orinputcddelete').click(function() {
-        $('#deleteOrinputModal').modal('hide');
-        // 선택한 발주 정보의 ID 가져오기
-        var selectedOrinputId = $('#dataTable input[name="selectedOrinPut"]:checked').map(function(){
+    $('#purcddelete').click(function() {
+        $('#deletePurModal').modal('hide');
+        // 선택 정보의 ID 가져오기
+        var selectedPurId = $('#dataTable input[name="selectedPur"]:checked').map(function(){
             return $(this).val();
         }).get();
 
         // 선택한 ID를 hidden input에 설정
-        $('#selectedOrinputInput').val(selectedOrinputId);
+        $('#selectedPur').val(selectedPurId);
         // 폼 제출
-        $('.deleteOrinputForm').submit();
+        $('.deletePurForm').submit();
     });
 
     // 폼 제출 이벤트 핸들러
-    $('.deleteOrinputForm').submit(function(e) {
+    $('.deletePurForm').submit(function(e) {
         // 폼 제출을 막음
         e.preventDefault();
 
@@ -583,6 +769,53 @@ $(document).ready(function() {
             url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
             success: function(response) {
+                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
+                // 성공 시 리다이렉션
+                $('#successModal').modal('show');
+                // 모달이 닫힐 때 리다이렉션
+                $('#successModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
+            },
+            error: function(xhr) {
+                // 오류 처리 로직
+                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
+                $('#failModal .modal-body').text(response.message);
+                // 오류 메시지 모달 표시
+                $('#failModal').modal('show'); // 올바른 셀렉터 사용
+                // 모달이 닫힐 때 리다이렉션
+                $('#failModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
+                console.log('Error Submitting Form');
+            }
+        });
+    });
+});
+$(document).ready(function() {
+    $('#deleteAll').click(function() {
+        $('#delete').modal('hide');
+        // 선택한 발주 정보의 ID 가져오기
+        var selectedOrinputId = $('#dataTableEstimate input[name="selectedid"]:checked').map(function(){
+            return $(this).val();
+        }).get();
+
+        // 선택한 ID를 hidden input에 설정
+        $('#selectedid').val(selectedOrinputId);
+        // 폼 제출
+        $('.deleteForm').submit();
+    });
+
+    // 폼 제출 이벤트 핸들러
+    $('.deleteForm').submit(function(e) {
+        e.preventDefault();
+        // AJAX를 사용하여 폼 데이터 제출
+        $.ajax({
+            type: $(this).attr('method'), // POST 또는 GET
+            url: $(this).attr('action'),
+            data: $(this).serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                $('#successModal .modal-body').text(response.message);
                 // 성공 시 리다이렉션
                 $('#successModal').modal('show');
                 // 모달이 닫힐 때 리다이렉션
@@ -612,6 +845,7 @@ function refreshPage() {
 
 
 // pd 사용 js
+
 function setItemInfo(itemCd, itemNm , itemStnd, itemUp)
 {
     $('#editItem').modal('show');
@@ -620,15 +854,194 @@ function setItemInfo(itemCd, itemNm , itemStnd, itemUp)
     $('#editItemStnd').val(itemStnd);
     $('#editItemUp').val(itemUp);
 }
-function registerItemFinished() {
-    alert('품목이 등록되었습니다.')
+
+function createItemFinished() {
+
+    var itemNm = $('#itemNm').val();
+    var itemStnd = $('#itemStnd').val();
+    var itemUp = $('#itemUp').val();
+
+    // 품목 코드가 공백인 경우
+    if (!itemNm || itemNm.trim() === '') {
+        alert('품목명을 입력하세요.');
+        event.preventDefault();
+        return;
+
+    } else if (!itemStnd || itemStnd.trim() === '') {
+        alert('규격을 입력하세요.');
+        event.preventDefault();
+        return;
+
+    } else if (!itemUp || itemUp.trim() === '') {
+        alert('단가를 입력하세요.');
+        event.preventDefault();
+        return;
+
+    } else {
+        alert('품목이 등록되었습니다.')
+    }
 }
+
 function editItemFinished() {
     alert('품목 정보가 수정되었습니다.');
 }
+
 function deleteItemFinished() {
-    alert('품목이 삭제되었습니다.');
+
+    // 체크박스의 값(계정 ID)을 저장할 배열
+    var selectedIds = [];
+
+    // 모든 'selectedInfo' 클래스를 가진 체크박스를 찾고 선택된 항목의 값만 배열에 추가
+    document.querySelectorAll('.selectedInfo:checked').forEach(function(checkbox) {
+        selectedIds.push(checkbox.value);
+    });
+
+    // 선택된 체크박스가 없으면 에러 메시지를 표시하고 함수를 종료
+    if (selectedIds.length === 0) {
+        alert('삭제할 항목을 선택해주세요.');
+
+        // 빈 폼을 전달하고 모달 닫기
+        document.getElementById('deleteForm').submit();
+    } else {
+        // 배열을 쉼표로 구분된 문자열로 변환
+        var itemIdsToDelete = selectedIds.join(',');
+
+        // 숨겨진 입력 필드에 값을 설정
+        document.getElementById('deleteItemInfo').value = itemIdsToDelete;
+
+        alert('품목이 삭제되었습니다.');
+        // 폼을 제출하여 서버에 삭제 요청을 보냅니다
+        document.getElementById('deleteForm').submit();
+    }
 }
+
+$(document).ready(function() {
+    // 폼이 제출될 때마다 실행되도록 변경
+    $('.itemformEntry').submit(function(e) {
+        // 기본폼 제출을 막음
+        e.preventDefault();
+        // 입력 필드에서 숫자가 아닌 문자 제거
+        $('.itemamt, .itemup, .itemsp, .itemvar, .itemsum').each(function() {
+            var value = $(this).val().replace(/[^0-9]/g, '');
+            $(this).val(value);
+        });
+        // 폼 데이터 변경
+        var selectedEmp = $('#orinputname').val();
+        // 거래처 코드의 현재 값을 가져옴
+        var accountCode = $('#accountCode').val();
+        // 견적 일자의 현재 값을 가져옴
+        var currentDate = $('#currentDate').val();
+        // 발주 요청 일자(발주에서 사용)
+        var requestDate = $('#orinputReqDate').val();
+        // 납기 일자(발주에서 사용)
+        var deliveryDate = $('#orinputDlvyDate').val();
+
+        $('.table.item tbody tr').each(function(index) {
+            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+            $(this).find('.RegisDate').val(currentDate);
+            $(this).find('.AccountCode').val(accountCode);
+            $(this).find('.EmpInfoId').val(selectedEmp);
+            $(this).find('.OrinputReqDate').val(requestDate);
+            $(this).find('.OrinputDlvyDate').val(deliveryDate);
+        });
+
+        var formData = new FormData(this);
+        // FormData 객체를 반복하여 폼 데이터 확인
+        formData.forEach(function(value, key) {
+            console.log(key + ': ' + value);
+        });
+        // AJAX를 사용하여 폼 데이터 제출
+        $.ajax({
+            type: $(this).attr('method'), // POST 또는 GET
+            url: $(this).attr('action'),
+            data: $(this).serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                // 성공 시 리다이렉션
+                $('#successModal').modal('show');
+                // 모달이 닫힐 때 리다이렉션
+                $('#successModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
+            },
+            error: function(xhr) {
+                // 오류 처리 로직
+                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
+                // 서버로부터 받은 에러 메시지를 알림
+                // 오류 처리 로직
+                var response = JSON.parse(xhr.responseText);
+                // 오류 메시지 모달 표시
+                $('#failModal').modal('show'); // 올바른 셀렉터 사용
+                // 모달이 닫힐 때 리다이렉션
+                $('#failModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
+                console.log('Error Submitting Form');
+            }
+        });
+    });
+});
+
+$(document).ready(function() {
+
+    // 품목 코드 선택하면 품목명이 나올 수 있도록 하는 제이쿼리
+    $("#itemCode").on('input', function() {
+        // 입력된 값 가져오기
+        var itemCd = $(this).val();
+        // 모든 품목 코드 선택 옵션을 반복하면서 입력된 값과 일치하는지 확인.
+        $("#itemCodeSelectBox option").each(function () {
+            // 현재 옵션의 값이 입력된 값과 일치하는지 확인
+            if ($(this).val() === itemCd) {
+                // 일치하는 경우 해당 옵션의 텍스트 값을 가져와서 품목명 입력란에 설정
+                var itemNm = $(this).text();
+                $("#itemName").val(itemNm);
+                return false; // 반복문 종료
+            }
+        });
+    });
+});
+
+function checkInput(event) {
+
+    // 입력된 값 가져오기
+    var inputValue = event.target.value;
+
+    // 입력된 값이 숫자와 대문자인지 확인하는 정규식
+    var regex = /^[A-Z0-9]*$/;
+
+    // 입력된 값이 한글인 경우
+    if (/[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7A3]/.test(inputValue)) {
+
+        // 빈 문자열로 설정하여 한글 입력 방지
+        event.target.value = event.target.value.replace(/[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7A3fr]/g, '');
+    }
+
+    // 입력된 값을 대문자로 변환하여 설정
+    event.target.value = inputValue.toUpperCase();
+}
+
+function checkInput2(event) {
+
+    // 입력된 값 가져오기
+    var inputValue = event.target.value;
+
+    // 숫자 이외의 입력이 발생할 경우 처리
+    if (!/^[0-9]*$/.test(inputValue)) {
+
+        // 입력을 막기 위해 빈 문자열로 설정
+        event.target.value = '';
+    }
+}
+
+function checkInput3(event) {
+
+    var inputVal = event.target.value;
+
+    var regex = /^[가-힣A-Z0-9]*$/;
+
+    event.target.value = inputVal.toUpperCase();
+}
+
+// pd 끝 라인
 
 $(document).ready(function() {
     var date = new Date();

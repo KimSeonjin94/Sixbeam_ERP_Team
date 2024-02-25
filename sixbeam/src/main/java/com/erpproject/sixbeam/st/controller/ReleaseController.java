@@ -6,6 +6,8 @@ import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.service.ItemService;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
+import com.erpproject.sixbeam.ss.service.SaleService;
 import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.dto.ReleaseDto;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
@@ -15,13 +17,15 @@ import com.erpproject.sixbeam.st.form.ReleaseForm;
 import com.erpproject.sixbeam.st.service.ReleaseService;
 import com.erpproject.sixbeam.st.service.WhregistService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -33,6 +37,7 @@ public class ReleaseController {
     private final AccountService accountService;
     private final WhregistService whregistService;
     private final ItemService itemService;
+    private final SaleService saleService;
 
     @GetMapping("/")
     public String root() {
@@ -57,14 +62,31 @@ public class ReleaseController {
         List<AccountEntity> accountEntity = this.accountService.getList();
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
         List<WhregistEntity> whregistEntitiy = this.whregistService.getList();
-        List<ItemEntity> itemEntitiy = this.itemService.getList();
+        List<ItemEntity> itemEntity = this.itemService.getList();
+        List<SaleEntity> saleEntity = this.saleService.getList();
+
         form.getReleaseDtos().add(new ReleaseDto());
         form.getReleaseDtos().add(new ReleaseDto());
         model.addAttribute("getactlist",accountEntity);
         model.addAttribute("getemplist",empInfoEntity);
-        model.addAttribute("getitemlist",itemEntitiy);
+        model.addAttribute("getitemlist",itemEntity);
         model.addAttribute("getwhregistlist",whregistEntitiy);
+        model.addAttribute("getsalelist",saleEntity);
         model.addAttribute("releaseForm",form);
         return "contents/st/release_form";
+    }
+    @PostMapping("/save")
+    public ResponseEntity<?> releaseCreateDto(@ModelAttribute ReleaseForm form){
+        List<ReleaseDto> releaseDtos= form.getReleaseDtos();
+        try {
+            this.releaseService.create(releaseDtos);
+            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/st/release/list"));
+        }catch (Exception e){
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "저장에 실패 하였습니다.");
+            errorResponse.put("redirectUrl", "/st/release/create");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 }

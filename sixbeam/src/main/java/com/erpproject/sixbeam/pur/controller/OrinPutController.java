@@ -67,11 +67,15 @@ public class OrinPutController {
         try {
             List<OrinPutDto> orinPutDtos = form.getOrinputDtos();
             this.orinputService.save(orinPutDtos);
-            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl","/pur/orinput/list")); // 저장 후 목록 페이지로 리다이렉트
+            Map<String, Object> successResponse = new HashMap<>();
+            successResponse.put("status", "success");
+            successResponse.put("message", "정상적으로 저장되었습니다.");
+            successResponse.put("redirectUrl", "/pur/orinput/list");
+            return ResponseEntity.ok().body(successResponse); // 저장 후 목록 페이지로 리다이렉트
         } catch (Exception e){
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", "저장에 실패 하였습니다.");
+            errorResponse.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
             errorResponse.put("redirectUrl", "/pur/orinput/create");
             return ResponseEntity.badRequest().body(errorResponse);
         }
@@ -82,12 +86,15 @@ public class OrinPutController {
         try {
             List<OrinPutDto> orinPutDtos = form.getOrinputDtos();
             orinputService.updateAll(orinPutDtos);
-
-            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl","/pur/orinput/list"));
+            Map<String, Object> successResponse = new HashMap<>();
+            successResponse.put("status", "success");
+            successResponse.put("message", "정상적으로 수정되었습니다.");
+            successResponse.put("redirectUrl", "/pur/orinput/list");
+            return ResponseEntity.ok().body(successResponse);
         } catch (Exception e){
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", "수정에 실패 하였습니다.");
+            errorResponse.put("message", String.format("수정에 실패 하였습니다.[%s]", e.getMessage()));
             errorResponse.put("redirectUrl", "/pur/orinput/update");
             return ResponseEntity.badRequest().body(errorResponse);
         }
@@ -98,11 +105,15 @@ public class OrinPutController {
         try {
             // 선택된 발주 정보를 삭제
             orinputService.delete(selectedOrinputIds);
-            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl","/pur/orinput/list")); // 삭제 후 목록 페이지로 리다이렉트
+            Map<String, Object> successResponse = new HashMap<>();
+            successResponse.put("status", "success");
+            successResponse.put("message", "정상적으로 삭제되었습니다.");
+            successResponse.put("redirectUrl", "/pur/orinput/list");
+            return ResponseEntity.ok().body(successResponse); // 삭제 후 목록 페이지로 리다이렉트
         } catch (IllegalStateException e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", e.getMessage());
+            errorResponse.put("message", String.format("삭제에 실패 하였습니다.[%s]", e.getMessage()));
             errorResponse.put("redirectUrl", "/pur/orinput/list");
             return ResponseEntity.badRequest().body(errorResponse);
         }

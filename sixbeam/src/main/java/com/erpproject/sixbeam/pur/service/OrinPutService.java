@@ -91,7 +91,7 @@ public class OrinPutService {
 
     private String generateNewOrinputCd(LocalDate orinputDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
-        String prefix = "OR" + orinputDate.format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";
+        String prefix = "OR" + orinputDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
 
         // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
         String maxCd = orinPutRepository.getMaxOrinputCd(orinputDate);

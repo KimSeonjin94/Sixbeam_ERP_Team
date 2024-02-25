@@ -13,6 +13,7 @@
                 <table class="table item table-bordered" id="dataTableEstimate" width="100%" cellspacing="0">
                     <thead>
                     <tr>
+                        <th>체크</th>
                         <th>견적 코드</th>
                         <th>거래처 명</th>
                         <th>등록 사원</th>
@@ -22,6 +23,9 @@
                     <tbody>
                     <tr th:each="estimate : ${estimateEntities}">
                         <td>
+                            <input th:type="checkbox" name="selectedid" th:value="${estimate.estimateCd}">
+                        </td>
+                        <td>
                             <a href="#" id="detailEstimateCd" th:data-id="${estimate.estimateCd}">
                                 <span th:text="${estimate.estimateCd}"></span>
                             </a>
@@ -30,7 +34,6 @@
                         <td th:text="${estimate.empInfoEntity.empInfoNm}"></td>
                         <td th:text="${#numbers.formatDecimal(estimate.estimateSp, 0, 'COMMA', 0, 'POINT')} + '원'"></td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>
@@ -337,6 +340,30 @@
                     </div>
                 </div>
             </div>
+            <!-- 삭제하는 모달 -->
+            <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteLabel">견적 삭제</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>선택한 견적 정보를 삭제하시겠습니까?</p>
+                            <form class="deleteForm" th:action="@{/ss/estimate/delete}" method="post">
+                                <input type="hidden" id="selectedid" name="selectedid">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="deleteAll">삭제</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

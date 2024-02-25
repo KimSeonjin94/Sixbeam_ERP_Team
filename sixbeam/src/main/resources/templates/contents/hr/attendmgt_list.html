@@ -1,0 +1,162 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form class="formEntry" th:action="@{/hr/attendmgt/create}" th:object="${attendmgtForm}"  method="post">
+                <div class="form-group row">
+                    <label for="currentDate" class="col-sm-2 col-form-label">일자</label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" id="currentDate">
+                    </div>
+                </div>
+                <table class="table item" id="estimateitem">
+                    <thead>
+                    <tr>
+                        <th>체크</th>
+                        <th>날짜</th>
+                        <th>사원</th>
+                        <th>사유</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-employee-id="1" data-employee-nm="John Doe">
+                        <td><input type="checkbox"></td>
+                        <td><input type="date" class="form-control"></td>
+                        <td>
+                            <input type="text" class="form-control" id="current[0].name" name="current[0].id"
+                                   ondblclick="showModal();" onclick="getClickedId();" >
+                        </td>
+                        <td>
+                            <select class="form-control" id="reasonCd" name="reasonCd">
+                                <option>선택하세요</option>
+                                <option th:each="reason : ${reasonList}" th:value="${reason.reasonCd}" th:text="${reason.reasonNm}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr></tr>
+                    </tfoot>
+                </table>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <input type='button' value='추가' class="btn btn-primary" id="addbtn" onclick="frog()">
+                            <input type='button' value='삭제' class="btn btn-danger" id="deleterowbtn">
+                        </div>
+                    </div>
+                    <!-- 오른쪽에 버튼 만드는 부분 -->
+                    <div class="col-sm-6 text-md-right"></div>
+                </div>
+            </form>
+            <!-- 모달 -->
+            <!-- 사원정보 모달 -->
+            <div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="employeeModalLabel">사원 정보 입력</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">사원정보</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTableAttendmgt" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <td>사원ID</td>
+                                                <td>부서</td>
+                                                <td>이름</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <script>
+                                                var currentIndex;
+                                                function frog() {
+                                                    // 현재 행을 복제하여 추가
+                                                    var $lastRow = $('.table.item tbody tr:last');
+                                                    var $newRow = $lastRow.clone();
+                                                    // 복제된 행의 name 속성에 포함된 인덱스를 증가시킵니다.
+                                                    $newRow.find('input, select').each(function() {
+                                                        var name = $(this).attr('id');
+                                                        if (name) {
+                                                            var match = name.match(/(\d+)/);
+                                                            if (match) {
+                                                                var index = parseInt(match[0], 10);
+                                                                var newName = name.replace('[' + index + ']', '[' + (index + 1) + ']');
+                                                                $(this).attr('id', newName);
+                                                            }
+                                                        }
+
+                                                        // 입력 필드의 값을 초기화합니다.
+                                                        if($(this).is('input[type="text"]')) {
+                                                            $(this).val('');
+                                                        } else if($(this).is('select')) {
+                                                            $(this).val($(this).find('option:first').val());
+                                                        } else if($(this).is('input[type="hidden"]')) {
+                                                            // 숨겨진 필드의 처리가 필요한 경우 여기에 로직을 추가
+                                                        }
+                                                    });
+
+                                                    // 새로운 행을 테이블에 추가합니다.
+                                                    $newRow.appendTo('.table.item tbody');
+                                                }
+                                                function addadd(employeeId, employeeNm) {
+                                                    // 현재 클릭된 행의 인덱스를 저장
+
+                                                    var newindex=currentIndex.replace(/[^0-9]/g, '');
+
+                                                    $('#current\\[' + newindex + '\\]\\.id').val(employeeId);
+                                                    $('#current\\[' + newindex + '\\]\\.name').val(employeeNm);
+                                                    // 모달 닫기
+                                                    console.log('잘가'); // 콘솔에 출력
+                                                    $('#employeeModal').modal('hide');
+
+                                                    // 다음에 추가될 행을 위해 인덱스 증가
+
+                                                }
+                                                function showModal() {
+                                                    $('#employeeModal').modal('show');
+
+                                                }
+                                                function getClickedId() {
+                                                    // 클릭한 엘리먼트의 ID 값을 가져와서 출력
+                                                    currentIndex = event.target.id;
+                                                    console.log("Clicked ID: " + currentIndex);
+                                                }
+                                            </script>
+                                            <tr th:each="employee: ${empInfoList}">
+                                                <td>
+                                                    <a href="#"
+                                                       style="color: blue; cursor: pointer;"
+                                                       th:onclick="addadd([[${employee.empInfoId}]],[[${employee.empInfoNm}]]);">
+                                                        <span th:text="${employee.empInfoId}"></span>
+                                                    </a>
+                                                </td>
+                                                <td th:text="${employee.departEntity.departNm}"></td>
+                                                <td th:text="${employee.empInfoNm}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">저장</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</html>

@@ -8349,6 +8349,106 @@ body.sidebar-toggled footer.sticky-footer {
 
 
 
+
+
+.financial-table {
+    height: 600px;
+    width: 600px;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-body-bs {
+    height: 700px;
+    width: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card-header-title {
+   background : #5CAEFF;
+   text-align : center;
+   border: 1px solid black;
+}
+.card-header-date {
+    text-align : center;
+    border: 1px solid black;
+}
+
+.asset-column  {
+         padding: 0 0 0 10px;
+         text-align: left;
+         width: 150px;
+         height: 30px;
+         border: 1px solid black;
+}
+.debt-column  {
+         padding: 0 0 0 10px;
+         text-align: left;
+         width: 150px;
+         height: 30px;
+         border: 1px solid black;
+}
+.capital-column  {
+         padding: 0 0 0 10px;
+         text-align: left;
+         width: 150px;
+         height: 30px;
+         border: 1px solid black;
+}
+
+.asset-column-md {
+         padding: 0 0 0 20px;
+         text-align: left;
+         width: 150px;
+         height: 30px;
+}
+.debt-column-md {
+         padding: 0 0 0 20px;
+         text-align: left;
+         width: 150px;
+         height: 30px;
+}
+.capital-column-md {
+         padding: 0 0 0 20px;
+         text-align: left;
+         width: 150px;
+         height: 30px;
+}
+
+.asset-column-l {
+         padding: 0 0 0 40px;
+         text-align: left;
+         width: 150px;
+         height: 30px;
+}
+.debt-column-l {
+         padding: 0 0 0 40px;
+         text-align: left;
+         width: 150px;
+         height: 30px;
+}
+.capital-column-l {
+         padding: 0 0 0 40px;
+         text-align: left;
+         width: 150px;
+         height: 30px;
+}
+
+.bss {
+     /* 너비를 갖는 인라인 요소로 만듭니다 */
+    width: 150px; /* 필요에 따라 적절한 너비를 설정합니다 */
+    height: 30px; /* 높이가 0이 되지 않도록 설정합니다 */
+    text-align: right; /* 숫자 데이터에 대해 오른쪽 정렬합니다 */
+    border: 1px solid transparent; /* 렌더링되지 않는 span에도 경계를 설정합니다 */
+}
+
+
+
+
+
+
+
 /*--- pd css ---*/
 .btn.btn-success-pd {
   color: #fff;
@@ -8383,6 +8483,8 @@ body.sidebar-toggled footer.sticky-footer {
   border-color: #28a745; /* Success color */
   margin-right: 10px;
   margin-left: 10px;
+
+  /* pd css 끝라인 */
 
 .btn.btn-secondary-ac {
   color: #fff;

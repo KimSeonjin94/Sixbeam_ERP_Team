@@ -29,7 +29,9 @@
                     <tbody>
                     <tr th:each="as : ${asEntityList}">
                         <td>
-                            <a th:href="@{|/st/as/detail/${as.asCd}|}" th:text="${as.asCd}"></a>
+                            <a href="#" id="detailAsCd" th:data-id="${as.asCd}">
+                                <span th:text="${as.asCd}"></span>
+                            </a>
                         </td>
                         <td th:text="${as.empInfoEntity.empInfoNm}"></td>
                         <td th:text="${as.asDt}"></td>
@@ -51,23 +53,121 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="formEntry" th:action="@{/as/create}" th:object="${asForm}" method="post">
+                            <form class="AsformEntry" th:action="@{/st/as/save}" th:object="${asForm}" method="post">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">창고코드</label>
+                                    <label for="currentDate" class="col-sm-2 col-form-label">AS 등록일자</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="whregistCode">
+                                        <input type="date" class="form-control" id="currentDate">
+                                    </div>
+                                    <label for="empInfoId" class="col-sm-2 col-form-label">담당자</label>
+                                    <div class="col-sm-4">
+                                        <select id="empInfoId" class="form-control">
+                                            <option th:each="emplist : ${getemplist}" th:value="${emplist.empInfoId}"
+                                                    th:text="${emplist.empInfoNm}"></option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">창고명</label>
+                                    <label for="accountCode" class="col-sm-2 col-form-label">거래처 코드</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="whregistName">
+                                        <input type="text" class="form-control" id="accountCode"
+                                               list="accountCodeSelectBox"/>
+                                        <datalist id="accountCodeSelectBox">
+                                            <option th:each="actlist : ${getactlist}" th:value="${actlist.accountCd}"
+                                                    th:text="${actlist.accountNm}"></option>
+                                        </datalist>
+                                    </div>
+                                    <label class="col-sm-2 col-form-label">거래처</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="accountName">
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="ascmptDt" class="col-sm-2 col-form-label">AS 완료일자</label>
+                                    <div class="col-sm-4">
+                                        <input type="date" class="form-control" id="ascmptDt">
+                                    </div>
+                                    <label class="col-sm-2 col-form-label">진행상태</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="asSt">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">접수제목</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="asTi">
+                                    </div>
+                                    <label for="whregistCode" class="col-sm-2 col-form-label">창고명</label>
+                                    <div class="col-sm-4">
+                                        <select id="whregistCode" class="form-control">
+                                            <option th:each="whregistlist : ${getwhregistlist}"
+                                                    th:value="${whregistlist.whregistCd}"
+                                                    th:text="${whregistlist.whregistNm}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">접수내용</label>
+                                    <div class="col-sm-4">
+                                        <textarea name="asMo" id="asMo" class="form-control" rows="5"></textarea>
+                                    </div>
+                                </div>
+                                <table class="table item" id="asitem">
+                                    <thead>
+                                    <tr>
+                                        <th>품목코드</th>
+                                        <th>품목명</th>
+                                        <th>규격</th>
+                                        <th>수량</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="hidden" class="RegisDate" th:field="*{asDtos[0].asDt}">
+                                            <input type="hidden" class="AccountCode"
+                                                   th:field="*{asDtos[0].accountEntity.accountCd}">
+                                            <input type="hidden" class="EmpInfoId"
+                                                   th:field="*{asDtos[0].empInfoEntity.empInfoId}">
+                                            <input type="hidden" class="WhregistCode"
+                                                   th:field="*{asDtos[0].whregistEntity.whregistCd}">
+                                            <input type="hidden" class="AsSt" th:field="*{asDtos[0].asSt}">
+                                            <input type="hidden" class="AscmptDt" th:field="*{asDtos[0].ascmptDt}">
+                                            <input type="hidden" class="AsTi" th:field="*{asDtos[0].asTi}">
+                                            <input type="hidden" class="AsMo" th:field="*{asDtos[0].asMo}">
+                                            <input type="hidden" class="form-control itemup">
+
+                                            <select class="selectbox form-control"
+                                                    th:name="'asDtos[' + 0 + '].itemEntity.itemCd'">
+                                                <option value="">품목 선택</option>
+                                                <option th:each="itemlist : ${getitemlist}"
+                                                        th:value="${itemlist.itemCd}"
+                                                        th:data-itemNm="${itemlist.itemNm}"
+                                                        th:data-itemStnd="${itemlist.itemStnd}"
+                                                        th:text="${itemlist.itemCd}"></option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control itemname"></td>
+                                        <td><input type="text" class="form-control itemstnd"></td>
+                                        <td><input type="text" class="form-control itemamt"
+                                                   th:field="*{asDtos[0].asAmt}"></td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th colspan="3">합계</th>
+                                        <th id="totalAmt"></th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
                                 <div class="row">
                                     <div class="col-sm-6 text-md-right">
-                                        <button type="button" class="btn btn-primary">저장</button>
-                                        <button type="button" class="btn btn-danger">초기화</button>
+                                        <button type="submit" class="btn btn-primary">
+                                            저장
+                                        </button>
+                                        <button type="reset" class="btn btn-danger">
+                                            초기화
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -75,8 +175,95 @@
                     </div>
                 </div>
             </div>
+            <!-- Modify Modal -->
+            <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="subjectasLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="subjectasLabel">AS 수정</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <form class="AsformEntry" th:action="@{/st/as/update}" th:object="${asForm}"
+                                          method="post">
+                                        <div class="form-group row">
+                                            <label for="updateCurrentDate" class="col-sm-2 col-form-label">AS
+                                                등록일자</label>
+                                            <div class="col-sm-4">
+                                                <input type="date" class="form-control" id="updateCurrentDate" readonly>
+                                            </div>
+                                            <label for="updateEmpInfoId" class="col-sm-2 col-form-label">담당자</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="updateEmpInfoId" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="updateaccountCode" class="col-sm-2 col-form-label">거래처
+                                                코드</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="updateaccountCode" readonly>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">거래처</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="updateaccountName" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="ascmptDt" class="col-sm-2 col-form-label">AS 완료일자</label>
+                                            <div class="col-sm-4">
+                                                <input type="date" class="form-control" id="updateascmptDt" readonly>
+                                            </div>
+                                            <label for="asSt" class="col-sm-2 col-form-label">진행상태</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="updateasSt" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="asTi" class="col-sm-2 col-form-label">접수제목</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="updateasTi" readonly>
+                                            </div>
+                                            <label for="whregistCode" class="col-sm-2 col-form-label">창고명</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control" id="updatewhregistCode"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">접수내용</label>
+                                            <div class="col-sm-8">
+                                                <textarea name="asMo" id="updateasMo" class="form-control"
+                                                          rows="5"></textarea>
+                                            </div>
+                                        </div>
+                                        <table class="table item">
+                                            <thead>
+                                            <tr>
+                                                <th>품목코드</th>
+                                                <th>품목명</th>
+                                                <th>규격</th>
+                                                <th>수량</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <div class="col-sm-12 text-md-right">
+                                            <button type="submit" class="btn btn-primary">저장</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기
+                                            </button>
 
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 </html>

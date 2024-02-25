@@ -246,6 +246,8 @@
             });
             if(selectedReasons.length === 0){
                 alert('선택된 항목이 없습니다.');
+                document.getElementById("deleteReasonForm").submit();
+                $('#deleteReasonModal').modal('hide');
             }else{
                 $('#selectedReasonsInput').val(selectedReasons.join(', '));
                 document.getElementById("deleteReasonForm").submit();
