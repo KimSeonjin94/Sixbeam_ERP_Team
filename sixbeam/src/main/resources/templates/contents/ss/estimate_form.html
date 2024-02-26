@@ -23,12 +23,18 @@
                         <input type="text" class="form-control" id="accountCode" list="accountCodeSelectBox"/>
                         <datalist id="accountCodeSelectBox" >
                             <option th:each="actlist : ${getactlist}" th:value="${actlist.accountCd}"
-                                    th:text="${actlist.accountNm}"></option>
+                                    th:text="${actlist.accountNm}" th:data-id="${actlist.accountPic}"></option>
                         </datalist>
                     </div>
                     <label class="col-sm-2 col-form-label">거래처</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="accountName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">거래처 담당자</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="accountPic">
                     </div>
                 </div>
                 <table class="table item" id="estimateitem">

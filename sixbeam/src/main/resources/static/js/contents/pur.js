@@ -3,15 +3,12 @@ function formatToKRW(value) {
 }
 
 // 테이블의 행 클릭 이벤트 핸들러
-$('#detailPurCd[data-id]').on('click', function() {
+$('#detailOrinputCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
     var purId = $(this).data('id'); // data-id 속성에서 ID 가져오기
     var purDetailUrl = "";
     if(purId.indexOf("OR") !== -1){         //발주 조회에서 선택 했을 때
         purDetailUrl = '/pur/orinput/list/detail/' + purId;
-    }
-    else if(purId.indexOf("PUR") !== -1){     //구매 조회에서 선택 했을 때
-        purDetailUrl = '/pur/input/list/detail/' + purId;
     }
     console.log(purDetailUrl);
     //구매 화면에서 발주선택 모달창의 행 클릭시 모달창 숨기기
@@ -22,6 +19,7 @@ $('#detailPurCd[data-id]').on('click', function() {
         type: 'GET',
         success: function(data) {
             console.log(data[0]);
+
             if (data && data.length > 0) {
                 // 성공 시 모달 내용 업데이트
                 var modaltBody = $('.formEntry .table.item tbody');
@@ -30,27 +28,21 @@ $('#detailPurCd[data-id]').on('click', function() {
                 if(purId.indexOf("OR") !== -1){
                     $('#orinputCd').val(data[0].orinputCd);
                     $('#updateCurrentDate').val(data[0].orinputOrDt);
+                    $('#orinputDate').val(data[0].orinputOrDt);
                     $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                     $('#updatename').val(data[0].empInfoEntity.empInfoNm);
+                    $('#oinputname').val(data[0].empInfoEntity.empInfoNm);
                     $('#updateaccountName').val(data[0].accountEntity.accountNm);
                     $('#updateorinputReqDate').val(data[0].orinputReqDt);
                     $('#updateorinputDlvyDate').val(data[0].orinputDlvyDt);
-                }
-                else if(purId.indexOf("PUR") !== -1){
-                    $('#orinputCode').val(data[0].orinputEntity.orinputCd);
-                    $('#updateCurrentDate').val(data[0].inputPurDt);
-                    $('#updateaccountCode').val(data[0].orinputEntity.accountEntity.accountCd);
-                    $('#updatename').val(data[0].orinputEntity.empInfoEntity.empInfoNm);
-                    $('#updateaccountName').val(data[0].orinputEntity.accountEntity.accountNm);
-                    $('#orinputReqDate').val(data[0].orinputEntity.orinputReqDt);
-                    $('#orinputDlvyDate').val(data[0].orinputEntity.orinputDlvyDt);
-                    $('#updatewhregistCode').find('option[value="' + data[0].whregistEntity.whregistCd + '"]').prop('selected', true);
                 }
 
                 // 데이터 항목별로 행 추가
                 data.forEach(function(item, index) {
                     var row = $('<tr>'); // 행 생성
                     if(purId.indexOf("OR") !== -1){
+                        console.log(item.itemEntity.itemCd);
+                        console.log('<input type="text" class="form-control" name="orinputDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
                         // 각 셀에 입력 요소와 name 속성 추가
                         row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputCd" class="form-control" value="' + item.orinputCd + '">'+
                         '<input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.orinputOrDt + '">'+
@@ -68,7 +60,57 @@ $('#detailPurCd[data-id]').on('click', function() {
                         row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputSum" class="form-control itemsum" value="' + formatToKRW(item.orinputSum) + '"></td>');
                         row.append('<td><input type="text" name="orinputDtos[' + index + '].orinputEtc" class="form-control" value="' + item.orinputEtc + '"></td>');
                     }
-                    else if(purId.indexOf("PUR") !== -1){
+
+                    modaltBody.append(row); // 생성된 행을 테이블에 추가
+                });
+                // 모달 표시
+                $('#updateOrinput').modal('show');
+            } else {
+                console.error('데이터가 비어있습니다.');
+            }
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+});
+
+// 테이블의 행 클릭 이벤트 핸들러
+$('#detailInputCd[data-id]').on('click', function() {
+    console.log($(this).data('id'));
+    var purId = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    var purDetailUrl = "";
+    if(purId.indexOf("PUR") !== -1){     //구매 조회에서 선택 했을 때
+        purDetailUrl = '/pur/input/list/detail/' + purId;
+    }
+    console.log(purDetailUrl);
+
+    // AJAX 요청
+    $.ajax({
+        url: purDetailUrl, // 서버 엔드포인트
+        type: 'GET',
+        success: function(data) {
+            console.log(data[0]);
+            if (data && data.length > 0) {
+                // 성공 시 모달 내용 업데이트
+                var modaltBody = $('.formEntry .table.item tbody');
+                modaltBody.empty();
+
+                if(purId.indexOf("PUR") !== -1){
+                    $('#orinputCode').val(data[0].orinputEntity.orinputCd);
+                    $('#updateCurrentDate').val(data[0].inputPurDt);
+                    $('#updateaccountCode').val(data[0].orinputEntity.accountEntity.accountCd);
+                    $('#updatename').val(data[0].orinputEntity.empInfoEntity.empInfoNm);
+                    $('#updateaccountName').val(data[0].orinputEntity.accountEntity.accountNm);
+                    $('#orinputReqDate').val(data[0].orinputEntity.orinputReqDt);
+                    $('#orinputDlvyDate').val(data[0].orinputEntity.orinputDlvyDt);
+                    $('#updatewhregistCode').find('option[value="' + data[0].whregistEntity.whregistCd + '"]').prop('selected', true);
+                }
+
+                // 데이터 항목별로 행 추가
+                data.forEach(function(item, index) {
+                    var row = $('<tr>'); // 행 생성
+                    if(purId.indexOf("PUR") !== -1){
                         row.append('<td><input type="hidden" name="inputPurCd" class="form-control" value="' + item.inputPurCd + '">'+
                         '<input type="hidden" name="inputPrgSt" class="form-control" value="' + item.inputPrgSt + '">'+
                         '<input type="hidden" name="inputSiFl" class="form-control" value="' + item.inputSiFl + '">' +
@@ -86,7 +128,7 @@ $('#detailPurCd[data-id]').on('click', function() {
                     modaltBody.append(row); // 생성된 행을 테이블에 추가
                 });
                 // 모달 표시
-                $('#detail').modal('show');
+                $('#updateInput').modal('show');
             } else {
                 console.error('데이터가 비어있습니다.');
             }

@@ -1,0 +1,150 @@
+<html layout:decorate="~{layout/default}">
+<head>
+    <!-- 추가된 부분zzzz -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // input type="date"의 값이 변경되었을 때 동작할 함수
+            $('#selectWorkScheduleDate').on('input', function () {
+                // 선택된 날짜 가져오기
+                var selectedDate = $(this).val();
+
+                // 폼 데이터 생성
+                var formData = {
+                    selectedDate: selectedDate
+                };
+
+                // 폼에 데이터 추가
+                for (var key in formData) {
+                    if (formData.hasOwnProperty(key)) {
+                        var input = document.createElement("input");
+                        input.type = "hidden";
+                        input.name = key;
+                        input.value = formData[key];
+                        document.querySelector(".formEntry").appendChild(input);
+                    }
+                }
+
+                // 페이지 새로고침 (폼이 제출됨)
+                // 여기서는 이벤트를 중지시켜 실제로 폼이 서버로 전송되지 않도록 합니다.
+                event.preventDefault();
+                document.querySelector(".formEntry").submit();
+            });
+        });
+    </script>
+</head>>
+<body>
+<div layout:fragment="content" class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form class="formEntry" th:action="@{/hr/attendmgtsearch/create}" th:object="${workScheduleForm}"
+                  method="post" onsubmit="submitForm(event)">
+                <div class="form-group row">
+                    <label for="selectWorkScheduleDate" class="col-sm-2 col-form-label">날짜zz</label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" id="selectWorkScheduleDate">
+                    </div>
+                </div>
+            </form>
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">근태 목록</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>날짜</th>
+                                <th>부서</th>
+                                <th>이름</th>
+                                <th>사유</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="work : ${workScheduleList}">
+                                <td th:text="${work.workScheduleDate}"></td>
+                                <td th:text="${work.empInfoEntity.departEntity.departNm}"></td>
+                                <td>
+                                    <a href="#" th:onclick="openEditReasonPage([[${work.workScheduleCd}]],[[${work.empInfoEntity.empInfoId}]],[[${work.workScheduleDate}]],[[${work.workScheduleStartTime}]],[[${work.workScheduleEndTime}]],[[${work.workScheduleReason}]])"
+                                       style="color: blue; cursor: pointer;">
+                                        <span th:text="${work.empInfoEntity.empInfoNm}" class="reason-cd"></span>
+                                    </a>
+                                </td>
+                                <td th:text="${work.workScheduleReason}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- 하이퍼링크로 수정하는 모달 -->
+            <div  class="modal fade" id="updateNoteModal" tabindex="-1" aria-labelledby="updateNoteModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="employeeModalLabel">사유명 수정</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row no-gutters">
+                                <div class="col-md-8 mb-3">
+                                    <form id="updateAttendmgtsearchForm" th:action="@{/hr/attendmgthsearch/uupdate}" method="post">
+                                        <!--부서코드-->
+                                        <div class ="form-group">
+                                            <label for="workScheduleCd">출퇴근식별자</label>
+                                            <input type="text" class="form-control" id="workScheduleCd" name="workScheduleCd" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="empInfoId">사원id</label>
+                                            <input type="text" class="form-control" id="empInfoId" name="empInfoId" readonly>
+                                        </div>
+                                        <div class ="form-group">
+                                            <label for="workScheduleDate">날짜</label>
+                                            <input type="text" class="form-control" id="workScheduleDate" name="workScheduleDate" readonly>
+                                        </div>
+                                        <div class ="form-group">
+                                            <label for="workScheduleStartTime">출근시간</label>
+                                            <input type="text" class="form-control" id="workScheduleStartTime" name="workScheduleStartTime">
+                                        </div>
+                                        <div class ="form-group">
+                                            <label for="workScheduleEndTime">퇴근시간</label>
+                                            <input type="text" class="form-control" id="workScheduleEndTime" name="workScheduleEndTime">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reason">사유</label>
+                                            <select class="form-control" id="workScheduleReason" name="workScheduleReason">
+                                                <option th:each="re : ${reasonList}" th:value="${re.reasonCd}" th:text="${re.reasonNm}"></option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <!-- submit 버튼을 추가하고 폼 전송을 위한 액션을 지정 -->
+                            <button type="button" class="btn btn-primary" onclick="updateReason()">저장</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        function openEditReasonPage(workScheduleCd,empinfoId,workScheduleDate,workScheduleStartTime,workScheduleEndTime,workScheduleReason){
+            $('#updateNoteModal').modal('show');
+            $('#workScheduleCd').val(workScheduleCd);
+            $('#empInfoId').val(empinfoId);
+            $('#workScheduleDate').val(workScheduleDate);
+            $('#workScheduleStartTime').val(workScheduleStartTime);
+            $('#workScheduleEndTime').val(workScheduleEndTime);
+            $('#workScheduleReason').val(workScheduleReason);
+        }
+    </script>
+</div>
+</body>
+</html>

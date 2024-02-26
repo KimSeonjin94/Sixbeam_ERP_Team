@@ -8435,13 +8435,54 @@ body.sidebar-toggled footer.sticky-footer {
          height: 30px;
 }
 
+.asset-column-total {
+         margin-right: 50px;
+         text-align: right;
+         width: 150px;
+         height: 30px;
+}
+.debt-column-total {
+         margin-right: 50px;
+         text-align: right;
+         width: 150px;
+         height: 30px;
+}
+.capital-column-total {
+         margin-right: 50px;
+         text-align: right;
+         width: 150px;
+         height: 30px;
+}
+
 .bss {
      /* 너비를 갖는 인라인 요소로 만듭니다 */
     width: 150px; /* 필요에 따라 적절한 너비를 설정합니다 */
     height: 30px; /* 높이가 0이 되지 않도록 설정합니다 */
     text-align: right; /* 숫자 데이터에 대해 오른쪽 정렬합니다 */
-    border: 1px solid transparent; /* 렌더링되지 않는 span에도 경계를 설정합니다 */
 }
+
+.financial-table2 {
+    height: 600px;
+    width: 600px;
+}
+
+.is {
+    height: 30px;
+    width: 150px;
+    padding-left: 20px;
+}
+.is-is {
+    height: 30px;
+    width: 150px;
+    padding-left: 150px;
+}
+.is-num {
+    height: 30px;
+    width: 150px;
+    text-align: right;
+    padding-right: 10px;
+}
+
 
 
 
