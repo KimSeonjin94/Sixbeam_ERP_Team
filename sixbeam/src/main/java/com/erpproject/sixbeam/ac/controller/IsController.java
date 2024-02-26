@@ -34,13 +34,13 @@ public class IsController {
             Integer operatingIncome = grossProfit - operatingExpenses;
             model.addAttribute("operatingIncome", operatingIncome);
 
-            Integer NonOperatingIncome = incomeStatement.getIsInterInc();
-            model.addAttribute("NonOperatingIncome", NonOperatingIncome);
+            Integer nonOperatingIncome = incomeStatement.getIsInterInc();
+            model.addAttribute("nonOperatingIncome", nonOperatingIncome);
 
-            Integer NonOperatingExpenses = incomeStatement.getIsInterExp();
-            model.addAttribute("NonOperatingExpenses", NonOperatingExpenses);
+            Integer nonOperatingExpenses = incomeStatement.getIsInterExp();
+            model.addAttribute("nonOperatingExpenses", nonOperatingExpenses);
 
-            Integer earningBeforeTaxes = operatingIncome + NonOperatingIncome - NonOperatingExpenses;
+            Integer earningBeforeTaxes = operatingIncome + nonOperatingIncome - nonOperatingExpenses;
             model.addAttribute("earningBeforeTaxes", earningBeforeTaxes);
 
             Integer netIncome = earningBeforeTaxes - incomeStatement.getIsCortaxExp();
