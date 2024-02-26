@@ -20,7 +20,7 @@ public class SalaryIdEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="HR_SALARYID_TB_salaryIdCd_seq")
     @SequenceGenerator(name ="HR_SALARYID_TB_salaryIdCd_seq", sequenceName ="HR_SALARYID_TB_salaryIdCd_seq",
-            initialValue = 801, allocationSize =1)
+            initialValue = 843, allocationSize =1)
     @Column(name ="salaryIdCd")
     private Long salaryIdCd;//급여식별자
     @ManyToOne
