@@ -1,0 +1,32 @@
+<!-- check_form.html -->
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">재고 관리</h1>
+    <div class="btn-group" role="group" aria-label="Basic example"></div>
+    <!-- DataTales Example -->
+    <div class="card-body">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <form th:action="@{/st/check/whlist}" method="post">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">재고 조회</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="whmoveDt" class="form-label">기준일자</label>
+                        <input type="date" class="form-control" id="whmoveDt" name="date">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="whregistCode" class="col-sm-2 col-form-label">창고명</label>
+                        <select id="whregistCode" name="whregistEntity.whregistCd" class="form-control">
+                            <option th:each="whregistlist : ${getwhregistlist}" th:value="${whregistlist.whregistCd}"
+                                    th:text="${whregistlist.whregistNm}"></option>
+                        </select>
+                    </div>
+                    <input type="submit" value="조회" class="btn btn-primary my-2">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
