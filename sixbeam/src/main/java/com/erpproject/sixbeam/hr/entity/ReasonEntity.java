@@ -17,10 +17,10 @@ public class ReasonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="HR_REASON_TB_reasonCd_seq")
     @SequenceGenerator(name ="HR_REASON_TB_reasonCd_seq", sequenceName = "HR_REASON_TB_reasonCd_seq",
-    initialValue =401 ,allocationSize = 1)
+    initialValue =408 ,allocationSize = 1)
     @Column(name = "reasonCd")
     private Long reasonCd;//사유코드;
-    @Column(name = "reasonNM")
+    @Column(name = "reasonNm")
     private String reasonNm;//사유명;
 
 }
