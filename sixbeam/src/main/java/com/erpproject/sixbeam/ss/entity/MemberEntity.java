@@ -25,16 +25,13 @@ public class MemberEntity {
     @Column(name = "MEMBER_ADDR")
     private String memberAddr;
     @Id
-    @Column(name="ESTIMATE_CD",insertable=false, updatable=false)
+    @Column(name="ESTIMATE_CD")
     private String estimateCd;
 
     @ManyToOne
-    @JoinColumns({
-
-            @JoinColumn(name = "ESTIMATE_CD", referencedColumnName = "ESTIMATE_CD"),
-            @JoinColumn(name = "ITEM_CD", referencedColumnName = "ITEM_CD")
-    })
+    @JoinColumn(name = "ESTIMATE_CD", referencedColumnName = "ESTIMATE_CD", insertable = false, updatable = false)
     private EstimateEntity estimateEntity;
+
 
 
 
