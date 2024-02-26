@@ -42,7 +42,7 @@
                             <input th:type="checkbox" th:name="selectedPur" th:value="${orinput.orinputCd}">
                         </td>
                         <td>
-                            <a href="#" id="detailPurCd" th:data-id="${orinput.orinputCd}">
+                            <a href="#" id="detailOrinputCd" th:data-id="${orinput.orinputCd}">
                                 <span th:text="${orinput.orinputCd}">></span>
                             </a>
                         </td>
@@ -63,7 +63,7 @@
                 </table>
             </div>
 
-            <!-- Modal -->
+            <!-- 신규 등록 모달 -->
             <div class="modal fade" id="createPurModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -236,12 +236,12 @@
             </div>
 
             <!-- 수정창 모달 -->
-            <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="subjectestimateLabel"
+            <div class="modal fade" id="updateOrinput" tabindex="-1" aria-labelledby="subjectorinputLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="subjectestimateLabel">발주 수정</h5>
+                            <h5 class="modal-title" id="subjectorinputLabel">발주 수정</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

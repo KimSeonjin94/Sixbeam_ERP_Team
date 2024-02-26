@@ -299,6 +299,7 @@ $(document).ready(function() {
             url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
             success: function(response) {
+                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
                 // 성공 시 리다이렉션
                 $('#successModal').modal('show');
                 // 모달이 닫힐 때 리다이렉션
