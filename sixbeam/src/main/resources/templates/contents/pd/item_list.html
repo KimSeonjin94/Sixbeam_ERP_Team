@@ -6,18 +6,18 @@
 	<div class = "card shadow mb-4">
 		<div class = "card-header py-3" style = "display: flex;">
 			<h6 class = "m-0-ac font-weight-bold text-primary">품목 리스트</h6>
-			<div class = "btn-group" role = "group" aria-label = "Basic example">
-				<!-- Button trigger modal -->
+			<!--<div class = "btn-group" role = "group" aria-label = "Basic example">
+				&lt;!&ndash; Button trigger modal &ndash;&gt;
 				<button type = "button" class = "btn btn-primary-ac" data-toggle = "modal" data-target = "#newItem">
 					신규
 				</button>
 			</div>
 			<div class = "btn-group" role = "group" aria-label = "Basic example">
-				<!-- Button trigger modal -->
+				&lt;!&ndash; Button trigger modal &ndash;&gt;
 				<button type = "button" class = "btn btn-danger" data-toggle = "modal" data-target = "#deleteItem">
 					선택 항목 삭제
 				</button>
-			</div>
+			</div>-->
 		</div>
 		
 		<div class = "card-body">
@@ -37,7 +37,7 @@
 					<tbody>
 					<tr th:each = "item : ${itemEntities}">
 						<td>
-							<input type = "checkbox" class = "selectedInfo" th:value = "${item.itemCd}">
+							<!--<input type = "checkbox" class = "selectedInfo" th:value = "${item.itemCd}">-->
 						</td>
 						<td th:text = "${item.itemCd}"></td>
 						<td th:text = "${item.itemNm}"></td>
@@ -46,14 +46,14 @@
 						<div class = "btn-group" role = "group" aria-label = "Basic example">
 							<!-- Button trigger modal -->
 							<td>
-								<button type = "button" class = "btn btn-warning-ac" data-toggle = "modal"
+								<!--<button type = "button" class = "btn btn-warning-ac" data-toggle = "modal"
 								        data-target = "#editItem" th:onclick = "setItemInfo
 								        ([[${item.itemCd}]],
                                         [[${item.itemNm}]],
                                         [[${item.itemStnd}]],
                                         [[${item.itemUp}]])">
 									수정
-								</button>
+								</button>-->
 								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
 								        data-target = "#detailItem" th:onclick = "setItemInfo
 								        ([[${item.itemCd}]],
@@ -69,7 +69,7 @@
 			</div>
 			
 			
-			<!-- Modal -->
+			<!--&lt;!&ndash; Modal &ndash;&gt;
 			<div class = "modal fade" id = "newItem" tabindex = "-1" aria-labelledby = "newItemModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered modal-xl">
@@ -84,11 +84,11 @@
 						
 						<form action = "/pd/item/create" method = "post" id = "createform">
 							<div class = "modal-body-ac">
-								<!--<div class = "form-group row">
+								&lt;!&ndash;<div class = "form-group row">
 									<label for = "itemCd" class = "col-sm-2 col-form-label">품목 코드</label>
 									<input type = "text" class = "form-control col-sm-10" id = "itemCd" name = "itemCd"
 									       style = "text-transform: uppercase;" oninput = "checkInput(event)">
-								</div>-->
+								</div>&ndash;&gt;
 								<div class = "form-group row">
 									<label for = "itemNm" class = "col-sm-2 col-form-label">품목명</label>
 									<input type = "text" class = "form-control col-sm-10" id = "itemNm"
@@ -115,10 +115,10 @@
 						</form>
 					</div>
 				</div>
-			</div>
+			</div>-->
 			
 			
-			<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
+			<!--<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered modal-xl">
 					<div class = "modal-content">
@@ -160,9 +160,9 @@
 						</form>
 					</div>
 				</div>
-			</div>
+			</div>-->
 			
-			<div class = "modal fade" id = "deleteItem" tabindex = "-1" aria-labelledby = "deleteItemModalLabel"
+			<!--<div class = "modal fade" id = "deleteItem" tabindex = "-1" aria-labelledby = "deleteItemModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered">
 					<div class = "modal-content">
@@ -187,7 +187,7 @@
 						</form>
 					</div>
 				</div>
-			</div>
+			</div>-->
 		</div>
 	</div>
 </div>

@@ -5,7 +5,7 @@
 	
 	<div class = "card shadow mb-4">
 		<div class = "card-header py-3" style = "display: flex;">
-			<h6 class = "m-0-ac font-weight-bold text-primary">품목 리스트</h6>
+			<h6 class = "m-0-ac font-weight-bold text-primary">완품 리스트</h6>
 			<div class = "btn-group" role = "group" aria-label = "Basic example">
 				<!-- Button trigger modal -->
 				<button type = "button" class = "btn btn-primary-ac" data-toggle = "modal" data-target = "#newItem">
@@ -46,14 +46,14 @@
 						<div class = "btn-group" role = "group" aria-label = "Basic example">
 							<!-- Button trigger modal -->
 							<td>
-								<!--<button type = "button" class = "btn btn-warning-ac" data-toggle = "modal"
+								<button type = "button" class = "btn btn-warning-ac" data-toggle = "modal"
 								        data-target = "#editItem" th:onclick = "setItemInfo
 								        ([[${item.itemCd}]],
                                         [[${item.itemNm}]],
                                         [[${item.itemStnd}]],
                                         [[${item.itemUp}]])">
 									수정
-								</button>-->
+								</button>
 								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
 								        data-target = "#detailItem" th:onclick = "setItemInfo
 								        ([[${item.itemCd}]],
@@ -113,7 +113,7 @@
 			</div>
 			
 			
-			<!--<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
+			<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered modal-xl">
 					<div class = "modal-content">
@@ -155,7 +155,7 @@
 						</form>
 					</div>
 				</div>
-			</div>-->
+			</div>
 			
 			<div class = "modal fade" id = "deleteItem" tabindex = "-1" aria-labelledby = "deleteItemModalLabel"
 			     aria-hidden = "true">
