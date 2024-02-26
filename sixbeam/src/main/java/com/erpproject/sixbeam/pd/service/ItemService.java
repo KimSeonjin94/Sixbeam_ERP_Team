@@ -105,7 +105,17 @@ public class ItemService {
     }
 
     private String generateNewItemCd() {
-        return "";
+        // "F"로 시작하는 새로운 품목 코드 생성
+        String prefix = "F";
+
+        // DB에서 최대 품목 코드를 가져와서 숫자 부분 추출 후 +1 증가
+        String maxCd = itemRepository.getMaxItemCdStartingWithF();
+        int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(1)) + 1 : 1;
+
+        // 4자리 숫자 부분을 형식에 맞게 생성
+        String sequenceNumberString = String.format("%04d", sequenceNumber);
+
+        return prefix + sequenceNumberString;
     }
 
     public void updateItem(ItemDto itemDto) {

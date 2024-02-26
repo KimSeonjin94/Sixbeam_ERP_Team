@@ -19,4 +19,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, String> {
     @Query("SELECT i FROM ItemEntity i WHERE i.itemStnd LIKE CONCAT('%', :keyword, '%')")
     List<ItemEntity> findByItemCdContainingKeyword(@Param("keyword") String keyword);
 
+    // ItemEntity 클래스에서 "itemCd" 필드가 "F"로 시작하는 품목 코드들 중에서 최대값을 선택하는 JPQL 쿼리를 사용하여 코드 중 가장 큰 값을 반환
+    @Query("SELECT MAX(i.itemCd) FROM ItemEntity i WHERE i.itemCd LIKE 'F%'")
+    String getMaxItemCdStartingWithF();
 }
