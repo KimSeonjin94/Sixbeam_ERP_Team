@@ -21,6 +21,9 @@ public class CheckService {
 
     private final CheckRepository checkRepository;
     private final WhmoveRepository whmoveRepository;
+    private final WhregistRepository whregistRepository;
+    private final ItemRepository itemRepository;
+
 
     //통합 조회------------------------------------------------------------------------------
     public int getTotalOutgoing(LocalDate whmoveDt) {
@@ -90,67 +93,45 @@ public class CheckService {
         return totalWhItemIncoming - totalWhItemOutgoing;
     }
 
+    public List<Map<String, Object>> getAllWhItemCheckList(LocalDate date) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
 
-    // 원하는 column들만 조회되도록 메서드 수정
-    public List<Map<String, Object>> getCheckByDate(LocalDate date) {
-        List<Object[]> CheckList = checkRepository.findCheckByDate(date);
-        List<Map<String, Object>> result = new ArrayList<>();
-        for (Object[] row : CheckList) {
-            Map<String, Object> item = new HashMap<>();
-            item.put("whmoveDt", row[0]);
-            item.put("whregistCd", row[1]);
-            item.put("itemCd", row[2]);
-            item.put("checkAmt", row[3]);
-            result.add(item);
-        }
-        return result;
-    }
+        // 해당 날짜의 모든 창고와 품목에 대한 수량을 조회하여 리스트에 추가
+        List<WhregistEntity> allWhregists = getAllWhregists(); // 모든 창고 조회
+        List<ItemEntity> allItems = getAllItems(); // 모든 품목 조회
 
-    // 원하는 column들만 조회되도록 메서드 수정
-    public List<Map<String, Object>> getChecktest(LocalDate date) {
-        List<WhmoveEntity> whmoveEntities = whmoveRepository.findByWhmoveDt(date);
-        List<Map<String, Object>> result = new ArrayList<>();
-        for (WhmoveEntity whmoveEntity : whmoveEntities) {
-            Map<String, Object> inventoryItem = new HashMap<>();
-            WhregistEntity whregistEntity = whmoveEntity.getWhregistEntity();
-            ItemEntity itemEntity = whmoveEntity.getItemEntity();
-            // 입고량 조회
-            Integer incoming = checkRepository.findWhItemCheck("입고", date, whregistEntity, itemEntity);
-            int incomingAmount = (incoming != null) ? incoming.intValue() : 0;
-            // 출고량 조회
-            Integer outgoing = checkRepository.findWhItemCheck("출고", date, whregistEntity, itemEntity);
-            int outgoingAmount = (outgoing != null) ? outgoing.intValue() : 0;
-            int currentStock = incomingAmount - outgoingAmount;
-
-            inventoryItem.put("whregistCd", whregistEntity.getWhregistCd());
-            inventoryItem.put("itemCd", itemEntity.getItemCd());
-            inventoryItem.put("currentStock", currentStock);
-
-            result.add(inventoryItem);
+        for (WhregistEntity whregist : allWhregists) {
+            for (ItemEntity item : allItems) {
+                Map<String, Object> result = new HashMap<>();
+                result.put("whregistCd", whregist.getWhregistCd());
+                result.put("itemCd", item.getItemCd());
+                result.put("currentStock", getTotalWhItemCheckAmt(date, whregist, item));
+                resultList.add(result);
             }
-            return result;
-
         }
+        return resultList;
     }
 
-/*
-    private final CheckRepository checkRepository;
-
-    public List<CheckEntity> getList() {
-        return this.checkRepository.findAll();
+    private List<WhregistEntity> getAllWhregists() {
+        return whregistRepository.findAll();
     }
 
-    public int getAmountByDate(WhmoveEntity whmoveEntity, ItemEntity itemEntity, LocalDate date){
-    CheckEntity checkEntity = checkRepository.findByWhmoveEntityAndItemEntity(whmoveEntity, itemEntity);
-    int currentAmount = checkEntity != null ? checkEntity.getCheckAmt() : 0;
-    int totalMovementAmount = checkRepository.countByWhmoveEntityAndItemEntityAndCheckDtBefore(whmoveEntity,itemEntity, date);
-    return currentAmount + totalMovementAmount;
+    private List<ItemEntity> getAllItems() {
+        return itemRepository.findAll();
     }
 
-    public int getAmountByDate(LocalDate date){
-        CheckEntity checkEntity = checkRepository.
-    }
+    public List<Map<String, Object>> getAllWhItemCheckList(LocalDate date, String whregistCd) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        // 해당 날짜와 창고코드에 따른 재고 현황 조회
+        List<WhregistEntity> allWhregists = getAllWhregists(); // 모든 창고 조회
 
+        for (WhregistEntity whregist : allWhregists) {
+            Map<String, Object> result = new HashMap<>();
+            result.put("whregistCd", whregist.getWhregistCd());
+            result.put("currentStock", getTotalWhCheckAmt(date, whregist));
+            resultList.add(result);
+        }
+        return resultList;
+
+    }
 }
-
- */
