@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface WorkScheduleRepository extends JpaRepository<WorkScheduleEntity,Long> {
     List<WorkScheduleEntity> findByWorkScheduleDate(LocalDate workScheduleDate);
+    List<WorkScheduleEntity>findByWorkScheduleDateAndWorkScheduleCheckIsTrue(LocalDate workScheduleDate);
+    List<WorkScheduleEntity> findByWorkScheduleDateAndEmpInfoEntity_EmpInfoId(LocalDate workScheduleDate, Long employeeId);
 }
