@@ -35,7 +35,7 @@ public class SaleEntity {
     private LocalDate salePaymentDt;
     @ManyToOne
     @JoinColumn(name = "whregist_cd")
-    private WhregistEntity WhregistEntity;
+    private WhregistEntity whregistEntity;
     @Column(name = "SALE_SHIPPING_ST")
     private String saleShippingSt;
     @Column(name = "SALE_SHIPPING_DT")

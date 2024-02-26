@@ -88,6 +88,7 @@ public class EstimateService {
                 estimateDto.setEmpInfoEntity(empInfoEntity);
                 estimateDto.setAccountEntity(accountEntity);
                 estimateDto.setItemEntity(itemEntity);
+                estimateDto.setEstimateNm(accountEntity.getAccountPic());
                 EstimateEntity estimateEntity = estimateDto.toEntity();
 
                 estimateEntity.setEstimateCd(newEstimateCd);
@@ -100,6 +101,10 @@ public class EstimateService {
 
     }
     public void updateAll(List<EstimateDto> estimateDtos){
+        if(saleRepository.findByEstimateCd(estimateDtos.get(0).getEstimateCd()) !=null){
+            throw new IllegalStateException("판매 진행이 되어 수정 불가 합니다.");
+        }
+
         for (EstimateDto estimateDto : estimateDtos) {
             // 각 견적 엔티티를 저장 또는 업데이트합니다.
             EmpInfoEntity empInfoEntity = empInfoRepository.findById(estimateDto.getEmpInfoEntity().getEmpInfoId())

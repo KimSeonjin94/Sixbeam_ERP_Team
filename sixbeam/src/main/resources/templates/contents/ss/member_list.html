@@ -1,0 +1,49 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">판매 조회</h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">판매 목록</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table item table-bordered" id="dataTableEstimate" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>체크</th>
+                        <th>견적 코드</th>
+                        <th>ID</th>
+                        <th>이름</th>
+                        <th>핸드폰</th>
+                        <th>주소</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="member : ${memberEntities}">
+                        <td>
+                            <input th:type="checkbox" name="selectedid" th:value="${member.estimateCd}">
+                        </td>
+                        <td>
+                            <a href="#" id="detailSaleCd" th:data-id="${member.estimateCd}">
+                                <span th:text="${member.estimateCd}"></span>
+                            </a>
+                        </td>
+                        <td th:text="${member.memberId}">
+                        </td>
+                        <td th:text="${member.memberNm}">
+                        </td>
+                        <td th:text="${member.memberPhone}">
+                        </td>
+                        <td th:text="${member.memberAddr}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

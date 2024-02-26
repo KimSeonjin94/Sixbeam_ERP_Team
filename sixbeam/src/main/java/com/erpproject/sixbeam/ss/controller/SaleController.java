@@ -3,10 +3,12 @@ package com.erpproject.sixbeam.ss.controller;
 import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
+import com.erpproject.sixbeam.ss.entity.MemberEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.form.EstimateForm;
 import com.erpproject.sixbeam.ss.form.SaleForm;
 import com.erpproject.sixbeam.ss.service.EstimateService;
+import com.erpproject.sixbeam.ss.service.MemberService;
 import com.erpproject.sixbeam.ss.service.SaleService;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.service.WhregistService;
@@ -30,6 +32,8 @@ public class SaleController {
     private EstimateService estimateService;
     @Autowired
     private WhregistService whregistService;
+    @Autowired
+    private MemberService memberService;
 
 
     @GetMapping("/list")
@@ -37,10 +41,22 @@ public class SaleController {
         SaleForm saleForm= new SaleForm();
         List<SaleEntity> saleEntities = saleService.getList();
         List<EstimateEntity> estimateEntities = estimateService.getList();
-        model.addAttribute("estimateEntites", estimateEntities);
+        List<WhregistEntity> whregistEntities= whregistService.getList();
+        model.addAttribute("estimateEntities", estimateEntities);
         model.addAttribute("saleEntities", saleEntities);
         model.addAttribute("saleForm", saleForm);
+        model.addAttribute("getwhregistlist",whregistEntities);
         return "contents/ss/sale_list";
+    }
+    @GetMapping("/new")
+    public String create(Model model) {
+        SaleDto saleDto= new SaleDto();
+        List<EstimateEntity> estimateEntities = estimateService.getList();
+        List<WhregistEntity> whregistEntities= whregistService.getList();
+        model.addAttribute("estimateEntities", estimateEntities);
+        model.addAttribute("saleDto", saleDto);
+        model.addAttribute("getwhregistlist",whregistEntities);
+        return "contents/ss/sale_form";
     }
     @GetMapping(value = "/list/detail/{id}")
     public ResponseEntity<Map<String, Object>> detail(@PathVariable("id") String id) {
@@ -53,8 +69,10 @@ public class SaleController {
             Map<String, Object> response = new HashMap<>();
             response.put("saleEntity", saleEntity);
             response.put("estimateEntities", estimateEntities);
-//            response.put("member", member);
-
+            if(estimateEntities.get(0).getAccountEntity().getAccountNm() == "개인 거래") {
+                MemberEntity memberEntity =memberService.getMemberList(estimateEntities.get(0).getEstimateCd()).get();
+                response.put("memberEntity", memberEntity);
+            }
             return ResponseEntity.ok(response);
         } else {
             // 존재하지 않는 경우 적절한 예외 처리나 오류 응답
@@ -64,16 +82,7 @@ public class SaleController {
         }
     }
 
-    @GetMapping("/new")
-    public String create(Model model) {
-        SaleDto saleDto= new SaleDto();
-        List<EstimateEntity> estimateEntities = estimateService.getList();
-        List<WhregistEntity> whregistEntities= whregistService.getList();
-        model.addAttribute("estimateEntities", estimateEntities);
-        model.addAttribute("saleDto", saleDto);
-        model.addAttribute("getwhregistlist",whregistEntities);
-        return "contents/ss/sale_form";
-    }
+
 
     @PostMapping("/create")
     public ResponseEntity<?> createSale(@ModelAttribute SaleDto saleDto) {
