@@ -1,5 +1,3 @@
-// pd 사용 js
-
 function setItemInfo(itemCd, itemNm , itemStnd, itemUp)
 {
     $('#editItem').modal('show');
@@ -192,4 +190,21 @@ function checkInput3(event) {
     event.target.value = inputVal.toUpperCase();
 }
 
-// pd 끝 라인
+function modalRitem(fitemCd) {
+
+    $.ajax({
+        url: '/ritemlist/' + fitemCd,
+        type: 'GET',
+        success: function(data) {
+
+            // 모달에 데이터 업데이트
+            $('#detailItem').find('#detailItemCd').val(data.itemCd);
+            $('#detailItem').find('#detailItemNm').val(data.itemNm);
+            $('#detailItem').find('#detailItemStnd').val(data.itemStnd);
+            $('#detailItem').find('#detailItemUp').val(data.itemUp);
+
+            // 모달 열기
+            $('#detailItem').modal('show');
+        }
+    });
+}

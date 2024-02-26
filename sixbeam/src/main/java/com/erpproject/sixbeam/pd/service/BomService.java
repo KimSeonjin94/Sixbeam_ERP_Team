@@ -171,4 +171,10 @@ public class BomService {
             bomRepository.save(bomEntity);
         }
     }
+
+
+    public Optional<RitemEntity> getRitemsByItemCd(String fitemCd) {
+
+        return ritemRepository.findById(fitemCd);
+    }
 }

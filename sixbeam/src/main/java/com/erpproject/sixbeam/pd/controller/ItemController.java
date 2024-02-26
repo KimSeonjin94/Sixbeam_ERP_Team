@@ -1,6 +1,7 @@
 package com.erpproject.sixbeam.pd.controller;
 
 import com.erpproject.sixbeam.pd.dto.ItemDto;
+import com.erpproject.sixbeam.pd.entity.BomEntity;
 import com.erpproject.sixbeam.pd.entity.FitemEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.entity.RitemEntity;
@@ -10,14 +11,15 @@ import com.erpproject.sixbeam.pd.service.ItemService;
 import com.erpproject.sixbeam.pd.service.RitemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @RequestMapping("/pd/item")
 @Controller
@@ -48,12 +50,16 @@ public class ItemController {
         return "contents/pd/item_list";
     }
 
-    /*@GetMapping("/ritemList/{itemCd}")
-    public String ritemList(@PathVariable("itemCd") String itemCd, Model model) {
-        List<RitemEntity> ritemEntities = ritemService.getRitemsByItemCd(itemCd);
-        model.addAttribute("ritemEntities", ritemEntities);
-        return "ritem_list"; // 이부분은 실제 뷰 페이지 이름으로 수정해주세요.
-    }*/
+    @GetMapping("/ritemlist/{itemCd}")
+    public ResponseEntity<RitemEntity> detail(@PathVariable("fitemCd") String fitemCd) {
+        Optional<RitemEntity> ritemEntities = bomService.getRitemsByItemCd(fitemCd);
+        if (ritemEntities.isPresent()) {
+            RitemEntity ritemEntity = ritemEntities.get();
+            return ResponseEntity.ok().body(ritemEntity);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     // 품목 등록
     @PostMapping("/create")
