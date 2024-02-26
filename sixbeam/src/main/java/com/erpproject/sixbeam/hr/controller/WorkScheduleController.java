@@ -19,16 +19,27 @@ import java.util.List;
 public class WorkScheduleController {
     @Autowired
     private final WorkScheduleService workScheduleService;
+
     @GetMapping("/list")
-    public String List(Model model){
+    public String List(Model model) {
         List<WorkScheduleEntity> workScheduleLists = this.workScheduleService.getList();
-        model.addAttribute("workScheduleLists",workScheduleLists);
+        model.addAttribute("workScheduleLists", workScheduleLists);
         return "contents/hr/workSchedule_list";
     }
-@PostMapping("/create")
-public String displayWorkSchedule(@RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate, Model model) {
-    List<WorkScheduleEntity> workScheduleList = workScheduleService.findByDate(selectedDate);
-    model.addAttribute("workScheduleList", workScheduleList);
-    return "contents/hr/workSchedule_list";
-}
+
+    @PostMapping("/create")
+    public String displayWorkSchedule(@RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate, Model model) {
+        List<WorkScheduleEntity> workScheduleList = workScheduleService.findByDate(selectedDate);
+        model.addAttribute("workScheduleList", workScheduleList);
+        return "contents/hr/workSchedule_list";
+    }
+    @PostMapping("/update")
+    public String update(@RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate workScheduleDate,
+                         @RequestParam("current[0].id") Long empinfoId,
+                         @RequestParam("reasonCd") String workScheduleReason) {
+
+        workScheduleService.updateReasonForWorkSchedule(workScheduleDate, empinfoId, workScheduleReason);
+
+        return "redirect:/hr/workSchedule/list";
+    }
 }

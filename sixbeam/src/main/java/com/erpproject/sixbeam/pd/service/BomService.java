@@ -36,14 +36,19 @@ public class BomService {
         return bomRepository.findAll();
     }
 
-    public List<BomEntity> getIdList(String id) {
+    public Optional<ItemEntity> getItemCd(String itemCd) {
 
-        return bomRepository.findByFitemEntity_ItemCd(id);
+        return itemRepository.findById(itemCd);
     }
 
-    public Optional<ItemEntity> getItemCd(String id) {
+    public List<BomEntity> getFitemList(String fitemCd) {
 
-        return itemRepository.findById(id);
+        return bomRepository.findByFitemEntity_ItemCd(fitemCd);
+    }
+
+    public List<BomEntity> getRitemList(String ritemCd) {
+
+        return bomRepository.findByRitemEntity_ItemCd(ritemCd);
     }
 
     public void getBomList(Model model) {
@@ -144,7 +149,7 @@ public class BomService {
 
     public ResponseEntity<List<BomEntity>> getBomDetails(String itemCd) {
 
-        List<BomEntity> bomEntities = getIdList(itemCd);
+        List<BomEntity> bomEntities = getFitemList(itemCd);
 
         return ResponseEntity.status(HttpStatus.OK).body(bomEntities);
     }
@@ -165,5 +170,11 @@ public class BomService {
 
             bomRepository.save(bomEntity);
         }
+    }
+
+
+    public Optional<RitemEntity> getRitemsByItemCd(String fitemCd) {
+
+        return ritemRepository.findById(fitemCd);
     }
 }

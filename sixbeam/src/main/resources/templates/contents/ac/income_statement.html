@@ -13,7 +13,7 @@
                                 </tr>
                             </thead>
                             <tr>
-                                <th>과목</th>
+                                <th class="is">과목</th>
                                 <th class="card-header-date">
                                     <select class="selectQ" name="isDtForm" onchange="this.form.submit()">
                                         <option value="">분기 선택</option>
@@ -26,56 +26,56 @@
                             </tr>
                             </tr>
                             <tr>
-                                <td>매출액</td>
-                                <td><span th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isNetSales, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is">매출액</td>
+                                <td class="is-num"><span th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isNetSales, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>매출원가</td>
-                                <td><span th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isCostSales, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is">매출원가</td>
+                                <td class="is-num" ><span th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isCostSales, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>매출총이익</td>
-                                <td><span  th:if="${grossProfit != null}" th:text="${#numbers.formatDecimal(grossProfit, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is">매출총이익</td>
+                                <td class="is-num"><span th:if="${grossProfit != null}" th:text="${#numbers.formatDecimal(grossProfit, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>영업비용</td>
-                                <td><span th:if="${operatingExpenses != null}" th:text="${#numbers.formatDecimal(operatingExpenses, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is">영업비용</td>
+                                <td class="is-num"><span th:if="${operatingExpenses != null}" th:text="${#numbers.formatDecimal(operatingExpenses, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>급여</td>
-                                <td><span th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isWages, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is-is">급여</td>
+                                <td class="is-num"><span  th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isWages, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>영업이익</td>
-                                <td><span  th:if="${operatingIncome != null}" th:text="${#numbers.formatDecimal(operatingIncome, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is">영업이익</td>
+                                <td class="is-num"><span  th:if="${operatingIncome != null}" th:text="${#numbers.formatDecimal(operatingIncome, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>영업외이익</td>
-                                <td><span  th:if="${NonOperatingIncome  != null}" th:text="${#numbers.formatDecimal(nonOperatingIncome, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is">영업외이익</td>
+                                <td class="is-num"><span  th:if="${NonOperatingIncome  != null}" th:text="${#numbers.formatDecimal(nonOperatingIncome, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>이자수익</td>
-                                <td><span th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isInterInc, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is-is">이자수익</td>
+                                <td class="is-num"><span  th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isInterInc, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>영업외비용</td>
-                                <td><span  th:if="${NonOperatingExpenses  != null}" th:text="${#numbers.formatDecimal(nonOperatingExpenses, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is">영업외비용</td>
+                                <td class="is-num"><span  th:if="${NonOperatingExpenses  != null}" th:text="${#numbers.formatDecimal(nonOperatingExpenses, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>이자비용</td>
-                                <td><span th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isInterExp, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is-is">이자비용</td>
+                                <td class="is-num"><span th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isInterExp, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>법인세 비용 차감전 순이익</td>
-                                <td><span  th:if="${earningBeforeTaxes != null}" th:text="${#numbers.formatDecimal(earningBeforeTaxes, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is">법인세 비용 차감전 순이익</td>
+                                <td class="is-num"><span  th:if="${earningBeforeTaxes != null}" th:text="${#numbers.formatDecimal(earningBeforeTaxes, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>법인세 비용</td>
-                                <td><span th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isCortaxExp, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is">법인세 비용</td>
+                                <td class="is-num"><span th:if="${incomeStatement != null}" th:text="${#numbers.formatDecimal(incomeStatement.isCortaxExp, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                             <tr>
-                                <td>당기순이익</td>
-                                <td><span  th:if="${netIncome  != null}" th:text="${#numbers.formatDecimal(netIncome, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td class="is">당기순이익</td>
+                                <td class="is-num"><span  th:if="${netIncome  != null}" th:text="${#numbers.formatDecimal(netIncome, 0, 'COMMA', 0, 'POINT')}"></span></td>
                             </tr>
                         </table>
                 </div>
