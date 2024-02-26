@@ -5,16 +5,16 @@
 	
 	<div class = "card shadow mb-4">
 		<div class = "card-header py-3" style = "display: flex;">
-			<h6 class = "m-0-ac font-weight-bold text-primary">완품 품목 리스트</h6>
-<!--			<div class = "btn-group" role = "group" aria-label = "Basic example">-->
-<!--				&lt;!&ndash; Button trigger modal &ndash;&gt;-->
-<!--				<button type = "button" class = "btn btn-primary-ac" data-toggle = "modal" data-target = "#newItem">-->
-<!--					신규-->
-<!--				</button>-->
-<!--			</div>-->
+			<h6 class = "m-0-ac font-weight-bold text-primary">품목 리스트</h6>
 			<div class = "btn-group" role = "group" aria-label = "Basic example">
 				<!-- Button trigger modal -->
-				<button type = "button" class = "btn btn-danger-ac" data-toggle = "modal" data-target = "#deleteItem">
+				<button type = "button" class = "btn btn-primary-ac" data-toggle = "modal" data-target = "#newItem">
+					신규
+				</button>
+			</div>
+			<div class = "btn-group" role = "group" aria-label = "Basic example">
+				<!-- Button trigger modal -->
+				<button type = "button" class = "btn btn-danger" data-toggle = "modal" data-target = "#deleteItem">
 					선택 항목 삭제
 				</button>
 			</div>
@@ -46,14 +46,14 @@
 						<div class = "btn-group" role = "group" aria-label = "Basic example">
 							<!-- Button trigger modal -->
 							<td>
-								<button type = "button" class = "btn btn-warning-ac" data-toggle = "modal"
+								<!--<button type = "button" class = "btn btn-warning-ac" data-toggle = "modal"
 								        data-target = "#editItem" th:onclick = "setItemInfo
 								        ([[${item.itemCd}]],
                                         [[${item.itemNm}]],
                                         [[${item.itemStnd}]],
                                         [[${item.itemUp}]])">
 									수정
-								</button>
+								</button>-->
 								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
 								        data-target = "#detailItem" th:onclick = "setItemInfo
 								        ([[${item.itemCd}]],
@@ -70,7 +70,7 @@
 			
 			
 			<!-- Modal -->
-			<!--<div class = "modal fade" id = "newItem" tabindex = "-1" aria-labelledby = "newItemModalLabel"
+			<div class = "modal fade" id = "newItem" tabindex = "-1" aria-labelledby = "newItemModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered modal-xl">
 					<div class = "modal-content">
@@ -84,11 +84,6 @@
 						
 						<form action = "/pd/item/create" method = "post" id = "createform">
 							<div class = "modal-body-ac">
-								<div class = "form-group row">
-									<label for = "itemCd" class = "col-sm-2 col-form-label">품목 코드</label>
-									<input type = "text" class = "form-control col-sm-10" id = "itemCd" name = "itemCd"
-									       style = "text-transform: uppercase;" oninput = "checkInput(event)">
-								</div>
 								<div class = "form-group row">
 									<label for = "itemNm" class = "col-sm-2 col-form-label">품목명</label>
 									<input type = "text" class = "form-control col-sm-10" id = "itemNm"
@@ -115,10 +110,10 @@
 						</form>
 					</div>
 				</div>
-			</div>-->
+			</div>
 			
 			
-			<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
+			<!--<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered modal-xl">
 					<div class = "modal-content">
@@ -139,7 +134,7 @@
 								<div class = "form-group row">
 									<label for = "editItemNm" class = "col-sm-2 col-form-label">품목명</label>
 									<input type = "text" class = "form-control col-sm-10" id = "editItemNm"
-									       name = "itemNm" style = "text-transform: uppercase;" readonly>
+									       name = "itemNm" readonly>
 								</div>
 								<div class = "form-group row">
 									<label for = "editItemStnd" class = "col-sm-2 col-form-label">규격</label>
@@ -149,7 +144,7 @@
 								<div class = "form-group row">
 									<label for = "editItemUp" class = "col-sm-2 col-form-label">단가</label>
 									<input type = "text" class = "form-control col-sm-10" id = "editItemUp"
-									       name = "itemUp" oninput = "checkInput2(event);">
+									       name = "itemUp" oninput = "checkInput2(event);" readonly>
 								</div>
 							</div>
 							<div class = "modal-footer">
@@ -160,7 +155,7 @@
 						</form>
 					</div>
 				</div>
-			</div>
+			</div>-->
 			
 			<div class = "modal fade" id = "deleteItem" tabindex = "-1" aria-labelledby = "deleteItemModalLabel"
 			     aria-hidden = "true">
