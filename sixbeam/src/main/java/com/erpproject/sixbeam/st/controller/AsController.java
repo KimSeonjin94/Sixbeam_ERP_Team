@@ -6,6 +6,8 @@ import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.service.ItemService;
+import com.erpproject.sixbeam.pur.dto.OrinPutDto;
+import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
@@ -55,11 +57,11 @@ public class AsController {
         model.addAttribute("asEntityList",asEntity);
         return "contents/st/as_list";
     }
-    @GetMapping(value = "/detail/{asCd}")
-    public String detail(Model model, @PathVariable("asCd") String asCd) {
-        AsEntity asEntity = this.asService.getAsEntity(asCd);
-        model.addAttribute("asEntity",asEntity);
-        return "contents/st/as_detail";
+    @GetMapping(value = "/list/detail/{asCd}")
+    public ResponseEntity<List<AsEntity>> detail(@PathVariable("asCd") String asCd) {
+        List<AsEntity> asEntities = asService.getIdList(asCd);
+        System.out.println(asEntities.toString());
+        return ResponseEntity.ok(asEntities);
     }
     //AS등록_페이지
     @GetMapping("/create")
@@ -79,10 +81,13 @@ public class AsController {
         return "contents/st/as_form";
     }
     @PostMapping("/save")
-    public ResponseEntity<?> asCreateDto(@ModelAttribute AsForm form){
-        List<AsDto> asDtos= form.getAsDtos();
+    public ResponseEntity<?> asCreateDto(@ModelAttribute AsForm asForm){
+        List<AsDto> asDtos = asForm.getAsDtos();
         try {
             this.asService.create(asDtos);
+            Map<String, Object> successResponse = new HashMap<>();
+            successResponse.put("status", "success");
+            successResponse.put("message", "정상적으로 저장되었습니다.");
             return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/st/as/list"));
         }catch (Exception e){
             Map<String, Object> errorResponse = new HashMap<>();
@@ -93,19 +98,19 @@ public class AsController {
         }
     }
     @PostMapping("/update")
-    public ResponseEntity<?> update(@ModelAttribute AsForm form) {
-        List<AsDto> asDtos = form.getAsDtos();
+    public ResponseEntity<?> update(@ModelAttribute AsDto asDto) {
         try{//성공응답
-            asService.updateAll(asDtos);
+            asService.updateAll(asDto);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
+            response.put("message", "정상적으로 수정되었습니다.");
             response.put("redirectUrl", "/st/as/list");
             return ResponseEntity.ok().body(response);
         } catch (Exception e) { //실패 응답
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
             errorResponse.put("message", "수정에 실패하였습니다.");
-            errorResponse.put("redirectUrl", "/st/estimate/list");
+            errorResponse.put("redirectUrl", "/st/as/list");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }

@@ -18,10 +18,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Entity
-@IdClass(OrinPutEntityId.class)
-@Table(name = "PUR_ORINPUT_TB", indexes = {
-        @Index(name = "idx_orinput_cd", columnList = "orinputCd")
-})
+@Table(name = "PUR_ORINPUT_TB")
 public class OrinPutEntity {
     @Id
     @Column(name = "ORINPUT_CD")
@@ -33,9 +30,6 @@ public class OrinPutEntity {
     @ManyToOne
     @JoinColumn(name = "EMPINFO_ID", nullable = false)
     private EmpInfoEntity empInfoEntity;
-    @Id
-    @Column(name = "ITEM_CD")
-    private String itemCd;
     @ManyToOne
     @JoinColumn(name = "ITEM_CD")
     private ItemEntity itemEntity;

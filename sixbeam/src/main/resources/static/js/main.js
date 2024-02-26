@@ -389,7 +389,7 @@ $(document).ready(function() {
         var whregistNm = $('#whregistCode').val();
         var asMo = $('#asMo').val();
 
-        $('.table.item tbody tr').each(function(index) {
+        $('.table.Asitem tbody tr').each(function(index) {
             // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
             $(this).find('.RegisDate').val(asDt);
             $(this).find('.EmpInfoId').val(empInfoId);
@@ -403,7 +403,7 @@ $(document).ready(function() {
         var formData = new FormData(this);
         // FormData 객체를 반복하여 폼 데이터 확인
         formData.forEach(function(value, key) {
-            console.log(`${key}: ${value}`);
+            console.log(key + ': ' + value);
         });
         // AJAX를 사용하여 폼 데이터 제출
         $.ajax({
@@ -411,11 +411,27 @@ $(document).ready(function() {
             url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
             success: function(response) {
-                // 성공적으로 제출된 경우의 처리 로직
-                console.log('Form Submitted Successfully');
+                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
+                // 성공 시 리다이렉션
+                $('#successModal').modal('show');
+                // 모달이 닫힐 때 리다이렉션
+                $('#successModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
             },
-            error: function(response) {
+            error: function(xhr) {
                 // 오류 처리 로직
+                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
+                // 서버로부터 받은 에러 메시지를 알림
+                // 오류 처리 로직
+                var response = JSON.parse(xhr.responseText);
+                $('#failModal .modal-body').text(response.message);  //controller에서 받은 message 출력
+                // 오류 메시지 모달 표시
+                $('#failModal').modal('show'); // 올바른 셀렉터 사용
+                // 모달이 닫힐 때 리다이렉션
+                $('#failModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
                 console.log('Error Submitting Form');
             }
         });
@@ -436,7 +452,7 @@ $('.table.Asitem').on('change input', '.selectbox, .itemamt', function() {
     }
 });
 //재고_AS모달등록-------------------------------------------------------------------------------------------끝
-//재고_창고등록-------------------------------------------------------------------------------------------시작
+//재고_창고수정-------------------------------------------------------------------------------------------시작
 $('#detailwhregistCd[data-id]').on('click', function() {
     // 클릭된 요소의 ID를 콘솔에 출력
     console.log($(this).data('id'));
@@ -523,7 +539,58 @@ $(document).ready(function() {
         });
     });
 });
-//재고_As등록--------------------------------------------------------------------------------끝
+//재고_출하등록--------------------------------------------------------------------------------끝
+//재고_AS수정---------------------------------------------------------------------------------시작
+$('#detailAsCd[data-id]').on('click', function() {
+    console.log($(this).data('id'));
+    var asCd = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    $('#asdetail').modal('hide');
+    // AJAX 요청
+    $.ajax({
+        url: '/st/as/list/detail/' + asCd, // 서버 엔드포인트
+        type: 'GET',
+        success: function(data) {
+            data.forEach(function(value, key) {
+                console.log(key + ': ' + value);
+            });
+            if (data && data.length > 0) {
+                // 성공 시 모달 내용 업데이트
+                var modaltBody = $('.AsformEntry .table.Asitem tbody');
+                modaltBody.empty();
+                $('#asCd').val(data[0].asCd);
+                $('#updateCurrentDate').val(data[0].asDt);
+                $('#updateaccountCode').val(data[0].accountEntity.accountCd);
+                $('#updatename').val(data[0].empInfoEntity.empInfoNm);
+                $('#updateaccountName').val(data[0].accountEntity.accountNm);
+                $('#updateascmptDt').val(data[0].ascmptDt);
+                $('#updateasSt').val(data[0].asSt);
+                $('#updateasTi').val(data[0].asTi);
+                $('#updatewhregistName').val(data[0].whregistEntity.whregistNm);
+                $('#updateasMo').val(data[0].asMo);
+                // 데이터 항목별로 행 추가
+                data.forEach(function(Asitem, index) {
+                    var row = $('<tr>'); // 행 생성
+                    // 각 셀에 입력 요소와 name 속성 추가
+                    row.append('<td><input type="hidden" name="asCd" class="form-control" value="' + Asitem.asCd + '">'+
+                    '<input type="hidden" name="empInfoEntity" class="form-control" value="' + Asitem.empInfoEntity.empInfoId + '">'+
+                    '<input type="hidden" name="whregistEntity" class="form-control" value="' + Asitem.whregistEntity.whregistCd+ '">'+
+                    '<input type="text" class="form-control" name="itemEntity" value="' + Asitem.itemEntity.itemCd + '"></td>');
+                    row.append('<td><input type="text" class="form-control itemname" value="' + Asitem.itemEntity.itemNm + '"></td>');
+                    row.append('<td><input type="text" class="form-control itemstnd" value="' + Asitem.itemEntity.itemStnd + '"></td>');
+                    row.append('<td><input type="text" name="asAmt" class="form-control itemamt" value="' + Asitem.asAmt + '"></td>');
+                    modaltBody.append(row); // 생성된 행을 테이블에 추가
+                });
+                $('#detail').modal('show'); // 모달 표시
+            } else {
+                console.error('데이터가 비어있습니다.');
+            }
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+});
+//재고_AS수정---------------------------------------------------------------------------------끝
 
 // 테이블의 행 클릭 이벤트 핸들러
 $('#detailEstimateCd[data-id]').on('click', function() {
@@ -845,7 +912,6 @@ function refreshPage() {
 
 
 // pd 사용 js
-
 function setItemInfo(itemCd, itemNm , itemStnd, itemUp)
 {
     $('#editItem').modal('show');
@@ -854,40 +920,17 @@ function setItemInfo(itemCd, itemNm , itemStnd, itemUp)
     $('#editItemStnd').val(itemStnd);
     $('#editItemUp').val(itemUp);
 }
-
-function createItemFinished() {
-
-    var itemNm = $('#itemNm').val();
-    var itemStnd = $('#itemStnd').val();
-    var itemUp = $('#itemUp').val();
-
-    // 품목 코드가 공백인 경우
-    if (!itemNm || itemNm.trim() === '') {
-        alert('품목명을 입력하세요.');
-        event.preventDefault();
-        return;
-
-    } else if (!itemStnd || itemStnd.trim() === '') {
-        alert('규격을 입력하세요.');
-        event.preventDefault();
-        return;
-
-    } else if (!itemUp || itemUp.trim() === '') {
-        alert('단가를 입력하세요.');
-        event.preventDefault();
-        return;
-
-    } else {
-        alert('품목이 등록되었습니다.')
-    }
+function registerItemFinished() {
+    alert('품목이 등록되었습니다.')
 }
-
 function editItemFinished() {
     alert('품목 정보가 수정되었습니다.');
 }
-
 function deleteItemFinished() {
+    alert('품목이 삭제되었습니다.');
+}
 
+function forDelete() {
     // 체크박스의 값(계정 ID)을 저장할 배열
     var selectedIds = [];
 
@@ -999,47 +1042,6 @@ $(document).ready(function() {
         });
     });
 });
-
-function checkInput(event) {
-
-    // 입력된 값 가져오기
-    var inputValue = event.target.value;
-
-    // 입력된 값이 숫자와 대문자인지 확인하는 정규식
-    var regex = /^[A-Z0-9]*$/;
-
-    // 입력된 값이 한글인 경우
-    if (/[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7A3]/.test(inputValue)) {
-
-        // 빈 문자열로 설정하여 한글 입력 방지
-        event.target.value = event.target.value.replace(/[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7A3fr]/g, '');
-    }
-
-    // 입력된 값을 대문자로 변환하여 설정
-    event.target.value = inputValue.toUpperCase();
-}
-
-function checkInput2(event) {
-
-    // 입력된 값 가져오기
-    var inputValue = event.target.value;
-
-    // 숫자 이외의 입력이 발생할 경우 처리
-    if (!/^[0-9]*$/.test(inputValue)) {
-
-        // 입력을 막기 위해 빈 문자열로 설정
-        event.target.value = '';
-    }
-}
-
-function checkInput3(event) {
-
-    var inputVal = event.target.value;
-
-    var regex = /^[가-힣A-Z0-9]*$/;
-
-    event.target.value = inputVal.toUpperCase();
-}
 
 // pd 끝 라인
 

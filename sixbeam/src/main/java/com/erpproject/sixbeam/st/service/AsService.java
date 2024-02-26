@@ -6,6 +6,9 @@ import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
+import com.erpproject.sixbeam.pur.dto.OrinPutDto;
+import com.erpproject.sixbeam.pur.entity.InputEntity;
+import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.st.RowAddedEvent;
 import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.entity.AsEntity;
@@ -38,6 +41,10 @@ public class AsService {
         return this.asRepository.findAll();
     }
 
+    public List<AsEntity> getIdList(String id) {
+        return this.asRepository.findByAsCd(id);
+    }
+
     public AsEntity getAsEntity(String asCd) {
         Optional<AsEntity> asEntity = this.asRepository.findById(asCd);
         if (asEntity.isPresent()) {
@@ -49,7 +56,6 @@ public class AsService {
 
     public void create(List<AsDto> asDtos) {
         for (AsDto asDto : asDtos) {
-            String newAsCd = generateNewAsCd(asDtos.get(0).getAsDt());
             EmpInfoEntity empInfoEntity = empInfoRepository.findById(asDto.getEmpInfoEntity().getEmpInfoId())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
             AccountEntity accountEntity = accountRepository.findById(asDto.getAccountEntity().getAccountCd())
@@ -59,6 +65,7 @@ public class AsService {
             WhregistEntity whregistEntity = whregistRepository.findById(asDto.getWhregistEntity().getWhregistCd())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
 
+            String newAsCd = generateNewAsCd(asDto.getAsDt());
             asDto.setEmpInfoEntity(empInfoEntity);
             asDto.setAccountEntity(accountEntity);
             asDto.setItemEntity(itemEntity);
@@ -72,8 +79,8 @@ public class AsService {
         }
     }
 
-    public void updateAll(List<AsDto> asDtos) {
-        for (AsDto asDto : asDtos) {
+
+    public void updateAll(AsDto asDto) {
             EmpInfoEntity empInfoEntity = empInfoRepository.findById(asDto.getEmpInfoEntity().getEmpInfoId())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
             AccountEntity accountEntity = accountRepository.findById(asDto.getAccountEntity().getAccountCd())
@@ -82,13 +89,13 @@ public class AsService {
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
             WhregistEntity whregistEntity = whregistRepository.findById(asDto.getWhregistEntity().getWhregistCd())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+
             asDto.setEmpInfoEntity(empInfoEntity);
             asDto.setAccountEntity(accountEntity);
             asDto.setItemEntity(itemEntity);
             asDto.setWhregistEntity(whregistEntity);
             AsEntity asEntity = asDto.toEntity();
             asRepository.save(asEntity);
-        }
     }
     @Transactional
     public void delete(List<String> asDtos) {
