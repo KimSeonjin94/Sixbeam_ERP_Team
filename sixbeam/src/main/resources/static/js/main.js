@@ -161,10 +161,13 @@ $(document).ready(function() {
     //거래처 코드 선택하면 거래처명이 나올 수 있도록 하는 제이쿼리
     $("#accountCode").on('input', function() {
         var inputVal = $(this).val();
+
         $("#accountCodeSelectBox option").each(function() {
             if ($(this).val() === inputVal) {
                 var accountNm = $(this).text();
+                var dataid=$(this).data('id');
                 $("#accountName").val(accountNm);
+                $("#accountPic").val(dataid);
                 return false; // 반복문 종료
             }
         });

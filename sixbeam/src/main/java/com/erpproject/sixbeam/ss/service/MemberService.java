@@ -11,8 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -33,9 +32,29 @@ public class MemberService {
         String name="RTS1010101010";
         Optional<AccountEntity> optionalAccountEntity= accountRepository.findById(name);
         AccountEntity accountEntity =optionalAccountEntity.get();
+        List<EstimateEntity> estimateEntities =estimateRepository.findByAccountEntity(accountEntity);
+        Set<String> uniqueEstimateCds = new HashSet<>();
 
+        // 중복 제거된 EstimateEntity 리스트
+        List<EstimateEntity> deduplicatedList = new ArrayList<>();
 
-        return estimateRepository.findByAccountEntity(accountEntity);
+        // 중복을 제거하면서 리스트를 생성
+        for (EstimateEntity entity : estimateEntities) {
+            if (uniqueEstimateCds.add(entity.getEstimateCd())) {
+                // estimateCd가 추가되지 않았으면 중복이므로 추가하지 않음
+                deduplicatedList.add(entity);
+            } else {
+                for (EstimateEntity entity2 : deduplicatedList) {
+                    if (entity.getEstimateCd().equals(entity2.getEstimateCd())) {
+                        entity2.setEstimateSp(entity2.getEstimateSp()+entity.getEstimateSp());
+                        entity2.setEstimateVat(entity.getEstimateVat()+entity2.getEstimateVat());
+                        entity2.setEstimateTamt(entity.getEstimateTamt()+entity2.getEstimateTamt());
+                    }
+
+                }
+            }
+        }
+        return deduplicatedList;
     }
     public List<MemberEntity> getMemberList(){
         return memberRepository.findAll();
