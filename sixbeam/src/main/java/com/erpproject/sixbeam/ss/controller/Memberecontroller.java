@@ -34,10 +34,18 @@ public class Memberecontroller {
         for(EstimateEntity estimateEntity : estimateEntities){
             System.out.println(estimateEntity);
         }
-
         model.addAttribute("memberDto",memberDto);
         model.addAttribute("estimateEntities",estimateEntities);
         return "contents/ss/member_form";
+    }
+
+    @GetMapping("/list")
+    public String list(Model model){
+        List<EstimateEntity> estimateEntities = memberService.getEstimateList();
+        List<MemberEntity> memberEntities = memberService.getMemberList();
+        model.addAttribute("estimateEntities",estimateEntities);
+        model.addAttribute("memberEntities",memberEntities);
+        return "contents/ss/member_list";
     }
     @PostMapping("create")
     public ResponseEntity<?>  create(@Validated @ModelAttribute MemberDto memberDto){
@@ -71,12 +79,5 @@ public class Memberecontroller {
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
-    @GetMapping("/list")
-    public String list(Model model){
-        List<EstimateEntity> estimateEntities = memberService.getEstimateList();
-        List<MemberEntity> memberEntities = memberService.getMemberList();
-        model.addAttribute("estimateEntities",estimateEntities);
-        model.addAttribute("memberEntities",memberEntities);
-        return "contents/ss/member_list";
-    }
+
 }
