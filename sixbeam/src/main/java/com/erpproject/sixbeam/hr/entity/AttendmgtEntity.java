@@ -19,34 +19,20 @@ import java.time.LocalTime;
 
 public class AttendmgtEntity {
     @Id
-    @Column(name="empinfoId",insertable = false,updatable = false)
-    private Long empInfoId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="HR_ATTENDMGT_TB_attendmgtCd_seq")
+    @SequenceGenerator(name ="HR_ATTENDMGT_TB_attendmgtCd_seq", sequenceName ="HR_ATTENDMGT_TB_attendmgtCd_seq",
+            initialValue = 100001, allocationSize =1)
+    @Column(name ="attendmgtCd")
+    private Long attendmgtCd;//급여식별자
     @ManyToOne
     @JoinColumn(name = "empinfoId")
     private EmpInfoEntity empInfoEntity;//사원Id
-    @Column(name ="AttendmgtWorkDt")
-    private LocalDate AttendmgtWorkDt;//일자
     @Column(name ="AttendmgtTardy")
     private int AttendmgtTardy;//지각
     @Column(name ="AttendmgtLearly")
     private int AttendmgtLearly;//조퇴
     @Column(name ="AttendmgtAbsent")
     private int AttendmgtAbsent;//결석
-    @Column(name ="AttendmgtWgout")
-    private int AttendmgtWgOut;//외근
-    @Column(name ="AttendmgtSl")
-    private int AttendmgtSL;//병가
-    @Column(name ="AttendmgtWorkTm")
-    private LocalTime AttendmgtWorkTm;//출근시간
-    @Column(name ="AttendmgtLeaveworkTm")
-    private LocalTime AttendmgtLeaveworkTm;//퇴근시간
-    @Column(name ="AttendmgtRestTm")
-    private LocalTime AttendmgtRestTm;//휴계시간
-    @Column(name ="AttendmgtOverTm")
-    private LocalTime AttendmgtOverTm;//초과근무
-    @Column(name ="AttendmgtWorkingTm")
-    private LocalTime AttendmgtWorkingTm;//근무시간
-    @ManyToOne
-    @JoinColumn(name ="reasonCd")
-    private ReasonEntity reasonEntity;//사유코드
+    @Column(name ="AttendmgtOverTime")
+    private int AttendmgtOverTime;//연장근무
 }
