@@ -105,7 +105,7 @@
 
     function addnewrow() {
         // 테이블의 마지막 행을 복제합니다.
-        var $lastRow = $('.table.item tbody tr:last');
+        var $lastRow = $('form .table.item tbody tr:last');
         var $newRow = $lastRow.clone();
 
         // 복제된 행의 name 속성에 포함된 인덱스를 증가시킵니다.
@@ -131,12 +131,12 @@
         });
 
         // 새로운 행을 테이블에 추가합니다.
-        $newRow.appendTo('.table.item tbody');
+        $newRow.appendTo('form .table.item tbody');
     }
 
     function deleteLastRow() {
         // tbody 내의 행을 대상으로 선택
-        const $tbody = $('.table.item tbody');
+        const $tbody = $('form .table.item tbody');
 
         // tbody 내의 행 개수 확인
         const rowCount = $tbody.find('tr').length;
@@ -408,5 +408,12 @@ $(document).ready(function() {
             currentYear++;
         }
         updateCalendar();
+    });
+});
+$('.reset').click(function() {
+    // 폼 내의 모든 input 필드의 값을 초기화
+    $('.formEntry input[type="text"]').val('');
+    $('.formEntry select').each(function() {
+        this.selectedIndex = 0;
     });
 });

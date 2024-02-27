@@ -40,12 +40,12 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
                 .formLogin((login) -> login
-                        .loginPage("/sixbeam")	// [A] 커스텀 로그인 페이지 지정
-                        .loginProcessingUrl("/login-process")	// [B] submit 받을 url
-                        .usernameParameter("userid")	// [C] submit할 아이디
-                        .passwordParameter("pw")	// [D] submit할 비밀번호
-                        .defaultSuccessUrl("/sixbeam/home", true)
-                        .permitAll()
+                                .loginPage("/sixbeam")	// [A] 커스텀 로그인 페이지 지정
+                                .loginProcessingUrl("/login-process")	// [B] submit 받을 url
+                                .usernameParameter("userid")	// [C] submit할 아이디
+                                .passwordParameter("pw")	// [D] submit할 비밀번호
+                                .defaultSuccessUrl("/sixbeam/home", true)
+                                .permitAll()
                 )
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/Hr/logout"))
