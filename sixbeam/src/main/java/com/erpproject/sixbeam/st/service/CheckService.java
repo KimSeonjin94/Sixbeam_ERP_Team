@@ -11,6 +11,7 @@ import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -92,14 +93,11 @@ public class CheckService {
         Integer totalWhItemOutgoing = getWhItemOutgoing(whmoveDt, whregistEntity, itemEntity);
         return totalWhItemIncoming - totalWhItemOutgoing;
     }
-
+    //기준일자의 모든 창고와 품목에 대한 수량 조회------------------------------------------------------------------------------------
     public List<Map<String, Object>> getAllWhItemCheckList(LocalDate date) {
         List<Map<String, Object>> resultList = new ArrayList<>();
-
-        // 해당 날짜의 모든 창고와 품목에 대한 수량을 조회하여 리스트에 추가
         List<WhregistEntity> allWhregists = getAllWhregists(); // 모든 창고 조회
         List<ItemEntity> allItems = getAllItems(); // 모든 품목 조회
-
         for (WhregistEntity whregist : allWhregists) {
             for (ItemEntity item : allItems) {
                 Map<String, Object> result = new HashMap<>();
@@ -111,27 +109,24 @@ public class CheckService {
         }
         return resultList;
     }
-
     private List<WhregistEntity> getAllWhregists() {
         return whregistRepository.findAll();
     }
-
     private List<ItemEntity> getAllItems() {
         return itemRepository.findAll();
     }
-
-    public List<Map<String, Object>> getAllWhItemCheckList(LocalDate date, String whregistCd) {
+    //기준일자의 선택한 창고와 품목에 대한 수량 조회------------------------------------------------------------------------------------
+    public List<Map<String, Object>> getAllWhCheckList(LocalDate date, String whregistCd) {
         List<Map<String, Object>> resultList = new ArrayList<>();
-        // 해당 날짜와 창고코드에 따른 재고 현황 조회
-        List<WhregistEntity> allWhregists = getAllWhregists(); // 모든 창고 조회
-
-        for (WhregistEntity whregist : allWhregists) {
+        Optional<WhregistEntity> whregistEntity = whregistRepository.findById(whregistCd);
+        List<ItemEntity> allItems = getAllItems();
+        for (ItemEntity item : allItems) {
             Map<String, Object> result = new HashMap<>();
-            result.put("whregistCd", whregist.getWhregistCd());
-            result.put("currentStock", getTotalWhCheckAmt(date, whregist));
+            result.put("whregistCd", whregistEntity.get().getWhregistCd());
+            result.put("itemCd", item.getItemCd());
+            result.put("currentStock", getTotalWhItemCheckAmt(date,whregistEntity.get(),item));
             resultList.add(result);
         }
         return resultList;
-
     }
 }

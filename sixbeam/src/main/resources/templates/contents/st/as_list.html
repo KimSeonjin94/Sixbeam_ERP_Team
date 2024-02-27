@@ -4,8 +4,11 @@
     <h1 class="h3 mb-2 text-gray-800">AS 관리</h1>
     <div class="btn-group" role="group" aria-label="Basic example">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newas">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createStModal">
             신규
+        </button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteStModal">
+            삭제
         </button>
     </div>
     <!-- DataTales Example -->
@@ -18,6 +21,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead class="table-dark">
                     <tr>
+                        <th>체크</th>
                         <th>접수코드</th>
                         <th>담당자</th>
                         <th>접수일자</th>
@@ -28,6 +32,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="as : ${asEntityList}">
+                        <td>
+                            <input th:type="checkbox" th:name="selectedSt" th:value="${as.asCd}">
+                        </td>
                         <td>
                             <a href="#" id="detailAsCd" th:data-id="${as.asCd}">
                                 <span th:text="${as.asCd}"></span>
@@ -43,7 +50,7 @@
                 </table>
             </div>
             <!-- Modal -->
-            <div class="modal fade" id="newas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="createStModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -268,41 +275,63 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalLabel2">성공</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                            </div>
+            </div>
+            <!-- 성공 창 모달 -->
+            <div class="modal fade hide" tabindex="-1" role="dialog" id="successModal" th:data-show-modal="${showModal}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">성공</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                         </div>
                     </div>
                 </div>
-
-                <div class="modal fade" tabindex="-1" role="dialog" id="failModal" aria-labelledby="modalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">실패</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                            </div>
+            </div>
+            <!-- 실패 창 모달 -->
+            <div class="modal fade hide" tabindex="-1" role="dialog" id="failModal" th:data-show-modal="${showModal}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">실패</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 삭제하는 모달 -->
+            <div class="modal fade" id="deleteStModal" tabindex="-1" aria-labelledby="deleteStModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteStModalLabel">AS 삭제</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>선택한 AS 정보를 삭제하시겠습니까?</p>
+                            <form class="deleteStForm" th:action="@{/st/as/delete}" method="post">
+                                <input type="hidden" id="selectedSt" name="selectedas">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="stcddelete">삭제</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                         </div>
                     </div>
                 </div>

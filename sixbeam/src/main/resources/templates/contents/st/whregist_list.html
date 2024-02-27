@@ -4,8 +4,11 @@
     <h1 class="h3 mb-2 text-gray-800">창고 관리</h1>
     <div class="btn-group" role="group" aria-label="Basic example">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newwhregist">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createStModal">
             신규
+        </button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteStModal">
+            삭제
         </button>
     </div>
     <!-- DataTales Example -->
@@ -18,6 +21,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead class="table-dark">
                     <tr>
+                        <th>체크</th>
                         <th>창고코드</th>
                         <th>창고명</th>
                     </tr>
@@ -25,7 +29,10 @@
                     <tbody>
                     <tr th:each="whregist : ${whregistEntityList}">
                         <td>
-                        <a href="#" id="detailwhregistCd" th:data-id="${whregist.whregistCd}">
+                            <input th:type="checkbox" th:name="selectedSt" th:value="${whregist.whregistCd}">
+                        </td>
+                        <td>
+                        <a href="#" id="detailWhregistCd" th:data-id="${whregist.whregistCd}">
                             <span th:text="${whregist.whregistCd}"></span>
                         </a>
                         </td>
@@ -35,7 +42,7 @@
                 </table>
             </div>
             <!-- Modal -->
-            <div class="modal fade" id="newwhregist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="createStModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -45,17 +52,11 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="formEntry" th:action="@{/st/whregist/modalcreate}"  method="post">
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">창고코드</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="whregistCode">
-                                    </div>
-                                </div>
+                            <form class="WhregistformEntry" th:action="@{/st/whregist/save}" th:object="${whregistForm}" method="post">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">창고명</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="whregistName">
+                                        <input type="text" class="form-control" id="whregistNm">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -82,17 +83,11 @@
                         <div class="modal-body">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form id="entity" th:action="@{/st/whregist/modalcreate}" th:object="${whregistForm}" method="post">
+                                    <form id="WhregistformEntry" th:action="@{/st/whregist/update}" th:object="${whregistForm}" method="post">
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">창고코드</label>
+                                            <label for="updatewhregistNm" class="col-sm-2 col-form-label">창고명</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updatewhregistCode">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">창고명</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="updatewhregistName">
+                                                <input type="text" name="whregistNm" class="form-control" id="updatewhregistNm">
                                             </div>
                                         </div>
                                         <div class="col-sm-12 text-md-right">
@@ -103,6 +98,66 @@
                                     </form>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 성공 창 모달 -->
+            <div class="modal fade hide" tabindex="-1" role="dialog" id="successModal" th:data-show-modal="${showModal}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">성공</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 실패 창 모달 -->
+            <div class="modal fade hide" tabindex="-1" role="dialog" id="failModal" th:data-show-modal="${showModal}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">실패</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 삭제하는 모달 -->
+            <div class="modal fade" id="deleteStModal" tabindex="-1" aria-labelledby="deleteStModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteStModalLabel">창고 삭제</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>선택한 창고 정보를 삭제하시겠습니까?</p>
+                            <form class="deleteStForm" th:action="@{/st/whregist/delete}" method="post">
+                                <input type="hidden" id="selectedSt" name="selectedwhregist">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="stcddelete">삭제</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                         </div>
                     </div>
                 </div>

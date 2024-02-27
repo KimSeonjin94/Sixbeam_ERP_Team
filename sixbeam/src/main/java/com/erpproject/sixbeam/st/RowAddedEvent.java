@@ -14,9 +14,5 @@ public class RowAddedEvent<T> extends ApplicationEvent{
     public RowAddedEvent(Object source, T entity) {
         super(source);
         this.entity = entity;
-
     }
-
-
-
 }

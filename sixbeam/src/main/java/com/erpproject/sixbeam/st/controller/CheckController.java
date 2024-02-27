@@ -66,14 +66,16 @@ public class CheckController {
     }
     //날짜 및 창고로 품목의 수량 리스트 조회-------------------------------------------------------------------------------
     @GetMapping("/whlist")
-    public String getAllWhCheckList() {
+    public String getAllWhCheckList(Model model) {
+        List<WhregistEntity> whregistEntity = this.whregistService.getList();
+        model.addAttribute("getwhregistlist", whregistEntity);
         return "contents/st/check_form_wh";
     }
     @PostMapping("/whlist")
-    public String handleWhlistForm(@RequestParam("date") LocalDate date, @RequestParam("whregistCd") String whregistCd, Model model) {
-        List<Map<String, Object>> checkList = checkService.getAllWhItemCheckList(date, whregistCd);
+    public String handleWhlistForm(@RequestParam("date") LocalDate date, @RequestParam("whregistEntity.whregistCd") String whregistCd, Model model) {
+        List<Map<String, Object>> checkList = checkService.getAllWhCheckList(date, whregistCd);
         List<WhregistEntity> whregistEntity = this.whregistService.getList();
-        model.addAttribute("getwhregistlist", whregistEntity);
+
         model.addAttribute("checkEntityList", checkList);
         return "contents/st/check_list";
     }

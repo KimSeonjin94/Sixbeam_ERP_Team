@@ -7,10 +7,13 @@ import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.pur.repository.InputRepository;
 import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
+import com.erpproject.sixbeam.st.RowAddedEvent;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +27,7 @@ public class InputService {
     private final InputRepository inputRepository;
     private final OrinPutRepository orinPutRepository;
     private final WhregistRepository whregistRepository;
-//    private final ApplicationEventPublisher event;//[이벤트리스너]
+    private final ApplicationEventPublisher event;//[이벤트리스너]
     public List<InputEntity> getList() {
         return this.inputRepository.findAll();
     }
@@ -75,7 +78,8 @@ public class InputService {
         inputEntity.setOrinputEntity(orinPutEntity);
         inputEntity.setWhregistEntity(whregistEntity);
         inputRepository.save(inputEntity);
-//        event.publishEvent(new RowAddedEvent(this,inputEntity));//[이벤트리스너]
+        RowAddedEvent<InputEntity> inputEvent = new RowAddedEvent<>(this, inputEntity);
+        event.publishEvent(inputEvent);//[이벤트리스너]
     }
     private String generateNewInputCd(LocalDate inputDate) {
         // 현재 날짜를 기반으로 새로운 구매 코드 생성
