@@ -39,7 +39,7 @@
             </div>
 
 
-            <!-- Modal -->
+            <!-- 신규 Modal -->
             <div class="modal fade" id="new" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -204,7 +204,7 @@
                                         <button type="submit" class="btn btn-primary">
                                             저장
                                         </button>
-                                        <button type="button" class="btn btn-danger">
+                                        <button type="button" class="btn btn-danger reset">
                                             초기화
                                         </button>
                                     </div>
@@ -215,6 +215,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 수정 모달 -->
             <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="subjectestimateLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -249,7 +250,7 @@
                                                 <input type="text" class="form-control" id="updateaccountName" readonly>
                                             </div>
                                         </div>
-                                        <table class="table item">
+                                        <table class="table item" id="estimateitems">
                                             <thead>
                                             <tr>
                                                 <th>품목 코드</th>
@@ -286,6 +287,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 경고 모달 -->
             <div class="modal fade" id="cannotDeleteModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -304,6 +306,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 성공 모달 -->
             <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -322,6 +325,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 실패 모달 -->
             <div class="modal fade" tabindex="-1" role="dialog" id="failModal" aria-labelledby="modalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -340,7 +344,7 @@
                     </div>
                 </div>
             </div>
-            <!-- 삭제하는 모달 -->
+            <!-- 삭제 모달 -->
             <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
