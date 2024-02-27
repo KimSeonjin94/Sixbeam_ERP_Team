@@ -26,7 +26,7 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
                 .formLogin(login -> login
-//                        .loginPage("/contents/home/Login_Form")	// [A] 커스텀 로그인 페이지 지정
+                       // .loginPage("/sixbeam")	// [A] 커스텀 로그인 페이지 지정
                                 .loginProcessingUrl("/login-process")	// [B] submit 받을 url
                                 .usernameParameter("userid")	// [C] submit할 아이디
                                 .passwordParameter("pw")	// [D] submit할 비밀번호

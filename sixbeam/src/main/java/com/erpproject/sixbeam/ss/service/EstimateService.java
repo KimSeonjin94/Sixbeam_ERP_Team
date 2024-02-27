@@ -142,7 +142,7 @@ public class EstimateService {
         String maxCd = estimateRepository.getMaxEstimateCd(estimateDate);
         if (maxCd == null) {
             // 초기값 설정
-            maxCd = "101";
+            maxCd = "0001";
         }
         int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(maxCd.lastIndexOf("-") + 1)) + 1 : 1;
 

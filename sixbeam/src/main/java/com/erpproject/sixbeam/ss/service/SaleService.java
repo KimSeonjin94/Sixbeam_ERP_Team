@@ -66,7 +66,12 @@ public class SaleService {
         for (String saleCd : saleCds) {
             Optional<SaleEntity> optionalSaleEntity = saleRepository.findById(saleCd);
             SaleEntity saleEntity=optionalSaleEntity.get();
-            saleRepository.save(saleEntity);
+            if(saleEntity.isSaleBillingSt()){
+                throw new IllegalStateException("출고 진행이 되어 삭제 불가 합니다.");
+
+            }else {
+                saleRepository.delete(saleEntity);
+            }
         }
     }
 
