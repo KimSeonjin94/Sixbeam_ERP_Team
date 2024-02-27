@@ -25,6 +25,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         // 평문 비밀번호 처리를 위해 NoOpPasswordEncoder 사용
@@ -39,19 +40,25 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
                 .formLogin((login) -> login
-                                .loginPage("/sixbeam")	// [A] 커스텀 로그인 페이지 지정
-                                .loginProcessingUrl("/login-process")	// [B] submit 받을 url
-                                .usernameParameter("userid")	// [C] submit할 아이디
-                                .passwordParameter("pw")	// [D] submit할 비밀번호
-                                .defaultSuccessUrl("/sixbeam/home", true)
-                                .permitAll()
+                        .loginPage("/sixbeam")	// [A] 커스텀 로그인 페이지 지정
+                        .loginProcessingUrl("/login-process")	// [B] submit 받을 url
+                        .usernameParameter("userid")	// [C] submit할 아이디
+                        .passwordParameter("pw")	// [D] submit할 비밀번호
+                        .defaultSuccessUrl("/sixbeam/home", true)
+                        //이름 넣는거 추가
+                        .successHandler((request, response, authentication) -> {
+                            String username = authentication.getName();
+                            request.getSession().setAttribute("username", username);
+                            response.sendRedirect("/sixbeam/home");
+                        })
+                        //
+                        .permitAll()
                 )
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/Hr/logout"))
                         .logoutSuccessUrl("/sixbeam")
                         .invalidateHttpSession(true)
                 );
-        //
 
         return http.build();
     }
@@ -67,6 +74,7 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 이 정책 적용
         return source;
     }
+
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
