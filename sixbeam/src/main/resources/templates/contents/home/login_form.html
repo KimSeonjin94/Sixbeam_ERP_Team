@@ -40,11 +40,12 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image" style="background-image: url('https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/a2To/image/-4ZDMcKlWuZ11l5yCt_V-lzbDxM.jpeg');background-size:contain; background-repeat:no-repeat; background-position: center; height: 100vh;">
+                        </div>
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Welcome Backzz!</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                 </div>
                                 <form id="loginForm" th:action="@{/login-process}" method="post">
                                     <div th:if="${param.error}">
