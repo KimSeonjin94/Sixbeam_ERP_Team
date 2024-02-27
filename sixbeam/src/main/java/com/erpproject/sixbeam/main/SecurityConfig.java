@@ -49,7 +49,7 @@ public class SecurityConfig {
                 )
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/Hr/logout"))
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/sixbeam")
                         .invalidateHttpSession(true)
                 );
         //
