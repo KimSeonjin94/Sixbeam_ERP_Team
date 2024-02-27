@@ -3,6 +3,7 @@ package com.erpproject.sixbeam.pd.controller;
 import com.erpproject.sixbeam.pd.Form.BomForm;
 import com.erpproject.sixbeam.pd.dto.BomDto;
 import com.erpproject.sixbeam.pd.entity.BomEntity;
+import com.erpproject.sixbeam.pd.entity.RitemEntity;
 import com.erpproject.sixbeam.pd.service.BomService;
 import com.erpproject.sixbeam.pd.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/pd/bom")
@@ -45,10 +47,24 @@ public class BomController {
     }
 
     // id로 리스트 조회
-    @GetMapping("/list/detail/{id}")
+    /*@GetMapping("/list/detail/{id}")
     public ResponseEntity<List<BomEntity>> detail(@PathVariable("id") String itemCd) {
 
         return bomService.getBomDetails(itemCd);
+    }*/
+
+    @GetMapping("/detail/{itemCd}")
+    public ResponseEntity<List<BomEntity>> detail(@PathVariable("itemCd") String fitemCd) {
+
+        List<BomEntity> bomEntities = bomService.getRitemsByItemCd(fitemCd);
+        if (!bomEntities.isEmpty()) {
+
+            return ResponseEntity.ok().body(bomEntities);
+
+        } else {
+
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // 수정

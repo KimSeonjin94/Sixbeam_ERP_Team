@@ -7,6 +7,7 @@
 		<div class = "card-header py-3" style = "display: flex;">
 			<h6 class = "m-0-ac font-weight-bold text-primary">품목 리스트</h6>
 		</div>
+		
 		<div class = "card-body">
 			<div class = "table-responsive">
 				<table class = "table table-bordered" id = "dataTable" width = "100%" cellspacing = "0">
@@ -16,13 +17,13 @@
 						<th>품목 코드</th>
 						<th>품목</th>
 						<th>규격</th>
-						<th>단가</th>
+						<th>합계</th>
 						<th></th>
 					</tr>
 					</thead>
 					
 					<tbody>
-					<tr th:each = "item : ${itemEntities}">
+					<tr th:each = "item : ${itemEntities}" class = "table-height-pd">
 						<td></td>
 						<td th:text = "${item.itemCd}"></td>
 						<td th:text = "${item.itemNm}"></td>
@@ -31,13 +32,9 @@
 						<!-- Button trigger modal -->
 						<td>
 							<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
-							        data-target = "#fitemCd"
+							        data-target = "#detailItem" id = "detailItembtn"
 							        th:if = "${item.itemCd != null and item.itemCd.startsWith('F')}"
-							        th:onclick = "setItemInfo
-								        ([[${item.itemCd}]],
-                                        [[${item.itemNm}]],
-                                        [[${item.itemStnd}]],
-                                        [[${item.itemUp}]])">
+							        th:data-id = "${item.itemCd}">
 								상세
 							</button>
 						</td>
@@ -46,110 +43,68 @@
 				</table>
 			</div>
 			
-			
-			<!--&lt;!&ndash; Modal &ndash;&gt;
-			<div class = "modal fade" id = "newItem" tabindex = "-1" aria-labelledby = "newItemModalLabel"
-			     aria-hidden = "true">
-				<div class = "modal-dialog modal-dialog-centered modal-xl">
-					<div class = "modal-content">
-						
-						<div class = "modal-header">
-							<h5 class = "modal-title" id = "newItemLabel">품목 등록</h5>
-							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
-								<span aria-hidden = "true">&times;</span>
-							</button>
-						</div>
-						
-						<form action = "/pd/item/create" method = "post" id = "createform">
-							<div class = "modal-body-ac">
-								&lt;!&ndash;<div class = "form-group row">
-									<label for = "itemCd" class = "col-sm-2 col-form-label">품목 코드</label>
-									<input type = "text" class = "form-control col-sm-10" id = "itemCd" name = "itemCd"
-									       style = "text-transform: uppercase;" oninput = "checkInput(event)">
-								</div>&ndash;&gt;
-								<div class = "form-group row">
-									<label for = "itemNm" class = "col-sm-2 col-form-label">품목명</label>
-									<input type = "text" class = "form-control col-sm-10" id = "itemNm"
-									       name = "itemNm" style = "text-transform: uppercase;" oninput="checkInput3(event)">
-								</div>
-								<div class = "form-group row">
-									<label for = "itemStnd" class = "col-sm-2 col-form-label">규격</label>
-									<input type = "text" class = "form-control col-sm-10" id = "itemStnd"
-									       name = "itemStnd" style = "text-transform: uppercase;" oninput="checkInput3(event)">
-								</div>
-								<div class = "form-group row">
-									<label for = "itemUp" class = "col-sm-2 col-form-label">단가</label>
-									<input type = "text" class = "form-control col-sm-10" id = "itemUp" name = "itemUp"
-									       oninput = "checkInput2(event);">
-								</div>
-							</div>
-							
-							<div class = "modal-footer">
-								<button type = "submit" class = "btn btn-primary" th:onclick = "createItemFinished()">
-									저장
-								</button>
-								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>-->
-			
-			
 			<div class = "modal fade" id = "detailItem" tabindex = "-1" aria-labelledby = "detailItemModalLabel"
 			     aria-hidden = "true">
-				<div class = "modal-dialog modal-dialog-centered modal">
+				<div class = "modal-dialog modal-dialog-centered modal-lg">
 					<div class = "modal-content">
 						<div class = "modal-header">
-							<h5 class = "modal-title" id = "editItemLabel">품목 상세 정보</h5>
+							<h5 class = "modal-title" id = "detailItemLabel">품목 상세 정보</h5>
 							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
 								<span aria-hidden = "true">&times;</span>
 							</button>
 						</div>
 						
-						<form class="formEntry" th:action = "@{/pd/item/itemlist}" method = "get">
-							<div class = "modal-body">
-								<div class="form-group row">
-									<label for="detailItemCd" class="col-sm-2 col-form-label">품목 코드</label>
-									<div class="col-sm-4">
-										<input type = "text" class = "form-control col-sm-7" id = "detailItemCd"
-										       name = "itemCd" readonly>
-									</div>
-									<label for="detailItemNm" class="col-sm-2 col-form-label">품목명</label>
-									<div class="col-sm-4">
-										<input type = "text" class = "form-control col-sm-7" id = "detailItemNm"
-										       name = "itemNm" readonly>
-									</div>
+						<div class = "modal-body">
+							<div class = "form-group row">
+								<label for = "detailItemCd" class = "col-sm-2 col-form-label"
+								       style = "text-align: center">품목 코드</label>
+								<div class = "col-sm-4">
+									<input type = "text" class = "form-control col-sm-10" id = "detailItemCd"
+									       name = "itemCd" style = "text-align: center" readonly>
 								</div>
-								<div class = "form-group row">
-									<label for = "detailItemStnd" class = "col-sm-2 col-form-label">규격</label>
-									<div class="col-sm-4">
-										<input type = "text" class = "form-control col-sm-7" id = "detailItemStnd"
-										       name = "itemStnd" readonly>
-									</div>
-									<label for = "detailItemUp" class = "col-sm-2 col-form-label">단가</label>
-									<div class="col-sm-4">
-										<input type = "text" class = "form-control col-sm-7" id = "detailItemUp"
-										       name = "itemUp" readonly>
-									</div>
+								<label for = "detailItemNm" class = "col-sm-2 col-form-label"
+								       style = "text-align: center">품목명</label>
+								<div class = "col-sm-4">
+									<input type = "text" class = "form-control col-sm-10" id = "detailItemNm"
+									       name = "itemNm" style = "text-align: center" readonly>
 								</div>
 							</div>
-							<table class="table item">
-								<thead>
-								<tr>
-									<th>품목 코드</th>
-									<th>품목 품목명</th>
-									<th>규격</th>
-									<th>단가</th>
-								</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
-							<div class = "modal-footer">
-								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+							<div class = "form-group row">
+								<label for = "detailItemStnd" class = "col-sm-2 col-form-label"
+								       style = "text-align: center">규격</label>
+								<div class = "col-sm-4">
+									<input type = "text" class = "form-control col-sm-10" id = "detailItemStnd"
+									       name = "itemStnd" style = "text-align: center" readonly>
+								</div>
+								<label for = "detailItemUp" class = "col-sm-2 col-form-label"
+								       style = "text-align: center">합계</label>
+								<div class = "col-sm-4">
+									<input type = "text" class = "form-control col-sm-10" id = "detailItemUp"
+									       name = "itemUp" style = "text-align: center" readonly>
+								</div>
 							</div>
-						</form>
+						</div>
+						
+						<table class = "table item">
+							<thead>
+							<tr>
+								<th>단품 코드</th>
+								<th>품목명</th>
+								<th>규격</th>
+								<th>수량</th>
+								<th>단가</th>
+							</tr>
+							</thead>
+							
+							<!-- tbody의 id를 js로 전송하여 ajax로 처리-->
+							<tbody id = "ritemDetails">
+							
+							</tbody>
+						</table>
+						
+						<div class = "modal-footer">
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
 					</div>
 				</div>
 			</div>
