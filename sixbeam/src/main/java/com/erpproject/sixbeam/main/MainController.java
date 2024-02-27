@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
-//    @GetMapping("/sixbeam")
-//    public String login() {
-//        return "contents/home/Login_Form";
-//    }
+    @GetMapping("/sixbeam")
+    public String login() {
+        return "contents/home/Login_Form";
+    }
 }
