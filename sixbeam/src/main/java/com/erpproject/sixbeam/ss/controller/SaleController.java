@@ -126,6 +126,7 @@ public class SaleController {
             Map<String,Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("redirectUrl", "/ss/sale/list");
+            response.put("message","삭제 되었습니다");
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
