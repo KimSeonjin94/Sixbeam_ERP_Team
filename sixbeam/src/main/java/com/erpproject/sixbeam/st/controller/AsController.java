@@ -115,7 +115,7 @@ public class AsController {
         }
     }
     @PostMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam("selectedid") List<String> selectedid, RedirectAttributes redirectAttributes) {
+    public ResponseEntity<?> delete(@RequestParam("selectedas") List<String> selectedid, RedirectAttributes redirectAttributes) {
         try {
             asService.delete(selectedid);
             Map<String,Object> response = new HashMap<>();

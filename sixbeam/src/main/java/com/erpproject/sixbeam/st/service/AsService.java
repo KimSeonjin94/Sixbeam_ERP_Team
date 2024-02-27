@@ -64,21 +64,18 @@ public class AsService {
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
             WhregistEntity whregistEntity = whregistRepository.findById(asDto.getWhregistEntity().getWhregistCd())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-
             String newAsCd = generateNewAsCd(asDto.getAsDt());
             asDto.setEmpInfoEntity(empInfoEntity);
             asDto.setAccountEntity(accountEntity);
             asDto.setItemEntity(itemEntity);
             asDto.setWhregistEntity(whregistEntity);
             AsEntity asEntity = asDto.toEntity();
-
             asEntity.setAsCd(newAsCd);
             asRepository.save(asEntity);
             RowAddedEvent<AsEntity> asEvent = new RowAddedEvent<>(this, asEntity);
             event.publishEvent(asEvent);
         }
     }
-
 
     public void updateAll(AsDto asDto) {
             EmpInfoEntity empInfoEntity = empInfoRepository.findById(asDto.getEmpInfoEntity().getEmpInfoId())
@@ -100,7 +97,6 @@ public class AsService {
     @Transactional
     public void delete(List<String> asDtos) {
         for (String asCd : asDtos) {
-            // ORINPUT_CD를 참조하는 엔티티가 없으면 삭제를 진행
             List<AsEntity> asEntities = asRepository.findByAsCd(asCd);
             asRepository.deleteAll(asEntities);
         }
