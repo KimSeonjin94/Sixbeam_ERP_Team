@@ -2,16 +2,12 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form th:action="@{/st/whregist/create}" th:object="${whregistForm}" method="post">
+            <form class="WhregistformEntry" th:action="@{/st/whregist/save}" th:object="${whregistForm}" method="post">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">창고 등록</label>
                         <div class="mb-3">
-                            <label for="whregistCd" class="form-label">창고코드</label>
-                            <input type="text" name = "whregistCd" class="form-control" id="whregistCd">
-                        </div>
-                        <div class="mb-3">
                             <label for="whregistNm" class="form-label">창고명</label>
-                            <input type="text" name = "whregistNm" class="form-control" id="whregistNm">
+                            <input type="text" name = "whregistNm" class="form-control" th:field="*{whregistDtos[0].whregistNm}" id="whregistNm">
                         </div>
                         <input type="submit" value="저장" class="btn btn-primary my-2">
                 </div>
@@ -20,4 +16,3 @@
     </div>
 </div>
 </html>
-//

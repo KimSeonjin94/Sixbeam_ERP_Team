@@ -19,8 +19,7 @@
                     <div class="col-sm-4">
                         <label for="whregistCode" class="col-sm-2 col-form-label">창고명</label>
                         <select id="whregistCode" name="whregistEntity.whregistCd" class="form-control">
-                            <option th:each="whregistlist : ${getwhregistlist}" th:value="${whregistlist.whregistCd}"
-                                    th:text="${whregistlist.whregistNm}"></option>
+                            <option th:each="whregistlist : ${getwhregistlist}" th:value="${whregistlist.whregistCd}" th:text="${whregistlist.whregistNm}"></option>
                         </select>
                     </div>
                     <input type="submit" value="조회" class="btn btn-primary my-2">
