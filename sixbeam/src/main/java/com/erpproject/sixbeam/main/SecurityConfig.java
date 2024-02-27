@@ -35,8 +35,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().and()
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll() // 정적 리소스 접근 허용
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                        .requestMatchers("/sixbeam", "/login", "/register", "/css/**", "/js/**").permitAll() // 정적 리소스 접근 허용
                         .anyRequest()
                         .authenticated())
                 .formLogin((login) -> login
