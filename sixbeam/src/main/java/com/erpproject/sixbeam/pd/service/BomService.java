@@ -173,8 +173,8 @@ public class BomService {
     }
 
 
-    public Optional<RitemEntity> getRitemsByItemCd(String fitemCd) {
+    public List<BomEntity> getRitemsByItemCd(String fitemCd) {
 
-        return ritemRepository.findById(fitemCd);
+        return bomRepository.findByFitemEntity_ItemCd(fitemCd);
     }
 }

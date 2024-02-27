@@ -1,5 +1,5 @@
-function setItemInfo(itemCd, itemNm , itemStnd, itemUp)
-{
+
+function setItemInfo(itemCd, itemNm, itemStnd, itemUp) {
     $('#editItem').modal('show');
     $('#editItemCd').val(itemCd);
     $('#editItemNm').val(itemNm);
@@ -44,7 +44,7 @@ function deleteItemFinished() {
     var selectedIds = [];
 
     // 모든 'selectedInfo' 클래스를 가진 체크박스를 찾고 선택된 항목의 값만 배열에 추가
-    document.querySelectorAll('.selectedInfo:checked').forEach(function(checkbox) {
+    document.querySelectorAll('.selectedInfo:checked').forEach(function (checkbox) {
         selectedIds.push(checkbox.value);
     });
 
@@ -66,91 +66,6 @@ function deleteItemFinished() {
         document.getElementById('deleteForm').submit();
     }
 }
-
-$(document).ready(function() {
-    // 폼이 제출될 때마다 실행되도록 변경
-    $('.itemformEntry').submit(function(e) {
-        // 기본폼 제출을 막음
-        e.preventDefault();
-        // 입력 필드에서 숫자가 아닌 문자 제거
-        $('.itemamt, .itemup, .itemsp, .itemvar, .itemsum').each(function() {
-            var value = $(this).val().replace(/[^0-9]/g, '');
-            $(this).val(value);
-        });
-        // 폼 데이터 변경
-        var selectedEmp = $('#orinputname').val();
-        // 거래처 코드의 현재 값을 가져옴
-        var accountCode = $('#accountCode').val();
-        // 견적 일자의 현재 값을 가져옴
-        var currentDate = $('#currentDate').val();
-        // 발주 요청 일자(발주에서 사용)
-        var requestDate = $('#orinputReqDate').val();
-        // 납기 일자(발주에서 사용)
-        var deliveryDate = $('#orinputDlvyDate').val();
-
-        $('.table.item tbody tr').each(function(index) {
-            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
-            $(this).find('.RegisDate').val(currentDate);
-            $(this).find('.AccountCode').val(accountCode);
-            $(this).find('.EmpInfoId').val(selectedEmp);
-            $(this).find('.OrinputReqDate').val(requestDate);
-            $(this).find('.OrinputDlvyDate').val(deliveryDate);
-        });
-
-        var formData = new FormData(this);
-        // FormData 객체를 반복하여 폼 데이터 확인
-        formData.forEach(function(value, key) {
-            console.log(key + ': ' + value);
-        });
-        // AJAX를 사용하여 폼 데이터 제출
-        $.ajax({
-            type: $(this).attr('method'), // POST 또는 GET
-            url: $(this).attr('action'),
-            data: $(this).serialize(), // 폼 데이터 직렬화
-            success: function(response) {
-                // 성공 시 리다이렉션
-                $('#successModal').modal('show');
-                // 모달이 닫힐 때 리다이렉션
-                $('#successModal').on('hidden.bs.modal', function () {
-                    window.location.href = response.redirectUrl;
-                });
-            },
-            error: function(xhr) {
-                // 오류 처리 로직
-                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
-                // 서버로부터 받은 에러 메시지를 알림
-                // 오류 처리 로직
-                var response = JSON.parse(xhr.responseText);
-                // 오류 메시지 모달 표시
-                $('#failModal').modal('show'); // 올바른 셀렉터 사용
-                // 모달이 닫힐 때 리다이렉션
-                $('#failModal').on('hidden.bs.modal', function () {
-                    window.location.href = response.redirectUrl;
-                });
-                console.log('Error Submitting Form');
-            }
-        });
-    });
-});
-
-$(document).ready(function() {
-
-    // 품목 코드 선택하면 품목명이 나올 수 있도록 하는 제이쿼리
-    $("#itemCode").on('input', function() {
-        // 입력된 값 가져오기
-        var itemCd = $(this).val();
-        // 모든 품목 코드 선택 옵션을 반복하면서 입력된 값과 일치하는지 확인.
-        $("#itemCodeSelectBox option").each(function () {
-            // 현재 옵션의 값이 입력된 값과 일치하는지 확인
-            if ($(this).val() === itemCd) {
-                // 일치하는 경우 해당 옵션의 텍스트 값을 가져와서 품목명 입력란에 설정
-                var itemNm = $(this).text();
-                $("#itemName").val(itemNm);
-                return false; // 반복문 종료
-            }
-        });
-    });
-});
 
 function checkInput(event) {
 
@@ -190,21 +105,105 @@ function checkInput3(event) {
     event.target.value = inputVal.toUpperCase();
 }
 
-function modalRitem(fitemCd) {
+// id = detailItembtn 버튼 클릭 이벤트 함수
+$('#detailItembtn[data-id]').on('click', function () {
 
+    var itemCd = $(this).data('id'); // this - 클릭된 요소
+    var itemSum = 0;
+
+    // 선택한 품목에 대한 부속품 정보를 요청하기 위해 Ajax를 사용
     $.ajax({
-        url: '/ritemlist/' + fitemCd,
+
+        // 서버의 해당 URL로 요청 - 엔드포인트
+        url: '/pd/bom/detail/' + itemCd,
         type: 'GET',
-        success: function(data) {
+        success: function (response) {
 
-            // 모달에 데이터 업데이트
-            $('#detailItem').find('#detailItemCd').val(data.itemCd);
-            $('#detailItem').find('#detailItemNm').val(data.itemNm);
-            $('#detailItem').find('#detailItemStnd').val(data.itemStnd);
-            $('#detailItem').find('#detailItemUp').val(data.itemUp);
+            console.log(response);
 
-            // 모달 열기
-            $('#detailItem').modal('show');
+            // 부속품 정보를 받아온 후, 테이블에 동적으로 추가
+            var ritemDetailsTable = $('#ritemDetails');
+
+            // 기존에 표시된 내용을 모두 지우고 새로운 내용으로 대체
+            ritemDetailsTable.empty();
+
+            response.forEach(function (bomEntity, index) {
+
+                // 부속품의 각 정보를 테이블에 추가
+                var row = $('<tr>');
+
+                row.append('<td>' + bomEntity.ritemEntity.itemCd + '</td>' +
+                    '<td>' + bomEntity.ritemEntity.itemNm + '</td>' +
+                    '<td>' + bomEntity.ritemEntity.itemStnd + '</td>' +
+                    '<td>' + bomEntity.bomUseMt + '</td>' +
+                    '<td>' + bomEntity.ritemEntity.itemUp + '</td>');
+
+                // 새로운 행을 테이블에 추가
+                ritemDetailsTable.append(row);
+
+                itemSum += (bomEntity.ritemEntity.itemUp * bomEntity.bomUseMt);
+            });
+
+            $('#detailItemCd').val(response[0].fitemEntity.itemCd)
+            $('#detailItemNm').val(response[0].fitemEntity.itemNm)
+            $('#detailItemStnd').val(response[0].fitemEntity.itemStnd)
+            $('#detailItemUp').val(itemSum);
+        },
+
+        error: function (xhr, status, error) {
+
+            // 요청이 실패한 경우 오류 메시지를 콘솔에 출력
+            console.error('Failed to fetch ritem details:', error);
         }
     });
-}
+});
+
+$('#editDetailItembtn[data-id]').on('click', function () {
+
+    var itemCd = $(this).data('id'); // this - 클릭된 요소
+    var itemSum = 0;
+
+    // 선택한 품목에 대한 부속품 정보를 요청하기 위해 Ajax를 사용
+    $.ajax({
+
+        // 서버의 해당 URL로 요청
+        url: '/pd/bom/detail/' + itemCd,
+        type: 'GET',
+        success: function (response) {
+            console.log(response);
+
+            // 부속품 정보를 받아온 후, 테이블에 동적으로 추가
+            var ritemDetailsTable = $('#ritemDetails');
+
+            // 기존에 표시된 내용을 모두 지우고 새로운 내용으로 대체
+            ritemDetailsTable.empty();
+
+            response.forEach(function (bomEntity, index) {
+
+                itemSum += (bomEntity.ritemEntity.itemUp * bomEntity.bomUseMt);
+                // 부속품의 각 정보를 테이블에 추가
+                var row = $('<tr>');
+
+                row.append('<td>' + bomEntity.ritemEntity.itemCd + '</td>' +
+                    '<td><input type="text" class="form-control" value="' + bomEntity.ritemEntity.itemNm + '"></td>' +
+                    '<td><input type="text" class="form-control" value="' + bomEntity.ritemEntity.itemStnd + '"></td>' +
+                    '<td><input type="text" class="form-control" value="' + bomEntity.bomUseMt + '"></td>' +
+                    '<td><input type="text" class="form-control" value="' + bomEntity.ritemEntity.itemUp + '"></td>');
+
+                // 새로운 행을 테이블에 추가
+                ritemDetailsTable.append(row);
+            });
+
+            $('#detailItemCd').val(response[0].fitemEntity.itemCd)
+            $('#detailItemNm').val(response[0].fitemEntity.itemNm)
+            $('#detailItemStnd').val(response[0].fitemEntity.itemStnd)
+            $('#detailItemUp').val(itemSum);
+        },
+
+        error: function (xhr, status, error) {
+
+            // 요청이 실패한 경우 오류 메시지를 콘솔에 출력
+            console.error('Failed to fetch ritem details:', error);
+        }
+    });
+});

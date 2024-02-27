@@ -50,17 +50,6 @@ public class ItemController {
         return "contents/pd/item_list";
     }
 
-    @GetMapping("/ritemlist/{itemCd}")
-    public ResponseEntity<RitemEntity> detail(@PathVariable("fitemCd") String fitemCd) {
-        Optional<RitemEntity> ritemEntities = bomService.getRitemsByItemCd(fitemCd);
-        if (ritemEntities.isPresent()) {
-            RitemEntity ritemEntity = ritemEntities.get();
-            return ResponseEntity.ok().body(ritemEntity);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     // 품목 등록
     @PostMapping("/create")
     public String createItem(@ModelAttribute ItemDto itemDto, RedirectAttributes redirectAttributes) {

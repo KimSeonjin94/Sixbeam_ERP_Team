@@ -8491,6 +8491,7 @@ body.sidebar-toggled footer.sticky-footer {
 
 
 /*--- pd css ---*/
+
 .btn.btn-success-pd {
   color: #fff;
   background-color: #28a745; /* Success color */
@@ -8524,8 +8525,64 @@ body.sidebar-toggled footer.sticky-footer {
   border-color: #28a745; /* Success color */
   margin-right: 10px;
   margin-left: 10px;
+}
 
-  /* pd css 끝라인 */
+.btn.btn-warning-pd {
+  color: #fff;
+  background-color: #f6c23e;
+  border-color: #f6c23e;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn.btn-warning-pd:hover {
+  color: #fff;
+  background-color: #f4b619;
+  border-color: #f4b30d;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn.btn-warning-pd:focus, .btn-warning.focus {
+  color: #fff;
+  background-color: #f4b619;
+  border-color: #f4b30d;
+  box-shadow: 0 0 0 0.2rem rgba(247, 203, 91, 0.5);
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn.btn-warning-pd.disabled, .btn-warning:disabled {
+  color: #fff;
+  background-color: #f6c23e;
+  border-color: #f6c23e;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn.btn-warning-pd:not(:disabled):not(.disabled):active, .btn-warning:not(:disabled):not(.disabled).active,
+.show > .btn-warning.dropdown-toggle {
+  color: #fff;
+  background-color: #f4b30d;
+  border-color: #e9aa0b;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn.btn-warning-pd:not(:disabled):not(.disabled):active:focus, .btn-warning:not(:disabled):not(.disabled).active:focus,
+.show > .btn-warning.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(247, 203, 91, 0.5);
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.table-height-pd td, .table-height-pd th, .table-height-pd tbody tr {
+  vertical-align: middle; /* 셀 안의 텍스트를 수직 가운데 정렬 */
+  height: 35px; /* 셀의 높이 설정 */
+  line-height: 40px; /* 셀의 높이와 동일한 줄 높이 설정 */
+}
+
+/* pd css 끝라인 */
 
 .btn.btn-secondary-ac {
   color: #fff;
