@@ -48,6 +48,10 @@ public class SaleService {
             String saleCd = generateNewSaleCd(saleEntity.getSaleUploadDt());
             saleEntity.setSaleCd(saleCd);
             saleEntity.setWhregistEntity(whregistRepository.findByWhregistCd(saleEntity.getWhregistEntity().getWhregistCd()).get(0));
+            Optional<SaleEntity> optionalSaleEntity=saleRepository.findByEstimateCd(saleEntity.getEstimateCd());
+            if(optionalSaleEntity.isPresent()){
+                throw new IllegalArgumentException("이미 판매처리된 견적입니다.");
+            }
             saleRepository.save(saleEntity);
             RowAddedEvent<SaleEntity> saleEvent = new RowAddedEvent<>(this, saleEntity);
             event.publishEvent(saleEvent);

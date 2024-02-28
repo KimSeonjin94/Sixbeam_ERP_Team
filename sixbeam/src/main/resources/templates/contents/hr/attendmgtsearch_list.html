@@ -1,4 +1,4 @@
-<html layout:decorate="~{layout/default}">
+<html layout:decorate="~{layout/default}" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <!-- 추가된 부분zzzz -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -40,7 +40,7 @@
             <form class="formEntry" th:action="@{/hr/attendmgtsearch/create}" th:object="${workScheduleForm}"
                   method="post" onsubmit="submitForm(event)">
                 <div class="form-group row">
-                    <label for="selectWorkScheduleDate" class="col-sm-2 col-form-label">날짜zz</label>
+                    <label for="selectWorkScheduleDate" class="col-sm-2 col-form-label">날짜</label>
                     <div class="col-sm-4">
                         <input type="date" class="form-control" id="selectWorkScheduleDate">
                     </div>
@@ -67,7 +67,7 @@
                                 <td th:text="${work.workScheduleDate}"></td>
                                 <td th:text="${work.empInfoEntity.departEntity.departNm}"></td>
                                 <td>
-                                    <a href="#" th:onclick="openEditReasonPage([[${work.workScheduleCd}]],[[${work.empInfoEntity.empInfoId}]],[[${work.workScheduleDate}]],[[${work.workScheduleStartTime}]],[[${work.workScheduleEndTime}]],[[${work.workScheduleReason}]])"
+                                    <a href="#" th:onclick="openEditReasonPage([[${work.workScheduleCd}]],[[${work.empInfoEntity.empInfoId}]],[[${work.workScheduleCheck}]],[[${work.workScheduleDate}]],[[${work.workScheduleStartTime}]],[[${work.workScheduleEndTime}]],[[${work.workScheduleReason}]])"
                                        style="color: blue; cursor: pointer;">
                                         <span th:text="${work.empInfoEntity.empInfoNm}" class="reason-cd"></span>
                                     </a>
@@ -92,7 +92,7 @@
                         <div class="modal-body">
                             <div class="row no-gutters">
                                 <div class="col-md-8 mb-3">
-                                    <form id="updateAttendmgtsearchForm" th:action="@{/hr/attendmgthsearch/uupdate}" method="post">
+                                    <form id="updateAttendmgtsearchForm" th:action="@{/hr/attendmgtsearch/update}" method="post">
                                         <!--부서코드-->
                                         <div class ="form-group">
                                             <label for="workScheduleCd">출퇴근식별자</label>
@@ -101,6 +101,9 @@
                                         <div class="form-group">
                                             <label for="empInfoId">사원id</label>
                                             <input type="text" class="form-control" id="empInfoId" name="empInfoId" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" id="workScheduleCheck" name="workScheduleCheck">
                                         </div>
                                         <div class ="form-group">
                                             <label for="workScheduleDate">날짜</label>
@@ -115,9 +118,9 @@
                                             <input type="text" class="form-control" id="workScheduleEndTime" name="workScheduleEndTime">
                                         </div>
                                         <div class="form-group">
-                                            <label for="reason">사유</label>
-                                            <select class="form-control" id="workScheduleReason" name="workScheduleReason">
-                                                <option th:each="re : ${reasonList}" th:value="${re.reasonCd}" th:text="${re.reasonNm}"></option>
+                                            <label for="reasonCd">사유</label>
+                                            <select class="form-control" id="reasonCd" name="reasonCd">
+                                                <option th:each="re : ${reasonLists}" th:value="${re.reasonNm}" th:text="${re.reasonNm}"></option>
                                             </select>
                                         </div>
                                     </form>
@@ -126,7 +129,7 @@
                         </div>
                         <div class="modal-footer">
                             <!-- submit 버튼을 추가하고 폼 전송을 위한 액션을 지정 -->
-                            <button type="button" class="btn btn-primary" onclick="updateReason()">저장</button>
+                            <button type="button" class="btn btn-primary" onclick="updateAttendmgtsearch()">저장</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                         </div>
                     </div>
@@ -135,14 +138,19 @@
         </div>
     </div>
     <script th:inline="javascript">
-        function openEditReasonPage(workScheduleCd,empinfoId,workScheduleDate,workScheduleStartTime,workScheduleEndTime,workScheduleReason){
+        function openEditReasonPage(workScheduleCd,empinfoId,workScheduleCheck,workScheduleDate,workScheduleStartTime,workScheduleEndTime,workScheduleReason){
             $('#updateNoteModal').modal('show');
             $('#workScheduleCd').val(workScheduleCd);
             $('#empInfoId').val(empinfoId);
+            $('#workScheduleCheck').val(workScheduleCheck);
             $('#workScheduleDate').val(workScheduleDate);
             $('#workScheduleStartTime').val(workScheduleStartTime);
             $('#workScheduleEndTime').val(workScheduleEndTime);
             $('#workScheduleReason').val(workScheduleReason);
+        }
+        function updateAttendmgtsearch(){
+            document.getElementById("updateAttendmgtsearchForm").submit();
+            alert('수정되었습니다.')
         }
     </script>
 </div>

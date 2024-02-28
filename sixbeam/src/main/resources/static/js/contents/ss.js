@@ -1,8 +1,9 @@
 $('#detailEstimateCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
+    var currentUrl = window.location.href;
     var estimateId = $(this).data('id'); // data-id 속성에서 ID 가져오기
     $('#estimatedetail').modal('hide');
-    var originalTbody = $('.formEntry .table .item tbody').html();
+
     // AJAX 요청
     $.ajax({
         url: '/ss/estimate/list/detail/' + estimateId, // 서버 엔드포인트
@@ -14,14 +15,25 @@ $('#detailEstimateCd[data-id]').on('click', function() {
             if (data && data.length > 0) {
                 // 성공 시 모달 내용 업데이트
 
-                var modaltBody = $('.formEntry .table.item tbody');
+                var modaltBody=$('.formEntry .table.item tbody');;
+                if (currentUrl.includes("estimate")) {
+                    modaltBody = $('#detail .formEntry .table.item tbody');
+                }else if(currentUrl.includes("sale")){
+                    modaltBody = $('#new .formEntry .table.item tbody');
+                }
                 modaltBody.empty();
                 $('#estimateCd').val(data[0].estimateCd);
                 $('#updateCurrentDate').val(data[0].estimateDt);
                 $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                 $('#updatename').val(data[0].empInfoEntity.empInfoNm);
                 $('#updateaccountName').val(data[0].accountEntity.accountNm);
-
+                var currentUrl = window.location.href;
+                if (currentUrl.includes("list")) {
+                    $('#EstimateCurrentDate').val(data[0].estimateDt);
+                    $('#accountCode').val(data[0].accountEntity.accountCd);
+                    $('#name').val(data[0].empInfoEntity.empInfoNm);
+                    $('#accountName').val(data[0].accountEntity.accountNm);
+                }
                 // 데이터 항목별로 행 추가
                 data.forEach(function(item, index) {
                     var row = $('<tr>'); // 행 생성
@@ -43,7 +55,6 @@ $('#detailEstimateCd[data-id]').on('click', function() {
                     modaltBody.append(row); // 생성된 행을 테이블에 추가
                 });
 
-                var currentUrl = window.location.href;
                 if (currentUrl.includes("estimate")) {
                     $('#detail').modal('show'); // 모달 표시
                 }
@@ -140,30 +151,25 @@ $('#detailMember[data-id]').on('click', function(){
         }
     });
 })
-$('#new').on('show.bs.modal', function () {
-    // 다른 모든 모달을 숨김
-    $(this).find('input[type="text"]').val('');
-    var modaltBody = $('#detail .formEntry .table.item tbody');
-    modaltBody.empty();
-});
 $('#estimatedetail').on('show.bs.modal', function () {
     // 다른 모든 모달을 숨김
     $('#new').modal('hide');
 });
 $(document).ready(function() {
-    // tbody의 원래 상태를 저장
-    var originalTbody = $('.formEntry .table .item tbody').html();
-
     // 모달이 hide되는 이벤트를 감지
-    $('#detail').on('hidden.bs.modal', function () {
-        // 모달이 숨겨졌을 때 tbody의 내용을 원래 상태로 복구
-        $('.formEntry .table .item tbody').html(originalTbody);
+    $('.modal').on('hidden.bs.modal', function () {
+        var currentUrl = window.location.href;
+
+        if (currentUrl.includes("sale") || currentUrl.includes("estimate")){
+            $('.formEntry input[type="text"]').val('');
+            $('.formEntry select').each(function() {
+                this.selectedIndex = 0;
+            });
+        }
     });
 });
 // estimatedetail 모달이 닫힐 때
 $('#estimatedetail').on('hidden.bs.modal', function () {
-    // 다른 모달을 다시 보이게 함 (예를 들어, 특정 조건에 따라)
-    // 여기서는 예시로 다른 모달의 ID를 사용합니다.
     $('#new').modal('show');
 });
 

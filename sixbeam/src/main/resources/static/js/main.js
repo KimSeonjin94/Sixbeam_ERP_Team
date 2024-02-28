@@ -419,3 +419,32 @@ $('.reset').click(function() {
     });
     $('#currentDate').val(new Date().toISOString().substring(0,10));
 });
+$(document).ready(function() {
+    // 로그인 버튼 클릭 이벤트
+    $('#loginButton').click(function() {
+        // '아이디 기억하기' 체크박스 상태 확인
+        var isRemember = $('#customCheck').is(':checked');
+        if (isRemember) {
+            // 체크박스가 체크된 상태이면, 입력된 아이디 값을 로컬 저장소에 저장
+            var userId = $('#id').val();
+            localStorage.setItem('rememberedUserId', userId);
+        } else {
+            // 체크박스가 해제된 상태이면, 로컬 저장소에서 아이디 값 제거
+            localStorage.removeItem('rememberedUserId');
+        }
+        $("#loginForm").submit();
+    });
+
+    // 페이지 로드 시 로컬 저장소에서 아이디 값 가져와서 입력 필드에 채우기
+    var rememberedUserId = localStorage.getItem('rememberedUserId');
+    if (rememberedUserId) {
+        $('#id').val(rememberedUserId);
+        $('#customCheck').prop('checked', true); // 체크박스도 체크 상태로 설정
+    }
+
+    // 폼 제출 함수
+    function submitForm() {
+
+    }
+    // 필요에 따라 submitForm 함수를 사용할 수 있습니다.
+});
