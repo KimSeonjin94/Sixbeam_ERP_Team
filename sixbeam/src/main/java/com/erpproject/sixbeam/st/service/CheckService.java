@@ -6,24 +6,23 @@ import com.erpproject.sixbeam.st.entity.CheckEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.repository.CheckRepository;
-import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.time.LocalDate;
 import java.util.*;
 
 @RequiredArgsConstructor
 @Service
-public class CheckService {
+public class
+CheckService {
 
     private final CheckRepository checkRepository;
-    private final WhmoveRepository whmoveRepository;
     private final WhregistRepository whregistRepository;
     private final ItemRepository itemRepository;
+
 
 
     //통합 조회------------------------------------------------------------------------------
@@ -101,9 +100,12 @@ public class CheckService {
         for (WhregistEntity whregist : allWhregists) {
             for (ItemEntity item : allItems) {
                 Map<String, Object> result = new HashMap<>();
-                result.put("whregistCd", whregist.getWhregistCd());
-                result.put("itemCd", item.getItemCd());
+                result.put("whregistNm", whregist.getWhregistNm());
+                result.put("itemNm", item.getItemNm());
+                result.put("itemStnd", item.getItemStnd());
                 result.put("currentStock", getTotalWhItemCheckAmt(date, whregist, item));
+                long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date,whregist,item);
+                result.put("calcul", calcul);
                 resultList.add(result);
             }
         }
@@ -122,11 +124,30 @@ public class CheckService {
         List<ItemEntity> allItems = getAllItems();
         for (ItemEntity item : allItems) {
             Map<String, Object> result = new HashMap<>();
-            result.put("whregistCd", whregistEntity.get().getWhregistCd());
-            result.put("itemCd", item.getItemCd());
+            result.put("whregistNm", whregistEntity.get().getWhregistNm());
+            result.put("itemNm", item.getItemNm());
+            result.put("itemStnd", item.getItemStnd());
             result.put("currentStock", getTotalWhItemCheckAmt(date,whregistEntity.get(),item));
+            long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date,whregistEntity.get(),item);
+            result.put("calcul", calcul);
             resultList.add(result);
         }
         return resultList;
     }
+    public void addRowCheck(WhmoveEntity whmoveEntity) {
+        CheckEntity checkEntity = new CheckEntity();
+        Long newCheckCd = generateNewCheckCd();
+        checkEntity.setCheckCd(newCheckCd);
+        checkEntity.setWhmoveEntity(whmoveEntity);
+        checkEntity.setCheckAmt(whmoveEntity.getWhmoveAmt());
+        long calculated = whmoveEntity.getWhmoveAmt() * whmoveEntity.getItemEntity().getItemUp();
+        checkRepository.save(checkEntity);
+    }
+    private Long generateNewCheckCd() {
+        Long beforeCd = checkRepository.getMaxCheckCd();
+        Long sequenceNumber = beforeCd + 1;
+        return sequenceNumber;
+    }
+
+    //호진 형님 이거 갖다가 쓰세용~
 }

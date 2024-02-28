@@ -1,6 +1,6 @@
 $('#detailEstimateCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
-    var currentUrl = window.location.href;
+
     var estimateId = $(this).data('id'); // data-id 속성에서 ID 가져오기
     $('#estimatedetail').modal('hide');
 
@@ -12,9 +12,10 @@ $('#detailEstimateCd[data-id]').on('click', function() {
             data.forEach(function(value, key) {
                 console.log(key + ': ' + value);
             });
+            var currentUrl = window.location.href;
             if (data && data.length > 0) {
                 // 성공 시 모달 내용 업데이트
-
+                console.log(currentUrl);
                 var modaltBody=$('.formEntry .table.item tbody');;
                 if (currentUrl.includes("estimate")) {
                     modaltBody = $('#detail .formEntry .table.item tbody');
@@ -165,6 +166,9 @@ $(document).ready(function() {
             $('.formEntry select').each(function() {
                 this.selectedIndex = 0;
             });
+        }
+        if(currentUrl.includes("sale")){
+            $('#new .formEntry .table.item tbody').empty();
         }
     });
 });

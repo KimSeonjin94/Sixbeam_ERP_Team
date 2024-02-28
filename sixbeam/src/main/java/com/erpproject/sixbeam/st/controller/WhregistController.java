@@ -1,10 +1,5 @@
 package com.erpproject.sixbeam.st.controller;
 
-import com.erpproject.sixbeam.ac.entity.AccountEntity;
-import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
-import com.erpproject.sixbeam.pd.entity.ItemEntity;
-import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
-import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.dto.WhregistDto;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
@@ -57,6 +52,8 @@ public class WhregistController {
         model.addAttribute("whregistForm",form);
         return "contents/st/whregist_form";
     }
+
+
     @PostMapping("/save")
     public ResponseEntity<?> whregistCreateDto(@ModelAttribute WhregistForm whregistForm){
         List<WhregistDto> whregistDtos = whregistForm.getWhregistDtos();
@@ -65,7 +62,8 @@ public class WhregistController {
             Map<String, Object> successResponse = new HashMap<>();
             successResponse.put("status", "success");
             successResponse.put("message", "정상적으로 저장되었습니다.");
-            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/st/whregist/list"));
+            successResponse.put("redirectUrl", "/st/whregist/list");
+            return ResponseEntity.ok().body(successResponse);
         }catch (Exception e){
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
@@ -98,13 +96,13 @@ public class WhregistController {
             Map<String,Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "삭제에 성공하였습니다.");
-            response.put("redirectUrl", "/st/as/list");
+            response.put("redirectUrl", "/st/whregist/list");
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
             errorResponse.put("message", "삭제에 실패하였습니다.");
-            errorResponse.put("redirectUrl", "/st/as/list");
+            errorResponse.put("redirectUrl", "/st/whregist/list");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }

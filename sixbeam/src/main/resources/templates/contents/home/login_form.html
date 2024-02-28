@@ -74,7 +74,7 @@
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" onclick="forgotPassword()">Forgot Password?</a>
+                                    <a class="small" data-toggle="modal" data-target="#findpassword">비밀번호 찾기</a>
                                 </div>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
             <div class="modal-body">
                 <div class="row no-gutters">
                     <div class="col-md-8 mb-3">
-                        <form id="findPasswordForm" th:action="@{/sixbeam}" th:method="post">
+                        <form id="findPasswordForm" class="formEntry" th:action="@{/hr/empinfo/pw}" th:method="post">
                             <!--부서코드-->
                             <div class="from-group">
                                 <label for="findEmpInfoId">아이디를 입력하세요</label>
@@ -114,25 +114,12 @@
             </div>
             <div class="modal-footer">
                 <!-- submit 버튼을 추가하고 폼 전송을 위한 액션을 지정 -->
-                <button type="button" class="btn btn-primary" onclick="findPassword()">입력</button>
+                <button type="button" class="btn btn-primary" id="submit" >입력</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
             </div>
         </div>
     </div>
 </div>
-<script th:inline="javascript">
-    function forgotPassword(){
-        $('#findpassword').modal('show');
-    }
-    function findPassword(){
-        document.getElementById("findPasswordForm").submit();
-        frog();
-    }
-    function frog() {
-        // 서버에서 비밀번호를 가져오는 부분을 Ajax로 요청하여 처리
-        alert('모르면 끝이야?')
-    }
-</script>
 <script th:src="@{/vendor/jquery/jquery.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.js}"></script>
 

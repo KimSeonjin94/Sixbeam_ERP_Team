@@ -134,6 +134,19 @@ public class EstimateService {
         }
         estimateRepository.deleteAll(estimateEntityList);
     }
+
+    public int getIsNetSales(LocalDate startDate,LocalDate endDate){
+        int total=0;
+        List<SaleEntity> saleEntities=saleRepository.getSaleListBetweenDates(startDate,endDate);
+        for(SaleEntity saleEntity:saleEntities){
+            List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
+            for(EstimateEntity estimateEntity: estimateEntities){
+                total+=estimateEntity.getEstimateUp();
+            }
+        }
+        return total;
+
+    }
     private String generateNewEstimateCd(LocalDate estimateDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "ES" + estimateDate.format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";

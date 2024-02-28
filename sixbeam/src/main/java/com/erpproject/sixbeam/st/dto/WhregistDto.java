@@ -14,8 +14,9 @@ public class WhregistDto {
     private String whregistNm;
 
     public WhregistEntity toEntity() {
-        return new WhregistEntity(whregistCd,whregistNm);
+        WhregistEntity entity = new WhregistEntity();
+        entity.setWhregistCd(this.whregistCd);
+        entity.setWhregistNm(this.whregistNm);
+        return entity;
     }
-
-
 }

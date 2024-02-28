@@ -21,7 +21,7 @@ public class IsController {
     @GetMapping("/is/incomeStatement")
     public String getIncomeStatement(@RequestParam(name="isDtForm", required = false) String isDt , Model model) {
         if (isDt != null && !isDt.isEmpty()) {
-
+            isService.updateIsNetSales(isDt);
             IsEntity incomeStatement = isService.findIncomeStatementByIsDt(isDt);
             model.addAttribute("incomeStatement", incomeStatement);
 

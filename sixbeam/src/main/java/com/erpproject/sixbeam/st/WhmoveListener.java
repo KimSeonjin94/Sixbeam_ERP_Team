@@ -4,25 +4,23 @@ import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.service.WhmoveService;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class StListener {
+public class WhmoveListener {
     private final WhmoveService whmoveService;
 
     @Autowired
-    public StListener(WhmoveService whmoveService) {
+    public WhmoveListener(WhmoveService whmoveService) {
         this.whmoveService = whmoveService;
     }
 
     @EventListener
-    public void handleRowAddedEvent(RowAddedEvent<?> event) {
+    public void handleRowAddedEvent(WhmoveRowAddedEvent<?> event) {
         if (event.getEntity() instanceof SaleEntity) {
             SaleEntity saleEntity = (SaleEntity) event.getEntity();
             // SaleEntity에 대한 처리
@@ -37,5 +35,4 @@ public class StListener {
             whmoveService.addRowAs(asEntity);
         }
     }
-
 }
