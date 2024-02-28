@@ -413,9 +413,11 @@ $(document).ready(function() {
 $('.reset').click(function() {
     // 폼 내의 모든 input 필드의 값을 초기화
     $('.formEntry input[type="text"]').val('');
+    $('.formEntry input[type="date"]').val('');
     $('.formEntry select').each(function() {
         this.selectedIndex = 0;
     });
+    $('#currentDate').val(new Date().toISOString().substring(0,10));
 });
 $(document).ready(function() {
     // 로그인 버튼 클릭 이벤트
