@@ -1,6 +1,8 @@
 package com.erpproject.sixbeam.ss.service;
 
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.entity.SalesEntity;
+import com.erpproject.sixbeam.ac.repository.AccountRepository;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
@@ -30,9 +32,6 @@ public class SaleService {
     private final EstimateService estimateService;
     @Autowired
     private ApplicationEventPublisher event;//[이벤트리스너]
-
-
-
 
     public List<SaleEntity> getList() {
         return this.saleRepository.findAll();
@@ -77,6 +76,18 @@ public class SaleService {
                 saleRepository.delete(saleEntity);
             }
         }
+    }
+
+    public List<SaleEntity> getSales(AccountEntity accountEntity){
+        List<EstimateEntity> estimateEntities=estimateRepository.findByAccountEntity(accountEntity);
+        List<SaleEntity> saleEntities=new ArrayList<>();
+        for(EstimateEntity estimateEntity: estimateEntities){
+            Optional<SaleEntity> OpSaleEntity=saleRepository.findByEstimateCd(estimateEntity.getEstimateCd());
+            SaleEntity saleEntity=OpSaleEntity.get();
+            saleEntities.add(saleEntity);
+
+        }
+        return saleEntities;
     }
 
     private String generateNewSaleCd(LocalDate saleDate) {
