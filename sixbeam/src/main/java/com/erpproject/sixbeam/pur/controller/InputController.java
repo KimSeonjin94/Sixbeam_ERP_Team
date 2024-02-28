@@ -71,7 +71,11 @@ public class InputController {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
             errorResponse.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
-            errorResponse.put("redirectUrl", "/pur/input/create");
+            if(inputDto.getEtc().contains("조회")){
+                errorResponse.put("redirectUrl", "/pur/input/list");
+            }else {
+                errorResponse.put("redirectUrl", "/pur/input/create");
+            }
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }

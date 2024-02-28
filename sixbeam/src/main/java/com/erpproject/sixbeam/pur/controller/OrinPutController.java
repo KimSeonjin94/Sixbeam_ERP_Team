@@ -95,7 +95,7 @@ public class OrinPutController {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
             errorResponse.put("message", String.format("수정에 실패 하였습니다.[%s]", e.getMessage()));
-            errorResponse.put("redirectUrl", "/pur/orinput/update");
+            errorResponse.put("redirectUrl", "/pur/orinput/list");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
