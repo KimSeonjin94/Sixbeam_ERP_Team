@@ -29,7 +29,7 @@
 						<th>품목 코드</th>
 						<th>품목</th>
 						<th>규격</th>
-						<th>단가</th>
+						<th>가격</th>
 						<th></th>
 					</tr>
 					</thead>
@@ -47,7 +47,7 @@
 							<!-- Button trigger modal -->
 							<td>
 								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
-								        data-target = "#detailItem" id = "editDetailItembtn"
+								        data-target = "#detailItem" id = "detailItembtn"
 								        th:if = "${item.itemCd != null and item.itemCd.startsWith('F')}"
 								        th:data-id = "${item.itemCd}">
 									상세
@@ -72,7 +72,7 @@
 							</button>
 						</div>
 						
-						<form action = "/pd/item/create" method = "post" id = "createform">
+						<form action = "/pd/item/fcreate" method = "post" id = "createform">
 							<div class = "modal-body-ac">
 								<div class = "form-group row">
 									<label for = "itemNm" class = "col-sm-2 col-form-label">품목명</label>
@@ -105,7 +105,7 @@
 			</div>
 			
 			
-			<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
+			<!--<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered modal-xl">
 					<div class = "modal-content">
@@ -147,11 +147,11 @@
 						</form>
 					</div>
 				</div>
-			</div>
+			</div>-->
 			
 			<div class = "modal fade" id = "detailItem" tabindex = "-1" aria-labelledby = "detailItemModalLabel"
 			     aria-hidden = "true">
-				<div class = "modal-dialog modal-dialog-centered modal-xl">
+				<div class = "modal-dialog modal-dialog-centered modal-lg">
 					<div class = "modal-content">
 						<div class = "modal-header">
 							<h5 class = "modal-title" id = "detailItemLabel">품목 상세 정보</h5>
@@ -183,7 +183,7 @@
 									       name = "itemStnd" style = "text-align: center" readonly>
 								</div>
 								<label for = "detailItemUp" class = "col-sm-2 col-form-label"
-								       style = "text-align: center">합계</label>
+								       style = "text-align: center">가격</label>
 								<div class = "col-sm-4">
 									<input type = "text" class = "form-control col-sm-10" id = "detailItemUp"
 									       name = "itemUp" style = "text-align: center" readonly>
