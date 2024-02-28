@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.hr.service;
 
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.entity.WorkScheduleEntity;
 import com.erpproject.sixbeam.hr.repository.WorkScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -30,5 +32,22 @@ public class WorkScheduleService {
 
         // 업데이트된 데이터를 저장
         workScheduleRepository.saveAll(workSchedules);
+    }
+    public void uudateAttendmgtsearch(Long workScheduleCd,
+                                      EmpInfoEntity empInfoId,
+                                      boolean workScheduleCheck,
+                                      LocalDate workScheduleDate,
+                                      LocalTime workScheduleStartTime,
+                                      LocalTime workScheduleEndTime,
+                                      String workScheduleReason){
+        WorkScheduleEntity workScheduleEntity=new WorkScheduleEntity();
+        workScheduleEntity.setWorkScheduleCd(workScheduleCd);
+        workScheduleEntity.setEmpInfoEntity(empInfoId);
+        workScheduleEntity.setWorkScheduleCheck(workScheduleCheck);
+        workScheduleEntity.setWorkScheduleDate(workScheduleDate);
+        workScheduleEntity.setWorkScheduleStartTime(workScheduleStartTime);
+        workScheduleEntity.setWorkScheduleEndTime(workScheduleEndTime);
+        workScheduleEntity.setWorkScheduleReason(workScheduleReason);
+        workScheduleRepository.save(workScheduleEntity);
     }
 }

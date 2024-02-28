@@ -105,4 +105,9 @@ public class EmpInfoService {
         empInfoEntity.setEmpInfoEtc(empInfoEtc);
         empInfoRepository.save(empInfoEntity);
     }
+    public String findEmpInfoPasswordById(Long empInfoId) {
+        // 해당 아이디에 대한 비밀번호 조회 로직
+        EmpInfoEntity emp = empInfoRepository.findByEmpInfoId(empInfoId).orElse(null);
+        return (emp != null) ? emp.getEmpInfoPw() : null;
+    }
 }
