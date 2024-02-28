@@ -41,8 +41,6 @@ $('#detailOrinputCd[data-id]').on('click', function() {
                 data.forEach(function(item, index) {
                     var row = $('<tr>'); // 행 생성
                     if(purId.indexOf("OR") !== -1){
-                        console.log(item.itemEntity.itemCd);
-                        console.log('<input type="text" class="form-control" name="orinputDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
                         // 각 셀에 입력 요소와 name 속성 추가
                         row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputCd" class="form-control" value="' + item.orinputCd + '">'+
                         '<input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.orinputOrDt + '">'+
@@ -143,10 +141,9 @@ $(document).ready(function() {
     $('#purcddelete').click(function() {
         $('#deletePurModal').modal('hide');
         // 선택 정보의 ID 가져오기
-        var selectedPurId = $('#dataTable input[name="selectedPur"]:checked').map(function(){
+        var selectedPurId = $('#dataTablePur input[name="selectedPur"]:checked').map(function(){
             return $(this).val();
         }).get();
-
         // 선택한 ID를 hidden input에 설정
         $('#selectedPur').val(selectedPurId);
         // 폼 제출
