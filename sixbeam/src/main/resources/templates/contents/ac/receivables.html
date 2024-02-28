@@ -1,0 +1,44 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            거래처별 채권
+        </div>
+        <form action="/ac/account/registerform" method="post">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label for="accountCd" class="col-sm-2 col-form-label">거래처 코드</label>
+                    <input type="text" class="form-control col-sm-10" id="accountCd" name="accountCd">
+                </div>
+                <div class="form-group row">
+                    <label for="accountNm" class="col-sm-2 col-form-label">거래처명</label>
+                    <input type="text" class="form-control col-sm-10" id="accountNm" name="accountNm">
+                </div>
+            </div>
+            <div class="card-footer text-muted d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary-ac">검색</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card shadow mb-4">
+        <table class="table item">
+            <thead>
+            <tr>
+                <th>거래처 코드</th>
+                <th>거래처명</th>
+                <th>기초채권</th>
+                <th>재고매출</th>
+                <th>수금</th>
+                <th>공급가액</th>
+                <th>잔액</th>
+                <th>미청구액</th>
+                <th>비고</th>
+            </tr>
+            </thead>
+
+        </table>
+
+    </div>
+</div>
+</html>

@@ -13,7 +13,5 @@ import java.util.List;
 public class SalesService {
     private final SalesRepository salesRepository;
 
-    public List<SalesEntity> getList() {
-        return this.salesRepository.findAll();
-    }
+
 }

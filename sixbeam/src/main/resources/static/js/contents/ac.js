@@ -40,4 +40,25 @@ function prepareDelete() {
     // 폼을 제출하여 서버에 삭제 요청을 보냅니다
     document.getElementById('deleteForm').submit();
 }
+
+
+$('#search-button').click(function() {
+    var accountCd = $('#accountCd').val();
+    var accountNm = $('#accountNm').val();
+
+    $.ajax({
+        url: '/api/accounts/search',
+        data: {
+            accountCd: accountCd,
+            accountNm: accountNm
+        },
+        success: function(data) {
+            // 결과 데이터를 웹 페이지에 표시하는 코드
+        }
+    });
+});
+
+
+
+
 // AC 끝

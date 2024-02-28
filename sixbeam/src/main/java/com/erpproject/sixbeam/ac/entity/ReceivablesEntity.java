@@ -20,7 +20,8 @@ public class ReceivablesEntity {
     @Id
     @Column(name="ACCOUNT_CD" ,insertable=false, updatable=false,nullable = false)
     private String accountCd;
-
+    @Column(name="ACCOUNT_NM" ,insertable=false, updatable=false,nullable = false)
+    private String accountNm;
     @ManyToOne
     @JoinColumn(name="ACCOUNT_CD")
     private AccountEntity accountEntity;

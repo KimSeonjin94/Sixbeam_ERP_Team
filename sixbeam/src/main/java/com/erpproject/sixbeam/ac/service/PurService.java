@@ -12,7 +12,5 @@ import java.util.List;
 public class PurService {
     private final PurRepository purRepository;
 
-    public List<PurEntity> getList() {
-        return this.purRepository.findAll();
-    }
+
 }
