@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ReceivablesRepository extends JpaRepository<ReceivablesEntity, String> {
 
-    List<ReceivablesEntity> findByCdorNm(String accountCd , String accountNm);
+//    List<ReceivablesEntity> findByCdorNm(String accountCd , String accountNm);
 }

@@ -16,21 +16,21 @@ public class ReceivablesController {
 
     private final ReceivablesService receivablesService;
 
-    @GetMapping("/receivables/receivables")
-    public ResponseEntity<List<ReceivablesEntity>> searchReceivables(
-            @RequestParam(required = false) String accountCd,
-            @RequestParam(required = false) String accountNm) {
-
-        if (accountCd == null && accountNm == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        List<ReceivablesEntity> receiv = receivablesService.searchReceivables(
-                accountCd != null ? accountCd : "",
-                accountNm != null ? accountNm : ""
-        );
-
-        return ResponseEntity.ok(receiv);
-    }
+//    @GetMapping("/receivables/receivables")
+//    public ResponseEntity<List<ReceivablesEntity>> searchReceivables(
+//            @RequestParam(required = false) String accountCd,
+//            @RequestParam(required = false) String accountNm) {
+//
+//        if (accountCd == null && accountNm == null) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//
+//        List<ReceivablesEntity> receiv = receivablesService.searchReceivables(
+//                accountCd != null ? accountCd : "",
+//                accountNm != null ? accountNm : ""
+//        );
+//
+//        return ResponseEntity.ok(receiv);
+//    }
 
 }

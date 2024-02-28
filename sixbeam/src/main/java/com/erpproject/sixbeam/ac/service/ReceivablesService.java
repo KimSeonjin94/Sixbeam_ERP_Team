@@ -12,6 +12,6 @@ import java.util.List;
 public class ReceivablesService {
     private final ReceivablesRepository receivablesRepository;
 
-    public List<ReceivablesEntity> searchReceivables (String accountCd ,String accountNm) { return receivablesRepository.findByCdorNm(accountCd ,accountNm); }
+//    public List<ReceivablesEntity> searchReceivables (String accountCd ,String accountNm) { return receivablesRepository.findByCdorNm(accountCd ,accountNm); }
 
 }
