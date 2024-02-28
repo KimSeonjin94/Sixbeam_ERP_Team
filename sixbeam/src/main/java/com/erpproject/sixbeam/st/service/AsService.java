@@ -6,10 +6,7 @@ import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
-import com.erpproject.sixbeam.pur.dto.OrinPutDto;
-import com.erpproject.sixbeam.pur.entity.InputEntity;
-import com.erpproject.sixbeam.ss.entity.EstimateEntity;
-import com.erpproject.sixbeam.st.RowAddedEvent;
+import com.erpproject.sixbeam.st.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
@@ -72,7 +69,7 @@ public class AsService {
             AsEntity asEntity = asDto.toEntity();
             asEntity.setAsCd(newAsCd);
             asRepository.save(asEntity);
-            RowAddedEvent<AsEntity> asEvent = new RowAddedEvent<>(this, asEntity);
+            WhmoveRowAddedEvent<AsEntity> asEvent = new WhmoveRowAddedEvent<>(this, asEntity);
             event.publishEvent(asEvent);
         }
     }

@@ -242,7 +242,7 @@ $(document).ready(function() {
         // AJAX를 사용하여 폼 데이터 제출
         $.ajax({
             type: $(this).attr('method'), // POST 또는 GET
-            url: $(this).attr('action..'),
+            url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
             success: function(response) {
                 $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력

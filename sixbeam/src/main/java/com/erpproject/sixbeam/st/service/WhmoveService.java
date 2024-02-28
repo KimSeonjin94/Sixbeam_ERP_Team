@@ -5,10 +5,13 @@ import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
+import com.erpproject.sixbeam.st.CheckRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.AsEntity;
+import com.erpproject.sixbeam.st.entity.CheckEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,6 +25,7 @@ public class WhmoveService {
 
     private final WhmoveRepository whmoveRepository;
     private final EstimateRepository estimateRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public List<WhmoveEntity> getList() {
         return this.whmoveRepository.findAll();
@@ -46,6 +50,8 @@ public class WhmoveService {
         whmoveEntity.setWhmoveGb("입고"); // 입고로 고정
         whmoveEntity.setWhmoveCd(newWhmoveCd);
         whmoveRepository.save(whmoveEntity);
+        CheckRowAddedEvent<WhmoveEntity> whmoveEvent = new CheckRowAddedEvent<>(this, whmoveEntity);
+        eventPublisher.publishEvent(whmoveEvent);
     }
     private String generateNewWhmoveAsCd(LocalDate asDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성

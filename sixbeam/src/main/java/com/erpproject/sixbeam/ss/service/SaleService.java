@@ -2,14 +2,11 @@ package com.erpproject.sixbeam.ss.service;
 
 import com.erpproject.sixbeam.ac.entity.SalesEntity;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
-import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
-import com.erpproject.sixbeam.ss.form.SaleForm;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
-import com.erpproject.sixbeam.st.RowAddedEvent;
+import com.erpproject.sixbeam.st.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
-import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +46,7 @@ public class SaleService {
             saleEntity.setSaleCd(saleCd);
             saleEntity.setWhregistEntity(whregistRepository.findByWhregistCd(saleEntity.getWhregistEntity().getWhregistCd()).get(0));
             saleRepository.save(saleEntity);
-            RowAddedEvent<SaleEntity> saleEvent = new RowAddedEvent<>(this, saleEntity);
+            WhmoveRowAddedEvent<SaleEntity> saleEvent = new WhmoveRowAddedEvent<>(this, saleEntity);
             event.publishEvent(saleEvent);
         }catch (Exception e){
             e.printStackTrace();

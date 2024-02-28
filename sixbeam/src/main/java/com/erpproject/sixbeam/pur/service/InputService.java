@@ -7,8 +7,7 @@ import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.pur.repository.InputRepository;
 import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
-import com.erpproject.sixbeam.ss.entity.SaleEntity;
-import com.erpproject.sixbeam.st.RowAddedEvent;
+import com.erpproject.sixbeam.st.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -78,7 +77,7 @@ public class InputService {
         inputEntity.setOrinputEntity(orinPutEntity);
         inputEntity.setWhregistEntity(whregistEntity);
         inputRepository.save(inputEntity);
-        RowAddedEvent<InputEntity> inputEvent = new RowAddedEvent<>(this, inputEntity);
+        WhmoveRowAddedEvent<InputEntity> inputEvent = new WhmoveRowAddedEvent<>(this, inputEntity);
         event.publishEvent(inputEvent);//[이벤트리스너]
     }
     private String generateNewInputCd(LocalDate inputDate) {
