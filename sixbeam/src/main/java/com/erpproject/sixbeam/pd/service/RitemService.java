@@ -29,11 +29,12 @@ public class RitemService {
             ritemEntity.setItemUp((item.getItemUp()));
             ritemEntities.add(ritemEntity);
         }
+
         return ritemRepository.saveAll(ritemEntities);
     }
 
     public List<RitemEntity> getRitemList() {
 
-        return ritemRepository.findAll();
+        return this.ritemRepository.findAll();
     }
 }
