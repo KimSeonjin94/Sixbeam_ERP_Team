@@ -446,3 +446,25 @@ $(document).ready(function() {
     }
     // 필요에 따라 submitForm 함수를 사용할 수 있습니다.
 });
+$(document).ready(function() {
+    $('#submit').click(function(e){
+        e.preventDefault();
+        $.ajax({
+            type: $('#findPasswordForm').attr('method'), // POST 또는 GET
+            url: $('#findPasswordForm').attr('action'),
+            data: $('#findPasswordForm').serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                alert(response.message);
+
+            },
+            error: function(xhr){
+                alert(xhr.message);
+            }
+        });
+    });
+});
+$('.formEntry').on('keydown', function(event) {
+    if (event.keyCode === 13) { // 엔터 키 입력 확인
+        event.preventDefault(); // 기본 동작 중지
+    }
+});

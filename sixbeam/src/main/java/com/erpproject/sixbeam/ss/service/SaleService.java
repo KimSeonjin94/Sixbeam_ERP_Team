@@ -84,8 +84,9 @@ public class SaleService {
         for(EstimateEntity estimateEntity: estimateEntities){
             Optional<SaleEntity> OpSaleEntity=saleRepository.findByEstimateCd(estimateEntity.getEstimateCd());
             SaleEntity saleEntity=OpSaleEntity.get();
-            saleEntities.add(saleEntity);
-
+            if(!saleEntity.isSaleBillingSt()){
+                saleEntities.add(saleEntity);
+            }
         }
         return saleEntities;
     }
