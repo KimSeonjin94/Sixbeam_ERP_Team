@@ -15,8 +15,6 @@ import java.util.List;
 public class SalesService {
     private final SalesRepository salesRepository;
 
-    private final SaleRepository saleRepository;
-
     public List<SalesEntity> getList() {
         return this.salesRepository.findAll();
     }
@@ -24,5 +22,6 @@ public class SalesService {
     public List<SaleEntity> getSaleList(){
         return this.saleRepository.findBySaleBillingSt(false);
     }
+
 
 }

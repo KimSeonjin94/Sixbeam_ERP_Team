@@ -12,9 +12,6 @@ import java.util.List;
 public class ReceivablesService {
     private final ReceivablesRepository receivablesRepository;
 
-    public List<ReceivablesEntity> getList() {
-        return this.receivablesRepository.findAll();
-    }
-
+//    public List<ReceivablesEntity> searchReceivables (String accountCd ,String accountNm) { return receivablesRepository.findByCdorNm(accountCd ,accountNm); }
 
 }
