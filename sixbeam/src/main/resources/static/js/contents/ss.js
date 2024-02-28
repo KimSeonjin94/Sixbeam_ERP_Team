@@ -2,6 +2,7 @@ $('#detailEstimateCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
     var estimateId = $(this).data('id'); // data-id 속성에서 ID 가져오기
     $('#estimatedetail').modal('hide');
+    var originalTbody = $('.formEntry .table .item tbody').html();
     // AJAX 요청
     $.ajax({
         url: '/ss/estimate/list/detail/' + estimateId, // 서버 엔드포인트
@@ -12,6 +13,7 @@ $('#detailEstimateCd[data-id]').on('click', function() {
             });
             if (data && data.length > 0) {
                 // 성공 시 모달 내용 업데이트
+
                 var modaltBody = $('.formEntry .table.item tbody');
                 modaltBody.empty();
                 $('#estimateCd').val(data[0].estimateCd);
@@ -41,7 +43,10 @@ $('#detailEstimateCd[data-id]').on('click', function() {
                     modaltBody.append(row); // 생성된 행을 테이블에 추가
                 });
 
-                $('#detail').modal('show'); // 모달 표시
+                var currentUrl = window.location.href;
+                if (currentUrl.includes("estimate")) {
+                    $('#detail').modal('show'); // 모달 표시
+                }
             } else {
                 console.error('데이터가 비어있습니다.');
             }
@@ -51,6 +56,7 @@ $('#detailEstimateCd[data-id]').on('click', function() {
         }
     });
 });
+
 $('#detailSaleCd[data-id]').on('click', function(){
     console.log($(this).data('id'));
     var saleCd = $(this).data('id'); // data-id 속성에서 ID 가져오기
@@ -62,7 +68,7 @@ $('#detailSaleCd[data-id]').on('click', function(){
         success: function(response) {
 
             // 성공 시 모달 내용 업데이트
-            var modaltBody = $('.formEntry .table.item tbody');
+            var modaltBody = $('#detail .formEntry .table.item tbody');
             modaltBody.empty();
             $('#saleCd').val(response.saleEntity.saleCd);
             $('#updateCurrentDate').val(response.saleEntity.saleUploadDt);
@@ -101,8 +107,10 @@ $('#detailSaleCd[data-id]').on('click', function(){
                 row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateEtc" class="form-control" value="' + item.estimateEtc + '"></td>');
                 modaltBody.append(row); // 생성된 행을 테이블에 추가
             });
-
-            $('#detail').modal('show'); // 모달 표시
+            var currentUrl = window.location.href;
+            if (currentUrl.includes("sale")) {
+                $('#detail').modal('show'); // 모달 표시
+            }
 
         },
         error: function(error) {
@@ -110,11 +118,48 @@ $('#detailSaleCd[data-id]').on('click', function(){
         }
     });
 })
+$('#detailMember[data-id]').on('click', function(){
+    console.log($(this).data('id'));
+    var estimateCd = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    $('#memberdetail').modal('hide');
+    // AJAX 요청
+    $.ajax({
+        url: '/ss/member/list/detail/' + estimateCd, // 서버 엔드포인트
+        type: 'GET',
+        success: function(response) {
+            // 성공 시 모달 내용 업데이트
+            $('#updateEstimateCd').val(response.memberEntity.estimateEntity.estimateCd)
+            $('#updateId').val(response.memberEntity.memberId);
+            $('#updateNm').val(response.memberEntity.memberNm);
+            $('#updatePhone').val(response.memberEntity.memberPhone);
+            $('#updateAddr').val(response.memberEntity.memberAddr);
+            $('#detail').modal('show');
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+})
+$('#new').on('show.bs.modal', function () {
+    // 다른 모든 모달을 숨김
+    $(this).find('input[type="text"]').val('');
+    var modaltBody = $('#detail .formEntry .table.item tbody');
+    modaltBody.empty();
+});
 $('#estimatedetail').on('show.bs.modal', function () {
     // 다른 모든 모달을 숨김
     $('#new').modal('hide');
 });
+$(document).ready(function() {
+    // tbody의 원래 상태를 저장
+    var originalTbody = $('.formEntry .table .item tbody').html();
 
+    // 모달이 hide되는 이벤트를 감지
+    $('#detail').on('hidden.bs.modal', function () {
+        // 모달이 숨겨졌을 때 tbody의 내용을 원래 상태로 복구
+        $('.formEntry .table .item tbody').html(originalTbody);
+    });
+});
 // estimatedetail 모달이 닫힐 때
 $('#estimatedetail').on('hidden.bs.modal', function () {
     // 다른 모달을 다시 보이게 함 (예를 들어, 특정 조건에 따라)
@@ -126,12 +171,12 @@ $(document).ready(function() {
     $('#deleteAll').click(function() {
         $('#delete').modal('hide');
         // 선택한 발주 정보의 ID 가져오기
-        var selectedOrinputId = $('#dataTableEstimate input[name="selectedid"]:checked').map(function(){
+        var selectedId = $('#dataTableEstimate input[name="selectedid"]:checked').map(function(){
             return $(this).val();
         }).get();
 
         // 선택한 ID를 hidden input에 설정
-        $('#selectedid').val(selectedOrinputId);
+        $('#selectedid').val(selectedId);
         // 폼 제출
         $('.deleteForm').submit();
     });
@@ -168,3 +213,4 @@ $(document).ready(function() {
         });
     });
 });
+

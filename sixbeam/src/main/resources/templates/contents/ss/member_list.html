@@ -26,7 +26,7 @@
                             <input th:type="checkbox" name="selectedid" th:value="${member.estimateCd}">
                         </td>
                         <td>
-                            <a href="#" id="detailSaleCd" th:data-id="${member.estimateCd}">
+                            <a href="#" id="detailMember" th:data-id="${member.estimateCd}">
                                 <span th:text="${member.estimateCd}"></span>
                             </a>
                         </td>
@@ -43,7 +43,211 @@
                 </table>
             </div>
         </div>
+        <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="detailmemberLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailmemberLabel">멤버 수정</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <form class="formEntry" th:action="@{/ss/member/update}" th:object="${memberDto}"
+                                      method="post">
+                                    <label for="updateEstimateCd" class="col-sm-3 col-form-label">견적 코드</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="updateEstimateCd">
+                                    </div>
+                                    <label for="updateId" class="col-sm-3 col-form-label">아이디</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="updateId">
+                                    </div>
+                                    <label for="updateNm" class="col-sm-3 col-form-label">이름</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="updateNm">
+                                    </div>
+                                    <label for="updatePhone" class="col-sm-3 col-form-label">핸드폰</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="updatePhone">
+                                    </div>
+                                    <label for="updateAddr" class="col-sm-3 col-form-label">주소</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="updateAddr">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6 text-md-right">
+                                            <button type="submit" class="btn btn-primary">저장</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="new" tabindex="-1" aria-labelledby="subjectmemberLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="subjectmemberLabel">멤버 등록</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <form class="formEntry" th:action="@{/ss/member/create}" th:object="${memberDto}"
+                                      method="post">
+                                    <div class="form-group row">
+                                        <label for="estimateCd" class="col-sm-2 col-form-label">견적 코드</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="estimateCd" id="estimateCd">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="button" id="selectEstimateCd" class="btn btn-primary"
+                                                    data-toggle="modal"
+                                                    data-target="#estimatedetail">견적 선택
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="memberId" class="col-sm-2 col-form-label">아이디</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="memberId" id="memberId">
+                                        </div>
+                                        <label for="memberNm" class="col-sm-2 col-form-label">이름</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="memberNm" id="memberNm">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="memberPhone" class="col-sm-2 col-form-label">번호</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="memberPhone" id="memberPhone">
+                                        </div>
+                                        <label for="memberAddr" class="col-sm-2 col-form-label">주소</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="memberAddr" id="memberAddr">
+                                        </div>
+                                    </div>
+                                    <table class="table item">
+                                        <thead>
+                                        <tr>
+                                            <th>품목 명</th>
+                                            <th>품목 코드</th>
+                                            <th>규격</th>
+                                            <th>수량</th>
+                                            <th>단가</th>
+                                            <th>공급가액</th>
+                                            <th>부가세</th>
+                                            <th>총액</th>
+                                            <th>비고</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-sm-12 text-md-right">
+                                            <button type="submit" class="btn btn-primary">저장</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="estimatedetail" tabindex="-1" aria-labelledby="subjectestimateLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="subjectestimateLabel">견적 선택</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table item table-bordered" id="dataTable" width="100%"
+                                           cellspacing="0">
+                                        <thead>
+                                        <tr>
+                                            <th>견적 코드</th>
+                                            <th>거래처 명</th>
+                                            <th>등록 사원</th>
+                                            <th>공급가액</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="estimate : ${estimateEntities}">
+                                            <td>
+                                                <a href="#" id="detailEstimateCd"
+                                                   th:data-id="${estimate.estimateCd}">
+                                                    <span th:text="${estimate.estimateCd}"></span>
+                                                </a>
+                                            </td>
+                                            <td th:text="${estimate.accountEntity.accountNm}"></td>
+                                            <td th:text="${estimate.empInfoEntity.empInfoNm}"></td>
+                                            <td th:text="${#numbers.formatDecimal(estimate.estimateSp, 0, 'COMMA', 0, 'POINT')} + '원'"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade hide" tabindex="-1" role="dialog" id="successModal" th:data-show-modal="${showModal}">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">성공</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>데이터가 성공적으로 저장되었습니다.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade hide" tabindex="-1" role="dialog" id="failModal" th:data-show-modal="${showModal}">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">실패</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>데이터 저장에 실패하였습니다.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 </html>

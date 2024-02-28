@@ -9,5 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BomRepository extends JpaRepository<BomEntity, BomEntityId> {
-    List<BomEntity> findByFitemEntity_ItemCd(String id);
+
+    List<BomEntity> findByFitemEntity_ItemCd(String fitemCd);
+    List<BomEntity> findByRitemEntity_ItemCd(String ritemCd);
 }

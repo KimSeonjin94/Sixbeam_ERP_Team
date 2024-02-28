@@ -17,7 +17,7 @@
             <div id="Tap-home" class="tab-pane fade" role="tabpanel" aria-labelledby="home-Tab">
                 <!-- Divider -->
                 <!-- Heading -->
-                <div class="sidebar-heading" th:text="${'user'}+'님 환영 합니다.'">
+                <div class="sidebar-heading" th:text="${session.username}+'님 환영 합니다.'">
 
                 </div>
             </div>
@@ -56,8 +56,8 @@
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="/hr/salary/list">급여 작업</a>
-                            <a class="collapse-item" href="/hr/attendmgt/list">근무 기록</a>
-                            <a class="collapse-item" href="#">근태 조회</a>
+                            <a class="collapse-item" href="/hr/attendmgt/list">근태 수정</a>
+                            <a class="collapse-item" href="/hr/attendmgtsearch/list">근태 조회</a>
                             <a class="collapse-item" href="/hr/workSchedule/list">출퇴근 조회</a>
                         </div>
                     </div>
@@ -79,9 +79,12 @@
                     <div id="collapseitems" class="collapse" aria-labelledby="headingitems"
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/pd/item/itemlist">품목 조회/등록/수정</a>
-	                        <a class="collapse-item" href="/pd/finitem/finitemlist">완품 조회</a>
-	                        <a class="collapse-item" href="/pd/rawitem/rawitemlist">단품 조회</a>
+                            <a class="collapse-item" href="/pd/item/itemlist">전체 품목</a>
+	                        <a class="collapse-item" href="/pd/finitem/finitemlist">완품</a>
+	                        <a class="collapse-item" href="/pd/rawitem/rawitemlist">단품</a>
+	                        <hr class="my-2" style="border-top: 1px solid #gray; margin: 0 20px;"> <!-- 구분선 -->
+	                        <a class="collapse-item" href="/pd/finitem/">완품 등록</a>
+	                        <a class="collapse-item" href="#">단품 등록</a>
                         </div>
                     </div>
                 </li>
@@ -95,11 +98,13 @@
                          data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="/pd/bom/bomlist">자재 명세서(BOM)</a>
-	                        <a class="collapse-item" href="#">자재 명세서(BOM) 등록</a>
-                            <a class="collapse-item" href="#">작업 지시서</a>
-                            <a class="collapse-item" href="#">작업 지시서 등록</a>
-                            <a class="collapse-item" href="#">생산 현황</a>
-                            <a class="collapse-item" href="#">출고</a>
+	                        <a class="collapse-item" href="/pd/bom/new">자재 명세서(BOM) 등록</a>
+	                        <hr class="my-2" style="border-top: 1px solid #gray; margin: 0 20px;"> <!-- 구분선 -->
+                            <a class="collapse-item" href="/pd/order/orderlist">작업 지시서</a>
+                            <a class="collapse-item" href="/pd/order/new">작업 지시서 등록</a>
+	                        <hr class="my-2" style="border-top: 1px solid #gray; margin: 0 20px;"> <!-- 구분선 -->
+                            <a class="collapse-item" href="/pd/inout/inoutlist">생산 현황</a>
+                            <a class="collapse-item" href="#">창고 불출</a>
                         </div>
                     </div>
                 </li>
@@ -114,6 +119,20 @@
                 </div>
 
                 <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsech"
+                       aria-expanded="true" aria-controls="collapsech">
+                        <i class="fas fa-fw fa-cubes"></i>
+                        <span>재고 관리</span>
+                    </a>
+                    <div id="collapsech" class="collapse" aria-labelledby="headingch"
+                         data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/st/check/whitemlist">재고 현황</a>
+                            <a class="collapse-item" href="/st/check/whlist">창고별 재고 현황</a>
+                        </div>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsewr"
                        aria-expanded="true" aria-controls="collapsewr">

@@ -66,9 +66,10 @@ INSERT INTO sixbeam_erp.ac_bs_tb (bs_building, bs_capital, bs_cash, bs_earnings,
 INSERT INTO sixbeam_erp.ac_bs_tb (bs_building, bs_capital, bs_cash, bs_earnings, bs_fac, bs_inventories, bs_land, bs_long_bor, bs_payables, bs_receivables, bs_dt) VALUES (200000000,250000000,10000000,41000000,100000000,40000000,200000000,260000000,6000000,7000000,'2023Q3');
 INSERT INTO sixbeam_erp.ac_bs_tb (bs_building, bs_capital, bs_cash, bs_earnings, bs_fac, bs_inventories, bs_land, bs_long_bor, bs_payables, bs_receivables, bs_dt) VALUES (200000000,250000000,10000000,51000000,100000000,50000000,200000000,260000000,8000000,9000000,'2024Q1');
 -- 손익계산서 db ---
-INSERT INTO sixbeam_erp.ac_is_tb (is_cortax_exp,is_cost_sales,is_inter_exp,is_inter_inc,is_net_sales,is_wages,is_dt) values (15000,50000,2000,1500,100000,1000,'2022Q3');
-INSERT INTO sixbeam_erp.ac_is_tb (is_cortax_exp,is_cost_sales,is_inter_exp,is_inter_inc,is_net_sales,is_wages,is_dt) values (18000,55000,2000,1500,120000,1200,'2023Q4');
-INSERT INTO sixbeam_erp.ac_is_tb (is_cortax_exp,is_cost_sales,is_inter_exp,is_inter_inc,is_net_sales,is_wages,is_dt) values (21000,60000,2000,1500,140000,1300,'2024Q1');
+INSERT INTO sixbeam_erp.ac_is_tb (is_cortax_exp,is_cost_sales,is_inter_exp,is_inter_inc,is_net_sales,is_wages,is_dt) values
+(15000,50000,2000,1500,100000,1000,'2022Q3'),
+(18000,55000,2000,1500,120000,1200,'2023Q4'),
+(21000,60000,2000,1500,140000,1300,'2024Q1');
 -- 창고등록 DB --
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values('WHR1001','본사창고');
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values('WHR1002','생산창고');
@@ -292,14 +293,6 @@ insert into sixbeam_erp.st_as_tb (as_amt,as_dt,ascmpt_dt,empinfo_id,account_cd,a
 (1,'2024-10-01','2024-10-12','20241005','CPN5836847354','AS20241001-0013','접촉 불량 / ASAP요청','AS 진행','고객사 납품件 AS접수 요청','R1006','WHR1002'),
 (1,'2024-10-01','2024-10-12','20241005','CPN5593852744','AS20241001-0014','접촉 불량 / ASAP요청','AS 진행','고객사 납품件 AS접수 요청','R1006','WHR1002'),
 (1,'2024-10-01','2024-10-12','20241005','CPN5431051314','AS20241001-0015','접촉 불량 / ASAP요청','AS 진행','고객사 납품件 AS접수 요청','R1006','WHR1002');
-
-
-
-
-
-
-
-
 
 -- 견적 db--
 INSERT INTO sixbeam_erp.SS_ESTIMATE_TB (

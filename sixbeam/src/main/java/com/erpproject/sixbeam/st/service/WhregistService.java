@@ -5,13 +5,19 @@ import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pur.dto.OrinPutDto;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
+import com.erpproject.sixbeam.st.RowAddedEvent;
+import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.dto.WhregistDto;
+import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,13 +47,38 @@ public class WhregistService {
         this.whregistRepository.save(w);
     }
 
-    public void modalCreate(List<WhregistDto> whregistDtos) {
+    public void create(List<WhregistDto> whregistDtos) {
         for (WhregistDto whregistDto : whregistDtos) {
+            String newWhregistCd = generateNewWhregistCd();
             WhregistEntity whregistEntity = whregistDto.toEntity();
+            whregistEntity.setWhregistCd(newWhregistCd);
             whregistRepository.save(whregistEntity);
         }
     }
     public List<WhregistEntity> getIdList(String id) {
         return this.whregistRepository.findByWhregistCd(id);
     }
+
+    public void updateAll(WhregistDto whregistDto) {
+        WhregistEntity whregistEntity = whregistDto.toEntity();
+        whregistRepository.save(whregistEntity);
+    }
+    @Transactional
+    public void delete(List<String> whregistDtos) {
+        for (String whregistCd : whregistDtos) {
+            List<WhregistEntity> whregistEntities = whregistRepository.findByWhregistCd(whregistCd);
+            whregistRepository.deleteAll(whregistEntities);
+        }
+    }
+    private String generateNewWhregistCd() {
+        String prefix = "WHR";
+        // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
+        String maxCd = whregistRepository.getMaxWhregistCd();
+        int sequenceNumber =Integer.parseInt(maxCd.substring(maxCd.indexOf('R') + 1)) + 1;
+        // 4자리 숫자 부분을 형식에 맞게 생성
+        String sequenceNumberString = String.format("%04d", sequenceNumber);
+        return prefix + sequenceNumberString;
+    }
+
 }
+

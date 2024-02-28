@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.ss.service;
 
+import com.erpproject.sixbeam.ac.entity.SalesEntity;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
@@ -7,6 +8,7 @@ import com.erpproject.sixbeam.ss.form.SaleForm;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import com.erpproject.sixbeam.st.RowAddedEvent;
+import com.erpproject.sixbeam.st.entity.ReleaseEntity;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.transaction.Transactional;
@@ -64,7 +66,12 @@ public class SaleService {
         for (String saleCd : saleCds) {
             Optional<SaleEntity> optionalSaleEntity = saleRepository.findById(saleCd);
             SaleEntity saleEntity=optionalSaleEntity.get();
-            saleRepository.save(saleEntity);
+            if(saleEntity.isSaleBillingSt()){
+                throw new IllegalStateException("출고 진행이 되어 삭제 불가 합니다.");
+
+            }else {
+                saleRepository.delete(saleEntity);
+            }
         }
     }
 
@@ -80,5 +87,26 @@ public class SaleService {
         String sequenceNumberString = String.format("%04d", sequenceNumber);
 
         return prefix + sequenceNumberString;
+    }
+
+    public void addRowRelease(ReleaseEntity releaseEntity) {
+        Optional<SaleEntity> optionalSaleEntity=saleRepository.findById(releaseEntity.getSaleEntity().getSaleCd());
+        if(optionalSaleEntity.isPresent()){
+            SaleEntity saleEntity=optionalSaleEntity.get();
+            saleEntity.setSaleShippingSt("출고완료");
+            saleEntity.setSaleShippingDt(LocalDate.now());
+            saleRepository.save(saleEntity);
+        }
+    }
+
+    public void addRowSales(SalesEntity salesEntity) {
+        Optional<SaleEntity> optionalSaleEntity=saleRepository.findById(salesEntity.getSaleEntity().getSaleCd());
+        if(optionalSaleEntity.isPresent()){
+            SaleEntity saleEntity=optionalSaleEntity.get();
+            saleEntity.setSaleBillingDt(LocalDate.now());
+            saleEntity.setSaleBillingSt(true);
+            saleEntity.setSalePaymentDt(LocalDate.now());
+            saleRepository.save(saleEntity);
+        }
     }
 }

@@ -1,5 +1,8 @@
 <html layout:decorate="~{layout/default}">
 <div layout:fragment="content" class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">재고 관리</h1>
+    <div class="btn-group" role="group" aria-label="Basic example"></div>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -12,14 +15,14 @@
                     <tr>
                         <th>창고코드</th>
                         <th>품목코드</th>
-                        <th>총수량</th>
+                        <th>수량</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="inventory : ${inventoryList}">
-                        <td th:text="${inventory['whregistCd']}"></td>
-                        <td th:text="${inventory['itemCd']}"></td>
-                        <td th:text="${inventory['currentStock']}"></td>
+                    <tr th:each="check : ${checkEntityList}">
+                        <td th:text="${check['whregistCd']}"></td>
+                        <td th:text="${check['itemCd']}"></td>
+                        <td th:text="${check['currentStock']}"></td>
                     </tr>
                     </tbody>
                 </table>

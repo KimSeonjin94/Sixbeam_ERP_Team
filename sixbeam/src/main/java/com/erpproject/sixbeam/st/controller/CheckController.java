@@ -5,16 +5,14 @@ import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.service.CheckService;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
+import com.erpproject.sixbeam.st.service.WhregistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.Banner;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,70 +26,14 @@ import java.util.Map;
 public class CheckController {
 
     private final CheckService checkService;
+    private final WhregistService whregistService;
 
     @GetMapping("/")
     public String root() {
         return "redirect:/sixbeam/home";
     }
 
-    //전체 조회---------------------------------------------------------------------------------------
-    @GetMapping("/checktotal")
-    @ResponseBody
-    public int getTotalCheckAmt(@RequestParam("date") LocalDate date) {
-        return checkService.getTotalCheckAmt(date);
-    }
-
-    @GetMapping("/checkoutgoing")
-    @ResponseBody
-    public int getTotalOutgoing(@RequestParam("date") LocalDate date) {
-        return checkService.getTotalOutgoing(date);
-    }
-
-    @GetMapping("/checkincoming")
-    @ResponseBody
-    public int getTotalIncoming(@RequestParam("date") LocalDate date) {
-        return checkService.getTotalIncoming(date);
-    }
-
-    //아이템별 조회---------------------------------------------------------------------------------------
-    @GetMapping("/checkitemincoming")
-    @ResponseBody
-    public int getItemIncoming(@RequestParam("date") LocalDate date, ItemEntity itemEntity) {
-        return checkService.getItemIncoming(date, itemEntity);
-    }
-
-    @GetMapping("/checkitemoutgoing")
-    @ResponseBody
-    public int getItemOutgoing(@RequestParam("date") LocalDate date, ItemEntity itemEntity) {
-        return checkService.getItemOutgoing(date, itemEntity);
-    }
-
-    @GetMapping("/checkitemtotal")
-    @ResponseBody
-    public int getTotalItemCheckAmt(@RequestParam("date") LocalDate date, ItemEntity itemEntity) {
-        return checkService.getTotalItemCheckAmt(date, itemEntity);
-    }
-
-    //창고별 조회---------------------------------------------------------------------------------------
-    @GetMapping("/checkwhincoming")
-    @ResponseBody
-    public int getWhIncoming(@RequestParam("date") LocalDate date, WhregistEntity whregistEntity) {
-        return checkService.getWhIncoming(date, whregistEntity);
-    }
-
-    @GetMapping("/checkwhoutcoming")
-    @ResponseBody
-    public int getWhOutcoming(@RequestParam("date") LocalDate date, WhregistEntity whregistEntity) {
-        return checkService.getWhOutgoing(date, whregistEntity);
-    }
-
-    @GetMapping("/checkwhtotal")
-    @ResponseBody
-    public int getTotalWhCheckAmt(@RequestParam("date") LocalDate date, WhregistEntity whregistEntity) {
-        return checkService.getTotalWhCheckAmt(date, whregistEntity);
-    }
-
-    //창고,품목별 조회---------------------------------------------------------------------------------------
+    //창고,품목별 값 조회---------------------------------------------------------------------------------------
     @GetMapping("/checkwhitemincoming")
     @ResponseBody
     public int getWhItemIncoming(@RequestParam("date") LocalDate date, WhregistEntity whregistEntity, ItemEntity itemEntity) {
@@ -110,56 +52,37 @@ public class CheckController {
         return checkService.getTotalWhItemCheckAmt(date, whregistEntity, itemEntity);
     }
 
-    // 창고, 품목별 조회 결과를 리스트로 반환
-    @GetMapping("/checkwhitemlist")
-    @ResponseBody
-    public List<Map<String, Object>> getWhItemCheckList(@RequestParam("date") LocalDate date,
-                                                        @RequestParam("whregistCd") String whregistCd,
-                                                        @RequestParam("itemCd") String itemCd) {
-        WhregistEntity whregistEntity = new WhregistEntity();
-        whregistEntity.setWhregistCd(whregistCd);
-
-        ItemEntity itemEntity = new ItemEntity();
-        itemEntity.setItemCd(itemCd);
-
-        List<Map<String, Object>> resultList = new ArrayList<>();
-
-        // 조회 결과를 리스트에 추가
-        Map<String, Object> result = new HashMap<>();
-        result.put("whregistCd", whregistCd);
-        result.put("itemCd", itemCd);
-        result.put("incoming", checkService.getWhItemIncoming(date, whregistEntity, itemEntity));
-        result.put("outgoing", checkService.getWhItemOutgoing(date, whregistEntity, itemEntity));
-        result.put("currentStock", checkService.getTotalWhItemCheckAmt(date, whregistEntity, itemEntity));
-        resultList.add(result);
-
-        return resultList;
+    //날짜로만 창고,품목의 수량 리스트 조회-------------------------------------------------------------------------------
+    @GetMapping("/whitemlist")
+    public String getAllWhItemCheckList() {
+        return "contents/st/check_form";
     }
-/*
-    // 특정 날짜를 기준으로 원하는 column들만 조회하는 엔드포인트
-    @GetMapping("/byDate")
-    public String getCheckByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, Model model) {
-        List<Map<String, Object>> inventoryList = checkService.getCheckByDate(date);
-        model.addAttribute("inventoryList", inventoryList);
+
+    @PostMapping("/whitemlist")
+    public String handleWhitemlistForm(@RequestParam("date") LocalDate date, Model model) {
+        List<Map<String, Object>> checkList = checkService.getAllWhItemCheckList(date);
+        model.addAttribute("checkEntityList", checkList);
         return "contents/st/check_list";
     }
-*/
-@GetMapping("/byDatetest")
-public String getChecktest(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, Model model) {
-    List<Map<String, Object>> inventoryList = checkService.getChecktest(date);
-    model.addAttribute("inventoryList", inventoryList);
-    return "contents/st/check_list";
+    //날짜 및 창고로 품목의 수량 리스트 조회-------------------------------------------------------------------------------
+    @GetMapping("/whlist")
+    public String getAllWhCheckList(Model model) {
+        List<WhregistEntity> whregistEntity = this.whregistService.getList();
+        model.addAttribute("getwhregistlist", whregistEntity);
+        return "contents/st/check_form_wh";
     }
+    @PostMapping("/whlist")
+    public String handleWhlistForm(@RequestParam("date") LocalDate date, @RequestParam("whregistEntity.whregistCd") String whregistCd, Model model) {
+        List<Map<String, Object>> checkList = checkService.getAllWhCheckList(date, whregistCd);
+        List<WhregistEntity> whregistEntity = this.whregistService.getList();
+
+        model.addAttribute("checkEntityList", checkList);
+        return "contents/st/check_list";
+    }
+
 }
 
-/*
-    @GetMapping("/list")
-    public String list(Model model) {
-        List<CheckEntity> checkEntityList = this.checkService.getList();
-        model.addAttribute("checkEntityList", checkEntityList);
-        return "contents/st/check_list";
-    }
-*/
+
 
 
 
