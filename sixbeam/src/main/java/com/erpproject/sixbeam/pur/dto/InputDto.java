@@ -19,6 +19,7 @@ public class InputDto {
     private String inputPrgSt;
     private LocalDate inputSiDt;
     private boolean inputSiFl;
+    private String etc;
 
     public InputEntity toEntity() {
         InputEntity entity = new InputEntity();

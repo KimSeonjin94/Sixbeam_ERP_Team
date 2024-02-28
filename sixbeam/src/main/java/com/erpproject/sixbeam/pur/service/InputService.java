@@ -43,12 +43,12 @@ public class InputService {
 
         List<OrinPutEntity> orinPutEntity = orinPutRepository.findByOrinputCd(inputDto.getOrinputEntity().getOrinputCd());
         if (orinPutEntity == null) {
-            throw new EntityNotFoundException("OrinPutEntity not found");
+            throw new EntityNotFoundException("발주 코드를 찾을 수 없습니다.");
         }
 
 
         WhregistEntity whregistEntity = whregistRepository.findById(inputDto.getWhregistEntity().getWhregistCd())
-                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                .orElseThrow(() -> new EntityNotFoundException("창고 코드를 찾을 수 없습니다."));
 
         InputEntity inputEntity = inputDto.toEntity();
 
@@ -62,13 +62,17 @@ public class InputService {
     }
     
     public void save(InputDto inputDto) {
+        boolean isReferenced = inputRepository.existsByOrinputEntity_OrinputCd(inputDto.getOrinputEntity().getOrinputCd());
+        if (isReferenced) {
+            throw new IllegalStateException("동일한 발주 코드 진행 이력이 있어 저장이 불가 합니다.");
+        }
 
         OrinPutEntity orinPutEntity = orinPutRepository.findById(inputDto.getOrinputEntity().getOrinputCd()).
-                orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                orElseThrow(() -> new EntityNotFoundException("발주 코드를 찾을 수 없습니다."));
 
         // WhregistEntity 조회
         WhregistEntity whregistEntity = whregistRepository.findById(inputDto.getWhregistEntity().getWhregistCd())
-                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                .orElseThrow(() -> new EntityNotFoundException("창고 코드를 찾을 수 없습니다."));
 
         // InputEntity 생성 및 저장
         InputEntity inputEntity = inputDto.toEntity();

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -26,14 +27,35 @@ public class AttendmgtSearchController {
     public String List(Model model) {
         List<WorkScheduleEntity> workScheduleLists = this.workScheduleService.getList();
         model.addAttribute("workScheduleLists", workScheduleLists);
-        List<ReasonEntity>reasonList = this.reasonService.getList();
-        model.addAttribute("reasonList",reasonList);
+        List<ReasonEntity>reasonLists = this.reasonService.getList();
+        model.addAttribute("reasonLists",reasonLists);
         return "contents/hr/attendmgtsearch_list";
     }
     @PostMapping("/create")
     public String display(@RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate, Model model) {
         List<WorkScheduleEntity> workScheduleList = workScheduleService.findByDateAndCheckTrue(selectedDate);
         model.addAttribute("workScheduleList", workScheduleList);
+        List<ReasonEntity>reasonLists = this.reasonService.getList();
+        model.addAttribute("reasonLists",reasonLists);
         return "contents/hr/attendmgtsearch_list";
+    }
+    @PostMapping("/update")
+    public String update(@RequestParam(value="workScheduleCd")Long workScheduleCd,
+                         @RequestParam(value="empInfoId")EmpInfoEntity empInfoId,
+                         @RequestParam(value="workScheduleCheck",required = false)boolean workScheduleCheck,
+                         @RequestParam(value="workScheduleDate")LocalDate workScheduleDate,
+                         @RequestParam(value="workScheduleStartTime") LocalTime workScheduleStartTime,
+                         @RequestParam(value="workScheduleEndTime")LocalTime workScheduleEndTime,
+                         @RequestParam(value="reasonCd")String workScheduleReason){
+        this.workScheduleService.uudateAttendmgtsearch(
+                workScheduleCd,
+                empInfoId,
+                workScheduleCheck,
+                workScheduleDate,
+                workScheduleStartTime,
+                workScheduleEndTime,
+                workScheduleReason
+        );
+        return "redirect:/hr/attendmgtsearch/list";
     }
 }

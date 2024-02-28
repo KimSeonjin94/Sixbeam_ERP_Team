@@ -1,6 +1,8 @@
 package com.erpproject.sixbeam.ss.service;
 
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.entity.SalesEntity;
+import com.erpproject.sixbeam.ac.repository.AccountRepository;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
@@ -28,9 +30,6 @@ public class SaleService {
     @Autowired
     private ApplicationEventPublisher event;//[이벤트리스너]
 
-
-
-
     public List<SaleEntity> getList() {
         return this.saleRepository.findAll();
     }
@@ -45,6 +44,10 @@ public class SaleService {
             String saleCd = generateNewSaleCd(saleEntity.getSaleUploadDt());
             saleEntity.setSaleCd(saleCd);
             saleEntity.setWhregistEntity(whregistRepository.findByWhregistCd(saleEntity.getWhregistEntity().getWhregistCd()).get(0));
+            Optional<SaleEntity> optionalSaleEntity=saleRepository.findByEstimateCd(saleEntity.getEstimateCd());
+            if(optionalSaleEntity.isPresent()){
+                throw new IllegalArgumentException("이미 판매처리된 견적입니다.");
+            }
             saleRepository.save(saleEntity);
             WhmoveRowAddedEvent<SaleEntity> saleEvent = new WhmoveRowAddedEvent<>(this, saleEntity);
             event.publishEvent(saleEvent);
@@ -70,6 +73,19 @@ public class SaleService {
                 saleRepository.delete(saleEntity);
             }
         }
+    }
+
+    public List<SaleEntity> getSales(AccountEntity accountEntity){
+        List<EstimateEntity> estimateEntities=estimateRepository.findByAccountEntity(accountEntity);
+        List<SaleEntity> saleEntities=new ArrayList<>();
+        for(EstimateEntity estimateEntity: estimateEntities){
+            Optional<SaleEntity> OpSaleEntity=saleRepository.findByEstimateCd(estimateEntity.getEstimateCd());
+            SaleEntity saleEntity=OpSaleEntity.get();
+            if(!saleEntity.isSaleBillingSt()){
+                saleEntities.add(saleEntity);
+            }
+        }
+        return saleEntities;
     }
 
     private String generateNewSaleCd(LocalDate saleDate) {
