@@ -22,8 +22,10 @@ public class CheckDto {
 
     private  ItemEntity itemEntity;
 
+    private Integer checkPr;
+
     public CheckEntity toEntity() {
-        return new CheckEntity(checkCd,checkAmt,whmoveEntity,whregistEntity,itemEntity);
+        return new CheckEntity(checkCd,checkAmt,whmoveEntity,whregistEntity,itemEntity,checkPr);
     }
 
 }

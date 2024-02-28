@@ -4,14 +4,11 @@ import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.entity.SalesEntity;
 import com.erpproject.sixbeam.ac.repository.AccountRepository;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
-import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
-import com.erpproject.sixbeam.ss.form.SaleForm;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
-import com.erpproject.sixbeam.st.RowAddedEvent;
+import com.erpproject.sixbeam.st.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
-import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +49,7 @@ public class SaleService {
                 throw new IllegalArgumentException("이미 판매처리된 견적입니다.");
             }
             saleRepository.save(saleEntity);
-            RowAddedEvent<SaleEntity> saleEvent = new RowAddedEvent<>(this, saleEntity);
+            WhmoveRowAddedEvent<SaleEntity> saleEvent = new WhmoveRowAddedEvent<>(this, saleEntity);
             event.publishEvent(saleEvent);
         }catch (Exception e){
             e.printStackTrace();
