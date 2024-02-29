@@ -6,6 +6,7 @@ import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.service.ItemService;
+import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.service.SaleService;
 import com.erpproject.sixbeam.st.dto.AsDto;
@@ -63,7 +64,8 @@ public class ReleaseController {
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
         List<WhregistEntity> whregistEntitiy = this.whregistService.getList();
         List<ItemEntity> itemEntity = this.itemService.getList();
-        List<SaleEntity> saleEntity = this.saleService.getList();
+        List<SaleAndEstimateDto> saleAndEstimateDtos = this.saleService.getRelease("판매대기중");
+
 
         form.getReleaseDtos().add(new ReleaseDto());
         form.getReleaseDtos().add(new ReleaseDto());
@@ -71,7 +73,7 @@ public class ReleaseController {
         model.addAttribute("getemplist",empInfoEntity);
         model.addAttribute("getitemlist",itemEntity);
         model.addAttribute("getwhregistlist",whregistEntitiy);
-        model.addAttribute("getsalelist",saleEntity);
+        model.addAttribute("getsalelist",saleAndEstimateDtos);
         model.addAttribute("releaseForm",form);
         return "contents/st/release_form";
     }

@@ -90,7 +90,7 @@ $('#detailSaleCd[data-id]').on('click', function(){
             $('#updatename').val(response.estimateEntities[0].empInfoEntity.empInfoNm);
             $('#updateaccountName').val(response.estimateEntities[0].accountEntity.accountNm);
             $('#updatewhregistname').find('option[value="' + response.saleEntity.whregistEntity.whregistCd + '"]').prop('selected', true);
-
+            $('#whregistCode').val(response.estimateEntities[0].whregistEntity.whrehistCd);
 
             if (response.estimateEntities[0].accountEntity.accountNm === '개인거래') {
                 // accountNm이 '개인거래'일 경우, 특정 필드에 값을 설정

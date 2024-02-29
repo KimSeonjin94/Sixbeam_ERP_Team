@@ -3,6 +3,7 @@ package com.erpproject.sixbeam.ss.service;
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.entity.SalesEntity;
 import com.erpproject.sixbeam.ac.repository.AccountRepository;
+import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
@@ -88,9 +89,17 @@ public class SaleService {
         }
         return saleEntities;
     }
-    public List<SaleEntity> getRelease(String saleShippingSt){
-        return this.saleRepository.findBySaleShippingSt(saleShippingSt);
-
+    public List<SaleAndEstimateDto> getRelease(String saleShippingSt){
+        List<SaleEntity> saleEntities=saleRepository.findBySaleShippingSt(saleShippingSt);
+        List<SaleAndEstimateDto> saleAndEstimateDtos=new ArrayList<>();
+        for(SaleEntity saleEntity:saleEntities){
+            List<EstimateEntity> estimateEntities = estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
+            SaleAndEstimateDto saleAndEstimateDto=new SaleAndEstimateDto();
+            saleAndEstimateDto.setEstimateEntity(estimateEntities.get(0));
+            saleAndEstimateDto.setSaleEntity(saleEntity);
+            saleAndEstimateDtos.add(saleAndEstimateDto);
+        }
+        return saleAndEstimateDtos;
     }
 
     private String generateNewSaleCd(LocalDate saleDate) {
