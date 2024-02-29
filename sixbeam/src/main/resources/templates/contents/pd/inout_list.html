@@ -5,7 +5,7 @@
 	
 	<div class = "card shadow mb-4">
 		<div class = "card-header py-3" style = "display: flex;">
-			<h6 class = "m-0-ac font-weight-bold text-primary">품목 리스트</h6>
+			<h6 class = "m-0-ac font-weight-bold text-primary">생산 현황</h6>
 			<div class = "btn-group" role = "group" aria-label = "Basic example">
 				<!-- Button trigger modal -->
 				<button type = "button" class = "btn btn-primary-ac" data-toggle = "modal" data-target = "#newItem">
@@ -25,93 +25,120 @@
 				<table class = "table table-bordered" id = "dataTable" width = "100%" cellspacing = "0">
 					<thead>
 					<tr>
-						<th></th>
+						<th>선택</th>
+						<th>작업 지시 코드</th>
+						<th>지시 날짜</th>
+						<th>납기 날짜</th>
+						<th>담당자</th>
 						<th>품목 코드</th>
-						<th>품목</th>
-						<th>규격</th>
-						<th>단가</th>
+						<th>수량</th>
+						<th>작업상태</th>
 						<th></th>
 					</tr>
 					</thead>
 					
 					<tbody>
-					<tr th:each = "item : ${itemEntities}">
+					<tr th:each = "order : ${orderEntities}">
 						<td>
-							<input th:type = "checkbox" th:name = "selectedInfo">
+							<input th:type = "checkbox" th:name = "selectedPd">
 						</td>
-						<td th:text = "${item.itemCd}"></td>
-						<td th:text = "${item.itemNm}"></td>
-						<td th:text = "${item.itemStnd}"></td>
-						<td th:text = "|${#numbers.formatInteger(item.itemUp, 0,'COMMA')}원|"></td>
+						<td th:text = "${order.orderCd}"></td>
+						<td th:text = "${order.orderInstDt}"></td>
+						<td th:text = "${order.orderDelivDt}"></td>
+						<td th:text = "${order.empInfoEntity.empInfoNm}"></td>
+						<td th:text = "${order.itemEntity.itemCd}"></td>
+						<td th:text = "${order.orderAmt}"></td>
+						<td th:text = "${order.orderSt}"></td>
 						<div class = "btn-group" role = "group" aria-label = "Basic example">
 							<!-- Button trigger modal -->
 							<td>
-								<button type = "button" class = "btn btn-warning-ac" data-toggle = "modal"
-								        data-target = "#editItem" th:onclick = "setItemInfo(
-								        [[${item.itemCd}]],
-                                        [[${item.itemNm}]],
-                                        [[${item.itemStnd}]],
-                                        [[${item.itemUp}]])">
-									수정
-								</button>
 								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
-								        data-target = "#editItem" th:onclick = "setItemInfo(
-								        [[${item.itemCd}]],
-                                        [[${item.itemNm}]],
-                                        [[${item.itemStnd}]],
-                                        [[${item.itemUp}]])">
+								        data-target = "#detailOrder" th:onclick = "setEmpInfo(
+                                        [[${order.empInfoEntity.empInfoNm}]],
+                                        [[${order.empInfoEntity.empInfoPhone}]],
+                                        [[${order.empInfoEntity.empInfoEmail}]])">
 									상세
 								</button>
+							</td>
 						</div>
-						</td>
+					</tr>
+					</tbody>
+				</table>
 			</div>
-			</tr>
-			</tbody>
-			</table>
 		</div>
 		
-		<!-- Modal -->
-		<div class = "modal fade" id = "newItem" tabindex = "-1" aria-labelledby = "newItemModalLabel"
+		<!-- 신규 등록 모달 -->
+		<div class = "modal fade" id = "newOrder" tabindex = "-1" aria-labelledby = "newOrderModalLabel"
 		     aria-hidden = "true">
 			<div class = "modal-dialog modal-dialog-centered modal-xl">
 				<div class = "modal-content">
 					
 					<div class = "modal-header">
-						<h5 class = "modal-title" id = "newItemLabel">품목 등록</h5>
+						<h5 class = "modal-title" id = "newOrderLabel">작업지시서 등록</h5>
 						<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
 							<span aria-hidden = "true">&times;</span>
 						</button>
 					</div>
 					
-					<form action = "/pd/item/fcreate" method = "post">
+					<form class = "formEntry" th:action = "@{/pd/order/create}" th:object = "${orderForm}"
+					      method = "post">
 						<div class = "modal-body">
 							<div class = "form-group row">
+								<label for = "instDt" class = "col-sm-2 col-form-label">지시 날짜</label>
+								<input type = "date" class = "form-control" id = "instDt">
+							</div>
+							<div class = "form-group row">
+								<label for = "delivDt" class = "col-sm-2 col-form-label">납기 날짜</label>
+								<input type = "date" class = "form-control" id = "delivDt">
+							</div>
+							<div class = "form-group row">
+								<label for = "orderNm" class = "col-sm-2 col-form-label">담당자</label>
+								<div class = "col-sm-4">
+									<select id = "orderNm" class = "form-control">
+										<option value = "">담당자 선택</option>
+										<option th:each = "emplist : ${getEmpList}" th:value = "${emplist.empInfoId}"
+										        th:text = "${emplist.empInfoNm}"></option>
+									</select>
+								</div>
+							</div>
+							<div class = "form-group row">
 								<label for = "itemCd" class = "col-sm-2 col-form-label">품목 코드</label>
-								<input type = "text" class = "form-control col-sm-10" id = "itemCd" name = "itemCd"
-								       style = "text-transform: uppercase;" oninput = "checkInput(event)">
+								<div class = "col-sm-4">
+									<input type = "text" class = "form-control" id = "itemCd">
+								</div>
 							</div>
 							<div class = "form-group row">
 								<label for = "itemNm" class = "col-sm-2 col-form-label">품목명</label>
-								<input type = "text" class = "form-control col-sm-10" id = "itemNm"
-								       name = "itemNm" style = "text-transform: uppercase;">
+								<div class = "col-sm-4">
+									<input type = "text" class = "form-control" id = "itemNm">
+								</div>
 							</div>
 							<div class = "form-group row">
 								<label for = "itemStnd" class = "col-sm-2 col-form-label">규격</label>
-								<input type = "text" class = "form-control col-sm-10" id = "itemStnd"
-								       name = "itemStnd" style = "text-transform: uppercase;">
+								<div class = "col-sm-4">
+									<input type = "text" class = "form-control" id = "itemStnd">
+								</div>
 							</div>
 							<div class = "form-group row">
-								<label for = "itemUp" class = "col-sm-2 col-form-label">단가</label>
-								<input type = "text" class = "form-control col-sm-10" id = "itemUp" name = "itemUp"
-								       oninput = "checkInput2(event);">
+								<label for = "orderAmt" class = "col-sm-2 col-form-label">수량</label>
+								<div class = "col-sm-4">
+									<input type = "text" class = "form-control" id = "orderAmt">
+								</div>
 							</div>
-						</div>
-						
-						<div class = "modal-footer">
-							<button type = "submit" class = "btn btn-primary"
-							        th:onclick = "createItemFinished()">저장
-							</button>
-							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+							<div class = "form-group row">
+								<label for = "orderSt" class = "col-sm-2 col-form-label">작업 상태</label>
+								<div class = "col-sm-4">
+									<input type = "text" class = "form-control" id = "orderSt">
+								</div>
+							</div>
+							
+							<div class = "modal-footer">
+								<button type = "submit" class = "btn btn-primary"
+								        th:onclick = "createItemFinished()">저장
+								</button>
+								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기
+								</button>
+							</div>
 						</div>
 					</form>
 				</div>
@@ -129,7 +156,7 @@
 						</button>
 					</div>
 					<form action = "/pd/item/edit" method = "post">
-						<div class = "modal-body">
+						<div class = "modal-body-ac">
 							<div class = "form-group row">
 								<label for = "editItemCd" class = "col-sm-2 col-form-label">품목 코드</label>
 								<input type = "text" class = "form-control col-sm-10" id = "editItemCd"

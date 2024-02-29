@@ -7,6 +7,14 @@ function setItemInfo(itemCd, itemNm, itemStnd, itemUp) {
     $('#editItemUp').val(itemUp);
 }
 
+function setEmpInfo(empInfoNm, empInfoPhone, empInfoEmail) {
+    $('#detailOrder').modal('show');
+    $('#detailEmpInfoNm').val(empInfoNm);
+    $('#detailEmpInfoPhone').val(empInfoPhone);
+    $('#detailEmpInfoEmail').val(empInfoEmail);
+}
+
+
 function createItemFinished() {
 
     var itemNm = $('#itemNm').val();
@@ -181,6 +189,7 @@ $('#editDetailItembtn[data-id]').on('click', function () {
             response.forEach(function (bomEntity, index) {
 
                 itemSum += (bomEntity.ritemEntity.itemUp * bomEntity.bomUseMt);
+
                 // 부속품의 각 정보를 테이블에 추가
                 var row = $('<tr>');
 

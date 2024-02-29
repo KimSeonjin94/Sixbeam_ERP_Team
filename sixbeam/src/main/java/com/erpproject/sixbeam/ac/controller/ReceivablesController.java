@@ -26,7 +26,7 @@ public class ReceivablesController {
     public String searchReceivables(Model model) {
         List<AccountEntity> actEntity = this.accountService.getList();
         model.addAttribute("actList", actEntity);
-        Map<String, Object> suminput = receivablesService.sum_input_account();
+        Map<String, Integer> suminput = receivablesService.sum_input_account(LocalDate.of(2024,2,1),LocalDate.of(2024,2,29));
 //        suminput.get(code);
 
         return "contents/ac/receivables";

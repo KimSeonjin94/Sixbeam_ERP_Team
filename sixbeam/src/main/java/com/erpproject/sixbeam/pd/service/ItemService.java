@@ -79,7 +79,36 @@ public class ItemService {
         return itemRepository.findByItemCdContainingKeyword("CASE");
     }
 
-    public void saveItem(ItemDto itemDto) {
+    public void saveFitem(ItemDto itemDto) {
+
+        String itemNm = itemDto.getItemNm();
+        String itemStnd = itemDto.getItemStnd();
+        Long itemUp = itemDto.getItemUp();
+
+        // 새로운 아이템 코드 생성
+        String newItemCd = generateNewFitemCd();
+        itemDto.setItemCd(newItemCd);
+
+        ItemEntity itemEntity = itemDto.toEntity();
+        itemRepository.save(itemEntity);
+    }
+
+    private String generateNewFitemCd() {
+
+        // "F"로 시작하는 새로운 품목 코드 생성
+        String prefix = "F";
+
+        // DB에서 최대 품목 코드를 가져와서 숫자 부분 추출 후 +1 증가
+        String maxCd = itemRepository.getMaxItemCdStartingWithF();
+        int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(1)) + 1 : 1;
+
+        // 4자리 숫자 부분을 형식에 맞게 생성
+        String sequenceNumberString = String.format("%04d", sequenceNumber);
+
+        return prefix + sequenceNumberString;
+    }
+
+    public void saveRitem(ItemDto itemDto) {
 
         String itemNm = itemDto.getItemNm();
         String itemStnd = itemDto.getItemStnd();
@@ -97,19 +126,20 @@ public class ItemService {
         }
 
         // 새로운 아이템 코드 생성
-        String newItemCd = generateNewItemCd();
+        String newItemCd = generateNewRitemCd();
         itemDto.setItemCd(newItemCd);
 
         ItemEntity itemEntity = itemDto.toEntity();
         itemRepository.save(itemEntity);
     }
 
-    private String generateNewItemCd() {
+    private String generateNewRitemCd() {
+
         // "F"로 시작하는 새로운 품목 코드 생성
-        String prefix = "F";
+        String prefix = "R";
 
         // DB에서 최대 품목 코드를 가져와서 숫자 부분 추출 후 +1 증가
-        String maxCd = itemRepository.getMaxItemCdStartingWithF();
+        String maxCd = itemRepository.getMaxItemCdStartingWithR();
         int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(1)) + 1 : 1;
 
         // 4자리 숫자 부분을 형식에 맞게 생성

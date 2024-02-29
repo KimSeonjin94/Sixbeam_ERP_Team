@@ -17,12 +17,12 @@ import java.sql.Time;
 public class BomEntity {
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "FITEM_CD", referencedColumnName = "item_Cd")
     private FitemEntity fitemEntity;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "RITEM_CD", referencedColumnName = "item_Cd")
     private RitemEntity ritemEntity;
 

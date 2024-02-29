@@ -2,8 +2,12 @@ package com.erpproject.sixbeam.pd.entity;
 
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
+import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,11 +23,21 @@ public class InoutEntity {
     private String inoutCmptCd;
 
     @ManyToOne
-    @JoinColumn(name="EMPINFO_ID")
+    @JoinColumn(name="empinfoId")
     private EmpInfoEntity empInfoEntity;
 
     @ManyToOne
-    @JoinColumn(name = "WMMOVE_CD")
-    private WhmoveEntity whMoveEntity;
+    @JoinColumn(name = "ORDER_CD")
+    private OrderEntity orderEntity;
 
+    @Column(name = "INOUT_DT")
+    private LocalDate inoutDt;
+
+    @ManyToOne
+    @JoinColumn(name = "WHREGIST_CD")
+    private WhregistEntity whregistEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "ITEM_CD")
+    private ItemEntity itemEntity;
 }
