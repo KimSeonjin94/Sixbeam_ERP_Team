@@ -53,6 +53,7 @@ public class IsService {
         if(opIsEntity.isPresent()){
             IsEntity isEntity=opIsEntity.get();
             isEntity.setIsNetSales(isNetSales);
+            isRepository.save(isEntity);
         }
     }
 }
