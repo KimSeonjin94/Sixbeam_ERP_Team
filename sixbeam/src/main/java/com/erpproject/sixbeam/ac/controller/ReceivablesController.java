@@ -1,36 +1,36 @@
 package com.erpproject.sixbeam.ac.controller;
 
-import com.erpproject.sixbeam.ac.dto.ReceivablesDto;
-import com.erpproject.sixbeam.ac.entity.ReceivablesEntity;
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
+import com.erpproject.sixbeam.ac.service.AccountService;
 import com.erpproject.sixbeam.ac.service.ReceivablesService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+
 
 @RequiredArgsConstructor
 @RequestMapping("/ac")
-@RestController
+@Controller
 public class ReceivablesController {
 
+    private final AccountService accountService;
     private final ReceivablesService receivablesService;
 
-//    @GetMapping("/receivables/receivables")
-//    public ResponseEntity<List<ReceivablesEntity>> searchReceivables(
-//            @RequestParam(required = false) String accountCd,
-//            @RequestParam(required = false) String accountNm) {
-//
-//        if (accountCd == null && accountNm == null) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//        List<ReceivablesEntity> receiv = receivablesService.searchReceivables(
-//                accountCd != null ? accountCd : "",
-//                accountNm != null ? accountNm : ""
-//        );
-//
-//        return ResponseEntity.ok(receiv);
-//    }
+    @GetMapping("/receivables/receivables")
+    public String searchReceivables(Model model) {
+        List<AccountEntity> actEntity = this.accountService.getList();
+        model.addAttribute("actList", actEntity);
+        Map<String, Integer> suminput = receivablesService.sum_input_account(LocalDate.of(2024,2,1),LocalDate.of(2024,2,29));
+//        suminput.get(code);
+
+
+
+        return "contents/ac/receivables";
+    }
 
 }

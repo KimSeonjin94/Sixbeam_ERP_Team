@@ -6,106 +6,107 @@
                 <div class="card shadow mb-4">
                     <div class="card-body-bs">
                         <form th:action="@{/ac/bs/balanceSheet}" method="get">
-                        <table border="1" class="financial-table">
-                            <thead>
-                            <tr>
-                                <th colspan="4" class="card-header-title">재무상태표</th>
-                            </tr>
-                            <tr>
-                                <th colspan="4" class="card-header-date">
-                                    <select class="selectQ" name="bsDtForm" onchange="this.form.submit()">
-                                        <option value="">분기 선택</option>
-                                        <option th:each="bsDt : ${bsDts}"
-                                                th:value="${bsDt}"
-                                                th:text="${bsDt}"
-                                                th:selected="${bsDt == selectedBsDt}"></option>
-                                    </select>
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th colspan="2" class="asset-column">자산</th>
-                                <th colspan="2" class="debt-column">부채</th>
-                            </tr>
-                            <tr>
-                                <td class="asset-column-md" colspan="2">유동자산 </td>
-                                <td class="debt-column-md" colspan="2">유동부채  </td>
-                            </tr>
-                            <tr>
-                                <td class="asset-column-l">현금성자산</td>
-                                <td class="bss">
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsCash, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
-                                </td>
-                                <td class="debt-column-l" >매입채무</td>
-                                <td class="bss">
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsPayables, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="asset-column-l" >재고자산</td>
-                                <td class="bss">
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsInventories, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
-                                </td>
-                                <td class="debt-column-md" colspan="2">비유동부채</td>
-                            </tr>
-                            <tr>
-                                <td class="asset-column-l" >매출채권</td>
-                                <td class="bss">
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsReceivables, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
-                                </td>
-                                <td class="debt-column-l" >장기차입금</td>
-                                <td class="bss">
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsLongBor, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="asset-column-md" colspan="2">비유동자산 </td>
-                                <th class="debt-column-total" colspan="2" >부채합계 &nbsp;&nbsp;&nbsp;&nbsp;<span class="bss" th:if="${totalDebt != null}" th:text="${#numbers.formatDecimal(totalDebt, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</th></td>
-<!--                                <td class="asset-column-l" >-->
-<!--                                    <span class="bss" th:if="${totalDebt != null}" th:text="${#numbers.formatDecimal(totalDebt, 0, 'COMMA', 0, 'POINT')}"></span></td>-->
-<!--                                </td>-->
-                            </tr>
-                            <tr>
-                                <td class="asset-column-l" >토지 </td>
-                                <td class="bss">
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsLand, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
-                                </td>
-                                <th colspan="2" class="capital-column">자본</th>
-                            </tr>
-                            <tr>
-                                <td class="asset-column-l" >건물 </td>
-                                <td class="bss">
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsBuilding, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
-                                </td>
-                                <td class="capital-column-l" >자본금</td>
-                                <td class="bss">
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsCapital, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="asset-column-l">유형자산</td>
-                                <td class="bss">
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsFac, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
-                                </td>
-                                <td class="capital-column-l" >이익잉여금 </td>
-                                <td class="bss">
-                                    <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsEarnings, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="asset-column-total" colspan="2">자산합계 &nbsp;&nbsp;&nbsp;&nbsp;<span class="bss" th:if="${totalAsset != null}" th:text="${#numbers.formatDecimal(totalAsset, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</th></td>
-<!--                                <td class="asset-column-l">-->
-<!--                                    <span class="bss" th:if="${totalAsset != null}" th:text="${#numbers.formatDecimal(totalAsset, 0, 'COMMA', 0, 'POINT')}"></span></td>-->
-<!--                                </td>-->
-                                <th class="capital-column-total" colspan="2">자본합계 &nbsp;&nbsp;&nbsp;&nbsp;<span class="bss" th:if="${totalCapital  != null}" th:text="${#numbers.formatDecimal(totalCapital, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</th></td>
-<!--                                <td class="capital-column-l" >-->
-<!--                                    <span class="bss" th:if="${totalCapital  != null}" th:text="${#numbers.formatDecimal(totalCapital, 0, 'COMMA', 0, 'POINT')}"></span></td>-->
-<!--&lt;!&ndash;                                    <span class="bss" th:unless="${totalCapital  != null}"></span>&ndash;&gt;-->
-<!--                                </td>-->
-                            </tr>
-                            </tbody>
-                        </table>
+                            <table border="1" class="financial-table">
+                                <thead>
+                                <tr>
+                                    <th colspan="4" class="card-header-title">재무상태표</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" class="card-header-date">
+                                        <select class="selectQ" name="bsDtForm" onchange="this.form.submit()">
+                                            <option value="">분기 선택</option>
+                                            <option th:each="bsDt : ${bsDts}"
+                                                    th:value="${bsDt}"
+                                                    th:text="${bsDt}"
+                                                    th:selected="${bsDt == selectedBsDt}"></option>
+                                        </select>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th colspan="2" class="asset-column">자산</th>
+                                    <th colspan="2" class="debt-column">부채</th>
+                                </tr>
+                                <tr>
+                                    <td class="asset-column-md" colspan="2">유동자산 </td>
+                                    <td class="debt-column-md" colspan="2">유동부채  </td>
+                                </tr>
+                                <tr>
+                                    <td class="asset-column-l">현금성자산</td>
+                                    <td class="bss">
+                                        <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsCash, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
+                                    </td>
+                                    <td class="debt-column-l" >매입채무</td>
+                                    <td class="bss">
+                                        <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsPayables, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="asset-column-l" >재고자산</td>
+                                    <td class="bss">
+                                        <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsInventories, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
+                                    </td>
+                                    <td class="debt-column-md" colspan="2">비유동부채</td>
+                                </tr>
+                                <tr>
+                                    <td class="asset-column-l" >매출채권</td>
+                                    <td class="bss">
+                                        <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsReceivables, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
+                                    </td>
+                                    <td class="debt-column-l" >장기차입금</td>
+                                    <td class="bss">
+                                        <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsLongBor, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="asset-column-md" colspan="2">비유동자산 </td>
+                                    <th class="debt-column-total" colspan="2" >부채합계 &nbsp;&nbsp;&nbsp;&nbsp;<span class="bss" th:if="${totalDebt != null}" th:text="${#numbers.formatDecimal(totalDebt, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</th></td>
+    <!--                                <td class="asset-column-l" >-->
+    <!--                                    <span class="bss" th:if="${totalDebt != null}" th:text="${#numbers.formatDecimal(totalDebt, 0, 'COMMA', 0, 'POINT')}"></span></td>-->
+    <!--                                </td>-->
+                                </tr>
+                                <tr>
+                                    <td class="asset-column-l" >토지 </td>
+                                    <td class="bss">
+                                        <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsLand, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
+                                    </td>
+                                    <th colspan="2" class="capital-column">자본</th>
+                                </tr>
+                                <tr>
+                                    <td class="asset-column-l" >건물 </td>
+                                    <td class="bss">
+                                        <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsBuilding, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
+                                    </td>
+                                    <td class="capital-column-l" >자본금</td>
+                                    <td class="bss">
+                                        <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsCapital, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="asset-column-l">유형자산</td>
+                                    <td class="bss">
+                                        <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsFac, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
+                                    </td>
+                                    <td class="capital-column-l" >이익잉여금 </td>
+                                    <td class="bss">
+                                        <span class="bss" th:if="${balanceSheet != null}" th:text="${#numbers.formatDecimal(balanceSheet.bsEarnings, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="asset-column-total" colspan="2">자산합계 &nbsp;&nbsp;&nbsp;&nbsp;<span class="bss" th:if="${totalAsset != null}" th:text="${#numbers.formatDecimal(totalAsset, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</th></td>
+    <!--                                <td class="asset-column-l">-->
+    <!--                                    <span class="bss" th:if="${totalAsset != null}" th:text="${#numbers.formatDecimal(totalAsset, 0, 'COMMA', 0, 'POINT')}"></span></td>-->
+    <!--                                </td>-->
+                                    <th class="capital-column-total" colspan="2">자본합계 &nbsp;&nbsp;&nbsp;&nbsp;<span class="bss" th:if="${totalCapital  != null}" th:text="${#numbers.formatDecimal(totalCapital, 0, 'COMMA', 0, 'POINT')}"></span>&nbsp;</th></td>
+    <!--                                <td class="capital-column-l" >-->
+    <!--                                    <span class="bss" th:if="${totalCapital  != null}" th:text="${#numbers.formatDecimal(totalCapital, 0, 'COMMA', 0, 'POINT')}"></span></td>-->
+    <!--&lt;!&ndash;                                    <span class="bss" th:unless="${totalCapital  != null}"></span>&ndash;&gt;-->
+    <!--                                </td>-->
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
                     </div>
                 </div>
             </div>
