@@ -4,10 +4,12 @@ import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.service.AccountService;
 import com.erpproject.sixbeam.ac.service.ReceivablesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +29,15 @@ public class ReceivablesController {
         Map<String, Object> suminput = receivablesService.sum_input_account();
 //        suminput.get(code);
 
+        return "contents/ac/receivables";
+    }
+    @PostMapping("/receivables/receivables")
+    public String inputAct(
+            @RequestParam("accountCode") String accountCode,
+            @RequestParam("accountNm") String accountNm,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate)
+    {
 
 
         return "contents/ac/receivables";

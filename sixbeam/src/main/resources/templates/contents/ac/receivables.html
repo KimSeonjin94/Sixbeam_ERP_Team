@@ -8,7 +8,7 @@
                 <form th:action="@{/ac/receivables/receivables}" method="post">
                     <div class="form-group row">
                         <label for="accountCodeList" class="col-sm-2 col-form-label">거래처 코드</label>
-                        <input type="text" class="form-control col-sm-10" id="accountCode" list="accountCodeList">
+                        <input type="text" class="form-control col-sm-10" id="accountCode" name="accountCode" list="accountCodeList">
                         <datalist id="accountCodeList" >
                             <option th:each="actlist : ${actList}" th:value="${actlist.accountCd}"
                                     th:text="${actlist.accountNm}">
@@ -21,9 +21,9 @@
                     </div>
                     <div class="form-group row">
                         <label for="startDate" class="col-sm-2 col-form-label">기준일자</label>
-                        <input type="date" class="form-control col-sm-4" id="startDate" name="accountNm">
+                        <input type="date" class="form-control col-sm-4" id="startDate" name="startDate">
                         <p>  &nbsp;&nbsp; ~ &nbsp;&nbsp;  </p>
-                        <input type="date" class="form-control col-sm-4" id="endDate" name="accountNm">
+                        <input type="date" class="form-control col-sm-4" id="endDate" name="endDate">
                     </div>
 
                 </form>
