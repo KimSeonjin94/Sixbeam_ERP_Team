@@ -1,220 +1,191 @@
 <html layout:decorate = "~{layout/default}">
 <div layout:fragment = "content" class = "container-fluid">
-	<!-- Page Heading -->
-	<h1 class = "h3 mb-2 text-gray-800">생산</h1>
 	
 	<div class = "card shadow mb-4">
 		<div class = "card-header py-3" style = "display: flex;">
-			<h6 class = "m-0-ac font-weight-bold text-primary">품목 리스트</h6>
-			<div class = "btn-group" role = "group" aria-label = "Basic example">
-				<!-- Button trigger modal -->
-				<button type = "button" class = "btn btn-primary-ac" data-toggle = "modal" data-target = "#newItem">
-					신규
-				</button>
-			</div>
-			<!--<div class = "btn-group" role = "group" aria-label = "Basic example">
-				&lt;!&ndash; Button trigger modal &ndash;&gt;
-				<button type = "button" class = "btn btn-warning-ac" data-toggle = "modal" data-target = "#editItem">
-					수정
-				</button>
-			</div>-->
-			<div class = "btn-group" role = "group" aria-label = "Basic example">
-				<!-- Button trigger modal -->
-				<button type = "button" class = "btn btn-danger" data-toggle = "modal" data-target = "#deleteItem">
-					삭제
-				</button>
-			</div>
+			<h6 class = "m-0-ac font-weight-bold text-primary">자재 명세서 등록</h6>
 		</div>
 		
 		<div class = "card-body">
-			<div class = "table-responsive">
-				<table class = "table table-bordered" id = "dataTable" width = "100%" cellspacing = "0">
+			<form class = "formEntry" th:action = "@{/pd/bom/create}" th:object = "${bomForm}" method = "post">
+				<div class = "form-group row">
+					<label class = "col-sm-1 col-form-label">품목명</label>
+					<div class = "col-sm-4">
+						<input type = "text" class = "form-control" id = "itemNm">
+					</div>
+					<label class = "col-sm-1 col-form-label">규격</label>
+					<div class = "col-sm-4">
+						<input type = "text" class = "form-control" id = "itemstnd">
+					</div>
+				</div>
+				<div class = "form-group row">
+					<label class = "col-sm-1 col-form-label">가격</label>
+					<div class = "col-sm-4">
+						<input type = "text" class = "form-control" id = "itemUp" oninput="checkInput2(event)">
+					</div>
+				</div>
+				
+				<table class = "table item" id = "bomitem">
 					<thead>
 					<tr>
-						<th></th>
-						<th>품목 코드</th>
-						<th>품목</th>
 						<th>규격</th>
+						<th>품목 코드</th>
+						<th>품목명</th>
+						<th>수량</th>
 						<th>단가</th>
-						<th></th>
 					</tr>
 					</thead>
-					
 					<tbody>
-					<tr th:each = "item : ${itemEntities}">
+					<tr>
 						<td>
-							<input type = "checkbox" class = "selectedInfo" th:value = "${item.itemCd}">
+							<select class = "selectbox form-control"
+							        th:name = "'bomDtos[' + 0 + '].ritemEntity.itemCd'">
+								<option value = "">코드 선택</option>
+								<option th:each = "ritemlist : ${getitemlist}" th:value = "${ritemlist.itemCd}"
+								        th:data-itemNm = "${ritemlist.itemCd}"
+								        th:data-itemStnd = "${ritemlist.itemNm}"
+								        th:data-itemUp = "${ritemlist.itemUp}"
+								        th:text = "${ritemlist.itemStnd}"></option>
+							</select>
 						</td>
-						<td th:text = "${item.itemCd}"></td>
-						<td th:text = "${item.itemNm}"></td>
-						<td th:text = "${item.itemStnd}"></td>
-						<td th:text = "|${#numbers.formatInteger(item.itemUp, 0,'COMMA')}원|"></td>
-						<div class = "btn-group" role = "group" aria-label = "Basic example">
-							<!-- Button trigger modal -->
-							<td>
-								<button type = "button" class = "btn btn-warning-ac" data-toggle = "modal"
-								        data-target = "#editItem" th:onclick = "setItemInfo
-								        ([[${item.itemCd}]],
-                                        [[${item.itemNm}]],
-                                        [[${item.itemStnd}]],
-                                        [[${item.itemUp}]])">
-									수정
-								</button>
-								<!-- Button trigger modal -->
-								<!--<button type = "button" class = "btn btn-danger-ac" data-toggle = "modal"
-								        data-target = "#deleteItem">
-									삭제
-								</button>-->
-								<!--Button trigger modal-->
-								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
-								        data-target = "#detailItem" th:onclick = "setItemInfo
-								        ([[${item.itemCd}]],
-                                        [[${item.itemNm}]],
-                                        [[${item.itemStnd}]],
-                                        [[${item.itemUp}]])">
-									상세
-								</button>
-						</div>
+						<td>
+							<input type = "text" class = "form-control itemname"
+							       th:field = "*{bomDtos[0].fitemEntity.itemNm}" oninput = "checkInput3(event)" readonly>
+						</td>
+						<td>
+							<input type = "text" class = "form-control itemstnd" th:field = "*{bomDtos[0].fitemEntity.itemStnd}"oninput = "checkInput3(event)" readonly>
+						</td>
+						<td>
+							<input type = "text" class = "form-control itemamt"
+							       th:field = "*{bomDtos[0].bomUseMt}" oninput = "checkInput2(event)">
+						</td>
+						<td>
+							<input type = "hidden" class = "form-control itemup">
+							<input type = "text" class = "form-control itemsum"
+							       oninput = "checkInput2(event)" readonly="">
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<select class = "selectbox form-control"
+							        th:name = "'bomDtos[' + 1 + '].ritemEntity.itemCd'">
+								<option value = "">코드 선택</option>
+								<option th:each = "ritemlist : ${getitemlist}" th:value = "${ritemlist.itemCd}"
+								        th:data-itemNm = "${ritemlist.itemCd}"
+								        th:data-itemStnd = "${ritemlist.itemNm}"
+								        th:data-itemUp = "${ritemlist.itemUp}"
+								        th:text = "${ritemlist.itemStnd}"></option>
+							</select>
+						</td>
+						<td>
+							<input type = "text" class = "form-control itemname" readonly>
+						</td>
+						<td>
+							<input type = "text" class = "form-control itemstnd" readonly>
+						</td>
+						<td>
+							<input type = "text" class = "form-control itemamt" th:field = "*{bomDtos[1].bomUseMt}"
+							       oninput = "checkInput2(event)">
+						</td>
+						<td>
+							<input type = "hidden" class = "form-control itemup">
+							<input type = "text" class = "form-control itemsum"
+							       oninput = "checkInput2(event)" readonly>
+						</td>
 					</tr>
 					</tbody>
+					<tfoot>
+					<tr>
+						<th colspan = "3">합계</th>
+						<th id = "totalAmt"></th>
+						<th id = "totalSum"></th>
+					</tr>
+					</tfoot>
+				
 				</table>
-			</div>
+				<div class = "row">
+					<div class = "col-sm-6">
+						<input type = 'button'
+						       value = '품목 추가'
+						       class = "btn btn-secondary"
+						       id = "addnewrowbtn">
+						<input type = 'button'
+						       value = '품목 삭제'
+						       class = "btn btn-danger"
+						       id = "deleterowbtn">
+					</div>
+					<div class = "col-sm-6 text-md-right">
+						<button type = "submit" class = "btn btn-primary" >
+							저장
+						</button>
+						<button type = "button" class = "btn btn-danger reset">
+							초기화
+						</button>
+					</div>
+				</div>
+			</form>
 			
-			
-			<!-- Modal -->
-			<div class = "modal fade" id = "newItem" tabindex = "-1" aria-labelledby = "newItemModalLabel"
-			     aria-hidden = "true">
-				<div class = "modal-dialog modal-dialog-centered modal-xl">
+			<!-- Button trigger modal -->
+			<div class = "modal fade" id = "cannotDeleteModal" tabindex = "-1" role = "dialog"
+			     aria-labelledby = "modalLabel" aria-hidden = "true">
+				<div class = "modal-dialog" role = "document">
 					<div class = "modal-content">
-						
 						<div class = "modal-header">
-							<h5 class = "modal-title" id = "newItemLabel">품목 등록</h5>
+							<h5 class = "modal-title" id = "modalLabel">삭제 불가</h5>
 							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
 								<span aria-hidden = "true">&times;</span>
 							</button>
 						</div>
-						
-						<form action = "/pd/item/fcreate" method = "post">
-							<div class = "modal-body-ac">
-								<div class = "form-group row">
-									<label for = "selectItemCd" class = "col-sm-2 col-form-label">품목 코드</label>
-									<div class = "col-sm-4">
-										<select id = "selectItemCd" class = "col-sm-8 form-control">
-											<option value = "">코드 선택</option>
-											<option th:each = "flist : ${fitemEntities}" th:value = "${flist.itemCd}"
-											        th:text = "${flist.itemCd}"></option>
-										</select>
-									</div>
-									<label for = "itemNm" class = "col-sm-2 col-form-label">품목명</label>
-									<div class = "col-sm-4">
-										<input type = "text" class = "form-control col-sm-8" id = "itemNm"
-										       name = "itemNm" style = "text-transform: uppercase;">
-									</div>
-								</div>
-								
-								<div class = "form-group row">
-									<label for = "itemStnd" class = "col-sm-2 col-form-label">규격</label>
-									<div class = "col-sm-4">
-										<input type = "text" class = "form-control col-sm-8" id = "itemStnd"
-										       name = "itemStnd" style = "text-transform: uppercase;">
-									</div>
-									<label for = "itemUp" class = "col-sm-2 col-form-label">단가</label>
-									<div class = "col-sm-4">
-										<input type = "text" class = "form-control col-sm-8" id = "itemUp"
-										       name = "itemUp"
-										       oninput = "checkInput2(event);">
-									</div>
-								</div>
-							</div>
-							
-							<div class = "modal-footer">
-								<button type = "submit" class = "btn btn-primary"
-								        th:onclick = "createItemFinished()">저장
-								</button>
-								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
-							</div>
-						</form>
+						<div class = "modal-body">
+							더 이상 삭제할 수 없습니다.
+						</div>
+						<div class = "modal-footer">
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
 					</div>
 				</div>
 			</div>
-			
-			
-			<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
+			<div class = "modal fade" id = "successModal" tabindex = "-1" role = "dialog" aria-labelledby = "modalLabel"
 			     aria-hidden = "true">
-				<div class = "modal-dialog modal-dialog-centered modal-xl">
+				<div class = "modal-dialog" role = "document">
 					<div class = "modal-content">
 						<div class = "modal-header">
-							<h5 class = "modal-title" id = "editItemLabel">품목 정보 수정</h5>
+							<h5 class = "modal-title" id = "modalLabel2">성공</h5>
 							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
 								<span aria-hidden = "true">&times;</span>
 							</button>
 						</div>
-						
-						<form action = "/pd/item/update" method = "post">
-							<div class = "modal-body-ac">
-								<div class = "form-group row">
-									<label for = "editItemCd" class = "col-sm-2 col-form-label">품목 코드</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemCd"
-									       name = "itemCd" readonly>
-								</div>
-								<div class = "form-group row">
-									<label for = "editItemNm" class = "col-sm-2 col-form-label">품목명</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemNm"
-									       name = "itemNm" style = "text-transform: uppercase;">
-								</div>
-								<div class = "form-group row">
-									<label for = "editItemStnd" class = "col-sm-2 col-form-label">규격</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemStnd"
-									       name = "itemStnd" readonly>
-								</div>
-								<div class = "form-group row">
-									<label for = "editItemUp" class = "col-sm-2 col-form-label">단가</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemUp"
-									       name = "itemUp" oninput = "checkInput2(event);">
-								</div>
-							</div>
-							<div class = "modal-footer">
-								<button type = "submit" class = "btn btn-danger" th:onclick = "editItemFinished()">
-									수정
-								</button>
-								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
-							</div>
-						</form>
+						<div class = "modal-body">
+							등록되었습니다.
+						</div>
+						<div class = "modal-footer">
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
 					</div>
 				</div>
 			</div>
-			
-			<div class = "modal fade" id = "deleteItem" tabindex = "-1" aria-labelledby = "deleteItemModalLabel"
+			<div class = "modal fade" tabindex = "-1" role = "dialog" id = "failModal" aria-labelledby = "modalLabel"
 			     aria-hidden = "true">
-				<div class = "modal-dialog modal-dialog-centered">
+				<div class = "modal-dialog" role = "document">
 					<div class = "modal-content">
-						
 						<div class = "modal-header">
-							<h5 class = "modal-title" id = "deleteItemLabel">품목 삭제</h5>
+							<h5 class = "modal-title">실패</h5>
 							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
 								<span aria-hidden = "true">&times;</span>
 							</button>
 						</div>
-						
-						<form id = "deleteForm" action = "/pd/item/delete" method = "post">
-							<div class = "modal-body-ac">
-								<p>선택한 품목을 삭제하시겠습니까?</p>
-								<input type = "hidden" name = "itemCd" id = "deleteItemInfo" value = ""/>
-							</div>
-							<div class = "modal-footer">
-								<button type = "button" class = "btn btn-danger" onclick = "forDelete()">삭제</button>
-								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">취소</button>
-							</div>
-						</form>
+						<div class = "modal-body">
+							<p>데이터 저장에 실패하였습니다.</p>
+						</div>
+						<div class = "modal-footer">
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
 					</div>
 				</div>
 			</div>
-		
 		</div>
 	</div>
 </div>
 </html>
 
-<script type = "text/javascript">
-
-</script>
