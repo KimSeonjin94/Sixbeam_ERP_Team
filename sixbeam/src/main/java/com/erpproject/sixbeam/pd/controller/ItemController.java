@@ -51,16 +51,28 @@ public class ItemController {
     }
 
     // 품목 등록
-    @PostMapping("/create")
-    public String createItem(@ModelAttribute ItemDto itemDto, RedirectAttributes redirectAttributes) {
+    @PostMapping("/fcreate")
+    public String createFitem(@ModelAttribute ItemDto itemDto, RedirectAttributes redirectAttributes) {
 
         try {
-            itemService.saveItem(itemDto);
+            itemService.saveFitem(itemDto);
 
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/pd/item/itemlist";
+        return "redirect:/pd/finitem/finitemlist";
+    }
+
+    @PostMapping("/rcreate")
+    public String createRitem(@ModelAttribute ItemDto itemDto, RedirectAttributes redirectAttributes) {
+
+        try {
+            itemService.saveRitem(itemDto);
+
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/pd/rawitem/rawitemlist";
     }
 
     // 품목 수정
@@ -84,10 +96,10 @@ public class ItemController {
         return "redirect:/pd/item/itemlist";
     }
 
-    @PostMapping("/item/createform")
+    /*@PostMapping("/item/createform")
     public String registerItemByPage(@ModelAttribute ItemDto itemDto) {
 
-        itemService.saveItem(itemDto);
+        itemService.saveFitem(itemDto);
         return "redirect:createform";
-    }
+    }*/
 }

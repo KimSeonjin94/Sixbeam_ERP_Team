@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -22,10 +23,10 @@ public class OrderEntity {
     private String orderCd;
 
     @Column(name = "ORDER_INST_DT")
-    private Date orderInstDt;
+    private LocalDate orderInstDt;
 
     @Column(name = "ORDER_DELIV_DT")
-    private Date orderDelivDt;
+    private LocalDate orderDelivDt;
 
     @ManyToOne
     @JoinColumn(name = "EMPINFO_ID")
