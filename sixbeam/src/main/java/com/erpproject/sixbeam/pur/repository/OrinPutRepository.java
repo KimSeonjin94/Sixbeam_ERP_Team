@@ -18,5 +18,5 @@ public interface OrinPutRepository extends JpaRepository<OrinPutEntity, String> 
     String getMaxOrinputCd(@Param("orinputDate")LocalDate orinputDate);
 
     @Query("SELECT o FROM OrinPutEntity o WHERE o.accountEntity.accountCd = :accountCd")
-    List<OrinPutEntity> findByaccountCd(@Param("accountCd")String accountCd);
+    OrinPutEntity findByaccountCd(@Param("accountCd")String accountCd);
 }
