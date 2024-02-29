@@ -88,6 +88,10 @@ public class SaleService {
         }
         return saleEntities;
     }
+    public List<SaleEntity> getRelease(String saleShippingSt){
+        return this.saleRepository.findBySaleShippingSt(saleShippingSt);
+
+    }
 
     private String generateNewSaleCd(LocalDate saleDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
