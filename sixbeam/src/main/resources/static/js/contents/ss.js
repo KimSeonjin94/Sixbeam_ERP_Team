@@ -19,8 +19,10 @@ $('#detailEstimateCd[data-id]').on('click', function() {
                 var modaltBody=$('.formEntry .table.item tbody');;
                 if (currentUrl.includes("estimate")) {
                     modaltBody = $('#detail .formEntry .table.item tbody');
-                }else if(currentUrl.includes("sale")){
+                }else if(currentUrl.includes("sale/list")){
                     modaltBody = $('#new .formEntry .table.item tbody');
+                }else if(currentUrl.includes("sale/new")){
+                    modaltBody = $('.formEntry .table.item tbody');
                 }
                 modaltBody.empty();
                 $('#estimateCd').val(data[0].estimateCd);
@@ -158,7 +160,7 @@ $('#estimatedetail').on('show.bs.modal', function () {
 });
 $(document).ready(function() {
     // 모달이 hide되는 이벤트를 감지
-    $('.modal').on('hidden.bs.modal', function () {
+    $('#new').on('hidden.bs.modal', function () {
         var currentUrl = window.location.href;
 
         if (currentUrl.includes("sale") || currentUrl.includes("estimate")){
@@ -166,8 +168,6 @@ $(document).ready(function() {
             $('.formEntry select').each(function() {
                 this.selectedIndex = 0;
             });
-        }
-        if(currentUrl.includes("sale")){
             $('#new .formEntry .table.item tbody').empty();
         }
     });
