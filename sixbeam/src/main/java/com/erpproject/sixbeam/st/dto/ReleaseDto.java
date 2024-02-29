@@ -21,17 +21,9 @@ public class ReleaseDto {
 
     private EmpInfoEntity empInfoEntity;
 
-    private AccountEntity accountEntity;
-
     private SaleEntity saleEntity;
 
-    private ItemEntity itemEntity;
-
-    private WhregistEntity whregistEntity;
-
     private String releaseRv;
-
-    private Integer releaseAmt;
 
     private String releasePhone;
 
@@ -43,13 +35,9 @@ public class ReleaseDto {
         ReleaseEntity entity = new ReleaseEntity();
         entity.setReleaseDt(this.releaseDt);
         entity.setReleaseCd(this.releaseCd);
-        entity.setAccountEntity(this.accountEntity);
         entity.setEmpInfoEntity(this.empInfoEntity);
         entity.setSaleEntity(this.saleEntity);
-        entity.setItemEntity(this.itemEntity);
-        entity.setWhregistEntity(this.whregistEntity);
         entity.setReleaseRv(this.releaseRv);
-        entity.setReleaseAmt(this.releaseAmt);
         entity.setReleasePhone(this.releasePhone);
         entity.setReleaseZc(this.releaseZc);
         entity.setReleaseAddr(this.releaseAddr);

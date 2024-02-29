@@ -25,26 +25,15 @@
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="updateCurrentDate" readonly>
                     </div>
-                    <label for="updatename" class="col-sm-2 col-form-label">담당자</label>
+                    <label for="empInfoId" class="col-sm-2 col-form-label">담당자</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="updatename" readonly>
+                        <select id="empInfoId" name="empInfoEntity.empInfoNm" class="form-control">
+                            <option th:each="emplist : ${getemplist}" th:value="${emplist.empInfoId}"
+                                    th:text="${emplist.empInfoNm}"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">거래처 코드</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="updateaccountCode" readonly>
-                    </div>
-                    <label class="col-sm-2 col-form-label">거래처</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="updateaccountName" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">창고 코드</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="whregistCode" readonly>
-                    </div>
                     <label class="col-sm-2 col-form-label">우편번호</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="releaseZc">
@@ -66,18 +55,6 @@
                         <input type="text" class="form-control" id="releasePhone">
                     </div>
                 </div>
-                <table class="table item" id="item">
-                    <thead>
-                    <tr>
-                        <th>품목코드</th>
-                        <th>품목명</th>
-                        <th>규격</th>
-                        <th>수량</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
                 <div class="row">
                     <div class="col-sm-12 text-md-right">
                         <button type="submit" class="btn btn-primary">저장</button>
@@ -85,12 +62,13 @@
                     </div>
                 </div>
             </form>
+            <!-- 판매 목록 불러오는 Modal -->
             <div class="modal fade" id="saledetail" tabindex="-1" aria-labelledby="subjectsaleLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="subjectsaleLabel">견적 수정</h5>
+                            <h5 class="modal-title" id="subjectsaleLabel">판매 내역</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -119,7 +97,6 @@
                                                 <td th:text="${sale.accountEntity.accountNm}"></td>
                                                 <td th:text="${sale.empInfoEntity.empInfoNm}"></td>
                                             </tr>
-
                                             </tbody>
                                         </table>
                                     </div>

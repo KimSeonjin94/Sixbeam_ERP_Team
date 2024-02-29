@@ -42,5 +42,7 @@ public interface CheckRepository extends JpaRepository<CheckEntity, Long> {
     @Query("SELECT MAX(c.checkCd) FROM CheckEntity c")
     Long getMaxCheckCd();
 
+//    List<CheckEntity> findByWhmoveEntity_WhmoveDtYear(int year);
+
 
 }
