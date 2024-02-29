@@ -4,6 +4,7 @@ import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.entity.SalesEntity;
 import com.erpproject.sixbeam.ac.repository.AccountRepository;
 import com.erpproject.sixbeam.ss.dto.SaleDto;
+import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
