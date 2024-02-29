@@ -13,18 +13,13 @@ import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
-import com.erpproject.sixbeam.st.RowAddedEvent;
-import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.dto.ReleaseDto;
-import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
-import com.erpproject.sixbeam.st.repository.AsRepository;
 import com.erpproject.sixbeam.st.repository.ReleaseRepository;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -32,7 +27,6 @@ import org.springframework.stereotype.Service;
 public class ReleaseService {
 
     private final ReleaseRepository releaseRepository;
-    private final ApplicationEventPublisher event;
     private final ItemRepository itemRepository;
     private final AccountRepository accountRepository;
     private final EmpInfoRepository empInfoRepository;
@@ -74,8 +68,6 @@ public class ReleaseService {
 
             releaseEntity.setReleaseCd(newReleaseCd);
             releaseRepository.save(releaseEntity);
-            RowAddedEvent<ReleaseEntity> releaseEvent = new RowAddedEvent<>(this, releaseEntity);
-            event.publishEvent(releaseEvent);
         }
     }
 

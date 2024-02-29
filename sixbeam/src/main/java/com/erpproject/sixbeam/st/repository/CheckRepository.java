@@ -38,34 +38,9 @@ public interface CheckRepository extends JpaRepository<CheckEntity, Long> {
             "(SELECT SUM(c.checkAmt) FROM CheckEntity c WHERE c.whmoveEntity.whmoveGb = :whmoveGb AND c.whmoveEntity.whmoveDt <= :date AND c.whmoveEntity.whregistEntity = :whregistEntity AND c.whmoveEntity.itemEntity = :itemEntity) as Amt FROM CheckEntity c WHERE c.whmoveEntity.whmoveDt = :date")
     List<Object[]> findtest(@Param("date") LocalDate date, @Param("whregistEntity") WhregistEntity whregistEntity, @Param("itemEntity") ItemEntity itemEntity);
 
-}
-
-
-
-    /*
-    int findTotalCheckAmtByWhmoveGbUntilDate(String whmoveGb, LocalDate whmoveDt);
-
+    //기본키 생성 메서드
+    @Query("SELECT MAX(c.checkCd) FROM CheckEntity c")
+    Long getMaxCheckCd();
 
 
 }
-/*
-    List<CheckEntity> findByWhmoveEntityWhmoveDtBefore(LocalDate whmoveDt);
-
-    List<CheckEntity> findByWhmoveEntityWhmoveDt(LocalDate whmoveDt);
-
-    default int findTotalCheckAmtUntilDate(LocalDate whmoveDt) {
-        List<CheckEntity> recordsUntilDate = findByWhmoveEntityWhmoveDtBefore(whmoveDt);
-        return recordsUntilDate.stream()
-                .mapToInt(CheckEntity::getCheckAmt)
-                .sum();
-    }
-
-
-}
-    /*
-    CheckEntity findByWhmoveEntityAndItemEntity(WhmoveEntity whmoveEntity, ItemEntity itemEntity);
-
-    int countByWhmoveEntityAndItemEntityAndCheckDtBefore(WhmoveEntity whmoveEntity, ItemEntity itemEntity, LocalDate date);
-
-
-     */

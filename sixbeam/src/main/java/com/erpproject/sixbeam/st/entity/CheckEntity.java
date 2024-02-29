@@ -36,11 +36,11 @@ public class CheckEntity {
     @JoinColumn(name = "item_cd")
     private ItemEntity itemEntity;
 
+    @Column(name = "check_pr")
+    private Integer checkPr;
+
 }
     /* 2024-02-08 이전
-    @Column(name = "check_dt")
-    private LocalDate checkDt;
-
     @Id
     @ManyToOne
     @JoinColumn(name = "whmove_cd")
@@ -51,14 +51,12 @@ public class CheckEntity {
     @JoinColumn(name = "item_cd" )
     private ItemEntity itemEntity;
 
-    @Column(name = "check_up")
+   @Column(name = "check_up")
     private Integer checkUp;
 
     @Column(name = "check_pr")
     private Integer checkPr;
 
-    @Column(name = "check_amt")
-    private Integer checkAmt;
 
      */
 
