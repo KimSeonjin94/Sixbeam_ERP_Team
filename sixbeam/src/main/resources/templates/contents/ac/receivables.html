@@ -4,21 +4,33 @@
         <div class="card-header">
             거래처별 채권
         </div>
-        <form action="/ac/account/registerform" method="post">
             <div class="card-body">
-                <div class="form-group row">
-                    <label for="accountCd" class="col-sm-2 col-form-label">거래처 코드</label>
-                    <input type="text" class="form-control col-sm-10" id="accountCd" name="accountCd">
-                </div>
-                <div class="form-group row">
-                    <label for="accountNm" class="col-sm-2 col-form-label">거래처명</label>
-                    <input type="text" class="form-control col-sm-10" id="accountNm" name="accountNm">
-                </div>
+                <form th:action="@{/ac/receivables/receivables}" method="post">
+                    <div class="form-group row">
+                        <label for="accountCodeList" class="col-sm-2 col-form-label">거래처 코드</label>
+                        <input type="text" class="form-control col-sm-10" id="accountCode" list="accountCodeList">
+                        <datalist id="accountCodeList" >
+                            <option th:each="actlist : ${actList}" th:value="${actlist.accountCd}"
+                                    th:text="${actlist.accountNm}">
+                            </option>
+                        </datalist>
+                    </div>
+                    <div class="form-group row">
+                        <label for="accountNm" class="col-sm-2 col-form-label">거래처명</label>
+                        <input type="text" class="form-control col-sm-10" id="accountNm" name="accountNm">
+                    </div>
+                    <div class="form-group row">
+                        <label for="startDate" class="col-sm-2 col-form-label">기준일자</label>
+                        <input type="date" class="form-control col-sm-4" id="startDate" name="accountNm">
+                        <p>  &nbsp;&nbsp; ~ &nbsp;&nbsp;  </p>
+                        <input type="date" class="form-control col-sm-4" id="endDate" name="accountNm">
+                    </div>
+
+                </form>
             </div>
             <div class="card-footer text-muted d-flex justify-content-end">
                 <button type="submit" id="search-button" class="btn btn-primary-ac">검색</button>
             </div>
-        </form>
     </div>
 
     <div class="card shadow mb-4">

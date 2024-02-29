@@ -17,30 +17,10 @@ import java.util.Map;
 @Service
 public class PurService {
     private final PurRepository purRepository;
-    private final InputRepository inputRepository;
-    private final OrinPutRepository orinPutRepository;
 
     public List<PurEntity> getList() {
         return this.purRepository.findAll();
     }
 
-    public Map<String, Object> sum_input_account(){
 
-        String accountCode = null;
-        Map<String, Object> accountBySum = new HashMap<>();
-        List<InputEntity> inputEntityList = this.inputRepository.findAll();
-        List<OrinPutEntity> orinPutEntityList = null;
-
-        for(InputEntity inputEntity : inputEntityList){
-            accountCode = inputEntity.getOrinputEntity().getAccountEntity().getAccountCd();
-            orinPutEntityList = this.orinPutRepository.findByaccountCd(accountCode);
-            int sum = 0;
-            for(OrinPutEntity orinPutEntity : orinPutEntityList){
-                sum += orinPutEntity.getOrinputSum();
-            }
-            accountBySum.put(accountCode, sum);
-        }
-
-        return accountBySum;
-    }
 }
