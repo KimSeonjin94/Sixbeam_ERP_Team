@@ -6,10 +6,11 @@ import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
-import com.erpproject.sixbeam.st.WhmoveRowAddedEvent;
+import com.erpproject.sixbeam.st.event.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
+import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import com.erpproject.sixbeam.st.repository.AsRepository;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +30,7 @@ import java.util.Optional;
 public class AsService {
 
     private final ApplicationEventPublisher event;
+    private final ApplicationEventPublisher eventPublisher;
     private final AsRepository asRepository;
     private final ItemRepository itemRepository;
     private final AccountRepository accountRepository;
@@ -92,11 +95,15 @@ public class AsService {
             asRepository.save(asEntity);
     }
     @Transactional
-    public void delete(List<String> asDtos) {
-        for (String asCd : asDtos) {
+    public void delete(List<String> asCds) {
+        List<AsEntity> asEntitiesToDelete = new ArrayList<>();
+        for (String asCd : asCds) {
             List<AsEntity> asEntities = asRepository.findByAsCd(asCd);
+            asEntitiesToDelete.addAll(asEntities);
             asRepository.deleteAll(asEntities);
         }
+        WhmoveRowDeletedEvent<AsEntity> asDeletedEvent = new WhmoveRowDeletedEvent<>(this, asEntitiesToDelete);
+        eventPublisher.publishEvent(asDeletedEvent);
     }
 
     private String generateNewAsCd(LocalDate asDate) {

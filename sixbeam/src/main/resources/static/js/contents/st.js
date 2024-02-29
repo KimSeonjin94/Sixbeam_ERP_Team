@@ -181,7 +181,7 @@ $(document).ready(function() {
     $('#stcddelete').click(function() {
         $('#deleteStModal').modal('hide');
         // 선택 정보의 ID 가져오기
-        var selectedStId = $('#dataTable input[name="selectedSt"]:checked').map(function(){
+        var selectedStId = $('#dataTableSt input[name="selectedSt"]:checked').map(function(){
             return $(this).val();
         }).get();
 

@@ -4,11 +4,10 @@ import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
-import com.erpproject.sixbeam.ss.repository.SaleRepository;
-import com.erpproject.sixbeam.st.CheckRowAddedEvent;
+import com.erpproject.sixbeam.st.event.CheckRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.AsEntity;
-import com.erpproject.sixbeam.st.entity.CheckEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
+import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -39,6 +38,7 @@ public class WhmoveService {
         }
     }
     //[이벤트리스너_As]-----------------------------------------------
+    //-등록
     public void addRowAs(AsEntity asEntity) {
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         String newWhmoveCd = generateNewWhmoveAsCd(asEntity.getAsDt());
@@ -62,6 +62,12 @@ public class WhmoveService {
         // 4자리 숫자 부분을 형식에 맞게 생성
         String sequenceNumberString = String.format("%04d", sequenceNumber);
         return prefix + sequenceNumberString;
+    }
+    //-삭제
+    public void deleteRowAs(List<AsEntity> asEntities) {
+        // AsEntity에 대한 삭제 로직 수행 후
+        WhmoveRowDeletedEvent<AsEntity> asDeletedEvent = new WhmoveRowDeletedEvent<>(this, asEntities);
+        eventPublisher.publishEvent(asDeletedEvent);
     }
     //[이벤트리스너_As]-----------------------------------------------
 
@@ -91,6 +97,12 @@ public class WhmoveService {
         String sequenceNumberString = String.format("%04d", sequenceNumber);
         return prefix + sequenceNumberString;
     }
+    //-삭제
+//    public void deleteRowSale(SaleEntity saleEntity) {
+//        // SaleEntity에 대한 삭제 로직 수행 후
+////        WhmoveRowDeletedEvent<SaleEntity> saleDeletedEvent = new WhmoveRowDeletedEvent<>(this, saleEntity);
+////        eventPublisher.publishEvent(saleDeletedEvent);
+//    }
     //[이벤트리스너_Sale]---------------------------------------------
 
     //[이벤트리스너_Input]---------------------------------------------
@@ -116,6 +128,12 @@ public class WhmoveService {
         String sequenceNumberString = String.format("%04d", sequenceNumber);
         return prefix + sequenceNumberString;
     }
+    //-삭제
+//    public void deleteRowInput(InputEntity inputEntity) {
+//        // InputEntity에 대한 삭제 로직 수행 후
+//        WhmoveRowDeletedEvent<InputEntity> inputDeletedEvent = new WhmoveRowDeletedEvent<>(this, inputEntity);
+//        eventPublisher.publishEvent(inputDeletedEvent);
+//    }
     //[이벤트리스너_Input]---------------------------------------------
 
 }

@@ -2,14 +2,17 @@ package com.erpproject.sixbeam.st.service;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
-import com.erpproject.sixbeam.st.WhmoveRowAddedEvent;
+import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
+import com.erpproject.sixbeam.st.event.CheckRowDeletedEvent;
+import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import com.erpproject.sixbeam.st.repository.CheckRepository;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 
@@ -24,7 +27,7 @@ CheckService {
     private final CheckRepository checkRepository;
     private final WhregistRepository whregistRepository;
     private final ItemRepository itemRepository;
-    private final WhmoveRepository whmoveRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     //창고별 조회------------------------------------------------------------------------------
     public int getWhIncoming(LocalDate whmoveDt, WhregistEntity whregistEntity) {
@@ -115,6 +118,11 @@ CheckService {
         Long beforeCd = checkRepository.getMaxCheckCd();
         Long sequenceNumber = beforeCd + 1;
         return sequenceNumber;
+    }
+    public void deleteRowCheck(WhmoveEntity whmoveEntity) {
+        // WhmoveEntity에 대한 삭제 로직 수행 후
+        CheckRowDeletedEvent<WhmoveEntity> whmoveDeletedEvent = new CheckRowDeletedEvent<>(this, whmoveEntity);
+        eventPublisher.publishEvent(whmoveDeletedEvent);
     }
 
     //호진 형님 이거 갖다가 쓰세용~

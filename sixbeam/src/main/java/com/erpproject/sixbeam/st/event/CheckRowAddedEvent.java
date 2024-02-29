@@ -1,4 +1,4 @@
-package com.erpproject.sixbeam.st;
+package com.erpproject.sixbeam.st.event;
 
 import lombok.Getter;
 import lombok.Setter;

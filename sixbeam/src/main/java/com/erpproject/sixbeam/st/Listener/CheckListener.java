@@ -1,6 +1,8 @@
-package com.erpproject.sixbeam.st;
+package com.erpproject.sixbeam.st.Listener;
 
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
+import com.erpproject.sixbeam.st.event.CheckRowAddedEvent;
+import com.erpproject.sixbeam.st.event.CheckRowDeletedEvent;
 import com.erpproject.sixbeam.st.service.CheckService;
 import com.erpproject.sixbeam.st.service.WhmoveService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,16 @@ public class CheckListener {
             if (event.getEntity() instanceof WhmoveEntity) {
                 WhmoveEntity whmoveEntity = (WhmoveEntity) event.getEntity();
                 checkService.addRowCheck(whmoveEntity);
+            }
+        }
+    }
+    @EventListener
+    public void handleRowDeletedEvent(CheckRowDeletedEvent<?> event) {
+        if (event.getSource() instanceof WhmoveService) {
+            WhmoveService whmoveService = (WhmoveService) event.getSource();
+            if (event.getEntity() instanceof WhmoveEntity) {
+                WhmoveEntity whmoveEntity = (WhmoveEntity) event.getEntity();
+                checkService.deleteRowCheck(whmoveEntity);
             }
         }
     }
