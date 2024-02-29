@@ -150,12 +150,11 @@
         }
     }
 
-
-
-
 })(jQuery); // End of use strict
+
+
 $(document).ready(function() {
-    //id를 currentData로 하면 현재 날짜를 볼러 올 수 있도록 하는 제이쿼리
+    //id를 currentData로  하면 현재 날짜를 볼러 올 수 있도록 하는제이쿼리
     $('#currentDate').val(new Date().toISOString().substring(0,10));
 
     //거래처 코드 선택하면 거래처명이 나올 수 있도록 하는 제이쿼리

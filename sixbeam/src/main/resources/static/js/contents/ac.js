@@ -63,6 +63,18 @@ $('#search-button').click(function() {
         });
     });
 
+$("#accountCode").on('input', function() {
+        var inputVal = $(this).val();
+
+        $("#accountCodeList option").each(function() {
+            if ($(this).val() === inputVal) {
+                var accountNm = $(this).text();
+                $("#accountNm").val(accountNm);
+                return false; // 반복문 종료
+            }
+        });
+});
+
 
 
 
