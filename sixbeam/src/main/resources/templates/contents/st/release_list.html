@@ -10,25 +10,151 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead class="table-dark">
                     <tr>
+                        <th>체크</th>
                         <th>출하코드</th>
                         <th>담당자</th>
                         <th>출하일자</th>
-                        <th>거래처명</th>
                         <th>판매번호</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="release : ${releaseEntityList}">
                         <td>
-                            <a th:href="@{|/st/release/detail/${release.releaseCd}|}" th:text="${release.releaseCd}"></a>
+                            <input th:type="checkbox" th:name="selectedSt" th:value="${release.releaseCd}">
+                        </td>
+                        <td>
+                            <a href="#" id="detailReleaseCd" th:data-id="${release.releaseCd}">
+                                <span th:text="${release.releaseCd}"></span>
+                            </a>
                         </td>
                         <td th:text="${release.empInfoEntity.empInfoNm}"></td>
                         <td th:text="${release.releaseDt}"></td>
-                        <td th:text="${release.accountEntity.accountNm}"></td>
                         <td th:text="${release.saleEntity.saleCd}"></td>
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            <!-- Modify Modal -->
+            <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="subjectreleaseLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="subjectreleaseLabel">출하 수정</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <form class="AsformEntry" th:action="@{/st/release/update}" th:object="${releaseForm}"
+                                          method="post">
+                                        <div class="form-group row">
+                                            <label for="updateCurrentDate" class="col-sm-2 col-form-label">출하
+                                                등록일자</label>
+                                            <div class="col-sm-4">
+                                                <input type="date" name="asDt" class="form-control"
+                                                       id="updateCurrentDate" readonly>
+                                            </div>
+                                            <label for="updatename" class="col-sm-2 col-form-label">담당자</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" name="empInfoEntity.empInfoNm" class="form-control"
+                                                       id="updatename" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="updatereleaseZc" class="col-sm-2 col-form-label">우편번호</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" name="releaseZc" class="form-control" id="updatereleaseZc">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="updatereleaseAddr" class="col-sm-2 col-form-label">주소</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="releaseAddr" class="form-control" id="updatereleaseAddr">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="updatereleaseRv" class="col-sm-2 col-form-label">수취인</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" name="releaseRv" class="form-control" id="updatereleaseRv">
+                                            </div>
+                                            <label for="updatereleasePhone" class="col-sm-2 col-form-label">연락처</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" name="releasePhone" class="form-control" id="updatereleasePhone">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 text-md-right">
+                                            <button type="submit" class="btn btn-primary">저장</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 성공 창 모달 -->
+            <div class="modal fade hide" tabindex="-1" role="dialog" id="successModal" th:data-show-modal="${showModal}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">성공</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 실패 창 모달 -->
+            <div class="modal fade hide" tabindex="-1" role="dialog" id="failModal" th:data-show-modal="${showModal}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">실패</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 삭제하는 모달 -->
+            <div class="modal fade" id="deleteStModal" tabindex="-1" aria-labelledby="deleteStModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteStModalLabel">출하 삭제</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>선택한 출하 정보를 삭제하시겠습니까?</p>
+                            <form class="deleteStForm" th:action="@{/st/release/delete}" method="post">
+                                <input type="hidden" id="selectedSt" name="selectedrelease">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="stcddelete">삭제</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

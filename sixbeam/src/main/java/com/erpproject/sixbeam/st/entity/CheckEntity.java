@@ -28,16 +28,16 @@ public class CheckEntity {
     @JoinColumn(name = "whmove_cd")
     private WhmoveEntity whmoveEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "whregist_cd")
-    private WhregistEntity whregistEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "item_cd")
-    private ItemEntity itemEntity;
-
     @Column(name = "check_pr")
     private Integer checkPr;
+
+//    @ManyToOne
+//    @JoinColumn(name = "whregist_cd")
+//    private WhregistEntity whregistEntity;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "item_cd")
+//    private ItemEntity itemEntity;
 
 }
     /* 2024-02-08 이전

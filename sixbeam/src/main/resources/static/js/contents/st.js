@@ -86,11 +86,10 @@ $(document).ready(function() {
 
         var releaseDt = $('#currentDate').val();
         var empInfoId = $('#empInfoId').val();
-        var accountCd = $('#accountCode').val();
+        var saleCd  = $('#saleCd').val();
         var releaseRv = $('#releaseRv').val();
         var releasePhone = $('#releasePhone').val();
         var releaseZc = $('#releaseZc').val();
-        var whregistNm = $('#whregistCode').val();
         var releaseAddr = $('#releaseAddr').val();
 
         $('.table.item tbody tr').each(function(index) {
