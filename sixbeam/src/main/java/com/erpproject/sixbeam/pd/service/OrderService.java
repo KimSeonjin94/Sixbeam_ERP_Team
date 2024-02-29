@@ -53,9 +53,9 @@ public class OrderService {
 
         for (OrderDto orderDto : orderDtos) {
             EmpInfoEntity empInfoEntity = empInfoRepository.findById(orderDto.getEmpInfoEntity().getEmpInfoId())
-                    .orElseThrow(() -> new EntityNotFoundException("Employer not found"));
+                    .orElseThrow(() -> new EntityNotFoundException("회원코드를 찾을 수 없습니다."));
             ItemEntity itemEntity = itemRepository.findById(orderDto.getItemEntity().getItemCd())
-                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                    .orElseThrow(() -> new EntityNotFoundException("품목코드를 찾을 수 없습니다."));
 
             orderDto.setEmpInfoEntity(empInfoEntity);
             orderDto.setItemEntity(itemEntity);

@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 public interface InoutRepository extends JpaRepository<InoutEntity, String> {
 
-    List<InoutEntity> findByInoutCd(String inoutCd);
+    List<InoutEntity> findByInoutCmptCd(String inoutCd);
 
-    @Query("SELECT MAX(i.inoutCd) FROM InoutEntity i WHERE i.inoutDt = :inoutDate")
-    String getMaxInoutCd(@Param("inoutDate") LocalDate inoutDate);
+    @Query("SELECT MAX(i.inoutCmptCd) FROM InoutEntity i WHERE i.inoutDt = :inoutDate")
+    String getMaxInoutCmptCd(@Param("inoutDate") LocalDate inoutDate);
 }

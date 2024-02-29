@@ -6,6 +6,7 @@ import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -30,7 +31,7 @@ public class InoutEntity {
     private OrderEntity orderEntity;
 
     @Column(name = "INOUT_DT")
-    private Date inoutDt;
+    private LocalDate inoutDt;
 
     @ManyToOne
     @JoinColumn(name = "WHREGIST_CD")
