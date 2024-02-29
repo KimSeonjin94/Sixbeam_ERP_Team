@@ -53,7 +53,7 @@ public class OrderService {
 
         for (OrderDto orderDto : orderDtos) {
             EmpInfoEntity empInfoEntity = empInfoRepository.findById(orderDto.getEmpInfoEntity().getEmpInfoId())
-                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                    .orElseThrow(() -> new EntityNotFoundException("Employer not found"));
             ItemEntity itemEntity = itemRepository.findById(orderDto.getItemEntity().getItemCd())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
 
@@ -62,7 +62,6 @@ public class OrderService {
 
             OrderEntity orderEntity = orderDto.toEntity();
             String newOrderCd = generateNewOrderCd(orderDto.getOrderInstDt());
-
             orderEntity.setOrderCd(newOrderCd);
             orderRepository.save(orderEntity);
         }

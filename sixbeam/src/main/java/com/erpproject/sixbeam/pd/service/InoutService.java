@@ -3,12 +3,12 @@ package com.erpproject.sixbeam.pd.service;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
 import com.erpproject.sixbeam.pd.dto.InoutDto;
-import com.erpproject.sixbeam.pd.dto.OrderDto;
 import com.erpproject.sixbeam.pd.entity.InoutEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.entity.OrderEntity;
 import com.erpproject.sixbeam.pd.repository.InoutRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
+import com.erpproject.sixbeam.pd.repository.OrderRepository;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,6 +27,7 @@ public class InoutService {
     private final ItemRepository itemRepository;
     private final EmpInfoRepository empInfoRepository;
     private final WhregistRepository whregistRepository;
+    private final OrderRepository orderRepository;
 
     public List<InoutEntity> getList() {
 
@@ -51,17 +52,20 @@ public class InoutService {
     public void saveInout(List<InoutDto> inoutDtos) {
 
         for (InoutDto inoutDto : inoutDtos) {
-            EmpInfoEntity empInfoEntity = empInfoRepository.findById(inoutDto).getEmpInfoEntity().getEmpInfoId());
-                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            EmpInfoEntity empInfoEntity = empInfoRepository.findByEmpInfoId(inoutDto.getEmpInfoEntity().getEmpInfoId())
+                    .orElseThrow(() -> new EntityNotFoundException("Employer not found"));
             ItemEntity itemEntity = itemRepository.findById(inoutDto.getItemEntity().getItemCd())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            OrderEntity orderEntity = orderRepository.findByOrderCd(inoutDto.getOrderEntity().getOrderCd())
+                    .orElseThrow(() -> new EntityNotFoundException("Order not found"));
+            WhregistEntity whregistEntity = whregistRepository.findByWhregistCd(inoutDto.getWhregistEntity().getWhregistCd()).
+                    orElseThrow(() -> new EntityNotFoundException("Warehouse not found"));
 
             inoutDto.setEmpInfoEntity(empInfoEntity);
             inoutDto.setItemEntity(itemEntity);
 
-            OrderEntity inoutEntity = inoutDto.toEntity();
-            String newinoutCd = generateNewInoutCd(inoutDto.getInoutInstDt());
-
+            InoutEntity inoutEntity = inoutDto.toEntity();
+            String newinoutCd = generateNewInoutCd(inoutDto.getInoutDt());
             inoutEntity.setInoutCd(newInoutCd);
             inoutRepository.save(inoutEntity);
         }
