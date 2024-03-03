@@ -1,10 +1,13 @@
 package com.erpproject.sixbeam.pd.controller;
 
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.pd.Form.BomForm;
 import com.erpproject.sixbeam.pd.Form.OrderForm;
+import com.erpproject.sixbeam.pd.dto.BomDto;
 import com.erpproject.sixbeam.pd.dto.OrderDto;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.entity.OrderEntity;
+import com.erpproject.sixbeam.pd.entity.RitemEntity;
 import com.erpproject.sixbeam.pd.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,34 +26,36 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/orderlist")
-    public String list(Model model) {
+    @GetMapping("/new")
+    public String newOrderDto(Model model) {
 
-        // 서비스를 통해 모든 품목을 가져옴
-        List<OrderEntity> orderEntities = orderService.getList();
 
-        // 가져온 품목 리스트를 모델에 담음
-        model.addAttribute("orderEntities", orderEntities);
+        OrderForm form = new OrderForm();
+        List<EmpInfoEntity> empInfoEntities = orderService.getEmpList();
+        List<ItemEntity> itemEntities =  orderService.getItemList();
 
-        // 완품 리스트 뷰페이지 반환
-        return "contents/pd/order_list";
+        form.getOrderDtos().add(new OrderDto());
+        form.getOrderDtos().add(new OrderDto());
+
+        model.addAttribute("getEmpList", empInfoEntities);
+        model.addAttribute("getItemList", itemEntities);
+
+        orderService.readyOrderForm(model);
+        return "contents/pd/order_form";
     }
 
     @GetMapping("/create")
-    public String orderCreate(Model model) {
+    public ResponseEntity<?> createOrderDto(@ModelAttribute OrderForm orderForm) {
 
-        OrderForm form = new OrderForm();
-        List<EmpInfoEntity> empInfoEntity = orderService.getEmpList();
-        List<ItemEntity> itemEntity =  orderService.getItemList();
+        return orderService.createOrderDto(orderForm);
+    }
 
-        form.getOrderDtos().add(new OrderDto());
-        form.getOrderDtos().add(new OrderDto());
+    @GetMapping("/orderlist")
+    public String list(Model model) {
 
-        model.addAttribute("getEmpList",empInfoEntity);
-        model.addAttribute("getItemList",itemEntity);
-        model.addAttribute("orderForm",form);
+        orderService.getOrderList(model);
 
-        return "contents/pd/order_form";
+        return "contents/pd/order_list";
     }
 
     @PostMapping("/save")

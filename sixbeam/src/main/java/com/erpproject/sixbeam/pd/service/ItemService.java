@@ -93,7 +93,7 @@ public class ItemService {
         itemRepository.save(itemEntity);
     }
 
-    private String generateNewFitemCd() {
+    public String generateNewFitemCd() {
 
         // "F"로 시작하는 새로운 품목 코드 생성
         String prefix = "F";
