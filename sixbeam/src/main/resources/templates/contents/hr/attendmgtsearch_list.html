@@ -9,26 +9,19 @@
                 // 선택된 날짜 가져오기
                 var selectedDate = $(this).val();
 
-                // 폼 데이터 생성
-                var formData = {
-                    selectedDate: selectedDate
-                };
-
-                // 폼에 데이터 추가
-                for (var key in formData) {
-                    if (formData.hasOwnProperty(key)) {
-                        var input = document.createElement("input");
-                        input.type = "hidden";
-                        input.name = key;
-                        input.value = formData[key];
-                        document.querySelector(".formEntry").appendChild(input);
+                // Ajax 요청 수행
+                $.ajax({
+                    type: "POST",
+                    url: "/hr/attendmgtsearch/create",
+                    data: { selectedDate: selectedDate },
+                    success: function (data) {
+                        // 성공적으로 데이터를 받아왔을 때 부분 업데이트 수행
+                        $('#dataTable').html(data);
+                    },
+                    error: function (error) {
+                        console.log("Error:", error);
                     }
-                }
-
-                // 페이지 새로고침 (폼이 제출됨)
-                // 여기서는 이벤트를 중지시켜 실제로 폼이 서버로 전송되지 않도록 합니다.
-                event.preventDefault();
-                document.querySelector(".formEntry").submit();
+                });
             });
         });
     </script>
@@ -62,7 +55,7 @@
                                 <th>사유</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody th:fragment="attemdmgtsearchTable">
                             <tr th:each="work : ${workScheduleList}">
                                 <td th:text="${work.workScheduleDate}"></td>
                                 <td th:text="${work.empInfoEntity.departEntity.departNm}"></td>
