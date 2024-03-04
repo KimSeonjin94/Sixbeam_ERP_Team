@@ -11,7 +11,9 @@ import com.erpproject.sixbeam.pd.repository.FitemRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.repository.RitemRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Generated;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -55,15 +57,17 @@ public class BomService {
     public void getBomList(Model model) {
 
         BomForm bomForm = new BomForm();
+
         // 데이터 가져오기
         List<BomEntity> getbomEntity = getList();
         List<ItemEntity> getitemEntity = this.itemService.getList();
+
         // form 데이터 입력란 추가
         bomForm.getBomDtos().add(new BomDto());
+
         // 모델에 데이터 등록
-        model.addAttribute("bomlist", getbomEntity);
+        model.addAttribute("getbomlist", getbomEntity);
         model.addAttribute("getitemlist", getitemEntity);
-        // 모든 데이터 뷰페이지 반환
     }
 
 
@@ -93,27 +97,6 @@ public class BomService {
         model.addAttribute("power", powers);
         model.addAttribute("case", cases);
         model.addAttribute("bomForm", bomForm);
-    }
-
-    public void create(List<BomDto> bomDtos) {
-
-        List<BomEntity> bomEntities = new ArrayList<>();
-
-        for (BomDto bomDto : bomDtos) {
-
-            FitemEntity fitemEntity = fitemRepository.findById(bomDto.getFitemEntity().getItemCd()).orElseThrow(() -> new EntityNotFoundException("Fitem not found"));
-            RitemEntity ritemEntity = ritemRepository.findById(bomDto.getRitemEntity().getItemCd()).orElseThrow(() -> new EntityNotFoundException("Ritem not found"));
-
-//            itemService.saveFitem(bomDtos);
-
-            bomDto.setFitemEntity(fitemEntity);
-            bomDto.setRitemEntity(ritemEntity);
-
-            BomEntity bomEntity = bomDto.toEntity();
-
-            bomEntities.add(bomEntity);
-        }
-        bomRepository.saveAll(bomEntities);
     }
 
     public void updateAll(List<BomDto> bomDtos) {
@@ -150,6 +133,30 @@ public class BomService {
 
             return ResponseEntity.badRequest().body(errorResponse);
         }
+    }
+
+    public void create(List<BomDto> bomDtos) {
+
+        List<BomEntity> bomEntities = new ArrayList<>();
+
+        for (BomDto bomDto : bomDtos) {
+
+            String newFitemCd = itemService.generateNewFitemCd();
+
+            FitemEntity fitemEntity = new FitemEntity();
+            fitemEntity.setItemCd(newFitemCd);
+            fitemEntity.setItemNm(bomDto.getFitemEntity().getItemNm());
+
+            RitemEntity ritemEntity = ritemRepository.findById(bomDto.getRitemEntity().getItemCd()).orElseThrow(() -> new EntityNotFoundException("Ritem not found"));
+
+            bomDto.setFitemEntity(fitemEntity);
+            bomDto.setRitemEntity(ritemEntity);
+
+            BomEntity bomEntity = bomDto.toEntity();
+
+            bomEntities.add(bomEntity);
+        }
+        bomRepository.saveAll(bomEntities);
     }
 
     public ResponseEntity<List<BomEntity>> getBomDetails(String itemCd) {

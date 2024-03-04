@@ -29,6 +29,6 @@ public class BomEntity {
     @Column(name = "BOM_USE_MT")
     private Long bomUseMt;
 
-    @Column(name = "BOM_WORK_TM")
+    @Column(name = "BOM_WORK_TM", nullable = true)
     private Time bomWorkTm;
 }
