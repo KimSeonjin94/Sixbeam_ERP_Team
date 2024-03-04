@@ -62,6 +62,7 @@ public class InputService {
     }
     
     public void save(InputDto inputDto) {
+        //구매 테이블에서 저장된 발주코드가 있는지 확인하여 있으면 이미 저장이 되어 있으므로 동일한 발주코드로 저장안되게 함
         boolean isReferenced = inputRepository.existsByOrinputEntity_OrinputCd(inputDto.getOrinputEntity().getOrinputCd());
         if (isReferenced) {
             throw new IllegalStateException("동일한 발주 코드 진행 이력이 있어 저장이 불가 합니다.");
@@ -70,11 +71,9 @@ public class InputService {
         OrinPutEntity orinPutEntity = orinPutRepository.findById(inputDto.getOrinputEntity().getOrinputCd()).
                 orElseThrow(() -> new EntityNotFoundException("발주 코드를 찾을 수 없습니다."));
 
-        // WhregistEntity 조회
         WhregistEntity whregistEntity = whregistRepository.findById(inputDto.getWhregistEntity().getWhregistCd())
                 .orElseThrow(() -> new EntityNotFoundException("창고 코드를 찾을 수 없습니다."));
 
-        // InputEntity 생성 및 저장
         InputEntity inputEntity = inputDto.toEntity();
         String newInputCd = generateNewInputCd(inputDto.getInputPurDt());
         inputEntity.setInputPurCd(newInputCd);
