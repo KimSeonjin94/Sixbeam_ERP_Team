@@ -1,0 +1,68 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            거래처별 채권
+        </div>
+        <form id="receivables" th:action="@{/ac/receivables/load}" method="GET">
+            <div class="card-body">
+                    <div class="form-group row">
+                        <label for="accountCodeList" class="col-sm-2 col-form-label">거래처 코드</label>
+                        <input type="text" class="form-control col-sm-10" id="accountCode" name="accountCode" list="accountCodeList">
+                        <datalist id="accountCodeList" >
+                            <option th:each="actlist : ${actList}" th:value="${actlist.accountCd}"
+                                    th:text="${actlist.accountNm}">
+                            </option>
+                        </datalist>
+                    </div>
+                    <div class="form-group row">
+                        <label for="accountName" class="col-sm-2 col-form-label">거래처명</label>
+                        <input type="text" class="form-control col-sm-10" id="accountName" name="accountName">
+                    </div>
+                    <div class="form-group row">
+                        <label for="startDate" class="col-sm-2 col-form-label">기준일자</label>
+                        <input type="date" class="form-control col-sm-4" id="startDate" name="startDate">
+                        <p>  &nbsp;&nbsp; ~ &nbsp;&nbsp;  </p>
+                        <input type="date" class="form-control col-sm-4" id="endDate" name="endDate">
+                    </div>
+
+            </div>
+            <div class="card-footer text-muted d-flex justify-content-end">
+                <button type="submit" id="search-button" class="btn btn-primary-ac">검색</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card shadow mb-4">
+        <table class="table item">
+            <thead>
+            <tr>
+                <th>거래처 코드</th>
+                <th>거래처명</th>
+                <th>기초채권</th>
+                <th>재고매출</th>
+                <th>수금</th>
+                <th>공급가액</th>
+                <th>잔액</th>
+                <th>미청구액</th>
+                <th>비고</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="text" class="form-control accountCode" name="거래처명 코드" /></td>
+                <td><input type="text" class="form-control accountName" name="거래처명" /></td>
+                <td><input type="text" class="form-control basicReceivable" name="기초채권" /></td>
+                <td><input type="text" class="form-control receivablesSum" name="재고매출" /></td>
+                <td><input type="text" class="form-control" th:value="${receivablesSum}" name="재고매출" /></td>
+                <td><input type="text" class="form-control" th:value="${receivablesSum}" name="재고매출" /></td>
+                <td><input type="text" class="form-control" th:value="${receivablesSum}" name="재고매출" /></td>
+                <td><input type="text" class="form-control" th:value="${receivablesSum}" name="재고매출" /></td>
+                <td><input type="text" class="form-control" th:value="${receivablesSum}" name="재고매출" /></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</html>

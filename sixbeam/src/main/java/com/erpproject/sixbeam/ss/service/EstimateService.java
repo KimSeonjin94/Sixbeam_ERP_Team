@@ -15,13 +15,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -134,6 +129,84 @@ public class EstimateService {
         }
         estimateRepository.deleteAll(estimateEntityList);
     }
+
+    public int getIsNetSales(LocalDate startDate,LocalDate endDate){
+        int total=0;
+        List<SaleEntity> saleEntities=saleRepository.getSaleListBetweenDates(startDate,endDate);
+        for(SaleEntity saleEntity:saleEntities){
+            List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
+            for(EstimateEntity estimateEntity: estimateEntities){
+                total+=estimateEntity.getEstimateTamt();
+            }
+        }
+        return total;
+
+    }
+    public Map<String,Integer> getTotalBetweenDates(LocalDate startDate,LocalDate endDate){
+        int totale=0;
+        Map<String,Integer> map= new HashMap<>();
+        List<SaleEntity> saleEntities=saleRepository.getSaleListBetweenDates(startDate,endDate);
+        for(SaleEntity saleEntity : saleEntities){
+            List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
+            String accountCd=estimateEntities.get(0).getAccountEntity().getAccountCd();
+            for(EstimateEntity estimateEntity:estimateEntities){
+                totale=estimateEntity.getEstimateTamt();
+                if(map.containsKey(accountCd)){
+                    map.put(accountCd,map.get(accountCd)+totale);
+
+                }else{
+                    map.put(accountCd,totale);
+                }
+                totale=0;
+            }
+        }
+        return map;
+    }
+
+    public Map<String,Integer> getTotalBetweenYearDates(String accountCd){
+        int totale=0;
+        Map<String,Integer> map= new HashMap<>();
+        AccountEntity accountEntity = accountRepository.findById(accountCd)
+                .orElseThrow(() -> new EntityNotFoundException("거래처 코드를 찾을 수 없습니다.."));
+
+        List<EstimateEntity> estimateEntities=estimateRepository.findByAccountEntity(accountEntity);
+        map.put("Total",totale);
+        for(int i=1; i<13;i++){
+            map.put(String.valueOf(i),0);
+        }
+        for(EstimateEntity estimateEntity : estimateEntities){
+            Optional<SaleEntity> OpSaleEntity = saleRepository.findByEstimateCd(estimateEntity.getEstimateCd());
+            if(OpSaleEntity.isEmpty()){
+                break;
+            }
+            totale=estimateEntity.getEstimateTamt();
+            map.put("Total",map.get("Total")+totale);
+            if(LocalDate.now().getYear()==estimateEntity.getEstimateDt().getYear()){
+                int month=estimateEntity.getEstimateDt().getMonthValue();
+                map.put(String.valueOf(month),map.get(String.valueOf(month))+totale);
+            }
+            totale=0;
+        }
+        return map;
+    }
+    public int getAccountTotal(String accountCd){
+        int total=0;
+        AccountEntity accountEntity=accountRepository.findById(accountCd)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid account Id:" + accountCd));
+
+        List<EstimateEntity> estimateEntities=estimateRepository.findByAccountEntity(accountEntity);
+
+        for(EstimateEntity estimateEntity:estimateEntities){
+            SaleEntity saleEntity=saleRepository.findByEstimateCd(estimateEntity.getEstimateCd())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid estimateCd:" + estimateEntity.getEstimateCd()));
+            if(saleEntity.isSaleBillingSt()){
+                total+=estimateEntity.getEstimateTamt();
+            }
+        }
+        return total;
+
+    }
+
     private String generateNewEstimateCd(LocalDate estimateDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "ES" + estimateDate.format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";

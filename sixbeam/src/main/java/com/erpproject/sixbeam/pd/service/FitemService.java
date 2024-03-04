@@ -28,8 +28,8 @@ public class FitemService {
             fitemEntity.setItemUp((item.getItemUp()));
             fitemEntities.add(fitemEntity);
         }
-        return fitemRepository.saveAll(fitemEntities);
 
+        return fitemRepository.saveAll(fitemEntities);
     }
 
     public List<FitemEntity> getFitemList() {

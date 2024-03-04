@@ -1,6 +1,6 @@
 $('#detailEstimateCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
-    var currentUrl = window.location.href;
+
     var estimateId = $(this).data('id'); // data-id 속성에서 ID 가져오기
     $('#estimatedetail').modal('hide');
 
@@ -12,14 +12,17 @@ $('#detailEstimateCd[data-id]').on('click', function() {
             data.forEach(function(value, key) {
                 console.log(key + ': ' + value);
             });
+            var currentUrl = window.location.href;
             if (data && data.length > 0) {
                 // 성공 시 모달 내용 업데이트
-
+                console.log(currentUrl);
                 var modaltBody=$('.formEntry .table.item tbody');;
                 if (currentUrl.includes("estimate")) {
                     modaltBody = $('#detail .formEntry .table.item tbody');
-                }else if(currentUrl.includes("sale")){
+                }else if(currentUrl.includes("sale/list")){
                     modaltBody = $('#new .formEntry .table.item tbody');
+                }else if(currentUrl.includes("sale/new")){
+                    modaltBody = $('.formEntry .table.item tbody');
                 }
                 modaltBody.empty();
                 $('#estimateCd').val(data[0].estimateCd);
@@ -157,7 +160,7 @@ $('#estimatedetail').on('show.bs.modal', function () {
 });
 $(document).ready(function() {
     // 모달이 hide되는 이벤트를 감지
-    $('.modal').on('hidden.bs.modal', function () {
+    $('#new').on('hidden.bs.modal', function () {
         var currentUrl = window.location.href;
 
         if (currentUrl.includes("sale") || currentUrl.includes("estimate")){
@@ -165,6 +168,7 @@ $(document).ready(function() {
             $('.formEntry select').each(function() {
                 this.selectedIndex = 0;
             });
+            $('#new .formEntry .table.item tbody').empty();
         }
     });
 });

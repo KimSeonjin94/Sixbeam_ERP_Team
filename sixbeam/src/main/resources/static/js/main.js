@@ -150,12 +150,11 @@
         }
     }
 
-
-
-
 })(jQuery); // End of use strict
+
+
 $(document).ready(function() {
-    //id를 currentData로 하면 현재 날짜를 볼러 올 수 있도록 하는 제이쿼리
+    //id를 currentData로  하면 현재 날짜를 볼러 올 수 있도록 하는제이쿼리
     $('#currentDate').val(new Date().toISOString().substring(0,10));
 
     //거래처 코드 선택하면 거래처명이 나올 수 있도록 하는 제이쿼리
@@ -413,9 +412,11 @@ $(document).ready(function() {
 $('.reset').click(function() {
     // 폼 내의 모든 input 필드의 값을 초기화
     $('.formEntry input[type="text"]').val('');
+    $('.formEntry input[type="date"]').val('');
     $('.formEntry select').each(function() {
         this.selectedIndex = 0;
     });
+    $('#currentDate').val(new Date().toISOString().substring(0,10));
 });
 $(document).ready(function() {
     // 로그인 버튼 클릭 이벤트
@@ -445,4 +446,26 @@ $(document).ready(function() {
 
     }
     // 필요에 따라 submitForm 함수를 사용할 수 있습니다.
+});
+$(document).ready(function() {
+    $('#submit').click(function(e){
+        e.preventDefault();
+        $.ajax({
+            type: $('#findPasswordForm').attr('method'), // POST 또는 GET
+            url: $('#findPasswordForm').attr('action'),
+            data: $('#findPasswordForm').serialize(), // 폼 데이터 직렬화
+            success: function(response) {
+                alert(response.message);
+
+            },
+            error: function(xhr){
+                alert(xhr.message);
+            }
+        });
+    });
+});
+$('.formEntry').on('keydown', function(event) {
+    if (event.keyCode === 13) { // 엔터 키 입력 확인
+        event.preventDefault(); // 기본 동작 중지
+    }
 });

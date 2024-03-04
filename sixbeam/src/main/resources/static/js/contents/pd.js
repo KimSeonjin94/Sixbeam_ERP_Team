@@ -1,4 +1,3 @@
-
 function setItemInfo(itemCd, itemNm, itemStnd, itemUp) {
     $('#editItem').modal('show');
     $('#editItemCd').val(itemCd);
@@ -6,6 +5,14 @@ function setItemInfo(itemCd, itemNm, itemStnd, itemUp) {
     $('#editItemStnd').val(itemStnd);
     $('#editItemUp').val(itemUp);
 }
+
+function setEmpInfo(empInfoNm, empInfoPhone, empInfoEmail) {
+    $('#detailOrder').modal('show');
+    $('#detailEmpInfoNm').val(empInfoNm);
+    $('#detailEmpInfoPhone').val(empInfoPhone);
+    $('#detailEmpInfoEmail').val(empInfoEmail);
+}
+
 
 function createItemFinished() {
 
@@ -44,7 +51,9 @@ function deleteItemFinished() {
     var selectedIds = [];
 
     // 모든 'selectedInfo' 클래스를 가진 체크박스를 찾고 선택된 항목의 값만 배열에 추가
-    document.querySelectorAll('.selectedInfo:checked').forEach(function (checkbox) {
+    document.querySelectorAll('.' +
+        '' +
+        'selectedInfo:checked').forEach(function (checkbox) {
         selectedIds.push(checkbox.value);
     });
 
@@ -87,10 +96,13 @@ function checkInput(event) {
 }
 
 function checkInput2(event) {
+
     // 입력된 값 가져오기
     var inputValue = event.target.value;
+
     // 숫자가 아닌 입력이 발생할 경우 처리
     if (!/^\d*$/.test(inputValue)) {
+
         // 입력을 막기 위해 빈 문자열로 설정
         event.target.value = event.target.value.replace(/[^\d]/g, '');
     }
@@ -181,6 +193,7 @@ $('#editDetailItembtn[data-id]').on('click', function () {
             response.forEach(function (bomEntity, index) {
 
                 itemSum += (bomEntity.ritemEntity.itemUp * bomEntity.bomUseMt);
+
                 // 부속품의 각 정보를 테이블에 추가
                 var row = $('<tr>');
 
@@ -206,4 +219,80 @@ $('#editDetailItembtn[data-id]').on('click', function () {
             console.error('Failed to fetch ritem details:', error);
         }
     });
+});
+
+// itemcd
+$(document).ready(function () {
+
+    // 품목코드 선택하면 품목명, 품목규격, 가격이 나올 수 있도록 하는 제이쿼리
+    $("#itemcode").on('input', function () {
+        var inputVal = $(this).val();
+
+        $("#itemcodeSelectBox option").each(function () {
+            if ($(this).val() === inputVal) {
+                var itemNm = $(this).text();
+                var dataid = $(this).data('id');
+                $("#itemname").val(itemNm);
+                $("#itempic").val(dataid);
+                return false; // 반복문 종료
+            }
+        });
+    });
+});
+
+function calculateTotals() {
+    var totalAmt = 0, totalUp = 0, totalSp = 0, totalVat = 0, totalSum = 0;
+
+    $('.itemamt').each(function() {
+        totalAmt += parseInt($(this).val()) || 0;
+    });
+    $('.itemup').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalUp += parseInt(value) || 0;
+    });
+    $('.itemsp').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalSp += parseInt(value) || 0;
+    });
+    $('.itemvar').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalVat += parseInt(value) || 0;
+    });
+    $('.itemsum').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalSum += parseInt(value) || 0;
+    });
+
+    // 계산된 합계를 통화 형식으로 표시
+    $('#totalAmt').text(totalAmt);
+    $('#totalUp').text(formatCurrency(totalUp));
+    $('#totalSp').text(formatCurrency(totalSp));
+    $('#totalVat').text(formatCurrency(totalVat));
+    $('#totalSum').text(formatCurrency(totalSum));
+}
+
+$('.table.item').on('change input', '.selectbox, .itemamt', function() {
+    var $row = $(this).closest('tr');
+    var itemamt = parseFloat($row.find('.itemamt').val());
+    var itemup = parseFloat($row.find('.itemup').val().replace(/[^\d.-]/g, '')); // 숫자가 아닌 문자 제거
+
+    if ($(this).hasClass('selectbox')) { // .selectbox에서의 변경인 경우에만 처리
+        var valueitemname = $(this).find(':selected').attr("data-itemNm");
+        var valueitmestnd = $(this).find(':selected').attr("data-itemStnd");
+        var valueitmeup = parseFloat($(this).find(':selected').attr("data-itemUp")); // 문자열을 숫자로 변환
+
+        $(this).closest('tr').find('.itemname').val(valueitemname);
+        $(this).closest('tr').find('.itemstnd').val(valueitmestnd);
+        $(this).closest('tr').find('.itemup').val(valueitmeup.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }));
+    }
+
+    if (!isNaN(itemamt) && !isNaN(itemup)) {
+        var itemsp = itemamt * itemup;
+        var itemvar = itemsp * 0.1;
+        var itemsum = itemsp + itemvar;
+
+        $row.find('.itemsp').val(itemsp.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }));
+        $row.find('.itemvar').val(itemvar.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }));
+        $row.find('.itemsum').val(itemsum.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }));
+    }
 });

@@ -20,4 +20,7 @@ public interface InputRepository extends JpaRepository<InputEntity, String> {
 
     @Query("SELECT MAX(i.inputPurCd) FROM InputEntity i WHERE i.inputPurDt = :inputPurDate")
     String getMaxInputCd(@Param("inputPurDate") LocalDate inputPurDate);
+
+    @Query("SELECT i FROM InputEntity i WHERE i.inputPurDt BETWEEN :startDate and :endDate")
+    List<InputEntity> findInputByDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

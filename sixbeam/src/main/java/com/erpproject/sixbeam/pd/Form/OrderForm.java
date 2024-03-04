@@ -1,6 +1,6 @@
 package com.erpproject.sixbeam.pd.Form;
 
-import com.erpproject.sixbeam.pd.dto.ItemDto;
+import com.erpproject.sixbeam.pd.dto.OrderDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class ItemForm {
+public class OrderForm {
 
-    private final List<ItemDto> itemDtos = new ArrayList<>();
+    private List<OrderDto> orderDtos = new ArrayList<>();
 }

@@ -86,11 +86,10 @@ $(document).ready(function() {
 
         var releaseDt = $('#currentDate').val();
         var empInfoId = $('#empInfoId').val();
-        var accountCd = $('#accountCode').val();
+        var saleCd  = $('#saleCd').val();
         var releaseRv = $('#releaseRv').val();
         var releasePhone = $('#releasePhone').val();
         var releaseZc = $('#releaseZc').val();
-        var whregistNm = $('#whregistCode').val();
         var releaseAddr = $('#releaseAddr').val();
 
         $('.table.item tbody tr').each(function(index) {
@@ -242,7 +241,7 @@ $(document).ready(function() {
         // AJAX를 사용하여 폼 데이터 제출
         $.ajax({
             type: $(this).attr('method'), // POST 또는 GET
-            url: $(this).attr('action..'),
+            url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
             success: function(response) {
                 $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력

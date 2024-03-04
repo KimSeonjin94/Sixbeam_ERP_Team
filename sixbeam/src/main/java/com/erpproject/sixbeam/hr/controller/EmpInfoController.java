@@ -9,6 +9,7 @@ import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import com.erpproject.sixbeam.hr.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping("/hr/empinfo")
@@ -121,5 +124,27 @@ public class EmpInfoController {
     public String delete( @RequestParam(value = "selectedEmployees")List<Long>empInfoId) {
         empInfoService.deleteEmployee(empInfoId);
         return "redirect:/hr/empinfo/list"; // Redirect to the employee list page or any other appropriate page
+    }
+
+    @PostMapping("/pw")
+    public ResponseEntity<?> findpw(@RequestParam(value = "findEmpInfoId") Long id){
+
+        try {
+
+            String pw=empInfoService.findEmpInfoPasswordById(id);
+            if(pw==null){
+                throw new IllegalArgumentException("검색할수 없는 아이디입니다");
+            }
+            Map<String,Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", pw);
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "틀린 아이디 입니다.");
+
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 }

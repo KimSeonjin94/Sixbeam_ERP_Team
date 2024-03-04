@@ -29,7 +29,7 @@
 						<th>품목 코드</th>
 						<th>품목</th>
 						<th>규격</th>
-						<th>단가</th>
+						<th>가격</th>
 						<th></th>
 					</tr>
 					</thead>
@@ -47,17 +47,17 @@
 							<!-- Button trigger modal -->
 							<td>
 								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
-								        data-target = "#detailItem" id = "editDetailItembtn"
+								        data-target = "#detailItem" id = "detailItembtn"
 								        th:if = "${item.itemCd != null and item.itemCd.startsWith('F')}"
 								        th:data-id = "${item.itemCd}">
 									상세
 								</button>
+							</td>
 						</div>
 					</tr>
 					</tbody>
 				</table>
 			</div>
-			
 			
 			<!-- Modal -->
 			<div class = "modal fade" id = "newItem" tabindex = "-1" aria-labelledby = "newItemModalLabel"
@@ -72,7 +72,7 @@
 							</button>
 						</div>
 						
-						<form action = "/pd/item/create" method = "post" id = "createform">
+						<form action = "/pd/item/fcreate" method = "post" id = "createform">
 							<div class = "modal-body-ac">
 								<div class = "form-group row">
 									<label for = "itemNm" class = "col-sm-2 col-form-label">품목명</label>
@@ -104,54 +104,9 @@
 				</div>
 			</div>
 			
-			
-			<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
-			     aria-hidden = "true">
-				<div class = "modal-dialog modal-dialog-centered modal-xl">
-					<div class = "modal-content">
-						<div class = "modal-header">
-							<h5 class = "modal-title" id = "editItemLabel">품목 정보 수정</h5>
-							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
-								<span aria-hidden = "true">&times;</span>
-							</button>
-						</div>
-						
-						<form action = "/pd/item/update" method = "post">
-							<div class = "modal-body-ac">
-								<div class = "form-group row">
-									<label for = "editItemCd" class = "col-sm-2 col-form-label">품목 코드</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemCd"
-									       name = "itemCd" readonly>
-								</div>
-								<div class = "form-group row">
-									<label for = "editItemNm" class = "col-sm-2 col-form-label">품목명</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemNm"
-									       name = "itemNm" readonly>
-								</div>
-								<div class = "form-group row">
-									<label for = "editItemStnd" class = "col-sm-2 col-form-label">규격</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemStnd"
-									       name = "itemStnd">
-								</div>
-								<div class = "form-group row">
-									<label for = "editItemUp" class = "col-sm-2 col-form-label">단가</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemUp"
-									       name = "itemUp" oninput = "checkInput2(event);" readonly>
-								</div>
-							</div>
-							<div class = "modal-footer">
-								<button type = "submit" class = "btn btn-danger" th:onclick = "createItemFinished()">수정
-								</button>
-								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			
 			<div class = "modal fade" id = "detailItem" tabindex = "-1" aria-labelledby = "detailItemModalLabel"
 			     aria-hidden = "true">
-				<div class = "modal-dialog modal-dialog-centered modal-xl">
+				<div class = "modal-dialog modal-dialog-centered modal-lg">
 					<div class = "modal-content">
 						<div class = "modal-header">
 							<h5 class = "modal-title" id = "detailItemLabel">품목 상세 정보</h5>
@@ -183,7 +138,7 @@
 									       name = "itemStnd" style = "text-align: center" readonly>
 								</div>
 								<label for = "detailItemUp" class = "col-sm-2 col-form-label"
-								       style = "text-align: center">합계</label>
+								       style = "text-align: center">가격</label>
 								<div class = "col-sm-4">
 									<input type = "text" class = "form-control col-sm-10" id = "detailItemUp"
 									       name = "itemUp" style = "text-align: center" readonly>

@@ -2,6 +2,7 @@ package com.erpproject.sixbeam.st.service;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
+import com.erpproject.sixbeam.st.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
@@ -9,56 +10,21 @@ import com.erpproject.sixbeam.st.repository.CheckRepository;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.time.LocalDate;
 import java.util.*;
 
 @RequiredArgsConstructor
 @Service
-public class CheckService {
+public class
+CheckService {
 
     private final CheckRepository checkRepository;
-    private final WhmoveRepository whmoveRepository;
     private final WhregistRepository whregistRepository;
     private final ItemRepository itemRepository;
-
-
-    //통합 조회------------------------------------------------------------------------------
-    public int getTotalOutgoing(LocalDate whmoveDt) {
-        Integer totalOutgoing = checkRepository.findTotalCheck("출고", whmoveDt);
-        return totalOutgoing != null ? totalOutgoing.intValue() : 0;
-    }
-
-    public int getTotalIncoming(LocalDate whmoveDt) {
-        Integer totalIncoming = checkRepository.findTotalCheck("입고", whmoveDt);
-        return totalIncoming != null ? totalIncoming.intValue() : 0;
-    }
-
-    public int getTotalCheckAmt(LocalDate whmoveDt) {
-        Integer totalIncoming = getTotalIncoming(whmoveDt);
-        Integer totalOutgoing = getTotalOutgoing(whmoveDt);
-        return totalIncoming - totalOutgoing;
-    }
-
-    //품목별 조회------------------------------------------------------------------------------
-    public int getItemIncoming(LocalDate whmoveDt, ItemEntity itemEntity) {
-        Integer itemIncoming = checkRepository.findItemCheck("입고", whmoveDt, itemEntity);
-        return itemIncoming != null ? itemIncoming.intValue() : 0;
-    }
-
-    public int getItemOutgoing(LocalDate whmoveDt, ItemEntity itemEntity) {
-        Integer itemOutgoing = checkRepository.findItemCheck("출고", whmoveDt, itemEntity);
-        return itemOutgoing != null ? itemOutgoing.intValue() : 0;
-    }
-
-    public int getTotalItemCheckAmt(LocalDate whmoveDt, ItemEntity itemEntity) {
-        Integer totalItemIncoming = getItemIncoming(whmoveDt, itemEntity);
-        Integer totalItemOutgoing = getItemOutgoing(whmoveDt, itemEntity);
-        return totalItemIncoming - totalItemOutgoing;
-    }
+    private final WhmoveRepository whmoveRepository;
 
     //창고별 조회------------------------------------------------------------------------------
     public int getWhIncoming(LocalDate whmoveDt, WhregistEntity whregistEntity) {
@@ -101,14 +67,18 @@ public class CheckService {
         for (WhregistEntity whregist : allWhregists) {
             for (ItemEntity item : allItems) {
                 Map<String, Object> result = new HashMap<>();
-                result.put("whregistCd", whregist.getWhregistCd());
-                result.put("itemCd", item.getItemCd());
+                result.put("whregistNm", whregist.getWhregistNm());
+                result.put("itemNm", item.getItemNm());
+                result.put("itemStnd", item.getItemStnd());
                 result.put("currentStock", getTotalWhItemCheckAmt(date, whregist, item));
+                long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date,whregist,item);
+                result.put("calcul", calcul);
                 resultList.add(result);
             }
         }
         return resultList;
     }
+
     private List<WhregistEntity> getAllWhregists() {
         return whregistRepository.findAll();
     }
@@ -122,11 +92,50 @@ public class CheckService {
         List<ItemEntity> allItems = getAllItems();
         for (ItemEntity item : allItems) {
             Map<String, Object> result = new HashMap<>();
-            result.put("whregistCd", whregistEntity.get().getWhregistCd());
-            result.put("itemCd", item.getItemCd());
+            result.put("whregistNm", whregistEntity.get().getWhregistNm());
+            result.put("itemNm", item.getItemNm());
+            result.put("itemStnd", item.getItemStnd());
             result.put("currentStock", getTotalWhItemCheckAmt(date,whregistEntity.get(),item));
+            long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date,whregistEntity.get(),item);
+            result.put("calcul", calcul);
             resultList.add(result);
         }
         return resultList;
     }
+    public void addRowCheck(WhmoveEntity whmoveEntity) {
+        CheckEntity checkEntity = new CheckEntity();
+        Long newCheckCd = generateNewCheckCd();
+        checkEntity.setCheckCd(newCheckCd);
+        checkEntity.setWhmoveEntity(whmoveEntity);
+        checkEntity.setCheckAmt(whmoveEntity.getWhmoveAmt());
+        long calculated = whmoveEntity.getWhmoveAmt() * whmoveEntity.getItemEntity().getItemUp();
+        checkRepository.save(checkEntity);
+    }
+    private Long generateNewCheckCd() {
+        Long beforeCd = checkRepository.getMaxCheckCd();
+        Long sequenceNumber = beforeCd + 1;
+        return sequenceNumber;
+    }
+
+    //호진 형님 이거 갖다가 쓰세용~
+    //    public List<CheckEntity> dataForYear(int year) {
+//        return checkRepository.findByWhmoveEntity_WhmoveDtYear(year);
+//    }
+//    public Map<Integer, Object> getSumByYear(int year) {
+//        List<WhregistEntity> allWhregists = getAllWhregists(); // 모든 창고 조회
+//        List<ItemEntity> allItems = getAllItems(); // 모든 품목 조회
+//        List<CheckEntity> a = this.dataForYear(year);
+//        for (WhregistEntity whregist : allWhregists) {
+//            for (ItemEntity item : allItems) {
+//                Map<String, Object> result = new HashMap<>();
+//                result.put("whregistCd", whregist.getWhregistCd());
+//                result.put("itemNm", item.getItemCd());
+//                if (a.get(0).getWhmoveEntity().getWhmoveGb() == "입고") {
+//
+//                }
+//                result.put("currentStock", getTotalWhItemCheckAmt(date, whregist, item));
+//            }
+//        }
+//    }
+
 }

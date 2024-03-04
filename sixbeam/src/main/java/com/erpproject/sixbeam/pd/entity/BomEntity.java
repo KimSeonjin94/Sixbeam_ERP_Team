@@ -17,18 +17,18 @@ import java.sql.Time;
 public class BomEntity {
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "FITEM_CD", referencedColumnName = "item_Cd")
     private FitemEntity fitemEntity;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "RITEM_CD", referencedColumnName = "item_Cd")
     private RitemEntity ritemEntity;
 
     @Column(name = "BOM_USE_MT")
     private Long bomUseMt;
 
-    @Column(name = "BOM_WORK_TM")
+    @Column(name = "BOM_WORK_TM", nullable = true)
     private Time bomWorkTm;
 }

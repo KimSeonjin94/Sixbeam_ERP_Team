@@ -7,8 +7,7 @@ import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.pur.repository.InputRepository;
 import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
-import com.erpproject.sixbeam.ss.entity.SaleEntity;
-import com.erpproject.sixbeam.st.RowAddedEvent;
+import com.erpproject.sixbeam.st.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -44,12 +43,12 @@ public class InputService {
 
         List<OrinPutEntity> orinPutEntity = orinPutRepository.findByOrinputCd(inputDto.getOrinputEntity().getOrinputCd());
         if (orinPutEntity == null) {
-            throw new EntityNotFoundException("OrinPutEntity not found");
+            throw new EntityNotFoundException("발주 코드를 찾을 수 없습니다.");
         }
 
 
         WhregistEntity whregistEntity = whregistRepository.findById(inputDto.getWhregistEntity().getWhregistCd())
-                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                .orElseThrow(() -> new EntityNotFoundException("창고 코드를 찾을 수 없습니다."));
 
         InputEntity inputEntity = inputDto.toEntity();
 
@@ -63,13 +62,17 @@ public class InputService {
     }
     
     public void save(InputDto inputDto) {
+        boolean isReferenced = inputRepository.existsByOrinputEntity_OrinputCd(inputDto.getOrinputEntity().getOrinputCd());
+        if (isReferenced) {
+            throw new IllegalStateException("동일한 발주 코드 진행 이력이 있어 저장이 불가 합니다.");
+        }
 
         OrinPutEntity orinPutEntity = orinPutRepository.findById(inputDto.getOrinputEntity().getOrinputCd()).
-                orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                orElseThrow(() -> new EntityNotFoundException("발주 코드를 찾을 수 없습니다."));
 
         // WhregistEntity 조회
         WhregistEntity whregistEntity = whregistRepository.findById(inputDto.getWhregistEntity().getWhregistCd())
-                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                .orElseThrow(() -> new EntityNotFoundException("창고 코드를 찾을 수 없습니다."));
 
         // InputEntity 생성 및 저장
         InputEntity inputEntity = inputDto.toEntity();
@@ -78,7 +81,7 @@ public class InputService {
         inputEntity.setOrinputEntity(orinPutEntity);
         inputEntity.setWhregistEntity(whregistEntity);
         inputRepository.save(inputEntity);
-        RowAddedEvent<InputEntity> inputEvent = new RowAddedEvent<>(this, inputEntity);
+        WhmoveRowAddedEvent<InputEntity> inputEvent = new WhmoveRowAddedEvent<>(this, inputEntity);
         event.publishEvent(inputEvent);//[이벤트리스너]
     }
     private String generateNewInputCd(LocalDate inputDate) {

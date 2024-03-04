@@ -1,7 +1,5 @@
 package com.erpproject.sixbeam.main;
 
-import jakarta.servlet.DispatcherType;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,8 +17,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -36,7 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().and()
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/sixbeam", "/login", "/register", "/css/**", "/js/**","/vendor/**").permitAll() // 정적 리소스 접근 허용
+                        .requestMatchers("/sixbeam", "/login", "/register", "/css/**", "/js/**","/vendor/**","/hr/empinfo/pw").permitAll() // 정적 리소스 접근 허용
                         .anyRequest()
                         .authenticated())
                 .formLogin((login) -> login
