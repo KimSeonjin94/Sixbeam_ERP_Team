@@ -108,13 +108,11 @@ public class OrinPutService {
     @Transactional
     public void delete(List<String> orinputIds) {
         for (String orinputId : orinputIds) {
-            // ORINPUT_CD를 참조하는 InputEntity가 있는지 확인
+            //구매 테이블에서 저장된 발주코드가 있는지 확인하여 있으면 구매가 진행이 되었기 때문에 삭제 불가
             boolean isReferenced = inputRepository.existsByOrinputEntity_OrinputCd(orinputId);
             if (isReferenced) {
-                // ORINPUT_CD를 참조하는 엔티티가 존재하면 삭제를 거부
                 throw new IllegalStateException("구매 진행이 되어 삭제 불가 합니다.");
             } else {
-                // ORINPUT_CD를 참조하는 엔티티가 없으면 삭제를 진행
                 List<OrinPutEntity> orinPutEntities = orinPutRepository.findByOrinputCd(orinputId);
                 orinPutRepository.deleteAll(orinPutEntities);
             }
