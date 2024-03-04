@@ -41,27 +41,29 @@ function prepareDelete() {
     document.getElementById('deleteForm').submit();
 }
 
-
-$('#search-button').click(function() {
-        var accountCd = $('#accountCd').val();
-        var accountNm = $('#accountNm').val();
+$('#receivables').submit(function(e) {
+        var accountCd = $('#accountCode').val();
+        var accountNm = $('#accountName').val();
+        e.preventDefault();
 
         $.ajax({
-            url: '/api/accounts/search',
-            method: 'GET', // 요청 메소드 지정
-            data: {
-                accountCd: accountCd,
-                accountNm: accountNm
-            },
+            type: $(this).attr('method'), // POST 또는 GET
+            url: $(this).attr('action'),
+            data: $(this).serialize(), // 폼 데이터 직렬화
             success: function(data) {
                 // 결과 데이터를 웹 페이지에 표시하는 코드
                 // 예를 들어 테이블의 내용을 업데이트하는 등의 작업을 수행할 수 있습니다.
+                $('.accountCode').val(data.accountCode);
+                $('.accountName').val(data.accountName);
+                $('.basicReceivables').val(data.basicReceivables);
+                $('.receivablesSum').val(data.receivablesSum);
             },
-            error: function() {
+            error: function(xhr) {
                 // 에러 처리 로직
             }
         });
     });
+
 
 $("#accountCode").on('input', function() {
         var inputVal = $(this).val();
@@ -69,12 +71,11 @@ $("#accountCode").on('input', function() {
         $("#accountCodeList option").each(function() {
             if ($(this).val() === inputVal) {
                 var accountNm = $(this).text();
-                $("#accountNm").val(accountNm);
+                $("#accountName").val(accountNm);
                 return false; // 반복문 종료
             }
         });
 });
-
 
 
 

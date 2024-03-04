@@ -60,60 +60,63 @@ public class InputController {
 
     @PostMapping("/save")
     public ResponseEntity<?> saveInPut(@ModelAttribute InputDto inputDto) {
+        Map<String, Object> Response = null;
         try {
             this.inputService.save(inputDto);
-            Map<String, Object> successResponse = new HashMap<>();
-            successResponse.put("status", "success");
-            successResponse.put("message", "정상적으로 저장되었습니다.");
-            successResponse.put("redirectUrl", "/pur/input/list");
-            return ResponseEntity.ok().body(successResponse); // 저장 후 목록 페이지로 리다이렉트
+            Response = new HashMap<>();
+            Response.put("status", "success");
+            Response.put("message", "정상적으로 저장되었습니다.");
+            Response.put("redirectUrl", "/pur/input/list");  // 저장 후 목록 페이지로 리다이렉트
+            return ResponseEntity.ok().body(Response);
         } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("status", "error");
-            errorResponse.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
+            Response = new HashMap<>();
+            Response.put("status", "error");
+            Response.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
             if(inputDto.getEtc().contains("조회")){
-                errorResponse.put("redirectUrl", "/pur/input/list");
+                Response.put("redirectUrl", "/pur/input/list");
             }else {
-                errorResponse.put("redirectUrl", "/pur/input/create");
+                Response.put("redirectUrl", "/pur/input/create");
             }
-            return ResponseEntity.badRequest().body(errorResponse);
+            return ResponseEntity.badRequest().body(Response);
         }
     }
 
     @PostMapping("/update")
     public ResponseEntity<?> updateinput(@ModelAttribute InputDto inputDto){
+        Map<String, Object> Response = null;
         try {
             inputService.update(inputDto);
-            Map<String, Object> successResponse = new HashMap<>();
-            successResponse.put("status", "success");
-            successResponse.put("message", "정상적으로 수정되었습니다.");
-            successResponse.put("redirectUrl", "/pur/input/list");
-            return ResponseEntity.ok().body(successResponse);
+            Response = new HashMap<>();
+            Response.put("status", "success");
+            Response.put("message", "정상적으로 수정되었습니다.");
+            Response.put("redirectUrl", "/pur/input/list");
+            return ResponseEntity.ok().body(Response);
         } catch (Exception e){
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("status", "error");
-            errorResponse.put("message", String.format("수정에 실패 하였습니다.[%s]", e.getMessage()));
-            errorResponse.put("redirectUrl", "/pur/input/list");
-            return ResponseEntity.badRequest().body(errorResponse);
+            Response = new HashMap<>();
+            Response.put("status", "error");
+            Response.put("message", String.format("수정에 실패 하였습니다.[%s]", e.getMessage()));
+            Response.put("redirectUrl", "/pur/input/list");
+            return ResponseEntity.badRequest().body(Response);
         }
     }
 
     @PostMapping("/delete")
     public ResponseEntity<?> deleteinput(@RequestParam("selectedinput") List<String> selectedInputIds, RedirectAttributes redirectAttributes) {
+        Map<String, Object> Response = null;
         try {
             // 선택된 발주 정보를 삭제
             inputService.delete(selectedInputIds);
-            Map<String, Object> successResponse = new HashMap<>();
-            successResponse.put("status", "success");
-            successResponse.put("message", "정상적으로 삭제되었습니다.");
-            successResponse.put("redirectUrl", "/pur/input/list");
-            return ResponseEntity.ok().body(successResponse); // 삭제 후 목록 페이지로 리다이렉트
+            Response = new HashMap<>();
+            Response.put("status", "success");
+            Response.put("message", "정상적으로 삭제되었습니다.");
+            Response.put("redirectUrl", "/pur/input/list");
+            return ResponseEntity.ok().body(Response); // 삭제 후 목록 페이지로 리다이렉트
         } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("status", "error");
-            errorResponse.put("message", String.format("삭제에 실패 하였습니다.[%s]", e.getMessage()));
-            errorResponse.put("redirectUrl", "/pur/input/list");
-            return ResponseEntity.badRequest().body(errorResponse);
+            Response = new HashMap<>();
+            Response.put("status", "error");
+            Response.put("message", String.format("삭제에 실패 하였습니다.[%s]", e.getMessage()));
+            Response.put("redirectUrl", "/pur/input/list");
+            return ResponseEntity.badRequest().body(Response);
         }
     }
 }

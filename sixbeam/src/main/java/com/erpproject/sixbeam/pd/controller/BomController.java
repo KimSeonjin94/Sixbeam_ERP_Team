@@ -5,16 +5,15 @@ import com.erpproject.sixbeam.pd.dto.BomDto;
 import com.erpproject.sixbeam.pd.entity.BomEntity;
 import com.erpproject.sixbeam.pd.entity.RitemEntity;
 import com.erpproject.sixbeam.pd.service.BomService;
-import com.erpproject.sixbeam.pd.service.ItemService;
+import com.erpproject.sixbeam.pd.service.FitemService;
+import com.erpproject.sixbeam.pd.service.RitemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/pd/bom")
@@ -22,10 +21,20 @@ import java.util.Optional;
 public class BomController {
 
     private final BomService bomService;
+    private final RitemService ritemService;
 
     // BOM 데이터 등록 페이지
     @GetMapping("/new")
     public String newBomDto(Model model) {
+
+        BomForm bomForm = new BomForm();
+        List<RitemEntity> ritemEntities = ritemService.getRitemList();
+
+        // 등록창 두 줄
+        bomForm.getBomDtos().add(new BomDto());
+        bomForm.getBomDtos().add(new BomDto());
+
+        model.addAttribute("getitemlist", ritemEntities);
 
         bomService.readyBomForm(model);
         return "/contents/pd/bom_form";
@@ -43,7 +52,7 @@ public class BomController {
     public String list(Model model) {
 
         bomService.getBomList(model);
-        return "contents/pd/bom_list";
+        return "/contents/pd/bom_list";
     }
 
     // id로 리스트 조회

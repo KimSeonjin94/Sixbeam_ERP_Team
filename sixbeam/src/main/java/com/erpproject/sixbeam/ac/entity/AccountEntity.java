@@ -14,6 +14,7 @@ import lombok.Setter;
 @Setter
 @Table(name="AC_ACCOUNT_TB")
 public class AccountEntity {
+    // dto의 변수들을 DB의 각 컬럼값에 대응시킨다.
     @Id
     @Column(name="ACCOUNT_CD" ,nullable = false)
     private String accountCd;
@@ -36,17 +37,5 @@ public class AccountEntity {
     @Column(name="ACCOUNT_ETC")
     private String accountEtc;
 
-    public void updateEntity(AccountDto dto) {
-        this.accountCd = dto.getAccountCd();
-        this.accountNm = dto.getAccountNm();
-        this.accountNb = dto.getAccountNb();
-        this.accountAdd = dto.getAccountAdd();
-        this.accountRep = dto.getAccountRep();
-        this.accountSectors = dto.getAccountSectors();
-        this.accountBank = dto.getAccountBank();
-        this.accountAcnb = dto.getAccountAcnb();
-        this.accountPic = dto.getAccountPic();
-        this.accountEtc = dto.getAccountEtc();
-    }
 
 }
