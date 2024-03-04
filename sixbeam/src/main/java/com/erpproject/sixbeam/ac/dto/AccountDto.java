@@ -20,6 +20,7 @@ public class AccountDto {
 
     public AccountEntity toEntity() {
 
+        // DTO의 변수들을 엔티티로 변환하는 메소드
         return new AccountEntity(accountCd, accountNm, accountNb, accountAdd, accountRep,
                 accountSectors, accountBank, accountAcnb, accountPic, accountEtc);
     }
