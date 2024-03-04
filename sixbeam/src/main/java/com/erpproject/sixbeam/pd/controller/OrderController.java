@@ -33,12 +33,14 @@ public class OrderController {
         OrderForm form = new OrderForm();
         List<EmpInfoEntity> empInfoEntities = orderService.getEmpList();
         List<ItemEntity> itemEntities =  orderService.getItemList();
+        List<OrderEntity> orderEntities = orderService.getList();
 
         form.getOrderDtos().add(new OrderDto());
         form.getOrderDtos().add(new OrderDto());
 
         model.addAttribute("getEmpList", empInfoEntities);
         model.addAttribute("getItemList", itemEntities);
+        model.addAttribute("orderEntity", orderEntities);
 
         orderService.readyOrderForm(model);
         return "contents/pd/order_form";

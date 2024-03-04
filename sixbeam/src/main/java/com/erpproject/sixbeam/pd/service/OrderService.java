@@ -159,11 +159,12 @@ public class OrderService {
 
         List<EmpInfoEntity> getemplist = getEmpList();
         List<ItemEntity> getitemlist = getItemList();
+        List<OrderEntity> orderEntities = getList();
 
         orderForm.getOrderDtos().add(new OrderDto());
 
-        model.addAttribute("getempinfo", getEmpList());
+        model.addAttribute("getempinfo", getemplist);
         model.addAttribute("getitemlist", getitemlist);
+        model.addAttribute("orderSt", orderEntities);
     }
-
 }
