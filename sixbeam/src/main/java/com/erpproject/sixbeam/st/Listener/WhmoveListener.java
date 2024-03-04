@@ -3,6 +3,7 @@ package com.erpproject.sixbeam.st.Listener;
 import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.st.entity.AsEntity;
+import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.event.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import com.erpproject.sixbeam.st.service.WhmoveService;
@@ -33,32 +34,42 @@ public class WhmoveListener {
             InputEntity inputEntity = (InputEntity) event.getEntity();
             // InputEntity에 대한 처리
             whmoveService.addRowInput(inputEntity);
-        } else if (event.getEntity() instanceof AsEntity ){
+        } else if (event.getEntity() instanceof AsEntity) {
             AsEntity asEntity = (AsEntity) event.getEntity();
             // AsEntity에 대한 처리
             whmoveService.addRowAs(asEntity);
         }
     }
+
     @EventListener
-    public void handleRowDeletedEvent(WhmoveRowDeletedEvent<?> event) {
-        if (event.getEntity() instanceof List<?>) {
-            List<?> entities = (List<?>) event.getEntity();
-            for (Object entity : entities) {
-                if (entity instanceof SaleEntity) {
-                    SaleEntity saleEntity = (SaleEntity) entity;
-                    // SaleEntity에 대한 삭제 처리
-                    whmoveService.deleteRowSale(saleEntity);
-                } else if (entity instanceof InputEntity) {
-                    InputEntity inputEntity = (InputEntity) entity;
-                    // InputEntity에 대한 삭제 처리
-                    whmoveService.deleteRowInput(inputEntity);
-                } else if (entity instanceof AsEntity) {
-                    AsEntity asEntity = (AsEntity) entity;
-                    // AsEntity에 대한 삭제 처리
-                    whmoveService.deleteRowAs(asEntity);
-                }
-            }
+    public void handleRowDeletedEvent(WhmoveRowDeletedEvent<AsEntity> event) {
+        List<AsEntity> entities = event.getEntities();
+        for (AsEntity entity : entities) {
+            // WhmoveEntity에 대한 삭제 처리
+            whmoveService.deleteRowAs((List<AsEntity>) entity);
         }
     }
-
 }
+//    @EventListener
+//    public void handleRowDeletedEvent(WhmoveRowDeletedEvent<?> event) {
+//        if (event.getEntities() instanceof List<?>) {
+//            List<?> entities = (List<?>) event.getEntities();
+//            for (Object entity : entities) {
+//                if (entity instanceof SaleEntity) {
+//                    SaleEntity saleEntity = (SaleEntity) entity;
+//                    // SaleEntity에 대한 삭제 처리
+//                    whmoveService.deleteRowSale(saleEntity);
+//                } else if (entity instanceof InputEntity) {
+//                    InputEntity inputEntity = (InputEntity) entity;
+//                    // InputEntity에 대한 삭제 처리
+//                    whmoveService.deleteRowInput(inputEntity);
+//                } else if (entity instanceof AsEntity) {
+//                    AsEntity asEntity = (AsEntity) entity;
+//                    // AsEntity에 대한 삭제 처리
+//                    whmoveService.deleteRowAs(asEntity);
+//                }
+//            }
+//        }
+//    }
+
+

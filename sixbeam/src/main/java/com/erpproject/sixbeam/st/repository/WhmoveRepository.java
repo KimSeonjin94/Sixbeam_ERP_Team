@@ -1,6 +1,7 @@
 package com.erpproject.sixbeam.st.repository;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,5 +22,9 @@ public interface WhmoveRepository extends JpaRepository<WhmoveEntity,String> {
 
     @Query("SELECT MAX(w.whmoveCd) FROM WhmoveEntity w WHERE w.whmoveDt = :whmoveDate")
     String getMaxWhmoveCd(@Param("whmoveDate") LocalDate whmoveDate);
+
+    //List<WhmoveEntity> findByAsEntity(AsEntity asEntity);
+    @Query("SELECT c FROM WhmoveEntity c WHERE c.asEntity.asCd = :asCd")
+    List<WhmoveEntity> getByasCd(@Param("asCd") String asCd);
 
 }

@@ -2,6 +2,7 @@ package com.erpproject.sixbeam.st.repository;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
+import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -41,6 +42,10 @@ public interface CheckRepository extends JpaRepository<CheckEntity, Long> {
     //기본키 생성 메서드
     @Query("SELECT MAX(c.checkCd) FROM CheckEntity c")
     Long getMaxCheckCd();
+
+    @Query("SELECT c FROM CheckEntity c WHERE c.whmoveEntity.whmoveCd = :whmoveCd")
+    List<CheckEntity> getBywhmoveCd(@Param("whmoveCd") String whmoveCd);
+
 
 //    List<CheckEntity> findByWhmoveEntity_WhmoveDtYear(int year);
 

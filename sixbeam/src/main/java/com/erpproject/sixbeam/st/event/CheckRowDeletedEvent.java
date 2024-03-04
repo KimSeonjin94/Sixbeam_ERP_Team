@@ -4,14 +4,17 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 public class CheckRowDeletedEvent<T> extends ApplicationEvent {
-    private T entity;
+    private List<T> entities;
 
-    public CheckRowDeletedEvent(Object source, T entity) {
+    public CheckRowDeletedEvent(Object source, List<T> entities) {
         super(source);
-        this.entity = entity;
+        this.entities = new ArrayList<>(entities);
     }
 }
 

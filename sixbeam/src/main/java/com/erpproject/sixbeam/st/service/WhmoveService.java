@@ -7,14 +7,17 @@ import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.st.event.CheckRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
+import com.erpproject.sixbeam.st.event.CheckRowDeletedEvent;
 import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,20 +32,23 @@ public class WhmoveService {
     public List<WhmoveEntity> getList() {
         return this.whmoveRepository.findAll();
     }
-    public WhmoveEntity getWhmoveEntity(String whmoveCd){
+
+    public WhmoveEntity getWhmoveEntity(String whmoveCd) {
         Optional<WhmoveEntity> whmoveEntity = this.whmoveRepository.findById(whmoveCd);
-        if (whmoveEntity.isPresent()){
+        if (whmoveEntity.isPresent()) {
             return whmoveEntity.get();
         } else {
             throw new DataNotFoundException("whmoveEntity not found");
         }
     }
+
     //[이벤트리스너_As]-----------------------------------------------
     //-등록
     public void addRowAs(AsEntity asEntity) {
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         String newWhmoveCd = generateNewWhmoveAsCd(asEntity.getAsDt());
         whmoveEntity.setWhmoveDt(asEntity.getAsDt());
+        whmoveEntity.setAsEntity(asEntity);
         whmoveEntity.setEmpInfoEntity(asEntity.getEmpInfoEntity());
         whmoveEntity.setItemEntity(asEntity.getItemEntity());
         whmoveEntity.setWhregistEntity(asEntity.getWhregistEntity());
@@ -53,6 +59,7 @@ public class WhmoveService {
         CheckRowAddedEvent<WhmoveEntity> whmoveEvent = new CheckRowAddedEvent<>(this, whmoveEntity);
         eventPublisher.publishEvent(whmoveEvent);
     }
+
     private String generateNewWhmoveAsCd(LocalDate asDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "WHM" + asDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
@@ -63,18 +70,26 @@ public class WhmoveService {
         String sequenceNumberString = String.format("%04d", sequenceNumber);
         return prefix + sequenceNumberString;
     }
+
     //-삭제
-    public void deleteRowAs(List<AsEntity> asEntities) {
-        // AsEntity에 대한 삭제 로직 수행 후
-        WhmoveRowDeletedEvent<AsEntity> asDeletedEvent = new WhmoveRowDeletedEvent<>(this, asEntities);
-        eventPublisher.publishEvent(asDeletedEvent);
+    @Transactional
+    public void deleteRowAs(List<AsEntity> asEntities){
+        List<WhmoveEntity> whmoveEntitiesToDelete = new ArrayList<>();
+    for (AsEntity asEntity : asEntities) {
+        List<WhmoveEntity> whmoveEntities = whmoveRepository.getByasCd(asEntity.getAsCd());
+        whmoveEntitiesToDelete.addAll(whmoveEntities);
+        whmoveRepository.deleteAll(whmoveEntities);
     }
+        CheckRowDeletedEvent<WhmoveEntity> whDeletedEvent = new CheckRowDeletedEvent<>(this, whmoveEntitiesToDelete);
+        eventPublisher.publishEvent(whDeletedEvent);
+    }
+
     //[이벤트리스너_As]-----------------------------------------------
 
     //[이벤트리스너_Sale]---------------------------------------------
     public void addRowSale(SaleEntity saleEntity) {
         List<EstimateEntity> estimateEntities = estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
-        for(EstimateEntity estimateEntity : estimateEntities) {
+        for (EstimateEntity estimateEntity : estimateEntities) {
             WhmoveEntity whmoveEntity = new WhmoveEntity();
             whmoveEntity.setWhmoveDt(saleEntity.getSaleUploadDt());
             whmoveEntity.setEmpInfoEntity(estimateEntity.getEmpInfoEntity());// 담당자(견적테이블 담당자)
@@ -87,6 +102,7 @@ public class WhmoveService {
             whmoveRepository.save(whmoveEntity);
         }
     }
+
     private String generateNewWhmoveSaleCd(LocalDate saleUploadDt) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "WHM" + saleUploadDt.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
@@ -118,6 +134,7 @@ public class WhmoveService {
         whmoveEntity.setWhmoveCd(newWhmoveCd);
         whmoveRepository.save(whmoveEntity);
     }
+
     private String generateNewInputCd(LocalDate inputPurDt) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "WHM" + inputPurDt.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
@@ -128,12 +145,13 @@ public class WhmoveService {
         String sequenceNumberString = String.format("%04d", sequenceNumber);
         return prefix + sequenceNumberString;
     }
-    //-삭제
+}
+//-삭제
 //    public void deleteRowInput(InputEntity inputEntity) {
 //        // InputEntity에 대한 삭제 로직 수행 후
 //        WhmoveRowDeletedEvent<InputEntity> inputDeletedEvent = new WhmoveRowDeletedEvent<>(this, inputEntity);
 //        eventPublisher.publishEvent(inputDeletedEvent);
 //    }
-    //[이벤트리스너_Input]---------------------------------------------
+//[이벤트리스너_Input]---------------------------------------------
 
-}
+

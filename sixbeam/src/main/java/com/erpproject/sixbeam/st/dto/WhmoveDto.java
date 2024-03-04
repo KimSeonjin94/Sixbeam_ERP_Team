@@ -24,6 +24,8 @@ public class WhmoveDto {
 
     private String whmoveGb;
 
+    private AsEntity asEntity;
+
     public WhmoveEntity toEntity() {
         WhmoveEntity entity = new WhmoveEntity();
         entity.setWhmoveCd(this.whmoveCd);
@@ -33,6 +35,7 @@ public class WhmoveDto {
         entity.setWhregistEntity(this.whregistEntity);
         entity.setWhmoveAmt(this.whmoveAmt);
         entity.setWhmoveGb(this.whmoveGb);
+        entity.setAsEntity(this.asEntity);
         return  entity;
     }
 }

@@ -38,6 +38,10 @@ public class WhmoveEntity {
     @JoinColumn(name = "whregist_cd")
     private WhregistEntity whregistEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "as_cd")
+    private AsEntity asEntity;
+
     @Column(name = "whmove_amt")
     private Integer whmoveAmt;
 

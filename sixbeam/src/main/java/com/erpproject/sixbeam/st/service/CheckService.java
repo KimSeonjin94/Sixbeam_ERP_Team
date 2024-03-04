@@ -14,6 +14,7 @@ import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDate;
@@ -119,10 +120,12 @@ CheckService {
         Long sequenceNumber = beforeCd + 1;
         return sequenceNumber;
     }
-    public void deleteRowCheck(WhmoveEntity whmoveEntity) {
-        // WhmoveEntity에 대한 삭제 로직 수행 후
-        CheckRowDeletedEvent<WhmoveEntity> whmoveDeletedEvent = new CheckRowDeletedEvent<>(this, whmoveEntity);
-        eventPublisher.publishEvent(whmoveDeletedEvent);
+    @Transactional
+    public void deleteRowWhmove(List<WhmoveEntity> whmoveEntities) {
+        for(WhmoveEntity whmoveEntity : whmoveEntities){
+        List<CheckEntity> checkEntities = checkRepository.getBywhmoveCd(whmoveEntity.getWhmoveCd());
+        checkRepository.deleteAll(checkEntities);
+        }
     }
 
     //호진 형님 이거 갖다가 쓰세용~

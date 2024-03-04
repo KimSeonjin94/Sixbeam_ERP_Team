@@ -3,13 +3,18 @@ package com.erpproject.sixbeam.st.event;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 public class WhmoveRowDeletedEvent<T> extends ApplicationEvent {
-    private T entity;
+    private List<T> entities;
 
-    public WhmoveRowDeletedEvent(Object source, T entity) {
+    public WhmoveRowDeletedEvent(Object source, List<T> entities) {
         super(source);
-        this.entity = entity;
+        this.entities = new ArrayList<>(entities);
     }
 }
+
