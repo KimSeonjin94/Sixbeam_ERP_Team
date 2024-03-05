@@ -1,6 +1,5 @@
 package com.erpproject.sixbeam.ac.service;
 
-import com.erpproject.sixbeam.ac.entity.ReceivablesEntity;
 import com.erpproject.sixbeam.ac.repository.ReceivablesRepository;
 import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;

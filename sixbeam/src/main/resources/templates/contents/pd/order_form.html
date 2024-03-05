@@ -3,7 +3,7 @@
 	
 	<div class = "card shadow mb-4">
 		<div class = "card-header py-3" style = "display: flex;">
-			<h6 class = "m-0-ac font-weight-bold text-primary">자재 명세서 등록</h6>
+			<h6 class = "m-0-ac font-weight-bold text-primary">작업 지시서 등록</h6>
 		</div>
 		
 		<div class = "card-body">
@@ -19,95 +19,36 @@
 					</div>
 				</div>
 				<div class = "form-group row">
-					<label for = "empIdSelectBox" class = "col-sm-1 col-form-label">담당자</label>
-					<div class = "col-sm-2">
-						<input type = "text" class = "form-control" id = "empInfoNm" list = "empIdSelectBox"/>
-						<datalist id = "empIdSelectBox">
-							<option th:each = "emplist : ${getEmpList}" th:value = "${emplist.empInfoNm}"
-							        th:data-empPhone="${emplist.empInfoPhone}"
-							        th:data-empEmail="${emplist.empInfoEmail}"
-							        th:text = "${emplist.empInfoId}"></option>
-						</datalist>
-					</div>
-					<label class = "col-sm-1 col-form-label">담당자 연락처</label>
-					<div class = "col-sm-3">
-						<input type = "text" class = "form-control" id = "empInfoPhone">
-					</div>
-					<label class = "col-sm-1 col-form-label">담당자 메일</label>
-					<div class = "col-sm-3">
-						<input type = "text" class = "form-control" id = "empInfoEmail">
-					</div>
-				</div>
-				<div class = "form-group row">
 					<label class = "col-sm-1 col-form-label">작업 상태</label>
 					<div class = "col-sm-1">
-						<input type = "checkbox" class = "form-control" checked>
+						<input type = "checkbox" class = "form-control" id = "orderSt" checked>
 					</div>
 				</div>
 				
 				<table class = "table emp" id = "orderinfo">
 					<thead>
 					<tr>
+						<th>규격</th>
+						<th>품목코드</th>
+						<th>품목명</th>
+						<th>담당 사원</th>
+						<th>사원 코드</th>
 						<th>담당자 연락처</th>
 						<th>담당자 메일</th>
-						<th>품목 코드</th>
-						<th>품목명</th>
-						<th>규격</th>
+						<th>수량</th>
 					</tr>
 					</thead>
-					
 					<tbody>
 					<tr>
 						<td>
-							<input type = "hidden" class = "orderinstdt" th:field = "*{orderDtos[0].orderInstDt}">
-						</td>
-						<td>
-							<input type = "hidden" class = "orderDelivDt" th:field = "*{orderDtos[0].orderInstDt}">
-						</td>
-						<td>
-							<input type = "hidden" class = "orderinstdt" th:field = "*{orderDtos[0].orderInstDt}">
-						</td>
-						<td>
-							<input type = "text" class = "form-control itemname"
-							       th:field = "*{orderDtos[0].empInfoEntity.empInfo}" oninput = "checkInput3(event)"
-							       readonly>
-						</td>
-						<td>
-							<input type = "text" class = "form-control itemstnd"
-							       th:field = "*{bomDtos[0].fitemEntity.itemStnd}" oninput = "checkInput3(event)"
-							       readonly>
-						</td>
-						<td>
-							<input type = "text" class = "form-control itemamt"
-							       th:field = "*{bomDtos[0].bomUseMt}" oninput = "checkInput2(event)">
-						</td>
-						<td>
-							<input type = "hidden" class = "form-control itemup">
-							<input type = "text" class = "form-control itemsum"
-							       oninput = "checkInput2(event)" readonly = "">
-						</td>
-						<td>
-							<input type = "hidden" class = "form-control itemup">
-							<input type = "text" class = "form-control itemsum"
-							       oninput = "checkInput2(event)" readonly = "">
-						</td>
-						<td>
-							<input type = "hidden" class = "form-control itemup">
-							<input type = "text" class = "form-control itemsum"
-							       oninput = "checkInput2(event)" readonly = "">
-						</td>
-					</tr>
-					
-					<tr>
-						<td>
 							<select class = "selectbox form-control"
-							        th:name = "'bomDtos[' + 1 + '].ritemEntity.itemCd'">
+							        th:name = "'orderDtos[' + 0 + '].itemEntity.itemCd'">
 								<option value = "">코드 선택</option>
-								<option th:each = "ritemlist : ${getitemlist}" th:value = "${ritemlist.itemCd}"
-								        th:data-itemNm = "${ritemlist.itemCd}"
-								        th:data-itemStnd = "${ritemlist.itemNm}"
-								        th:data-itemUp = "${ritemlist.itemUp}"
-								        th:text = "${ritemlist.itemStnd}"></option>
+								<option th:each = "fitemlist : ${getFitemList}" th:value = "${fitemlist.itemCd}"
+								        th:data-itemNm = "${fitemlist.itemCd}"
+								        th:data-itemStnd = "${fitemlist.itemNm}"
+								        th:data-itemUp = "${fitemlist.itemUp}"
+								        th:text = "${fitemlist.itemStnd}"></option>
 							</select>
 						</td>
 						<td>
@@ -117,23 +58,40 @@
 							<input type = "text" class = "form-control itemstnd" readonly>
 						</td>
 						<td>
-							<input type = "text" class = "form-control itemamt" th:field = "*{bomDtos[1].bomUseMt}"
-							       oninput = "checkInput2(event)">
+							<select class = "selectbox form-control"
+							        th:name = "'orderDtos[' + 0 + '].empEntity.empInfoId'">
+								<option value = "">담당자 선택</option>
+								<option th:each = "emplist : ${getEmpList}" th:value = "${emplist.empInfoId}"
+								        th:data-empId = "${emplist.empInfoId}"
+								        th:data-empPhone = "${emplist.empInfoPhone}"
+								        th:data-empEmail = "${emplist.empInfoEmail}"
+								        th:text = "${emplist.empInfoNm}"></option>
+							</select>
 						</td>
 						<td>
-							<input type = "hidden" class = "form-control itemup">
-							<input type = "text" class = "form-control itemsum"
-							       oninput = "checkInput2(event)" readonly>
+							<input type = "text" class = "form-control empInfoId" readonly>
 						</td>
+						<td>
+							<input type = "text" class = "form-control empInfoPhone" readonly>
+						</td>
+						<td>
+							<input type = "text" class = "form-control empInfoEmail" readonly>
+						</td>
+						<td>
+							<input type = "text" class = "form-control" oninput = "checkInput2(event)">
+						</td>
+						<!-- ItemEntity의 필드 -->
+						<!--<input type = "hidden" id = "itemStnd" name = "itemStnd"
+						       th:field = "*{orderDtos[0].itemEntity.itemStnd}">
+						<input type = "hidden" id = "itemNm" name = "itemNm"
+						       th:field = "*{orderDtos[0].itemEntity.itemNm}">-->
+						
+						<!-- EmpInfoEntity의 필드 -->
+						<!--	<input type = "hidden" id = "empInfoNm" name = "empInfoNm">
+							<input type = "hidden" id = "empInfoPhone" name = "empInfoPhone">
+							<input type = "hidden" id = "empInfoEmail" name = "empInfoEmail">-->
 					</tr>
 					</tbody>
-					<tfoot>
-					<tr>
-						<th colspan = "3">합계</th>
-						<th id = "totalAmt"></th>
-						<th id = "totalSum"></th>
-					</tr>
-					</tfoot>
 				
 				</table>
 				<div class = "row">
@@ -141,11 +99,11 @@
 						<input type = 'button'
 						       value = '품목 추가'
 						       class = "btn btn-secondary"
-						       id = "addnewrowbtn">
+						       id = "addNewOrderbtn">
 						<input type = 'button'
 						       value = '품목 삭제'
 						       class = "btn btn-danger"
-						       id = "deleterowbtn">
+						       id = "deleteOrderbtn">
 					</div>
 					<div class = "col-sm-6 text-md-right">
 						<button type = "submit" class = "btn btn-primary">
@@ -178,6 +136,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class = "modal fade" id = "successModal" tabindex = "-1" role = "dialog" aria-labelledby = "modalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog" role = "document">
@@ -197,6 +156,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class = "modal fade" tabindex = "-1" role = "dialog" id = "failModal" aria-labelledby = "modalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog" role = "document">

@@ -80,17 +80,24 @@ $('#detailSaleCd[data-id]').on('click', function(){
         url: '/ss/sale/list/detail/' + saleCd, // 서버 엔드포인트
         type: 'GET',
         success: function(response) {
-
+            var currentUrl = window.location.href;
             // 성공 시 모달 내용 업데이트
             var modaltBody = $('#detail .formEntry .table.item tbody');
+            if (currentUrl.includes("sale")) {
+            }else if(currentUrl.includes("release/create")){
+                modaltBody = $('.ReleaseformEntry .table.item tbody');
+            }else if(currentUrl.includes("release/list")){
+                modaltBody = $('.formEntry .table.item tbody');
+            }
             modaltBody.empty();
+
             $('#saleCd').val(response.saleEntity.saleCd);
             $('#updateCurrentDate').val(response.saleEntity.saleUploadDt);
             $('#updateaccountCode').val(response.estimateEntities[0].accountEntity.accountCd);
             $('#updatename').val(response.estimateEntities[0].empInfoEntity.empInfoNm);
             $('#updateaccountName').val(response.estimateEntities[0].accountEntity.accountNm);
             $('#updatewhregistname').find('option[value="' + response.saleEntity.whregistEntity.whregistCd + '"]').prop('selected', true);
-            $('#whregistCode').val(response.saleEntity.whregistEntity.whrehistCd);
+            $('#whregistCode').val(response.saleEntity.whregistEntity.whregistCd);
 
             if (response.estimateEntities[0].accountEntity.accountNm === '개인거래') {
                 // accountNm이 '개인거래'일 경우, 특정 필드에 값을 설정

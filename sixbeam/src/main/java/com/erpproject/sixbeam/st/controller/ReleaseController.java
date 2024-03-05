@@ -65,7 +65,7 @@ public class ReleaseController {
     //출하등록_페이지
     @GetMapping("/create")
     public String releaseCreate(Model model){
-        ReleaseForm form = new ReleaseForm();
+        ReleaseDto releaseDto = new ReleaseDto();
         List<AccountEntity> accountEntity = this.accountService.getList();
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
         List<WhregistEntity> whregistEntitiy = this.whregistService.getList();
@@ -73,21 +73,20 @@ public class ReleaseController {
         List<SaleAndEstimateDto> saleAndEstimateDtos = this.saleService.getRelease("판매대기중");
 
 
-        form.getReleaseDtos().add(new ReleaseDto());
-        form.getReleaseDtos().add(new ReleaseDto());
+
         model.addAttribute("getactlist",accountEntity);
         model.addAttribute("getemplist",empInfoEntity);
         model.addAttribute("getitemlist",itemEntity);
         model.addAttribute("getwhregistlist",whregistEntitiy);
         model.addAttribute("getsalelist",saleAndEstimateDtos);
-        model.addAttribute("releaseForm",form);
+        model.addAttribute("releaseForm",releaseDto);
         return "contents/st/release_form";
     }
     @PostMapping("/save")
-    public ResponseEntity<?> releaseCreateDto(@ModelAttribute ReleaseForm form){
-        List<ReleaseDto> releaseDtos= form.getReleaseDtos();
+    public ResponseEntity<?> releaseCreateDto(@ModelAttribute ReleaseDto releaseDto){
+
         try {
-            this.releaseService.create(releaseDtos);
+            this.releaseService.create(releaseDto);
             Map<String, Object> successResponse = new HashMap<>();
             successResponse.put("status", "success");
             successResponse.put("message", "정상적으로 저장되었습니다.");

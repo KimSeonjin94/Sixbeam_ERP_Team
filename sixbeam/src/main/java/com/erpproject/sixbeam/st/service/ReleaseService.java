@@ -23,7 +23,7 @@ public class ReleaseService {
 
     private final ReleaseRepository releaseRepository;
     private final EmpInfoRepository empInfoRepository;
-    private  final SaleRepository saleRepository;
+    private final SaleRepository saleRepository;
 
     public List<ReleaseEntity> getList() {
         return this.releaseRepository.findAll();
@@ -33,28 +33,30 @@ public class ReleaseService {
         return this.releaseRepository.findByReleaseCd(id);
     }
 
-    public ReleaseEntity getReleaseEntity(String releaseCd){
+    public ReleaseEntity getReleaseEntity(String releaseCd) {
         Optional<ReleaseEntity> releaseEntity = this.releaseRepository.findById(releaseCd);
-        if (releaseEntity.isPresent()){
+        if (releaseEntity.isPresent()) {
             return releaseEntity.get();
         } else {
             throw new DataNotFoundException("releaseEntity not found");
         }
     }
-    public void create(List<ReleaseDto> releaseDtos) {
-        for (ReleaseDto releaseDto : releaseDtos) {
-            String newReleaseCd = generateNewReleaseCd(releaseDtos.get(0).getReleaseDt());
-            EmpInfoEntity empInfoEntity = empInfoRepository.findById(releaseDto.getEmpInfoEntity().getEmpInfoId())
-                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-            SaleEntity saleEntity = saleRepository.findById(releaseDto.getSaleEntity().getSaleCd())
-                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-            releaseDto.setEmpInfoEntity(empInfoEntity);
-            releaseDto.setSaleEntity(saleEntity);
-            ReleaseEntity releaseEntity = releaseDto.toEntity();
-            releaseEntity.setReleaseCd(newReleaseCd);
-            releaseRepository.save(releaseEntity);
-        }
+
+    public void create(ReleaseDto releaseDto) {
+
+        String newReleaseCd = generateNewReleaseCd(releaseDto.getReleaseDt());
+        EmpInfoEntity empInfoEntity = empInfoRepository.findById(releaseDto.getEmpInfoEntity().getEmpInfoId())
+                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+        SaleEntity saleEntity = saleRepository.findById(releaseDto.getSaleEntity().getSaleCd())
+                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+        releaseDto.setEmpInfoEntity(empInfoEntity);
+        releaseDto.setSaleEntity(saleEntity);
+        ReleaseEntity releaseEntity = releaseDto.toEntity();
+        releaseEntity.setReleaseCd(newReleaseCd);
+        releaseRepository.save(releaseEntity);
+
     }
+
     public void updateAll(ReleaseDto releaseDto) {
         EmpInfoEntity empInfoEntity = empInfoRepository.findById(releaseDto.getEmpInfoEntity().getEmpInfoId())
                 .orElseThrow(() -> new EntityNotFoundException("Item not found"));
@@ -65,13 +67,15 @@ public class ReleaseService {
         ReleaseEntity releaseEntity = releaseDto.toEntity();
         releaseRepository.save(releaseEntity);
     }
+
     @Transactional
     public void delete(List<String> releaseDtos) {
-        for(String releaseCd : releaseDtos) {
+        for (String releaseCd : releaseDtos) {
             List<ReleaseEntity> releaseEntities = releaseRepository.findByReleaseCd(releaseCd);
             releaseRepository.deleteAll(releaseEntities);
         }
     }
+
     private String generateNewReleaseCd(LocalDate releaseDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "REL" + releaseDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
