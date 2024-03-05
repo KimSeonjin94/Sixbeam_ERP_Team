@@ -37,7 +37,7 @@ public class AttendmgtSearchController {
         model.addAttribute("workScheduleList", workScheduleList);
         List<ReasonEntity>reasonLists = this.reasonService.getList();
         model.addAttribute("reasonLists",reasonLists);
-        return "contents/hr/attendmgtsearch_list";
+        return "contents/hr/attendmgtsearch_list :: attemdmgtsearchTable";
     }
     @PostMapping("/update")
     public String update(@RequestParam(value="workScheduleCd")Long workScheduleCd,

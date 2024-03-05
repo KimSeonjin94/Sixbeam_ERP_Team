@@ -31,7 +31,7 @@ public class WorkScheduleController {
     public String displayWorkSchedule(@RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate, Model model) {
         List<WorkScheduleEntity> workScheduleList = workScheduleService.findByDate(selectedDate);
         model.addAttribute("workScheduleList", workScheduleList);
-        return "contents/hr/workSchedule_list";
+        return "contents/hr/workSchedule_list :: workScheduleTable"; // Thymeleaf fragment 경로 지정
     }
     @PostMapping("/update")
     public String update(@RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate workScheduleDate,

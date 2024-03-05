@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -64,58 +65,60 @@ public class OrinPutController {
 
     @PostMapping("/save")
     public ResponseEntity<?> saveOrinPut(@ModelAttribute OrinPutForm form) {
+        Map<String, Object> Response = null;
         try {
             List<OrinPutDto> orinPutDtos = form.getOrinputDtos();
             this.orinputService.save(orinPutDtos);
-            Map<String, Object> successResponse = new HashMap<>();
-            successResponse.put("status", "success");
-            successResponse.put("message", "정상적으로 저장되었습니다.");
-            successResponse.put("redirectUrl", "/pur/orinput/list");
-            return ResponseEntity.ok().body(successResponse); // 저장 후 목록 페이지로 리다이렉트
+            Response = new HashMap<>();
+            Response.put("status", "success");
+            Response.put("message", "정상적으로 저장되었습니다.");
+            Response.put("redirectUrl", "/pur/orinput/list");
+            return ResponseEntity.ok().body(Response); // 저장 후 목록 페이지로 리다이렉트
         } catch (Exception e){
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("status", "error");
-            errorResponse.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
-            errorResponse.put("redirectUrl", "/pur/orinput/create");
-            return ResponseEntity.badRequest().body(errorResponse);
+            Response = new HashMap<>();
+            Response.put("status", "error");
+            Response.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
+            Response.put("redirectUrl", "/pur/orinput/create");
+            return ResponseEntity.badRequest().body(Response);
         }
     }
 
     @PostMapping("/update")
     public ResponseEntity<?> updateOrinput(@ModelAttribute OrinPutForm form){
+        Map<String, Object> Response = null;
         try {
             List<OrinPutDto> orinPutDtos = form.getOrinputDtos();
             orinputService.updateAll(orinPutDtos);
-            Map<String, Object> successResponse = new HashMap<>();
-            successResponse.put("status", "success");
-            successResponse.put("message", "정상적으로 수정되었습니다.");
-            successResponse.put("redirectUrl", "/pur/orinput/list");
-            return ResponseEntity.ok().body(successResponse);
+            Response = new HashMap<>();
+            Response.put("status", "success");
+            Response.put("message", "정상적으로 수정되었습니다.");
+            Response.put("redirectUrl", "/pur/orinput/list");
+            return ResponseEntity.ok().body(Response);
         } catch (Exception e){
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("status", "error");
-            errorResponse.put("message", String.format("수정에 실패 하였습니다.[%s]", e.getMessage()));
-            errorResponse.put("redirectUrl", "/pur/orinput/list");
-            return ResponseEntity.badRequest().body(errorResponse);
+            Response = new HashMap<>();
+            Response.put("status", "error");
+            Response.put("message", String.format("수정에 실패 하였습니다.[%s]", e.getMessage()));
+            Response.put("redirectUrl", "/pur/orinput/list");
+            return ResponseEntity.badRequest().body(Response);
         }
     }
 
     @PostMapping("/delete")
     public ResponseEntity<?> deleteOrinput(@RequestParam("selectedOrinput") List<String> selectedOrinputIds, RedirectAttributes redirectAttributes) {
+        Map<String, Object> Response = null;
         try {
-            // 선택된 발주 정보를 삭제
             orinputService.delete(selectedOrinputIds);
-            Map<String, Object> successResponse = new HashMap<>();
-            successResponse.put("status", "success");
-            successResponse.put("message", "정상적으로 삭제되었습니다.");
-            successResponse.put("redirectUrl", "/pur/orinput/list");
-            return ResponseEntity.ok().body(successResponse); // 삭제 후 목록 페이지로 리다이렉트
+            Response = new HashMap<>();
+            Response.put("status", "success");
+            Response.put("message", "정상적으로 삭제되었습니다.");
+            Response.put("redirectUrl", "/pur/orinput/list");
+            return ResponseEntity.ok().body(Response); // 삭제 후 목록 페이지로 리다이렉트
         } catch (IllegalStateException e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("status", "error");
-            errorResponse.put("message", String.format("삭제에 실패 하였습니다.[%s]", e.getMessage()));
-            errorResponse.put("redirectUrl", "/pur/orinput/list");
-            return ResponseEntity.badRequest().body(errorResponse);
+            Response = new HashMap<>();
+            Response.put("status", "error");
+            Response.put("message", String.format("삭제에 실패 하였습니다.[%s]", e.getMessage()));
+            Response.put("redirectUrl", "/pur/orinput/list");
+            return ResponseEntity.badRequest().body(Response);
         }
     }
 }

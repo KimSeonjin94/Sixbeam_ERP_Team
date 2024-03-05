@@ -1,3 +1,4 @@
+//한국 원화 표시하기위한 함수
 function formatToKRW(value) {
     return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(value);
 }
@@ -18,13 +19,13 @@ $('#detailOrinputCd[data-id]').on('click', function() {
             var currentUrl = window.location.href;
             console.log(currentUrl);
             if (data && data.length > 0) {
-                // 성공 시 모달 내용 업데이트
+                //#updateOrinput ID를 가진 요소 안에 있는 .formEntry 클래스를 가진 하위 요소 내부에 있는 .table.item 클래스를 가진 테이블의 본문(tbody) 요소를 선택
                 var modaltBody = $('#updateOrinput .formEntry .table.item tbody');
-                //발주 조회 화면 신규 버튼 클릭시 table에 있는 값들 넘어가지 않게 하기 위해
+                //구매 입력화면에서 발주 선택시 table에 값이 입력될 수 있게 하기 위해
                 if (currentUrl.includes("create")) {
                     modaltBody = $('.formEntry .table.item tbody');
                 } //구매 조회 화면에서 신규 버튼 클릭하여 발주 선택하였을 때 table에 값들 적용 될 수 있게 하기 위해
-                else if (currentUrl.includes("input/list")){
+                else if (currentUrl.includes("/input/list")){
                     modaltBody = $('#createPurModal .formEntry .table.item tbody');
                 }
                 modaltBody.empty();
@@ -42,7 +43,6 @@ $('#detailOrinputCd[data-id]').on('click', function() {
                 // 데이터 항목별로 행 추가
                 data.forEach(function(item, index) {
                     var row = $('<tr>'); // 행 생성
-                        // 각 셀에 입력 요소와 name 속성 추가
                     row.append('<td><input type="hidden" name="orinputDtos[' + index + '].orinputCd" class="form-control" value="' + item.orinputCd + '">'+
                     '<input type="hidden" name="orinputDtos[' + index + '].orinputOrDt" class="form-control" value="' + item.orinputOrDt + '">'+
                     '<input type="hidden" name="orinputDtos[' + index + '].accountEntity" class="form-control" value="' + item.accountEntity.accountCd + '">'+
@@ -89,7 +89,7 @@ $('#detailInputCd[data-id]').on('click', function() {
         success: function(data) {
             console.log(data[0]);
             if (data && data.length > 0) {
-                // 성공 시 모달 내용 업데이트
+                //#updateInput ID를 가진 요소 안에 있는 .formEntry 클래스를 가진 하위 요소 내부에 있는 .table.item 클래스를 가진 테이블의 본문(tbody) 요소를 선택
                 var modaltBody = $('#updateInput .formEntry .table.item tbody');
                 modaltBody.empty();
 
@@ -136,7 +136,7 @@ $('#detailInputCd[data-id]').on('click', function() {
 $(document).ready(function() {
     $('#purcddelete').click(function() {
         $('#deletePurModal').modal('hide');
-        // 선택 정보의 ID 가져오기
+        // 선택 정보의 ID 배열로 가져오기
         var selectedPurId = $('#dataTablePur input[name="selectedPur"]:checked').map(function(){
             return $(this).val();
         }).get();
@@ -160,7 +160,7 @@ $(document).ready(function() {
         $.ajax({
             type: $(this).attr('method'), // POST 또는 GET
             url: $(this).attr('action'),
-            data: $(this).serialize(), // 폼 데이터 직렬화
+            data: $(this).serialize(), // 폼 데이터 직렬화(데이터를 문자열로 변환)
             success: function(response) {
                 $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
                 // 성공 시 리다이렉션
@@ -183,5 +183,20 @@ $(document).ready(function() {
                 console.log('Error Submitting Form');
             }
         });
+    });
+});
+
+$(document).ready(function() {
+    // 모달이 hide되는 이벤트를 감지
+    $('#createPurModal').on('hidden.bs.modal', function () {
+        var currentUrl = window.location.href;
+        console.log(currentUrl);
+        //if (currentUrl.includes("/list") || currentUrl.includes("/create")){
+            $('.formEntry input[type="text"]').val('');
+            $('.formEntry select').each(function() {
+                this.selectedIndex = 0;
+            });
+
+        //}
     });
 });

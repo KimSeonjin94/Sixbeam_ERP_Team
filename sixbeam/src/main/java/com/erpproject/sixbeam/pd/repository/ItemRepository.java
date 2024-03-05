@@ -26,4 +26,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, String> {
     String getMaxItemCdStartingWithF();
     @Query("SELECT MAX(i.itemCd) FROM ItemEntity i WHERE i.itemCd LIKE 'R%'")
     String getMaxItemCdStartingWithR();
+
+    @Override
+    List<ItemEntity> findAll();
 }

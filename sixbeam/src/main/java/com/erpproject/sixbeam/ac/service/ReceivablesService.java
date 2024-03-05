@@ -38,7 +38,6 @@ public class ReceivablesService {
             }else{
                 accountBySum.put(accountCode, sum);
             }
-
             sum=0;
         }
 
