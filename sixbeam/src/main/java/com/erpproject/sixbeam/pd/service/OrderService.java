@@ -10,6 +10,7 @@ import com.erpproject.sixbeam.pd.Form.OrderForm;
 import com.erpproject.sixbeam.pd.dto.BomDto;
 import com.erpproject.sixbeam.pd.dto.OrderDto;
 import com.erpproject.sixbeam.pd.entity.*;
+import com.erpproject.sixbeam.pd.repository.FitemRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.repository.OrderRepository;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
@@ -35,6 +36,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final EmpInfoRepository empInfoRepository;
     private final ItemRepository itemRepository;
+    private final FitemRepository fitemRepository;
     private final EmpInfoService empInfoService;
     private final BomService bomService;
 
@@ -48,9 +50,9 @@ public class OrderService {
         return empInfoRepository.findAll();
     }
 
-    public List<ItemEntity> getItemList() {
+    public List<ItemEntity> getFitemList() {
 
-        return itemRepository.findAll();
+        return itemRepository.findByItemCdStartingWith("F");
     }
 
     public List<OrderEntity> getIdList(String orderCd) {
@@ -65,14 +67,15 @@ public class OrderService {
         // 데이터 가져오기
         List<OrderEntity> getorderEntity = getList();
         List<EmpInfoEntity> empInfoEntity = empInfoRepository.findAll();
-        List<ItemEntity> getitemEntity = itemRepository.findAll();
+        List<ItemEntity> getFitemEntity = itemRepository.findByItemCdStartingWith("F");
 
         // form 데이터 입력란 추가
+        orderForm.getOrderDtos().add(new OrderDto());
         orderForm.getOrderDtos().add(new OrderDto());
 
         // 모델에 데이터 등록
         model.addAttribute("getorderlist", getorderEntity);
-        model.addAttribute("getitemlist", getitemEntity);
+        model.addAttribute("getFitemlist", getFitemEntity);
     }
 
 
@@ -158,13 +161,13 @@ public class OrderService {
         OrderForm orderForm = new OrderForm();
 
         List<EmpInfoEntity> getemplist = getEmpList();
-        List<ItemEntity> getitemlist = getItemList();
+        List<ItemEntity> getFitemlist = getFitemList();
         List<OrderEntity> orderEntities = getList();
 
         orderForm.getOrderDtos().add(new OrderDto());
 
         model.addAttribute("getempinfo", getemplist);
-        model.addAttribute("getitemlist", getitemlist);
+        model.addAttribute("getFitemlist", getFitemlist);
         model.addAttribute("orderSt", orderEntities);
     }
 }
