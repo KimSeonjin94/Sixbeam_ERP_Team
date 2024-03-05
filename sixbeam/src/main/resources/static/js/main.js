@@ -355,60 +355,60 @@ function refreshPage() {
     window.location.reload(); // 페이지 새로고침
 }
 
-$(document).ready(function() {
-    var date = new Date();
-    var currentMonth = date.getMonth();
-    var currentYear = date.getFullYear();
-
-    function updateCalendar() {
-        var firstDay = new Date(currentYear, currentMonth, 1).getDay();
-        var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        var months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
-
-        // 현재 연도와 월을 표시
-        $('#currentYearMonth').text(`${currentYear}년 ${months[currentMonth]}`);
-
-        // 달력 초기화 및 날짜 채우기
-        var calendarHtml = '<table class="table table-bordered"><thead><tr>';
-        calendarHtml += '<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>';
-        calendarHtml += '</tr></thead><tbody><tr>';
-
-        for (let i = 0; i < firstDay; i++) {
-            calendarHtml += '<td></td>';
-        }
-
-        for (let day = 1; day <= daysInMonth; day++) {
-            if ((day + firstDay - 1) % 7 === 0) {
-                calendarHtml += '</tr><tr>';
-            }
-            calendarHtml += `<td>${day}</td>`;
-        }
-
-        calendarHtml += '</tr></tbody></table>';
-
-        $('#calendar').html(calendarHtml);
-    }
-
-    updateCalendar();
-
-    $('#prevMonth').click(function() {
-        currentMonth--;
-        if (currentMonth < 0) {
-            currentMonth = 11;
-            currentYear--;
-        }
-        updateCalendar();
-    });
-
-    $('#nextMonth').click(function() {
-        currentMonth++;
-        if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
-        }
-        updateCalendar();
-    });
-});
+//$(document).ready(function() {
+//    var date = new Date();
+//    var currentMonth = date.getMonth();
+//    var currentYear = date.getFullYear();
+//
+//    function updateCalendar() {
+//        var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+//        var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+//        var months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+//
+//        // 현재 연도와 월을 표시
+//        $('#currentYearMonth').text(`${currentYear}년 ${months[currentMonth]}`);
+//
+//        // 달력 초기화 및 날짜 채우기
+//        var calendarHtml = '<table class="table table-bordered"><thead><tr>';
+//        calendarHtml += '<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>';
+//        calendarHtml += '</tr></thead><tbody><tr>';
+//
+//        for (let i = 0; i < firstDay; i++) {
+//            calendarHtml += '<td></td>';
+//        }
+//
+//        for (let day = 1; day <= daysInMonth; day++) {
+//            if ((day + firstDay - 1) % 7 === 0) {
+//                calendarHtml += '</tr><tr>';
+//            }
+//            calendarHtml += `<td>${day}</td>`;
+//        }
+//
+//        calendarHtml += '</tr></tbody></table>';
+//
+//        $('#calendar').html(calendarHtml);
+//    }
+//
+//    updateCalendar();
+//
+//    $('#prevMonth').click(function() {
+//        currentMonth--;
+//        if (currentMonth < 0) {
+//            currentMonth = 11;
+//            currentYear--;
+//        }
+//        updateCalendar();
+//    });
+//
+//    $('#nextMonth').click(function() {
+//        currentMonth++;
+//        if (currentMonth > 11) {
+//            currentMonth = 0;
+//            currentYear++;
+//        }
+//        updateCalendar();
+//    });
+//});
 $('.reset').click(function() {
     // 폼 내의 모든 input 필드의 값을 초기화
     $('.formEntry input[type="text"]').val('');
