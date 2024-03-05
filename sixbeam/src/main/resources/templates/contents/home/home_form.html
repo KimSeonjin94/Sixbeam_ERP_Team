@@ -1,4 +1,10 @@
 <html layout:decorate="~{layout/default}">
+<head>
+    <meta charset='utf-8'/>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.11/index.global.min.js'></script>
+</head>
+<body>
 <div layout:fragment="content" class="container-fluid">
     <div class="row d-flex align-items-stretch">
         <!-- 달력 카드 -->
@@ -10,48 +16,52 @@
 
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 
-                    <h6 class="m-0 font-weight-bold text-primary">Caledar</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Calendar</h6>
 
                 </div>
 
                 <div class="card-body mb-12">
 
                     <div id="calendar" class="fc fc-media-screen fc-direction-ltr fc-theme-standard"></div>
-                </div>
-            </div>
-        </div>
 
+                </div>
+
+            </div>
+
+        </div>
         <script layout:fragment="script" type='text/javascript'>
-            alert('zz');
             document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');
                 var calendar = new FullCalendar.Calendar(calendarEl, {
+                    googleCalendarApiKey : "AIzaSyBpL3vEBHMwFcrnYFMKpQmvPkSqZw1mXnQ",
+                    events: {
+                        googleCalendarId : 'ko.south_korea#holiday@group.v.calendar.google.com'
+                        , color: 'white'   // an option!
+                        , textColor: 'red', // an option!
+                        className: 'holiday-event',
+                    },
+                    eventClick: function(info) {
+                        // Prevent clicking on holiday events
+                        //                        if (info.event.extendedProps.className.includes('holiday-event')) {
+                        //                            info.jsEvent.stopPropagation();
+                        //                            info.jsEvent.preventDefault();
+                        //                        }
+                        alert('휴일은 클릭할수 없습니다.');
+                        info.jsEvent.stopPropagation();
+                        info.jsEvent.preventDefault();
+                    },
                     editable: true,
                     selectable: true,
                     businessHours: true,
                     dayMaxEvents: true,
-                    events: [
-                        //                {
-                        //                    id: 'ab',
-                        //                   title: '추가기능 구현',
-                        //                    start: '2024-03-04T10:00:00',
-                        //                    end: '2024-03-08T12:00:00',
-                        //                },
-                        //                {
-                        //                   id: 'b',
-                        //                    title: '마무리',
-                        //                    start: '2024-03-11',
-                        //                    end: '2024-03-15T12:00:00',
-                        //                }
-                    ],
                     selectable: true,
                     timeZone: 'UTC',
                 });
                 calendar.render();
             });
         </script>
-
         <div class="col-md-6">
+
 
             <div class="row">
                 <div class="col-md-12 mb-4">
@@ -83,14 +93,13 @@
                                                     locationName = '수원시';
                                                 }
                                                 document.getElementById('location').textContent = locationName;
-                                                document.getElementById('icon').src = "http://openweathermap.org/img/wn/"+ data.weather[0].icon +"@2x.png";
+                                                document.getElementById('icon').src = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
                                             })
                                                 .catch(error => {
                                                 console.error('날씨 정보를 가져오는데 실패했습니다:', error);
                                             });
                                         }
 
-                                        // 예시로 서울의 좌표를 사용합니다.
                                         getWeather(37.2636, 127.0286);
 
                                         function getLocationAndWeather() {
@@ -105,7 +114,6 @@
                                             }
                                         }
 
-                                        // 페이지가 로드될 때 날씨 정보를 가져옵니다.
                                         window.onload = getLocationAndWeather;
                                     </script>
                                 </div>
@@ -118,93 +126,90 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12 mb-4">
-                    <div class="card border-left-primary shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-l font-weight-bold text-primary text-uppercase mb-1">
-                                        판매 건수
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"
-                                         th:text="${estimateEntities.size()}+ '건'"></div>
+            <div class="col-md-12 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    판매 건수
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-handshake fa-2x text-gray-300"></i>
-                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                     th:text="${estimateEntities.size()}+ '건'"></div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-12 mb-4">
-                    <div class="card border-left-success shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-l font-weight-bold text-success text-uppercase mb-1">
-                                        구매 건수
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"
-                                         th:text="${orinPutEntities.size()}+'건'"></div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                </div>
+                            <div class="col-auto">
+                                <i class="fas fa-handshake-o fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12 mb-4">
-                    <div class="card border-left-info shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-l font-weight-bold text-info text-uppercase mb-1">
-                                        생산량
-                                    </div>
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col-auto">
-                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">생산량</div>
-                                        </div>
-                                    </div>
+
+            <div class="col-md-12 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    구매 건수
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                     th:text="${orinPutEntities.size()}+'건'"></div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-12 mb-4">
-                    <div class="card border-left-warning shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-l font-weight-bold text-warning text-uppercase mb-1">
-                                        재고량
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">재고 수량</div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-cubes fa-2x text-gray-300"></i>
-                                </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+            <div class="col-md-12 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    생산
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">생산양</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    재고량
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">재고 수량</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-cubes fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>
 </body>
-
-
 </html>
