@@ -1,20 +1,28 @@
 package com.erpproject.sixbeam.st.controller;
 
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
+import com.erpproject.sixbeam.ac.service.AccountService;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.service.EmpInfoService;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.service.ItemService;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.service.SaleService;
+import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.dto.ReleaseDto;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
+import com.erpproject.sixbeam.st.entity.WhregistEntity;
+import com.erpproject.sixbeam.st.form.AsForm;
 import com.erpproject.sixbeam.st.form.ReleaseForm;
 import com.erpproject.sixbeam.st.service.ReleaseService;
+import com.erpproject.sixbeam.st.service.WhregistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +35,9 @@ public class ReleaseController {
 
     private final ReleaseService releaseService;
     private final EmpInfoService empInfoService;
+    private final AccountService accountService;
+    private final WhregistService whregistService;
+    private final ItemService itemService;
     private final SaleService saleService;
 
     @GetMapping("/")
@@ -55,12 +66,20 @@ public class ReleaseController {
     @GetMapping("/create")
     public String releaseCreate(Model model){
         ReleaseForm form = new ReleaseForm();
+        List<AccountEntity> accountEntity = this.accountService.getList();
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
-        List<SaleEntity> saleEntity = this.saleService.getList();
+        List<WhregistEntity> whregistEntitiy = this.whregistService.getList();
+        List<ItemEntity> itemEntity = this.itemService.getList();
+        List<SaleAndEstimateDto> saleAndEstimateDtos = this.saleService.getRelease("판매대기중");
+
+
         form.getReleaseDtos().add(new ReleaseDto());
         form.getReleaseDtos().add(new ReleaseDto());
+        model.addAttribute("getactlist",accountEntity);
         model.addAttribute("getemplist",empInfoEntity);
-        model.addAttribute("getsalelist",saleEntity);
+        model.addAttribute("getitemlist",itemEntity);
+        model.addAttribute("getwhregistlist",whregistEntitiy);
+        model.addAttribute("getsalelist",saleAndEstimateDtos);
         model.addAttribute("releaseForm",form);
         return "contents/st/release_form";
     }
