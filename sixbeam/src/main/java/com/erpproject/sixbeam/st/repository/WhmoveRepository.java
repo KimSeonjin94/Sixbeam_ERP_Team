@@ -1,6 +1,8 @@
 package com.erpproject.sixbeam.st.repository;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pur.entity.InputEntity;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
@@ -23,8 +25,19 @@ public interface WhmoveRepository extends JpaRepository<WhmoveEntity,String> {
     @Query("SELECT MAX(w.whmoveCd) FROM WhmoveEntity w WHERE w.whmoveDt = :whmoveDate")
     String getMaxWhmoveCd(@Param("whmoveDate") LocalDate whmoveDate);
 
-    //List<WhmoveEntity> findByAsEntity(AsEntity asEntity);
-    @Query("SELECT c FROM WhmoveEntity c WHERE c.asEntity.asCd = :asCd")
-    List<WhmoveEntity> getByasCd(@Param("asCd") String asCd);
+    @Query("SELECT w FROM WhmoveEntity w WHERE w.asEntity = :asEntity")
+    WhmoveEntity ByAsCd(@Param("asEntity") AsEntity asEntity);
+
+    @Query("SELECT w FROM WhmoveEntity w WHERE w.saleEntity = :saleEntity")
+    WhmoveEntity BySaleCd(@Param("saleEntity") SaleEntity saleEntity);
+
+    @Query("SELECT w FROM WhmoveEntity w WHERE w.inputEntity = :inputEntity")
+    WhmoveEntity ByInputCd(@Param("inputEntity") InputEntity inputEntity);
+
+    List<WhmoveEntity> findByAsEntity(AsEntity asEntity);
+
+    List<WhmoveEntity> findBySaleEntity(SaleEntity saleEntity);
+
+    List<WhmoveEntity> findByInputEntity(InputEntity inputEntity);
 
 }

@@ -11,6 +11,7 @@ import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
+import com.erpproject.sixbeam.st.event.WhmoveRowUpdatedEvent;
 import com.erpproject.sixbeam.st.repository.AsRepository;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,8 +30,9 @@ import java.util.Optional;
 @Service
 public class AsService {
 
-    private final ApplicationEventPublisher event;
-    private final ApplicationEventPublisher eventPublisher;
+    private final ApplicationEventPublisher addEvent;
+    private final ApplicationEventPublisher deleteEvent;
+    private final ApplicationEventPublisher updateEvent;
     private final AsRepository asRepository;
     private final ItemRepository itemRepository;
     private final AccountRepository accountRepository;
@@ -73,7 +75,7 @@ public class AsService {
             asEntity.setAsCd(newAsCd);
             asRepository.save(asEntity);
             WhmoveRowAddedEvent<AsEntity> asEvent = new WhmoveRowAddedEvent<>(this, asEntity);
-            event.publishEvent(asEvent);
+            addEvent.publishEvent(asEvent);
         }
     }
 
@@ -86,13 +88,14 @@ public class AsService {
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
             WhregistEntity whregistEntity = whregistRepository.findById(asDto.getWhregistEntity().getWhregistCd())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-
             asDto.setEmpInfoEntity(empInfoEntity);
             asDto.setAccountEntity(accountEntity);
             asDto.setItemEntity(itemEntity);
             asDto.setWhregistEntity(whregistEntity);
             AsEntity asEntity = asDto.toEntity();
             asRepository.save(asEntity);
+            WhmoveRowUpdatedEvent<AsEntity> asEvent = new WhmoveRowUpdatedEvent<>(this, asEntity);
+            updateEvent.publishEvent(asEvent);
     }
     @Transactional
     public void delete(List<String> asCds) {
@@ -102,10 +105,10 @@ public class AsService {
             asEntitiesToDelete.addAll(asEntities);
             asRepository.deleteAll(asEntities);
         }
+        // List<AsEntity>를 가지는 이벤트 생성
         WhmoveRowDeletedEvent<AsEntity> asDeletedEvent = new WhmoveRowDeletedEvent<>(this, asEntitiesToDelete);
-        eventPublisher.publishEvent(asDeletedEvent);
+        deleteEvent.publishEvent(asDeletedEvent);
     }
-
     private String generateNewAsCd(LocalDate asDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "AS" + asDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";

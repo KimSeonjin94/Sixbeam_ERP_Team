@@ -12,6 +12,7 @@ import com.erpproject.sixbeam.st.repository.CheckRepository;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Check;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +64,7 @@ CheckService {
         Integer totalWhItemOutgoing = getWhItemOutgoing(whmoveDt, whregistEntity, itemEntity);
         return totalWhItemIncoming - totalWhItemOutgoing;
     }
+
     //기준일자의 모든 창고와 품목에 대한 수량 조회------------------------------------------------------------------------------------
     public List<Map<String, Object>> getAllWhItemCheckList(LocalDate date) {
         List<Map<String, Object>> resultList = new ArrayList<>();
@@ -75,7 +77,7 @@ CheckService {
                 result.put("itemNm", item.getItemNm());
                 result.put("itemStnd", item.getItemStnd());
                 result.put("currentStock", getTotalWhItemCheckAmt(date, whregist, item));
-                long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date,whregist,item);
+                long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date, whregist, item);
                 result.put("calcul", calcul);
                 resultList.add(result);
             }
@@ -86,9 +88,11 @@ CheckService {
     private List<WhregistEntity> getAllWhregists() {
         return whregistRepository.findAll();
     }
+
     private List<ItemEntity> getAllItems() {
         return itemRepository.findAll();
     }
+
     //기준일자의 선택한 창고와 품목에 대한 수량 조회------------------------------------------------------------------------------------
     public List<Map<String, Object>> getAllWhCheckList(LocalDate date, String whregistCd) {
         List<Map<String, Object>> resultList = new ArrayList<>();
@@ -99,13 +103,14 @@ CheckService {
             result.put("whregistNm", whregistEntity.get().getWhregistNm());
             result.put("itemNm", item.getItemNm());
             result.put("itemStnd", item.getItemStnd());
-            result.put("currentStock", getTotalWhItemCheckAmt(date,whregistEntity.get(),item));
-            long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date,whregistEntity.get(),item);
+            result.put("currentStock", getTotalWhItemCheckAmt(date, whregistEntity.get(), item));
+            long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date, whregistEntity.get(), item);
             result.put("calcul", calcul);
             resultList.add(result);
         }
         return resultList;
     }
+
     public void addRowCheck(WhmoveEntity whmoveEntity) {
         CheckEntity checkEntity = new CheckEntity();
         Long newCheckCd = generateNewCheckCd();
@@ -120,11 +125,24 @@ CheckService {
         Long sequenceNumber = beforeCd + 1;
         return sequenceNumber;
     }
+
+    public void updateRowCheck(WhmoveEntity whmoveEntity) {
+        CheckEntity temp = checkRepository.BywhmoveCd(whmoveEntity);
+        CheckEntity checkEntity = new CheckEntity();
+        checkEntity.setCheckCd(temp.getCheckCd());
+        checkEntity.setWhmoveEntity(temp.getWhmoveEntity());
+        checkEntity.setCheckAmt(whmoveEntity.getWhmoveAmt()); //Whmove테이블에서 변경된 수량만 반영
+        temp = checkEntity;
+        checkRepository.save(temp);
+    }
+
     @Transactional
-    public void deleteRowWhmove(List<WhmoveEntity> whmoveEntities) {
-        for(WhmoveEntity whmoveEntity : whmoveEntities){
-        List<CheckEntity> checkEntities = checkRepository.getBywhmoveCd(whmoveEntity.getWhmoveCd());
-        checkRepository.deleteAll(checkEntities);
+    public void deleteRowCheck(List<WhmoveEntity> whmoveEntities) {
+        List<CheckEntity> checkEntitiesToDelete = new ArrayList<>();
+        for (WhmoveEntity whmoveEntity : whmoveEntities) {
+            List<CheckEntity> checkEntities = checkRepository.getBywhmoveCd(whmoveEntity.getWhmoveCd());
+            checkEntitiesToDelete.addAll(checkEntities);
+            checkRepository.deleteAll(checkEntities);
         }
     }
 

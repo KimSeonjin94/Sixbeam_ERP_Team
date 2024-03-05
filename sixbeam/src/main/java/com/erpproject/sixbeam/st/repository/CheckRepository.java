@@ -1,6 +1,7 @@
 package com.erpproject.sixbeam.st.repository;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
@@ -46,8 +47,8 @@ public interface CheckRepository extends JpaRepository<CheckEntity, Long> {
     @Query("SELECT c FROM CheckEntity c WHERE c.whmoveEntity.whmoveCd = :whmoveCd")
     List<CheckEntity> getBywhmoveCd(@Param("whmoveCd") String whmoveCd);
 
-
-//    List<CheckEntity> findByWhmoveEntity_WhmoveDtYear(int year);
+    @Query("SELECT c FROM CheckEntity c WHERE c.whmoveEntity = :whmoveEntity")
+    CheckEntity BywhmoveCd(@Param("whmoveEntity") WhmoveEntity whmoveEntity);
 
 
 }

@@ -2,6 +2,8 @@ package com.erpproject.sixbeam.st.entity;
 
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pur.entity.InputEntity;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +28,6 @@ public class WhmoveEntity {
     @JoinColumn(name = "empinfo_id")
     private EmpInfoEntity empInfoEntity;
 
-
     @Column(name = "whmove_dt")
     private LocalDate whmoveDt;
 
@@ -42,10 +43,18 @@ public class WhmoveEntity {
     @JoinColumn(name = "as_cd")
     private AsEntity asEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "SALE_CD")
+    private SaleEntity saleEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "INPUTPUR_CD")
+    private InputEntity inputEntity;
+
     @Column(name = "whmove_amt")
     private Integer whmoveAmt;
 
     @Column(name = "whmove_gb")
-        private String whmoveGb;
+    private String whmoveGb;
 
 }

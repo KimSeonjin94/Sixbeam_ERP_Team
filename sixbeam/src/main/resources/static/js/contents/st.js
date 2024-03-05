@@ -150,7 +150,7 @@ $('#detailAsCd[data-id]').on('click', function() {
                 $('#updateascmptDt').val(data[0].ascmptDt);
                 $('#updateasSt').val(data[0].asSt);
                 $('#updateasTi').val(data[0].asTi);
-                $('#updatewhregistName').val(data[0].whregistEntity.whregistCd);
+                $('#updatewhregistName').val(data[0].whregistEntity.whregistNm);
                 $('#updateasMo').val(data[0].asMo);
                 // 데이터 항목별로 행 추가
                 data.forEach(function(Asitem, index) {
