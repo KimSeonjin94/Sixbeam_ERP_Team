@@ -22,31 +22,32 @@
         </div>
 
         <script layout:fragment="script" type='text/javascript'>
+            alert('zz');
             document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');
                 var calendar = new FullCalendar.Calendar(calendarEl, {
-            editable: true,
-            selectable: true,
-            businessHours: true,
-            dayMaxEvents: true,
-           events: [
-//                {
-//                    id: 'ab',
-//                   title: '추가기능 구현',
-//                    start: '2024-03-04T10:00:00',
-//                    end: '2024-03-08T12:00:00',
-//                },
-//                {
-//                   id: 'b',
-//                    title: '마무리',
-//                    start: '2024-03-11',
-//                    end: '2024-03-15T12:00:00',
-//                }
-            ],
-            selectable: true,
-            timeZone: 'UTC',
-            });
-            calendar.render();
+                    editable: true,
+                    selectable: true,
+                    businessHours: true,
+                    dayMaxEvents: true,
+                    events: [
+                        //                {
+                        //                    id: 'ab',
+                        //                   title: '추가기능 구현',
+                        //                    start: '2024-03-04T10:00:00',
+                        //                    end: '2024-03-08T12:00:00',
+                        //                },
+                        //                {
+                        //                   id: 'b',
+                        //                    title: '마무리',
+                        //                    start: '2024-03-11',
+                        //                    end: '2024-03-15T12:00:00',
+                        //                }
+                    ],
+                    selectable: true,
+                    timeZone: 'UTC',
+                });
+                calendar.render();
             });
         </script>
 
@@ -60,53 +61,55 @@
                                 <div class="col mr-2">
                                     <div class="text-l font-weight-bold text-danger text-uppercase mb-1">
                                         현재 날씨
-                                        <p class="h5 mb-0 font-weight-bold text-gray-800">기온: <span id="temperature"></span>°C</p>
-                                        <p class="h5 mb-0 font-weight-bold text-gray-800">위치: <span id="location"></span></p>
+                                        <p class="h5 mb-0 font-weight-bold text-gray-800">기온: <span
+                                                id="temperature"></span>°C</p>
+                                        <p class="h5 mb-0 font-weight-bold text-gray-800">위치: <span
+                                                id="location"></span></p>
                                     </div>
                                     <script>
                                         const API_KEY = '6bfdb7b9b8dc3fab00065204dc3d7caa';
 
                                         function getWeather(lat, lon) {
                                             fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=kr`)
-                                            .then(response => response.json())
-                                            .then(data => {
+                                                .then(response => response.json())
+                                                .then(data => {
                                                 document.getElementById('temperature').textContent = data.main.temp;
 
                                                 let locationName = data.name;
                                                 if (locationName === 'Seryui-dong') {
-                                                locationName = '세류동';
-                                                    }
+                                                    locationName = '세류동';
+                                                }
                                                 if (locationName === 'Suwon-si') {
-                                                locationName = '수원시';
-                                                    }
+                                                    locationName = '수원시';
+                                                }
                                                 document.getElementById('location').textContent = locationName;
                                                 document.getElementById('icon').src = "http://openweathermap.org/img/wn/"+ data.weather[0].icon +"@2x.png";
                                             })
-                                            .catch(error => {
+                                                .catch(error => {
                                                 console.error('날씨 정보를 가져오는데 실패했습니다:', error);
                                             });
                                         }
 
-                                         // 예시로 서울의 좌표를 사용합니다.
-                                         getWeather(37.2636, 127.0286);
+                                        // 예시로 서울의 좌표를 사용합니다.
+                                        getWeather(37.2636, 127.0286);
 
-                                         function getLocationAndWeather() {
-                                              if (navigator.geolocation) {
-                                                    navigator.geolocation.getCurrentPosition((position) => {
-                                                        getWeather(position.coords.latitude, position.coords.longitude);
-                                                    }, (error) => {
-                                                        console.error('위치 정보를 가져오는데 실패했습니다:', error);
-                                                    });
-                                                } else {
-                                                    console.error('이 브라우저에서는 지리적 위치를 지원하지 않습니다.');
-                                                }
+                                        function getLocationAndWeather() {
+                                            if (navigator.geolocation) {
+                                                navigator.geolocation.getCurrentPosition((position) => {
+                                                    getWeather(position.coords.latitude, position.coords.longitude);
+                                                }, (error) => {
+                                                    console.error('위치 정보를 가져오는데 실패했습니다:', error);
+                                                });
+                                            } else {
+                                                console.error('이 브라우저에서는 지리적 위치를 지원하지 않습니다.');
                                             }
+                                        }
 
-                                            // 페이지가 로드될 때 날씨 정보를 가져옵니다.
-                                            window.onload = getLocationAndWeather;
+                                        // 페이지가 로드될 때 날씨 정보를 가져옵니다.
+                                        window.onload = getLocationAndWeather;
                                     </script>
                                 </div>
-                                <div >
+                                <div>
                                     <img src="" id="icon">
                                 </div>
                             </div>
@@ -202,7 +205,6 @@
     </div>
 </div>
 </body>
-
 
 
 </html>
