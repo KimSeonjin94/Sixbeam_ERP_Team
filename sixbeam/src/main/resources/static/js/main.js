@@ -470,4 +470,3 @@ $('.formEntry').on('keydown', function(event) {
     }
 });
 
-
