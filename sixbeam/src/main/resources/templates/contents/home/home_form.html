@@ -51,23 +51,86 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js
                 </div>
             </div>
         </div>
+
         <div class="col-md-6">
+
             <div class="row">
+                <div class="col-md-12 mb-4">
+                    <div class="card border-left-danger shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-l font-weight-bold text-danger text-uppercase mb-1">
+                                        현재 날씨
+                                        <p class="h5 mb-0 font-weight-bold text-gray-800">기온: <span id="temperature"></span>°C</p>
+                                        <p class="h5 mb-0 font-weight-bold text-gray-800">위치: <span id="location"></span></p>
+                                    </div>
+                                    <script>
+                                        const API_KEY = '6bfdb7b9b8dc3fab00065204dc3d7caa';
 
+                                        function getWeather(lat, lon) {
+                                            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=kr`)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                document.getElementById('temperature').textContent = data.main.temp;
 
+                                                let locationName = data.name;
+                                                if (locationName === 'Seryui-dong') {
+                                                locationName = '세류동';
+                                                    }
+                                                if (locationName === 'Suwon-si') {
+                                                locationName = '수원시';
+                                                    }
+                                                document.getElementById('location').textContent = locationName;
+                                                document.getElementById('icon').src = "http://openweathermap.org/img/wn/"+ data.weather[0].icon +"@2x.png";
+                                            })
+                                            .catch(error => {
+                                                console.error('날씨 정보를 가져오는데 실패했습니다:', error);
+                                            });
+                                        }
+
+                                         // 예시로 서울의 좌표를 사용합니다.
+                                         getWeather(37.2636, 127.0286);
+
+                                         function getLocationAndWeather() {
+                                              if (navigator.geolocation) {
+                                                    navigator.geolocation.getCurrentPosition((position) => {
+                                                        getWeather(position.coords.latitude, position.coords.longitude);
+                                                    }, (error) => {
+                                                        console.error('위치 정보를 가져오는데 실패했습니다:', error);
+                                                    });
+                                                } else {
+                                                    console.error('이 브라우저에서는 지리적 위치를 지원하지 않습니다.');
+                                                }
+                                            }
+
+                                            // 페이지가 로드될 때 날씨 정보를 가져옵니다.
+                                            window.onload = getLocationAndWeather;
+                                    </script>
+                                </div>
+                                <div >
+                                    <img src="" id="icon">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-12 mb-4">
                     <div class="card border-left-primary shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    <div class="text-l font-weight-bold text-primary text-uppercase mb-1">
                                         판매 건수
                                     </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800"
                                          th:text="${estimateEntities.size()}+ '건'"></div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fas fa-handshake-o fa-2x text-gray-300"></i>
+                                    <i class="fas fa-handshake fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +143,7 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    <div class="text-l font-weight-bold text-success text-uppercase mb-1">
                                         구매 건수
                                     </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800"
@@ -101,12 +164,12 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                        생산
+                                    <div class="text-l font-weight-bold text-info text-uppercase mb-1">
+                                        생산량
                                     </div>
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-auto">
-                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">생산양</div>
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">생산량</div>
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +187,7 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    <div class="text-l font-weight-bold text-warning text-uppercase mb-1">
                                         재고량
                                     </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">재고 수량</div>
@@ -143,3 +206,4 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js
 
 
 </html>
+

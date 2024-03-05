@@ -1,7 +1,6 @@
 package com.erpproject.sixbeam.ac.entity;
 
 import jakarta.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,8 @@ public class PayablesEntity {
     @Id
     @Column(name="ACCOUNT_CD" ,insertable=false, updatable=false ,nullable = false)
     private String accountCd;
-
+    @Column(name="ACCOUNT_NM" ,insertable=false, updatable=false,nullable = false)
+    private String accountNm;
     @ManyToOne
     @JoinColumn(name="ACCOUNT_CD")
     private AccountEntity accountEntity;
