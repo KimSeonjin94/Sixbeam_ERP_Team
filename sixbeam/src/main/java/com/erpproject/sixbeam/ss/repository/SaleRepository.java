@@ -21,6 +21,8 @@ public interface SaleRepository extends JpaRepository<SaleEntity,String> {
 
     List<SaleEntity> findBySaleBillingSt (boolean b);
 
+    List<SaleEntity> findBySaleShippingSt (String saleShippingSt);
+
 
 
 }

@@ -41,7 +41,7 @@ function prepareDelete() {
     document.getElementById('deleteForm').submit();
 }
 
-$('#receivables').submit(function(e) {
+$('#payables').submit(function(e) {
         var accountCd = $('#accountCode').val();
         var accountNm = $('#accountName').val();
         e.preventDefault();
@@ -55,8 +55,13 @@ $('#receivables').submit(function(e) {
                 // 예를 들어 테이블의 내용을 업데이트하는 등의 작업을 수행할 수 있습니다.
                 $('.accountCode').val(data.accountCode);
                 $('.accountName').val(data.accountName);
-                $('.basicReceivables').val(data.basicReceivables);
-                $('.receivablesSum').val(data.receivablesSum);
+                $('.basicPayables').val(data.basicPayables);
+                $('.payablesSum').val(data.payablesSum);
+                $('.paidCash').val(data.paidCash);
+                $('.paidSum').val(data.paidSum);
+                $('.balance').val(data.balance);
+                $('.unclaimedAmount').val(data.unclaimedAmount);
+                $('.note').val(data.note);
             },
             error: function(xhr) {
                 // 에러 처리 로직
