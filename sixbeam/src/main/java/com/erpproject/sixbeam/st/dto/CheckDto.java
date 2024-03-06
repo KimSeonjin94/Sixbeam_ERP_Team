@@ -18,40 +18,7 @@ public class CheckDto {
 
     private WhmoveEntity whmoveEntity;
 
-    private Integer checkPr;
-
     public CheckEntity toEntity() {
-        return new CheckEntity(checkCd,checkAmt,whmoveEntity,checkPr);
+        return new CheckEntity(checkCd,checkAmt,whmoveEntity);
     }
-//    private  WhregistEntity whregistEntity;
-//
-//    private  ItemEntity itemEntity;
 }
-
-
-    /*
-    private LocalDate checkDt;
-
-    private ItemEntity itemEntity;
-
-    private WhmoveEntity whmoveEntity;
-
-    private Integer checkUp;
-
-    private Integer checkPr;
-
-    private Integer checkAmt;
-
-    public CheckEntity toEntity() {
-        CheckEntity checkEntity = new CheckEntity(checkDt,whmoveEntity,itemEntity,checkUp,checkPr,checkAmt);
-        checkEntity.setCheckDt(checkDt);
-        checkEntity.setWhmoveEntity(whmoveEntity);
-        checkEntity.setItemEntity(itemEntity);
-        checkEntity.setCheckUp(checkUp);
-        checkEntity.setCheckPr(checkPr);
-        checkEntity.setCheckAmt(checkAmt);
-        return checkEntity;
-    }
-    */
-
-

@@ -168,6 +168,8 @@ public class WhmoveService {
         whmoveEntity.setWhmoveGb("입고");
         whmoveEntity.setWhmoveCd(newWhmoveCd);
         whmoveRepository.save(whmoveEntity);
+        CheckRowAddedEvent<WhmoveEntity> whmoveEvent = new CheckRowAddedEvent<>(this, whmoveEntity);
+        addEvent.publishEvent(whmoveEvent);
     }
     private String generateNewInputCd(LocalDate inputPurDt) {//기본키 자동생성
         // 현재 날짜를 기반으로 새로운 주문 코드 생성

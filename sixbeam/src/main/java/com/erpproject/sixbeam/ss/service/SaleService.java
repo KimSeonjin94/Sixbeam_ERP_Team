@@ -9,8 +9,11 @@ import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
+import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.event.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
+import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
+import com.erpproject.sixbeam.st.event.WhmoveRowUpdatedEvent;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +32,9 @@ public class SaleService {
     private final EstimateRepository estimateRepository;
     private final WhregistRepository whregistRepository;
     private final EstimateService estimateService;
+    private final ApplicationEventPublisher addEvent;
+    private final ApplicationEventPublisher deleteEvent;
+    private final ApplicationEventPublisher updateEvent;
     @Autowired
     private ApplicationEventPublisher event;//[이벤트리스너]
 
@@ -52,7 +58,7 @@ public class SaleService {
             }
             saleRepository.save(saleEntity);
             WhmoveRowAddedEvent<SaleEntity> saleEvent = new WhmoveRowAddedEvent<>(this, saleEntity);
-            event.publishEvent(saleEvent);
+            addEvent.publishEvent(saleEvent);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -62,6 +68,8 @@ public class SaleService {
             Optional<SaleEntity> optionalSaleEntity = saleRepository.findById(saleDto.getSaleCd());
             SaleEntity saleEntity=optionalSaleEntity.get();
             saleRepository.save(saleEntity);
+            WhmoveRowUpdatedEvent<SaleEntity> saleEvent = new WhmoveRowUpdatedEvent<>(this, saleEntity);
+            updateEvent.publishEvent(saleEvent);
     }
     @Transactional
     public void delete(List<String> saleCds) {
@@ -70,7 +78,6 @@ public class SaleService {
             SaleEntity saleEntity=optionalSaleEntity.get();
             if(saleEntity.isSaleBillingSt()){
                 throw new IllegalStateException("출고 진행이 되어 삭제 불가 합니다.");
-
             }else {
                 saleRepository.delete(saleEntity);
             }

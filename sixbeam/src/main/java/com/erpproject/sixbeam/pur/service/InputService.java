@@ -7,8 +7,11 @@ import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.pur.repository.InputRepository;
 import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
+import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.event.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
+import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
+import com.erpproject.sixbeam.st.event.WhmoveRowUpdatedEvent;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,7 +30,9 @@ public class InputService {
     private final InputRepository inputRepository;
     private final OrinPutRepository orinPutRepository;
     private final WhregistRepository whregistRepository;
-    private final ApplicationEventPublisher event;//[이벤트리스너]
+    private final ApplicationEventPublisher addEvent;
+    private final ApplicationEventPublisher deleteEvent;
+    private final ApplicationEventPublisher updateEvent;
     public List<InputEntity> getList() {
         return this.inputRepository.findAll();
     }
@@ -59,6 +65,8 @@ public class InputService {
         inputEntity.setWhregistEntity(whregistEntity);
 
         inputRepository.save(inputEntity);
+        WhmoveRowUpdatedEvent<InputEntity> inputEvent = new WhmoveRowUpdatedEvent<>(this, inputEntity);
+        updateEvent.publishEvent(inputEvent);//이벤트리스너
     }
     
     public void save(InputDto inputDto) {
@@ -81,7 +89,7 @@ public class InputService {
         inputEntity.setWhregistEntity(whregistEntity);
         inputRepository.save(inputEntity);
         WhmoveRowAddedEvent<InputEntity> inputEvent = new WhmoveRowAddedEvent<>(this, inputEntity);
-        event.publishEvent(inputEvent);//[이벤트리스너]
+        addEvent.publishEvent(inputEvent);//[이벤트리스너]
     }
     private String generateNewInputCd(LocalDate inputDate) {
         // 현재 날짜를 기반으로 새로운 구매 코드 생성
@@ -99,6 +107,7 @@ public class InputService {
 
     @Transactional
     public void delete(List<String> inputIds) {
+        List<InputEntity> inputEntitiesToDelete = new ArrayList<>();//이벤트리스너_삭제를 위한 추가코드
         for (String inputId : inputIds) {
             // 구매 삭제시 회계반영이 되었는지 확인 후 반영이 되어있으면 삭제 불가
             boolean isReferenced = inputRepository.checkInputSiFl(inputId);
@@ -106,8 +115,11 @@ public class InputService {
                 throw new IllegalStateException("회계 반영되어 삭제 불가 합니다.");
             } else {
                 List<InputEntity> inPutEntities = inputRepository.findByinputPurCd(inputId);
+                inputEntitiesToDelete.addAll(inPutEntities);//이벤트리스너_삭제를 위한 추가코드
                 inputRepository.deleteAll(inPutEntities);
             }
         }
+        WhmoveRowDeletedEvent<InputEntity> inputDeletedEvent = new WhmoveRowDeletedEvent<>(this, inputEntitiesToDelete);
+        deleteEvent.publishEvent(inputDeletedEvent);
     }
 }
