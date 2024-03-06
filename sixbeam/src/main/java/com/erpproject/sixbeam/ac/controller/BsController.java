@@ -2,6 +2,7 @@ package com.erpproject.sixbeam.ac.controller;
 
 import com.erpproject.sixbeam.ac.entity.BsEntity;
 import com.erpproject.sixbeam.ac.service.BsService;
+import com.erpproject.sixbeam.ac.service.PayablesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import java.util.List;
 public class BsController {
 
     private final BsService bsService;
+    private final PayablesService payablesService;
 
     @GetMapping("/bs/balanceSheet")
     public String getBalanceSheet(@RequestParam(name="bsDtForm", required = false) String bsDt , Model model) {
@@ -35,6 +37,7 @@ public class BsController {
 
             Integer totalCapital = balanceSheet.getBsCapital() + balanceSheet.getBsEarnings();
             model.addAttribute("totalCapital", totalCapital);
+            payablesService.payables_by_year(bsDt);
         }
 
         List<String> bsDtList = bsService.findAllBsDts();
