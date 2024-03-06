@@ -57,6 +57,7 @@
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.movie_info" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ss_sale_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.pur_orinput_tb" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_payables_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_account_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ss_estimate_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.hr_empinfo_tb" active-filter-id="52a1508f-2489-400c-9b72-c95ce46484c9">
@@ -69,6 +70,7 @@
         <condition column="bs_dt" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_pur_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.book" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_is_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ss_member_tb" active-filter-id="EMPTY_FILTER" />
@@ -163,7 +165,7 @@
           <debugger-type value="ASK" />
         </debugger>
         <object-filters hide-empty-schemas="false" hide-pseudo-columns="false" hide-audit-columns="false">
-          <object-type-filter>
+          <object-type-filter use-master-settings="true">
             <object-type name="SCHEMA" enabled="true" />
             <object-type name="USER" enabled="true" />
             <object-type name="ROLE" enabled="true" />
@@ -257,7 +259,7 @@
           <debugger-type value="ASK" />
         </debugger>
         <object-filters hide-empty-schemas="false" hide-pseudo-columns="false" hide-audit-columns="false">
-          <object-type-filter>
+          <object-type-filter use-master-settings="true">
             <object-type name="SCHEMA" enabled="true" />
             <object-type name="USER" enabled="true" />
             <object-type name="ROLE" enabled="true" />
@@ -413,11 +415,9 @@
           <content-type name="DTD" enabled="true" />
           <content-type name="HTML" enabled="true" />
           <content-type name="XHTML" enabled="true" />
-          <content-type name="CSS" enabled="true" />
           <content-type name="Java" enabled="true" />
           <content-type name="SQL" enabled="true" />
           <content-type name="PL/SQL" enabled="true" />
-          <content-type name="JavaScript" enabled="true" />
           <content-type name="JSON" enabled="true" />
           <content-type name="JSON5" enabled="true" />
           <content-type name="Groovy" enabled="true" />

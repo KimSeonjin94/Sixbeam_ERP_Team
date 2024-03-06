@@ -21,37 +21,44 @@ import java.util.Map;
 @Controller
 public class ReceivablesController {
 
-//    private final AccountService accountService;
-//    private final ReceivablesService receivablesService;
-//
-//    @GetMapping("/receivables/receivables")
-//    public String searchReceivables(Model model) {
-//        List<AccountEntity> actEntity = this.accountService.getList();
-//        model.addAttribute("actList", actEntity);
-//        return "contents/ac/receivables";
-//    }
-//    @GetMapping("/receivables/load")
-//    public ResponseEntity<?> inputAct(Model model,
-//            @RequestParam("accountCode") String accountCode,
-//            @RequestParam("accountName") String accountName,
-//            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-//            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate)
-//    {
-//        Map<String, Integer> suminput = receivablesService.sum_input_account(startDate,endDate);
-//        int receivablesSum = suminput.get(accountCode);
-//        int basicReceivables = 0;
-//        model.addAttribute("거래처명 코드", accountCode);
-//        model.addAttribute("거래처명", accountName);
-//        model.addAttribute("기초채권", basicReceivables);
-//        model.addAttribute("재고매출", receivablesSum);
-//
-//        Map<String,Object> map =new HashMap<>();
-//        map.put("accountCode", accountCode);
-//        map.put("accountName", accountName);
-//        map.put("basicReceivables", basicReceivables);
-//        map.put("receivablesSum", receivablesSum);
-//
-//        return ResponseEntity.ok().body(map);
-//    }
+    private final AccountService accountService;
+    private final ReceivablesService receivablesService;
+
+    @GetMapping("/receivables/receivables")
+    public String searchReceivables(Model model) {
+        List<AccountEntity> actEntity = this.accountService.getList();
+        model.addAttribute("actList", actEntity);
+        return "contents/ac/receivables";
+    }
+    @GetMapping("/receivables/load")
+    public ResponseEntity<?> inputAct(Model model,
+            @RequestParam("accountCode") String accountCode,
+            @RequestParam("accountName") String accountName,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate)
+    {
+        Map<String, Integer> suminput = receivablesService.sum_input_account(startDate,endDate);
+        int receivablesSum = suminput.get(accountCode);
+        int basicReceivables = 0;
+//        int paidCash = 0;
+//        int paidSum = 0;
+//        int balance = basicPayables + payablesSum - paidSum;
+//        int unclaimedAmount = balance;
+//        String note = null;
+
+
+        Map<String,Object> map =new HashMap<>();
+        map.put("accountCode", accountCode);
+        map.put("accountName", accountName);
+        map.put("basicReceivables", basicReceivables);
+        map.put("receivablesSum", receivablesSum);
+//        map.put("paidCash", paidCash);
+//        map.put("paidSum", paidSum);
+//        map.put("balance", balance);
+//        map.put("unclaimedAmount", unclaimedAmount);
+//        map.put("note", note);
+
+        return ResponseEntity.ok().body(map);
+    }
 
 }
