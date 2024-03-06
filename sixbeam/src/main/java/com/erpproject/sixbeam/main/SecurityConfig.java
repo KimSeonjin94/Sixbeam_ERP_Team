@@ -33,7 +33,7 @@ public class SecurityConfig {
         http.csrf().disable().cors().and()
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/sixbeam", "/login", "/register", "/css/**", "/js/**","/vendor/**","/hr/empinfo/pw").permitAll() // 정적 리소스 접근 허용
-//                                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/sixbeam/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/hr/**")).hasAnyAuthority("인사","회계")//인사
                                 .requestMatchers(new AntPathRequestMatcher("/pd/**")).hasAnyAuthority("인사","생산","재고","영업","구매","회계")//생산
@@ -41,8 +41,8 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/ss/**")).hasAnyAuthority("인사","생산","재고","영업","구매","회계")//영업
                                 .requestMatchers(new AntPathRequestMatcher("/pur/**")).hasAnyAuthority("인사","생산","재고","영업","구매","회계")//구매
                                 .requestMatchers(new AntPathRequestMatcher("/ac/**")).hasAnyAuthority("인사","영업","구매","회계")//회계
-//                        .anyRequest()
-//                        .authenticated()
+                        .anyRequest()
+                        .authenticated()
                         )
                 .formLogin((login) -> login
                         .loginPage("/sixbeam")	// [A] 커스텀 로그인 페이지 지정
