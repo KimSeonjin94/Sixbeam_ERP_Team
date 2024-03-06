@@ -32,21 +32,10 @@ public class IsService {
         LocalDate startDate=LocalDate.now();
         LocalDate endDate=LocalDate.now();
         int year= Integer.parseInt(isDt.substring(0,4));
-        if(isDt.substring(4).equalsIgnoreCase("q1")){
-            startDate=LocalDate.of(year,1,1);
-            endDate=LocalDate.of(year,3, LocalDate.of(year, 3, 1).lengthOfMonth());
-        } else if (isDt.substring(4).equalsIgnoreCase("q2")) {
-            startDate=LocalDate.of(year,4,1);
-            endDate=LocalDate.of(year,6, LocalDate.of(year, 6, 1).lengthOfMonth());
 
-        }else if (isDt.substring(4).equalsIgnoreCase("q3")){
-            startDate=LocalDate.of(year,7,1);
-            endDate=LocalDate.of(year,9, LocalDate.of(year, 9, 1).lengthOfMonth());
+        startDate = LocalDate.of(year, 1, 1);
+        endDate = LocalDate.of(year, 12, LocalDate.of(year, 12, 1).lengthOfMonth());
 
-        }else if (isDt.substring(4).equalsIgnoreCase("q4")) {
-            startDate = LocalDate.of(year, 10, 1);
-            endDate = LocalDate.of(year, 12, LocalDate.of(year, 12, 1).lengthOfMonth());
-        }
 
         int isNetSales=0;
         isNetSales= estimateService.getIsNetSales(startDate,endDate);
