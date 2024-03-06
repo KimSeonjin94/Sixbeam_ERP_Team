@@ -68,9 +68,9 @@ INSERT INTO sixbeam_erp.ac_bs_tb (bs_building, bs_capital, bs_cash, bs_earnings,
 (200000000,250000000,10000000,51000000,100000000,0,200000000,260000000,0,0,'2024');
 -- 손익계산서 db ---
 INSERT INTO sixbeam_erp.ac_is_tb (is_cortax_exp,is_cost_sales,is_inter_exp,is_inter_inc,is_net_sales,is_wages,is_dt) values
-(15000,50000,2000,1500,0,1000,'2022'),
-(18000,55000,2000,1500,0,1200,'2023'),
-(21000,60000,2000,1500,0,1300,'2024');
+(15000,0,2000,1500,0,100000000,'2022'),
+(18000,0,2000,1500,0,120000000,'2023'),
+(21000,0,2000,1500,0,130000000,'2024');
 -- 창고등록 DB --
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values('WHR1001','본사창고');
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values('WHR1002','생산창고');
