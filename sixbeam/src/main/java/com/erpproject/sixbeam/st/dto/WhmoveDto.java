@@ -2,6 +2,8 @@ package com.erpproject.sixbeam.st.dto;
 
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pur.entity.InputEntity;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
@@ -24,6 +26,12 @@ public class WhmoveDto {
 
     private String whmoveGb;
 
+    private AsEntity asEntity;
+
+    private SaleEntity saleEntity;
+
+    private InputEntity inputEntity;
+
     public WhmoveEntity toEntity() {
         WhmoveEntity entity = new WhmoveEntity();
         entity.setWhmoveCd(this.whmoveCd);
@@ -33,6 +41,9 @@ public class WhmoveDto {
         entity.setWhregistEntity(this.whregistEntity);
         entity.setWhmoveAmt(this.whmoveAmt);
         entity.setWhmoveGb(this.whmoveGb);
+        entity.setAsEntity(this.asEntity);
+        entity.setSaleEntity(this.saleEntity);
+        entity.setInputEntity(this.inputEntity);
         return  entity;
     }
 }

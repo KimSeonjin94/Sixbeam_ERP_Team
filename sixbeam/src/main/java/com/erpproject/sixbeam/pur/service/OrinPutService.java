@@ -51,12 +51,11 @@ public class OrinPutService {
 
     public void updateAll(List<OrinPutDto> orinPutDtos){
         for (OrinPutDto orinputDto : orinPutDtos) {
+            //구매 테이블에 발주코드가 있으면 이미 진행이 된것이므로 수정 불가하도록 함
             boolean isReferenced = inputRepository.existsByOrinputEntity_OrinputCd(orinputDto.getOrinputCd());
             if (isReferenced) {
-                // ORINPUT_CD를 참조하는 엔티티가 존재하면 삭제를 거부
                 throw new IllegalStateException("구매 진행이 되어 수정 불가 합니다.");
             }
-            // 각 견적 엔티티를 저장 또는 업데이트합니다.
             EmpInfoEntity empInfoEntity = empInfoRepository.findById(orinputDto.getEmpInfoEntity().getEmpInfoId())
                     .orElseThrow(() -> new EntityNotFoundException("회원 코드를 찾을 수 없습니다."));
             AccountEntity accountEntity = accountRepository.findById(orinputDto.getAccountEntity().getAccountCd())

@@ -27,9 +27,7 @@ public class ReleaseDto {
 
     private String releasePhone;
 
-    private String releaseZc;
-
-    private String releaseAddr;
+     private String releaseAddr;
 
     public ReleaseEntity toEntity() {
         ReleaseEntity entity = new ReleaseEntity();
@@ -39,7 +37,6 @@ public class ReleaseDto {
         entity.setSaleEntity(this.saleEntity);
         entity.setReleaseRv(this.releaseRv);
         entity.setReleasePhone(this.releasePhone);
-        entity.setReleaseZc(this.releaseZc);
         entity.setReleaseAddr(this.releaseAddr);
         return entity;
     }

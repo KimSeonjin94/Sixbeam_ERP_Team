@@ -62,14 +62,15 @@ values
 ('081-7901698385', '서울시 중랑구', '신한은행', 'CPN6287772501', '구매처 ', '6287772501', 'SK하이닉스', '이상효', '곽노정', '제조'),
 ('642-0290265811', '경기도 수원시 ', '우리은행', 'RTS1010101010', '소매매출', '8832918761', '개인거래', '김선진', 'CUSTOMER', '소매');
 -- 재무상태표 db --
-INSERT INTO sixbeam_erp.ac_bs_tb (bs_building, bs_capital, bs_cash, bs_earnings, bs_fac, bs_inventories, bs_land, bs_long_bor, bs_payables, bs_receivables, bs_dt) VALUES (200000000,250000000,10000000,32000000,100000000,30000000,200000000,260000000,3000000,5000000,'2022Q4');
-INSERT INTO sixbeam_erp.ac_bs_tb (bs_building, bs_capital, bs_cash, bs_earnings, bs_fac, bs_inventories, bs_land, bs_long_bor, bs_payables, bs_receivables, bs_dt) VALUES (200000000,250000000,10000000,41000000,100000000,40000000,200000000,260000000,6000000,7000000,'2023Q3');
-INSERT INTO sixbeam_erp.ac_bs_tb (bs_building, bs_capital, bs_cash, bs_earnings, bs_fac, bs_inventories, bs_land, bs_long_bor, bs_payables, bs_receivables, bs_dt) VALUES (200000000,250000000,10000000,51000000,100000000,50000000,200000000,260000000,8000000,9000000,'2024Q1');
+INSERT INTO sixbeam_erp.ac_bs_tb (bs_building, bs_capital, bs_cash, bs_earnings, bs_fac, bs_inventories, bs_land, bs_long_bor, bs_payables, bs_receivables, bs_dt) VALUES
+(200000000,250000000,10000000,32000000,100000000,0,200000000,260000000,0,0,'2022'),
+(200000000,250000000,10000000,41000000,100000000,0,200000000,260000000,0,0,'2023'),
+(200000000,250000000,10000000,51000000,100000000,0,200000000,260000000,0,0,'2024');
 -- 손익계산서 db ---
 INSERT INTO sixbeam_erp.ac_is_tb (is_cortax_exp,is_cost_sales,is_inter_exp,is_inter_inc,is_net_sales,is_wages,is_dt) values
-(15000,50000,2000,1500,100000,1000,'2022Q3'),
-(18000,55000,2000,1500,120000,1200,'2023Q4'),
-(21000,60000,2000,1500,140000,1300,'2024Q1');
+(15000,0,2000,1500,0,100000000,'2022'),
+(18000,0,2000,1500,0,120000000,'2023'),
+(21000,0,2000,1500,0,130000000,'2024');
 -- 창고등록 DB --
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values('WHR1001','본사창고');
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values('WHR1002','생산창고');
@@ -170,17 +171,19 @@ insert into sixbeam_erp.pd_bom_tb (fitem_cd, ritem_cd, bom_use_mt, bom_work_tm) 
 ('F1005', 'R1014', 1, '01:20:00'),
 ('F1005', 'R1016', 1, '01:20:00');
 ---- order db ----
-insert into sixbeam_erp.pd_order_tb (order_deliv_dt, order_inst_dt, order_st, empinfo_id, order_amt, item_cd, order_cd) values
-('2024-01-09', '2024-01-02', 0, '20241009', '2', 'F1002', 'OD2024-002'),
+insert into sixbeam_erp.pd_order_tb (order_deliv_dt, order_inst_dt, order_st, empinfo_id, order_amt, item_cd, order_cd)
+values ('2024-01-09', '2024-01-02', 0, '20241009', '2', 'F1002', 'OD2024-002'),
 ('2024-01-09', '2024-01-02', 0, '20241009', '5', 'F1001', 'OD2024-003'),
-('2024-01-21', '2024-01-14', 1, '20241007', '7', 'R1004', 'OD2024-009'),
-('2024-01-24', '2024-01-17', 1, '20241009', '8', 'R1005', 'OD2024-010'),
-('2024-01-29', '2024-01-22', 0, '20241009', '3', 'R1007', 'OD2024-012');
+('2024-01-21', '2024-01-14', 0, '20241007', '7', 'R1004', 'OD2024-009'),
+('2024-01-24', '2024-01-17', 0, '20241009', '8', 'R1005', 'OD2024-010'),
+('2024-01-29', '2024-01-22', 1, '20241009', '3', 'R1007', 'OD2024-012');
 ---- inout db ----
-insert into sixbeam_erp.pd_inout_tb (inout_cmpt_cd, inout_dt, empinfo_id, order_cd, whregist_cd, item_cd, order_st) values
-('CMPT240103-042', '2024-01-03 00:00:00.000000', 20241009, 'OD2024-003', 'WHR1003', 'F1001', false),
-('CMPT240103-041', '2024-01-03 00:00:00.000000', 20241009, 'OD2024-002', 'WHR1003', 'F1002', false),
-('CMPT240123-005', '2024-01-23 00:00:00.000000', 20241009, 'OD2024-012', 'WHR1003', 'R1007', false);
+insert into sixbeam_erp.pd_inout_tb (inout_cmpt_cd, inout_dt, empinfo_id, order_cd, whregist_cd, item_cd) values
+('CMPT240103-042', '2024-01-03 00:00:00.000000', 20241009, 'OD2024-003', 'WHR1003', 'F1001'),
+('CMPT240103-041', '2024-01-03 00:00:00.000000', 20241009, 'OD2024-002', 'WHR1003', 'F1002'),
+('CMPT240115-011', '2024-01-15 00:00:00.000000', 20241007, 'OD2024-009', 'WHR1003', 'R1004'),
+('CMPT240118-025', '2024-01-18 00:00:00.000000', 20241009, 'OD2024-010', 'WHR1003', 'R1005'),
+('CMPT240123-005', '2024-01-23 00:00:00.000000', 20241009, 'OD2024-012', 'WHR1003', 'R1007');
 -- 창고이동 DB --
 insert into sixbeam_erp.st_whmove_tb (whmove_amt,whmove_dt,empinfo_id,item_cd,whmove_cd,whmove_gb,whregist_cd) values
 (1,'2024-01-02','20241009','F1001','WHM20240102-0001','출고','WHR1002'),
@@ -429,6 +432,7 @@ insert into sixbeam_erp.st_release_tb (release_dt,empinfo_id,release_addr,releas
 ('2024-09-30','20241001','경기 성남시 분당구 정자동 567-89','REL20240930-0028','010-4321-8760','손예진','SS240202-0128'),
 ('2024-09-30','20241005','인천 강화군 강화읍 012-34','REL20240930-0029','010-8765-4320','조정석','SS240202-0129'),
 ('2024-09-30','20241007','대전 대덕구 비래동 901-23','REL20240930-0030','010-2468-1350','한가인','SS240202-0130');
+
 -- 멤버 db --
 INSERT INTO sixbeam_erp.SS_MEMBER_TB (ESTIMATE_CD,MEMBER_ID, MEMBER_NM, MEMBER_PHONE, MEMBER_ADDR)
 VALUES
@@ -624,7 +628,7 @@ insert into sixbeam_erp.st_check_tb (check_amt,check_cd,whmove_cd) values
 (1,94,'WHM20241001-0004'),
 (1,95,'WHM20241001-0005'),
 (1,96,'WHM20241001-0006'),
-(1,97,'WHM20241001-0007'),																									
+(1,97,'WHM20241001-0007'),
 (1,98,'WHM20241001-0008'),
 (1,99,'WHM20241001-0009'),
 (1,100,'WHM20241001-0010'),
@@ -632,4 +636,4 @@ insert into sixbeam_erp.st_check_tb (check_amt,check_cd,whmove_cd) values
 (1,102,'WHM20241001-0012'),
 (1,103,'WHM20241001-0013'),
 (1,104,'WHM20241001-0014'),
-(1,105,'WHM20241001-0015');
+(1,105,'WHM20241001-0015');																									

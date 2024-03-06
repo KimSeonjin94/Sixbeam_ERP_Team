@@ -31,7 +31,7 @@ public class EstimateService {
     private final AccountRepository accountRepository;
     private final EmpInfoRepository empInfoRepository;
     private final SaleRepository saleRepository;
-
+    //조회
     public List<EstimateEntity> getList() {
         List<EstimateEntity> estimateEntities = estimateRepository.findAll();
         // 중복된 estimateCd를 저장할 Set
@@ -58,7 +58,7 @@ public class EstimateService {
         }
         return deduplicatedList;
     }
-
+    //상세조회
     public List<EstimateEntity> getIdList(String id) {
 
         return this.estimateRepository.findByEstimateCd(id);
@@ -67,7 +67,7 @@ public class EstimateService {
     public Optional<ItemEntity> getItemCd(String id) {
         return this.itemRepository.findById(id);
     }
-
+    //생성
     public void create(List<EstimateDto> estimateDtos) {
         try {
             List<EstimateEntity> entities = new ArrayList<>();
@@ -95,6 +95,7 @@ public class EstimateService {
         }
 
     }
+    //수정
     public void updateAll(List<EstimateDto> estimateDtos){
         if(saleRepository.findByEstimateCd(estimateDtos.get(0).getEstimateCd()) !=null){
             throw new IllegalStateException("판매 진행이 되어 수정 불가 합니다.");
@@ -116,6 +117,7 @@ public class EstimateService {
             estimateRepository.save(estimateEntity);
         }
     }
+    //삭제
     @Transactional
     public void delete(List<String> estimateDtos){
         List<EstimateEntity> estimateEntityList=new ArrayList<>();
@@ -129,7 +131,7 @@ public class EstimateService {
         }
         estimateRepository.deleteAll(estimateEntityList);
     }
-
+    //기간별 매출 총액 계산하는 함수
     public int getIsNetSales(LocalDate startDate,LocalDate endDate){
         int total=0;
         List<SaleEntity> saleEntities=saleRepository.getSaleListBetweenDates(startDate,endDate);
@@ -142,6 +144,7 @@ public class EstimateService {
         return total;
 
     }
+    //거래처별 매출 총액
     public Map<String,Integer> getTotalBetweenDates(LocalDate startDate,LocalDate endDate){
         int totale=0;
         Map<String,Integer> map= new HashMap<>();
@@ -162,7 +165,7 @@ public class EstimateService {
         }
         return map;
     }
-
+    //거래처별 월별 금액보여주는 함수 map 으로 리턴 받은거에서 .get("월이름")쓰면 밸류값 받을수 있음
     public Map<String,Integer> getTotalBetweenYearDates(String accountCd){
         int totale=0;
         Map<String,Integer> map= new HashMap<>();
@@ -189,6 +192,7 @@ public class EstimateService {
         }
         return map;
     }
+    //회계 반영여부에 따른 거래처별 매출 보여주는 함수
     public int getAccountTotal(String accountCd){
         int total=0;
         AccountEntity accountEntity=accountRepository.findById(accountCd)
@@ -206,7 +210,7 @@ public class EstimateService {
         return total;
 
     }
-
+    //새로운 코드 만드는 함수
     private String generateNewEstimateCd(LocalDate estimateDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "ES" + estimateDate.format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";

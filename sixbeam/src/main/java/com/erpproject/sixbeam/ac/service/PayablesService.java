@@ -1,10 +1,11 @@
 package com.erpproject.sixbeam.ac.service;
 
+import com.erpproject.sixbeam.ac.entity.BsEntity;
+import com.erpproject.sixbeam.ac.repository.BsRepository;
 import com.erpproject.sixbeam.ac.repository.PayablesRepository;
 import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.pur.repository.InputRepository;
-import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 public class PayablesService {
     private final PayablesRepository payablesRepository;
     private final InputRepository inputRepository;
-    private final OrinPutRepository orinPutRepository;
+    private final BsRepository bsRepository;
 
     public Map<String, Integer> sum_input_account(LocalDate startDate, LocalDate endDate){
         int sum = 0;
@@ -41,6 +42,21 @@ public class PayablesService {
         }
 
         return accountBySum;
+    }
+
+    public void payables_by_year(String yearDate) {
+        int sum = 0;
+        BsEntity bsEntity = bsRepository.findByBsDt(yearDate);
+        //매입 채무 1년 단위로 계산
+        List<InputEntity> inputEntityList = inputRepository.findInputByDate(LocalDate.of(Integer.parseInt(yearDate),1,1),LocalDate.of(Integer.parseInt(yearDate),12,31));
+
+        for (InputEntity inputEntity : inputEntityList){
+            sum += inputEntity.getOrinputEntity().getOrinputSum();
+        }
+
+        bsEntity.setBsPayables(sum);
+        bsRepository.save(bsEntity);
+
     }
 
 }

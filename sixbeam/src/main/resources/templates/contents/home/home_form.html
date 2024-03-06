@@ -1,7 +1,9 @@
 <html layout:decorate="~{layout/default}">
 <head>
     <meta charset='utf-8'/>
+    <!--fullcalendar-->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <!--google calendar-->
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.11/index.global.min.js'></script>
 </head>
 <body>
@@ -16,14 +18,44 @@
 
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 
-                    <h6 class="m-0 font-weight-bold text-primary">Calendar</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">일정 관리</h6>
 
                 </div>
 
                 <div class="card-body mb-12">
 
                     <div id="calendar" class="fc fc-media-screen fc-direction-ltr fc-theme-standard"></div>
+                    <!-- modal 추가 -->
+                    <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="taskId" class="col-form-label">일정 내용</label>
+                                        <input type="text" class="form-control" id="calendar_content" name="calendar_content">
+                                        <label for="taskId" class="col-form-label">시작 날짜</label>
+                                        <input type="date" class="form-control" id="calendar_start_date" name="calendar_start_date">
+                                        <label for="taskId" class="col-form-label">종료 날짜</label>
+                                        <input type="date" class="form-control" id="calendar_end_date" name="calendar_end_date">
+                                        <input type="hidden" class="form-control" id="blue" name="blue">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-warning" id="addCalendar">추가</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                            id="sprintSettingModalClose">취소</button>
+                                </div>
 
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -33,7 +65,49 @@
             document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');
                 var calendar = new FullCalendar.Calendar(calendarEl, {
+                    locale: 'ko',
                     googleCalendarApiKey : "AIzaSyBpL3vEBHMwFcrnYFMKpQmvPkSqZw1mXnQ",
+                    customButtons:{
+                        myCustomButtons:{
+                            text : "일정 추가",  // 버튼 내용
+                            click : function(){ // 버튼 클릭 시 이벤트 추가
+                                $("#calendarModal").modal("show"); // modal 나타내기
+                                $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
+                                    var eventData={
+                                        content : $("#calendar_content").val(),
+                                        start_date : $("#calendar_start_date").val(),
+                                        end_date : $("#calendar_end_date").val(),
+                                        color : $("#blue").val(),
+                                    };
+
+                                    //내용 입력 여부 확인
+                                    if(eventData.content == null || eventData.content == ""){
+                                        alert("내용을 입력하세요.");
+                                    }else if(eventData.start_date == "" || eventData.end_date ==""){
+                                        alert("날짜를 입력하세요.");
+                                    }else if(new Date(eventData.end_date)- new Date(eventData.start_date) < 0){ // date 타입으로 변경 후 확인
+                                        alert("종료일이 시작일보다 먼저입니다.");
+                                    }else{ // 정상적인 입력 시
+                                        calendar.addEvent(eventData);
+                                        $("#calendarModal").modal("hide");
+                                        $("#calendar_content").val("");
+                                        $("#calendar_start_date").val("");
+                                        $("#calendar_end_date").val("");
+                                        $("#color").val("");
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    //드래그 버튼
+                    initialView: 'dayGridMonth',
+                    selectable: true,
+                    //헤더툴바
+                    headerToolbar:{
+                        start: 'myCustomButtons,mySaveButton',
+                        center: 'title',
+                        end: 'today prev,next'
+                    },
                     events: {
                         googleCalendarId : 'ko.south_korea#holiday@group.v.calendar.google.com'
                         , color: 'white'   // an option!
@@ -41,11 +115,11 @@
                         className: 'holiday-event',
                     },
                     eventClick: function(info) {
-                        // Prevent clicking on holiday events
-                        //                        if (info.event.extendedProps.className.includes('holiday-event')) {
-                        //                            info.jsEvent.stopPropagation();
-                        //                            info.jsEvent.preventDefault();
-                        //                        }
+//                        Prevent clicking on holiday events
+//                        if (info.event.extendedProps.className.includes('holiday-event')) {
+//                            info.jsEvent.stopPropagation();
+//                            info.jsEvent.preventDefault();
+//                        }
                         alert('휴일은 클릭할수 없습니다.');
                         info.jsEvent.stopPropagation();
                         info.jsEvent.preventDefault();
@@ -62,7 +136,6 @@
         </script>
         <div class="col-md-6">
 
-
             <div class="row">
                 <div class="col-md-12 mb-4">
                     <div class="card border-left-danger shadow h-100 py-2">
@@ -73,9 +146,12 @@
                                         현재 날씨
                                         <p class="h5 mb-0 font-weight-bold text-gray-800">기온: <span
                                                 id="temperature"></span>°C</p>
+                                    </div>
+                                    <div class="text-l font-weight-bold text-danger text-uppercase mb-1">
                                         <p class="h5 mb-0 font-weight-bold text-gray-800">위치: <span
                                                 id="location"></span></p>
                                     </div>
+
                                     <script>
                                         const API_KEY = '6bfdb7b9b8dc3fab00065204dc3d7caa';
 
@@ -115,16 +191,50 @@
                                         }
 
                                         window.onload = getLocationAndWeather;
+
+                                        // 시계 API
+                                          const dpTime = function () {
+                                          const now = new Date()
+                                          let hours = now.getHours()
+                                          let minutes = now.getMinutes()
+                                          let seconds = now.getSeconds()
+                                          let ampm = ''
+                                          if (hours > 12) {
+                                            hours -= 12
+                                            ampm = '오후'
+                                          } else {
+                                            ampm = '오전'
+                                          }
+                                          if (hours < 10) {
+                                            hours = '0' + hours
+                                          }
+                                          if (minutes < 10) {
+                                            minutes = '0' + minutes
+                                          }
+                                          if (seconds < 10) {
+                                            seconds = '0' + seconds
+                                          }
+                                          document.querySelector('#time').innerHTML = ampm + hours + ":" + minutes + ":" + seconds
+                                        }
+                                        setInterval(dpTime, 1000)  // 1초마다 함수 실행되도록 설정
+
                                     </script>
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    <div id="time"></div>
                                 </div>
                                 <div>
                                     <img src="" id="icon">
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
+
 
             <div class="col-md-12 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
@@ -138,7 +248,7 @@
                                      th:text="${estimateEntities.size()}+ '건'"></div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-handshake-o fa-2x text-gray-300"></i>
+                                <i class="fas fa-handshake fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
@@ -209,7 +319,12 @@
 
 
         </div>
+
+
     </div>
 </div>
+
+
+
 </body>
 </html>

@@ -2,15 +2,20 @@ package com.erpproject.sixbeam.st.service;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
-import com.erpproject.sixbeam.st.WhmoveRowAddedEvent;
+import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
+import com.erpproject.sixbeam.st.event.CheckRowDeletedEvent;
+import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import com.erpproject.sixbeam.st.repository.CheckRepository;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Check;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDate;
@@ -25,6 +30,7 @@ CheckService {
     private final WhregistRepository whregistRepository;
     private final ItemRepository itemRepository;
     private final WhmoveRepository whmoveRepository;
+
 
     //창고별 조회------------------------------------------------------------------------------
     public int getWhIncoming(LocalDate whmoveDt, WhregistEntity whregistEntity) {
@@ -59,7 +65,8 @@ CheckService {
         Integer totalWhItemOutgoing = getWhItemOutgoing(whmoveDt, whregistEntity, itemEntity);
         return totalWhItemIncoming - totalWhItemOutgoing;
     }
-    //기준일자의 모든 창고와 품목에 대한 수량 조회------------------------------------------------------------------------------------
+
+    //기준일자의 모든 창고와 품목에 대한 수량 조회-----------------------------------------------------------------------------
     public List<Map<String, Object>> getAllWhItemCheckList(LocalDate date) {
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<WhregistEntity> allWhregists = getAllWhregists(); // 모든 창고 조회
@@ -71,21 +78,20 @@ CheckService {
                 result.put("itemNm", item.getItemNm());
                 result.put("itemStnd", item.getItemStnd());
                 result.put("currentStock", getTotalWhItemCheckAmt(date, whregist, item));
-                long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date,whregist,item);
+                long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date, whregist, item);
                 result.put("calcul", calcul);
                 resultList.add(result);
             }
         }
         return resultList;
     }
-
     private List<WhregistEntity> getAllWhregists() {
         return whregistRepository.findAll();
     }
     private List<ItemEntity> getAllItems() {
         return itemRepository.findAll();
     }
-    //기준일자의 선택한 창고와 품목에 대한 수량 조회------------------------------------------------------------------------------------
+    //기준일자의 특정창고와 품목에 대한 수량 조회-----------------------------------------------------------------------------
     public List<Map<String, Object>> getAllWhCheckList(LocalDate date, String whregistCd) {
         List<Map<String, Object>> resultList = new ArrayList<>();
         Optional<WhregistEntity> whregistEntity = whregistRepository.findById(whregistCd);
@@ -95,13 +101,14 @@ CheckService {
             result.put("whregistNm", whregistEntity.get().getWhregistNm());
             result.put("itemNm", item.getItemNm());
             result.put("itemStnd", item.getItemStnd());
-            result.put("currentStock", getTotalWhItemCheckAmt(date,whregistEntity.get(),item));
-            long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date,whregistEntity.get(),item);
+            result.put("currentStock", getTotalWhItemCheckAmt(date, whregistEntity.get(), item));
+            long calcul = item.getItemUp() * getTotalWhItemCheckAmt(date, whregistEntity.get(), item);
             result.put("calcul", calcul);
             resultList.add(result);
         }
         return resultList;
     }
+    //이벤트리스너--------------------------------------------------------------------------------------------------------
     public void addRowCheck(WhmoveEntity whmoveEntity) {
         CheckEntity checkEntity = new CheckEntity();
         Long newCheckCd = generateNewCheckCd();
@@ -116,26 +123,22 @@ CheckService {
         Long sequenceNumber = beforeCd + 1;
         return sequenceNumber;
     }
-
-    //호진 형님 이거 갖다가 쓰세용~
-    //    public List<CheckEntity> dataForYear(int year) {
-//        return checkRepository.findByWhmoveEntity_WhmoveDtYear(year);
-//    }
-//    public Map<Integer, Object> getSumByYear(int year) {
-//        List<WhregistEntity> allWhregists = getAllWhregists(); // 모든 창고 조회
-//        List<ItemEntity> allItems = getAllItems(); // 모든 품목 조회
-//        List<CheckEntity> a = this.dataForYear(year);
-//        for (WhregistEntity whregist : allWhregists) {
-//            for (ItemEntity item : allItems) {
-//                Map<String, Object> result = new HashMap<>();
-//                result.put("whregistCd", whregist.getWhregistCd());
-//                result.put("itemNm", item.getItemCd());
-//                if (a.get(0).getWhmoveEntity().getWhmoveGb() == "입고") {
-//
-//                }
-//                result.put("currentStock", getTotalWhItemCheckAmt(date, whregist, item));
-//            }
-//        }
-//    }
-
+    public void updateRowCheck(WhmoveEntity whmoveEntity) {
+        CheckEntity temp = checkRepository.BywhmoveCd(whmoveEntity);
+        CheckEntity checkEntity = new CheckEntity();
+        checkEntity.setCheckCd(temp.getCheckCd());
+        checkEntity.setWhmoveEntity(temp.getWhmoveEntity());
+        checkEntity.setCheckAmt(whmoveEntity.getWhmoveAmt()); //Whmove테이블에서 변경된 수량만 반영
+        temp = checkEntity;
+        checkRepository.save(temp);
+    }
+    @Transactional
+    public void deleteRowCheck(List<WhmoveEntity> whmoveEntities) {
+        List<CheckEntity> checkEntitiesToDelete = new ArrayList<>();
+        for (WhmoveEntity whmoveEntity : whmoveEntities) {
+            List<CheckEntity> checkEntities = checkRepository.getBywhmoveCd(whmoveEntity.getWhmoveCd());
+            checkEntitiesToDelete.addAll(checkEntities);
+            checkRepository.deleteAll(checkEntities);
+        }
+    }
 }

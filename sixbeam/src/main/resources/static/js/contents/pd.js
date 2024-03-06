@@ -59,11 +59,10 @@ function deleteItemFinished() {
 
     // 선택된 체크박스가 없으면 에러 메시지를 표시하고 함수를 종료
     if (selectedIds.length === 0) {
-        alert('삭제할 품목을 선택해주세요.');
+        alert('삭제할 항목을 선택해주세요.');
 
         // 빈 폼을 전달하고 모달 닫기
         document.getElementById('deleteForm').submit();
-
     } else {
         // 배열을 쉼표로 구분된 문자열로 변환
         var itemIdsToDelete = selectedIds.join(',');
@@ -71,69 +70,11 @@ function deleteItemFinished() {
         // 숨겨진 입력 필드에 값을 설정
         document.getElementById('deleteItemInfo').value = itemIdsToDelete;
 
-        alert('선택한 품목이 삭제되었습니다.');
+        alert('품목이 삭제되었습니다.');
         // 폼을 제출하여 서버에 삭제 요청을 보냅니다
         document.getElementById('deleteForm').submit();
     }
 }
-
-function turnBoolean() {
-
-    // 체크박스의 값(계정 ID)을 저장할 배열
-    var selectedIds = [];
-
-    // 모든 'selectedInfo' 클래스를 가진 체크박스를 찾고 선택된 항목의 값만 배열에 추가
-    document.querySelectorAll('.' +
-        '' +
-        'selectedInfo:checked').forEach(function (checkbox) {
-        selectedIds.push(checkbox.value);
-    });
-
-    if (selectedIds.length === 0) {
-        alert('변경할 항목을 선택해주세요.');
-
-        // 빈 폼을 전달하고 모달 닫기
-        document.getElementById('turnForm').submit();
-    } else {
-        console.log(selectedIds);
-
-        $.ajax({
-            type: 'POST', // 또는 'GET', 요청 방식에 따라 변경할 수 있습니다.
-            url: '/pd/order/turnboolean', // 서버의 엔드포인트 URL을 지정합니다.
-            contentType: 'application/json', // 데이터 타입을 JSON으로 설정합니다.
-            data: JSON.stringify(selectedIds), // 선택된 orderCd를 JSON 형식으로 전송합니다.
-            success: function (response) {
-                // 성공적으로 응답을 받았을 때 처리하는 코드를 작성합니다.
-                console.log('작업 상태 변경에 성공했습니다.');
-                $('#successMessage').html('<p>작업 상태 변경에 성공했습니다.</p>');
-                // $('#turnBoolean').modal('hide');
-            },
-            error: function (xhr, status, error) {
-                // 요청이 실패했을 때 처리하는 코드를 작성합니다.
-                console.error('작업 상태 변경에 실패했습니다.');
-            }
-        });
-    }
-    /*// 선택된 체크박스가 없으면 에러 메시지를 표시하고 함수를 종료
-    if (selectedIds.length === 0) {
-        alert('변경할 항목을 선택해주세요.');
-
-        // 빈 폼을 전달하고 모달 닫기
-        document.getElementById('turnForm').submit();
-
-    } else {
-        // 배열을 쉼표로 구분된 문자열로 변환
-        var ordersToChange = selectedIds.join(',');
-
-        // 숨겨진 입력 필드에 값을 설정
-        document.getElementById('ordersToChange').value = ordersToChange;
-
-        alert('선택한 항목이 품목이 변경되었습니다.');
-        // 폼을 제출하여 서버에 삭제 요청을 보냅니다
-        document.getElementById('booleanChangeForm').submit();
-    }*/
-}
-
 
 // 숫자와 대문자만 입력할 수 있는 메서드
 function checkInput(event) {
@@ -284,57 +225,6 @@ $('#editDetailItembtn[data-id]').on('click', function () {
     });
 });
 
-$('#detailOrderbtn[data-id]').on('click', function () {
-
-    var inoutCmptCd = $(this).data('id'); // this - 클릭된 요소
-
-    // 선택한 품목에 대한 부속품 정보를 요청하기 위해 Ajax를 사용
-    $.ajax({
-
-        // 서버의 해당 URL로 요청 - 엔드포인트
-        url: '/pd/inout/detail/' + inoutCmptCd,
-        type: 'GET',
-        success: function (response) {
-
-            console.log(response);
-
-            // 부속품 정보를 받아온 후, 테이블에 동적으로 추가
-            var ritemDetailsTable = $('#ritemDetails');
-
-            // 기존에 표시된 내용을 모두 지우고 새로운 내용으로 대체
-            ritemDetailsTable.empty();
-
-            response.forEach(function (bomEntity, index) {
-
-                // 부속품의 각 정보를 테이블에 추가
-                var row = $('<tr>');
-
-                row.append('<td>' + bomEntity.ritemEntity.itemCd + '</td>' +
-                    '<td>' + bomEntity.ritemEntity.itemNm + '</td>' +
-                    '<td>' + bomEntity.ritemEntity.itemStnd + '</td>' +
-                    '<td>' + bomEntity.bomUseMt + '</td>' +
-                    '<td>' + bomEntity.ritemEntity.itemUp + '</td>');
-
-                // 새로운 행을 테이블에 추가
-                ritemDetailsTable.append(row);
-
-                itemSum += (bomEntity.ritemEntity.itemUp * bomEntity.bomUseMt);
-            });
-
-            $('#detailItemCd').val(response[0].fitemEntity.itemCd)
-            $('#detailItemNm').val(response[0].fitemEntity.itemNm)
-            $('#detailItemStnd').val(response[0].fitemEntity.itemStnd)
-            $('#detailItemUp').val(itemSum);
-        },
-
-        error: function (xhr, status, error) {
-
-            // 요청이 실패한 경우 오류 메시지를 콘솔에 출력
-            console.error('Failed to fetch ritem details:', error);
-        }
-    });
-});
-
 // itemcd
 $(document).ready(function () {
 
@@ -354,7 +244,7 @@ $(document).ready(function () {
     });
 });
 
-function calculateTotals2() {
+function calculateTotals() {
     var totalAmt = 0, totalUp = 0, totalSp = 0, totalVat = 0, totalSum = 0;
 
     $('.itemamt').each(function () {
@@ -387,53 +277,55 @@ function calculateTotals2() {
 
 $('.table.emp').on('change input', '.selectbox', function () {
 
-    var $selectbox = $(this);
-    var $row = $selectbox.closest('tr');
-    // var $row = $(this).closest('tr');
-
-    // var itemname = parseFloat($row.find('.itemname').val());
-    // var itemstnd = parseFloat($row.find('.itemstnd').val());
-
+    //var $row = $(this).closest('tr');
+    //var itemname = parseFloat($row.find('.itemname').val());
+    //var itemstnd = parseFloat($row.find('.itemstnd').val());
     console.log($(this).val());
+    if ($(this).hasClass('selectbox')) { // .selectbox에서의 변경인 경우에만 처리
 
-    // .selectbox에서의 변경인 경우에만 처리
-    if ($(this).hasClass('selectbox')) {
+        if($(this).attr('name').includes("item")){
+            var valueitemname = $(this).find(':selected').attr("data-itemNm");
+            var valueitmestnd = $(this).find(':selected').attr("data-itemStnd");
+            $(this).closest('tr').find('.itemname').val(valueitemname);
+            $(this).closest('tr').find('.itemstnd').val(valueitmestnd);
+        }else if($(this).attr('name').includes("emp")){
+            var valueempInfoId = $(this).find(':selected').attr("data-empId")
+            var valueempInfoPhone = $(this).find(':selected').attr("data-empPhone");
+            var valueempInfoEmail = $(this).find(':selected').attr("data-empEmail");
+            $(this).closest('tr').find('.empInfoId').val(valueempInfoId);
+            $(this).closest('tr').find('.empInfoPhone').val(valueempInfoPhone);
+            $(this).closest('tr').find('.empInfoEmail').val(valueempInfoEmail);
+        }
 
-        var valueitemname = $(this).find(':selected').attr("data-itemNm");
-        var valueitmestnd = $(this).find(':selected').attr("data-itemStnd");
-
-        $(this).closest('tr').find('.itemname').val(valueitemname);
-        $(this).closest('tr').find('.itemstnd').val(valueitmestnd);
-
-        /*$(this).find('.itemname').val(valueitemname);
+        $(this).find('.itemname').val(valueitemname);
         $(this).find('.itemstnd').val(valueitmestnd);
+
         $(this).find('.empInfoId').val(valueempInfoId);
         $(this).find('.empInfoPhone').val(valueempInfoPhone);
-        $(this).find('.empInfoEmail').val(valueempInfoEmail);*/
+        $(this).find('.empInfoEmail').val(valueempInfoEmail);
     }
 });
 
-$('.table.emp').on('change input', '.selectbox2', function () {
+/*$('.table.emp').on('change input', '.selectbox2', function () {
 
-    var $selectbox2 = $(this);
-    var $row = $selectbox2.closest('tr');
-    // var $row = $(this).closest('tr');
+    var $row = $(this).closest('tr');
+    var empInfoId = parseFloat(($row.find('.empinfoId').val()))
+    var empInfoPhone = parseFloat($row.find('.empInfoPhone').val());
+    var empInfoEmail = parseFloat($row.find('.empInfoEmail').val());
+    console.log(empInfoId)
+    console.log(empInfoPhone)
+    console.log(empInfoEmail)
 
-    if ($(this).hasClass('selectbox')) {
-
-        var valueempInfoId = $(this).find(':selected').attr("data-empId");
-        var valueempInfoPhone = $(this).find(':selected').attr("data-empPhone");
-        var valueempInfoEmail = $(this).find(':selected').attr("data-empEmail");
-
-        // $row.find('.empId').val(valueempInfoId);
-        // $row.find('.empInfoPhone').val(valueempInfoPhone);
-        // $row.find('.empInfoEmail').val(valueempInfoEmail);
+    if ($(this).hasClass('selectbox2')) { // .selectbox에서의 변경인 경우에만 처리
+        var valueempInfoId = $(this).find(':selected').attr("data-empInfoId")
+        var valueempInfoPhone = $(this).find(':selected').attr("data-empInfoPhone");
+        var valueempInfoEmail = $(this).find(':selected').attr("data-empInfoEmail");
 
         $(this).closest('tr').find('.empId').val(valueempInfoId);
         $(this).closest('tr').find('.empPhone').val(valueempInfoPhone);
         $(this).closest('tr').find('.empEmail').val(valueempInfoEmail);
     }
-});
+});*/
 
 $(document).ready(function () {
 
@@ -463,7 +355,7 @@ function addNewOrder() {
     var $newOrder = $lastOrder.clone();
 
     // 복제된 행의 name 속성(itemCd)에 포함된 인덱스를 증가
-    $newOrder.find('input, select').each(function () {
+    $newOrder.find('input, select, datalist').each(function() {
         var name = $(this).attr('name');
         console.log(name);
         if (name) {
@@ -476,11 +368,11 @@ function addNewOrder() {
         }
 
         // 입력 필드의 값을 초기화합니다.
-        if ($(this).is('input[type="text"]')) {
+        if($(this).is('input[type="text"]')) {
             $(this).val('');
-        } else if ($(this).is('select')) {
+        } else if($(this).is('select')) {
             $(this).val($(this).find('option:first').val());
-        } else if ($(this).is('input[type="hidden"]')) {
+        } else if($(this).is('input[type="hidden"]')) {
             // 숨겨진 필드의 처리가 필요한 경우 여기에 로직을 추가
         }
     });
@@ -505,159 +397,158 @@ function deleteLastOrder() {
     }
 }
 
-$(document).ready(function () {
-    $('.addNewOrderbtn').click(function () {
+$(document).ready(function() {
+    $('.addNewOrderbtn').click(function() {
         addNewOrder();
     });
-    $('.deleteorderbtn').click(function () {
+    $('.deleteorderbtn').click(function() {
         deleteLastOrder();
     });
 });
 
-$(document).ready(function () {
-    $('#addNewOrderbtn').click(function () {
+$(document).ready(function() {
+    $('#addNewOrderbtn').click(function() {
         addNewOrder();
     });
-    $('#deleteOrderbtn').click(function () {
+    $('#deleteOrderbtn').click(function() {
         deleteLastOrder();
     });
 });
 
-/*
-$(document).ready(function () {
-
-    // 폼이 제출될 때마다 실행되도록 변경
-    $('.formEntry').submit(function (e) {
-
-        // 폼 제출을 막음
-        e.preventDefault();
-
-        var currentDate = $('#currentDate').val();
-        var orderDelivDt = $('#orderDelivDt').val();
-        var orderSt = $('#orderSt').val();
-        var empInfoId = $('#empInfoId').val();
-        var requestDate = $('#orinputReqDate').val();
-        var deliveryDate = $('#orinputDlvyDate').val();
-
-        $('.table.emp tbody tr').each(function (index) {
-            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
-            $(this).find('.RegisDate').val(currentDate);
-            $(this).find('.AccountCode').val(accountCode);
-            $(this).find('.EmpInfoId').val(selectedEmp);
-            $(this).find('.OrinputReqDate').val(requestDate);
-            $(this).find('.OrinputDlvyDate').val(deliveryDate);
-        });
-
-        var formData = new FormData(this);
-
-        // FormData 객체를 반복하여 폼 데이터 확인
-        formData.forEach(function (value, key) {
-            console.log(key + ': ' + value);
-        });
-
-        // AJAX를 사용하여 폼 데이터 제출
-        $.ajax({
-            type: $(this).attr('POST'), // POST 또는 GET
-            url: $(this).attr('action'),
-            data: $(this).serialize(), // 폼 데이터 직렬화
-            success: function (response) {
-                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
-
-                // 성공 시 리다이렉션
-                $('#successModal').modal('show');
-
-                // 모달이 닫힐 때 리다이렉션
-                $('#successModal').on('hidden.bs.modal', function () {
-                    window.location.href = response.redirectUrl;
-                });
-            },
-            error: function (xhr) {
-
-                // 오류 처리 로직
-                var response = JSON.parse(xhr.responseText);
-                $('#failModal .modal-body').text(response.message);  //controller에서 받은 message 출력
-
-                // 오류 메시지 모달 표시
-                $('#failModal').modal('show'); // 올바른 셀렉터 사용
-
-                // 모달이 닫힐 때 리다이렉션
-                $('#failModal').on('hidden.bs.modal', function () {
-                    window.location.href = response.redirectUrl;
-                });
-                console.log('Error Submitting Form');
-            }
-        });
-    });
-});
-
-$(document).ready(function () {
-    // 폼이 제출될 때마다 실행되도록 변경
-    $('.formEntry').submit(function (e) {
-        // 폼 제출을 막음
-        e.preventDefault();
-
-        // 입력 필드에서 숫자가 아닌 문자 제거
-        $('.itemamt, .itemup, .itemsp, .itemvar, .itemsum').each(function () {
-            var value = $(this).val().replace(/[^0-9]/g, '');
-            $(this).val(value);
-        });
-
-        // 폼 데이터 변경
-        var selectedEmp = $('#orinputname').val();
-        // 거래처 코드의 현재 값을 가져옴
-        var accountCode = $('#accountCode').val();
-        // 견적 일자의 현재 값을 가져옴
-        var currentDate = $('#currentDate').val();
-        // 발주 요청 일자(발주에서 사용)
-        var requestDate = $('#orinputReqDate').val();
-        // 납기 일자(발주에서 사용)
-        var deliveryDate = $('#orinputDlvyDate').val();
-
-        $('.table.item tbody tr').each(function (index) {
-            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
-            $(this).find('.RegisDate').val(currentDate);
-            $(this).find('.AccountCode').val(accountCode);
-            $(this).find('.EmpInfoId').val(selectedEmp);
-            $(this).find('.OrinputReqDate').val(requestDate);
-            $(this).find('.OrinputDlvyDate').val(deliveryDate);
-        });
-
-        var formData = new FormData(this);
-
-        // FormData 객체를 반복하여 폼 데이터 확인
-        formData.forEach(function (value, key) {
-            console.log(key + ': ' + value);
-        });
-
-        // AJAX를 사용하여 폼 데이터 제출
-        $.ajax({
-            type: $(this).attr('method'), // POST 또는 GET
-            url: $(this).attr('action'),
-            data: $(this).serialize(), // 폼 데이터 직렬화
-            success: function (response) {
-                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
-                // 성공 시 리다이렉션
-                $('#successModal').modal('show');
-                // 모달이 닫힐 때 리다이렉션
-                $('#successModal').on('hidden.bs.modal', function () {
-                    window.location.href = response.redirectUrl;
-                });
-            },
-            error: function (xhr) {
-                // 오류 처리 로직
-                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
-                // 서버로부터 받은 에러 메시지를 알림
-                // 오류 처리 로직
-                var response = JSON.parse(xhr.responseText);
-                $('#failModal .modal-body').text(response.message);  //controller에서 받은 message 출력
-                // 오류 메시지 모달 표시
-                $('#failModal').modal('show'); // 올바른 셀렉터 사용
-                // 모달이 닫힐 때 리다이렉션
-                $('#failModal').on('hidden.bs.modal', function () {
-                    window.location.href = response.redirectUrl;
-                });
-                console.log('Error Submitting Form');
-            }
-        });
-    });
-});*/
+//$(document).ready(function() {
+//
+//    // 폼이 제출될 때마다 실행되도록 변경
+//    $('.formEntry').submit(function(e) {
+//
+//        // 폼 제출을 막음
+//        e.preventDefault();
+//
+//        var currentDate = $('#currentDate').val();
+//        var orderDelivDt = $('#orderDelivDt').val();
+//        var orderSt = $('#orderSt').val();
+//        var empInfoId = $('#empInfoId').val();
+//        var requestDate = $('#orinputReqDate').val();
+//        var deliveryDate = $('#orinputDlvyDate').val();
+//
+//        $('.table.emp tbody tr').each(function(index) {
+//            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+//            $(this).find('.RegisDate').val(currentDate);
+//            $(this).find('.AccountCode').val(accountCode);
+//            $(this).find('.EmpInfoId').val(selectedEmp);
+//            $(this).find('.OrinputReqDate').val(requestDate);
+//            $(this).find('.OrinputDlvyDate').val(deliveryDate);
+//        });
+//
+//        var formData = new FormData(this);
+//
+//        // FormData 객체를 반복하여 폼 데이터 확인
+//        formData.forEach(function(value, key) {
+//            console.log(key + ': ' + value);
+//        });
+//
+//        // AJAX를 사용하여 폼 데이터 제출
+//        $.ajax({
+//            type: $(this).attr('POST'), // POST 또는 GET
+//            url: $(this).attr('action'),
+//            data: $(this).serialize(), // 폼 데이터 직렬화
+//            success: function(response) {
+//                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
+//
+//                // 성공 시 리다이렉션
+//                $('#successModal').modal('show');
+//
+//                // 모달이 닫힐 때 리다이렉션
+//                $('#successModal').on('hidden.bs.modal', function () {
+//                    window.location.href = response.redirectUrl;
+//                });
+//            },
+//            error: function(xhr) {
+//
+//                // 오류 처리 로직
+//                var response = JSON.parse(xhr.responseText);
+//                $('#failModal .modal-body').text(response.message);  //controller에서 받은 message 출력
+//
+//                // 오류 메시지 모달 표시
+//                $('#failModal').modal('show'); // 올바른 셀렉터 사용
+//
+//                // 모달이 닫힐 때 리다이렉션
+//                $('#failModal').on('hidden.bs.modal', function () {
+//                    window.location.href = response.redirectUrl;
+//                });
+//                console.log('Error Submitting Form');
+//            }
+//        });
+//    });
+//});
+//
+//$(document).ready(function() {
+//    // 폼이 제출될 때마다 실행되도록 변경
+//    $('.formEntry').submit(function(e) {
+//        // 폼 제출을 막음
+//        e.preventDefault();
+//
+//        // 입력 필드에서 숫자가 아닌 문자 제거
+//        $('.itemamt, .itemup, .itemsp, .itemvar, .itemsum').each(function() {
+//            var value = $(this).val().replace(/[^0-9]/g, '');
+//            $(this).val(value);
+//        });
+//
+//        // 폼 데이터 변경
+//        var selectedEmp = $('#orinputname').val();
+//        // 거래처 코드의 현재 값을 가져옴
+//        var accountCode = $('#accountCode').val();
+//        // 견적 일자의 현재 값을 가져옴
+//        var currentDate = $('#currentDate').val();
+//        // 발주 요청 일자(발주에서 사용)
+//        var requestDate = $('#orinputReqDate').val();
+//        // 납기 일자(발주에서 사용)
+//        var deliveryDate = $('#orinputDlvyDate').val();
+//
+//        $('.table.item tbody tr').each(function(index) {
+//            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+//            $(this).find('.RegisDate').val(currentDate);
+//            $(this).find('.AccountCode').val(accountCode);
+//            $(this).find('.EmpInfoId').val(selectedEmp);
+//            $(this).find('.OrinputReqDate').val(requestDate);
+//            $(this).find('.OrinputDlvyDate').val(deliveryDate);
+//        });
+//
+//        var formData = new FormData(this);
+//
+//        // FormData 객체를 반복하여 폼 데이터 확인
+//        formData.forEach(function(value, key) {
+//            console.log(key + ': ' + value);
+//        });
+//
+//        // AJAX를 사용하여 폼 데이터 제출
+//        $.ajax({
+//            type: $(this).attr('method'), // POST 또는 GET
+//            url: $(this).attr('action'),
+//            data: $(this).serialize(), // 폼 데이터 직렬화
+//            success: function(response) {
+//                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
+//                // 성공 시 리다이렉션
+//                $('#successModal').modal('show');
+//                // 모달이 닫힐 때 리다이렉션
+//                $('#successModal').on('hidden.bs.modal', function () {
+//                    window.location.href = response.redirectUrl;
+//                });
+//            },
+//            error: function(xhr) {
+//                // 오류 처리 로직
+//                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
+//                // 서버로부터 받은 에러 메시지를 알림
+//                // 오류 처리 로직
+//                var response = JSON.parse(xhr.responseText);
+//                $('#failModal .modal-body').text(response.message);  //controller에서 받은 message 출력
+//                // 오류 메시지 모달 표시
+//                $('#failModal').modal('show'); // 올바른 셀렉터 사용
+//                // 모달이 닫힐 때 리다이렉션
+//                $('#failModal').on('hidden.bs.modal', function () {
+//                    window.location.href = response.redirectUrl;
+//                });
+//                console.log('Error Submitting Form');
+//            }
+//        });
+//    });
+//});
