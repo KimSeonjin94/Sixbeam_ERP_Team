@@ -1,52 +1,4 @@
 <html layout:decorate="~{layout/default}">
-<head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.css' rel='stylesheet'>
-    <link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.11/index.global.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                themeSystem: 'bootstrap',
-                // 필요한 플러그인 명시
-                headerToolbar: {
-                    left: 'prev',
-                    center: 'title',
-                    right: 'next'
-                },
-                initialView: 'dayGridMonth',
-                dayMaxEvents: false, // 이벤트 제한 대체 옵션
-                locale: 'ko', // 한국어 설정, dayNamesShort 대체
-                googleCalendarApiKey: 'AIzaSyAlq6l6FHGjobVy30g8970Gt8xOrFigGT0', // API 키 설정
-                eventSources:
-                    [{
-                        googleCalendarId: 'e88119c0a068dbb702be93a61fd69306f7c6800974fc7caefe209f41162e854e@group.calendar.google.com',
-                        className: 'emp-event',
-                        color: 'blue', // 이벤트 배경색
-                        textColor: 'white', // 이벤트 텍스트 색상
-                    },
-                    {
-                        googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-                        className: 'holiday-event',
-                        color: 'red', // 이벤트 배경색
-                        textColor: 'white', // 이벤트 텍스트 색상
-                    },
-                    {
-                        googleCalendarId: 'b49571e8e781800278c038a69f6c9065a8aaed4df4fa176f03ce43ffa0c7c6cf@group.calendar.google.com',
-                        className: 'dep-event',
-                        color: 'green', // 이벤트 배경색
-                        textColor: 'white', // 이벤트 텍스트 색상
-                    }]
-
-            });
-            calendar.render();
-        });
-    </script>
-</head>
 <div layout:fragment="content" class="container-fluid">
     <div class="row d-flex align-items-stretch">
         <!-- 달력 카드 -->
@@ -54,13 +6,10 @@
             <div class="card shadow mb-4">
                 <div class="card-body">
                     <div id="calendar"></div>
-                    <div id='popup' style="width:500px; height:600px; display:none; background-color:white; padding:20px; border-radius:14px; border:2px solid #eeeeee"></div>
                 </div>
             </div>
         </div>
-
         <div class="col-md-6">
-
             <div class="row">
                 <div class="col-md-12 mb-4">
                     <div class="card border-left-danger shadow h-100 py-2">
