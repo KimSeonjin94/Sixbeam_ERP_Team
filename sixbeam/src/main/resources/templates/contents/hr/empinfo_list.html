@@ -30,7 +30,7 @@
 <div layout:fragment="content" class="container-fluid">
 
     <!-- 큰제목 -->
-    <h1 class="h3 mb-2 text-gray-800">사원정보</h1>
+    <h1 class="h3 mb-2 text-gray-800">사원정보z</h1>
     <div class = "btn-group" role = "group" aria-label = "Basic example">
         <!-- 등록버튼 -->
         <button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#newestimate">
@@ -84,10 +84,11 @@
                             </a>
                         </td>
                         <td>
-                            <a href="#" th:onclick="openEditEmployeePage([[${employee.empInfoId}]],[[${employee.empInfoNm}]],[[${employee.empInfoPw}]],
-                            [[${employee.empInfoSex}]],[[${employee.empInfoBirth}]],[[${employee.empInfoAddr}]],
-                            [[${employee.empInfoPhone}]],[[${employee.empInfoEmail}]],[[${employee.empInfoJoinDt}]],
-                            [[${employee.empInfoQuitDt}]],[[${employee.positionEntity.positionNm}]],[[${employee.departEntity.departNm}]],
+                            <a href="#" th:onclick="openEditEmployeeIdPage([[${employee.empInfoId}]],
+                            [[${employee.empInfoNm}]],[[${employee.empInfoPw}]],[[${employee.empInfoSex}]],
+                            [[${employee.empInfoBirth}]],[[${employee.empInfoAddr}]],[[${employee.empInfoPhone}]],
+                            [[${employee.empInfoEmail}]],[[${employee.empInfoJoinDt}]],[[${employee.empInfoQuitDt}]],
+                            [[${employee.positionEntity.positionCd}]],[[${employee.departEntity.departCd}]],
                             [[${employee.empInfoBank}]],[[${employee.empInfoAccountNo}]],[[${employee.empInfoQr}]],
                             [[${employee.empInfoTotalnoy}]],[[${employee.empInfoEtc}]])"
                                style="color: blue; cursor: pointer;">
@@ -371,6 +372,26 @@
     </div>
     <script th:inline="javascript">
         function openEditEmployeePage(employeeId, employeeNm, employeePassword, employeeSex, employeeBirth, employeeAddr, employeePhone, employeeEmail, employeeJoinDt, employeeQuitDt, positionCd, departCd, employeeBank, employeeAccountNo, employeeQr, employeeTotalnoy, employeeEtc) {
+            $('#updateNoteModal').modal('show');
+            $('#employeeId').val(employeeId);
+            $('#employeeName').val(employeeNm);
+            $('#employeePassword').val(employeePassword);
+            $('#employeeSex').val(employeeSex);
+            $('#employeeBirth').val(employeeBirth);
+            $('#employeeAddr').val(employeeAddr);
+            $('#employeePhone').val(employeePhone);
+            $('#employeeEmail').val(employeeEmail);
+            $('#employeeJoinDt').val(employeeJoinDt);
+            $('#employeeQuitDt').val(employeeQuitDt);
+            $('#positionCd').val(positionCd);
+            $('#departCd').val(departCd);
+            $('#employeeBank').val(employeeBank);
+            $('#employeeAccountNo').val(employeeAccountNo);
+            $('#employeeQr').val(employeeQr);
+            $('#employeeTotalnoy').val(employeeTotalnoy);
+            $('#employeeEtc').val(employeeEtc);
+        }
+        function openEditEmployeeIdPage(employeeId, employeeNm, employeePassword, employeeSex, employeeBirth, employeeAddr, employeePhone, employeeEmail, employeeJoinDt, employeeQuitDt, positionCd, departCd, employeeBank, employeeAccountNo, employeeQr, employeeTotalnoy, employeeEtc) {
             $('#updateNoteModal').modal('show');
             $('#employeeId').val(employeeId);
             $('#employeeName').val(employeeNm);

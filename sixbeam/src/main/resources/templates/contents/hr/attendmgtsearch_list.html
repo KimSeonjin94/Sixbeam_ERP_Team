@@ -17,6 +17,10 @@
                     success: function (data) {
                         // 성공적으로 데이터를 받아왔을 때 부분 업데이트 수행
                         $('#dataTable').html(data);
+
+                        // DataTable 초기화 (이미 DataTables가 사용 중이라고 가정)
+                        $('#dataTable').DataTable().destroy();
+                        $('#dataTable').DataTable();
                     },
                     error: function (error) {
                         console.log("Error:", error);
@@ -33,7 +37,7 @@
             <form class="formEntry" th:action="@{/hr/attendmgtsearch/create}" th:object="${workScheduleForm}"
                   method="post" onsubmit="submitForm(event)">
                 <div class="form-group row">
-                    <label for="selectWorkScheduleDate" class="col-sm-2 col-form-label">날짜</label>
+                    <label for="selectWorkScheduleDate" class="col-sm-2 col-form-label">날짜zz</label>
                     <div class="col-sm-4">
                         <input type="date" class="form-control" id="selectWorkScheduleDate">
                     </div>

@@ -57,4 +57,25 @@ public class EmpInfoEntity {
     private int empInfoTotalnoy;//총연차수
     @Column(name="empinfoEtc")
     private String empInfoEtc;//비고
+    public String getDepartmentRole() {
+        if (departEntity != null) {
+            switch (departEntity.getDepartCd().intValue()) {
+                case 101:
+                    return "HR";
+                case 102:
+                    return "PRODUCTION";
+                case 103:
+                    return "INVENTORY";
+                case 104:
+                    return "SALES";
+                case 105:
+                    return "PURCHASE";
+                case 106:
+                    return "ACCOUNTING";
+                default:
+                    return null;
+            }
+        }
+        return null;
+    }
 }
