@@ -32,23 +32,21 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().and()
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/sixbeam", "/login", "/register", "/css/**", "/js/**","/vendor/**","/hr/empinfo/pw").permitAll() // 정적 리소스 접근 허용
-                                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/sixbeam/**")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/hr/**")).hasAnyAuthority("인사","회계")//인사
-                                .requestMatchers(new AntPathRequestMatcher("/pd/**")).hasAnyAuthority("인사","생산","재고","영업","구매","회계")//생산
-                                .requestMatchers(new AntPathRequestMatcher("/st/**")).hasAnyAuthority("인사","생산","재고","영업","구매","회계")//재고
-                                .requestMatchers(new AntPathRequestMatcher("/ss/**")).hasAnyAuthority("인사","생산","재고","영업","구매","회계")//영업
-                                .requestMatchers(new AntPathRequestMatcher("/pur/**")).hasAnyAuthority("인사","생산","재고","영업","구매","회계")//구매
-                                .requestMatchers(new AntPathRequestMatcher("/ac/**")).hasAnyAuthority("인사","영업","구매","회계")//회계
+                        .requestMatchers("/sixbeam", "/login", "/register", "/css/**", "/js/**", "/vendor/**", "/hr/empinfo/pw").permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/hr/**")).hasAnyAuthority("인사", "회계")//인사
+                        .requestMatchers(new AntPathRequestMatcher("/pd/**")).hasAnyAuthority("인사", "생산", "재고", "영업", "구매", "회계")//생산
+                        .requestMatchers(new AntPathRequestMatcher("/st/**")).hasAnyAuthority("인사", "생산", "재고", "영업", "구매", "회계")//재고
+                        .requestMatchers(new AntPathRequestMatcher("/ss/**")).hasAnyAuthority("인사", "생산", "재고", "영업", "구매", "회계")//영업
+                        .requestMatchers(new AntPathRequestMatcher("/pur/**")).hasAnyAuthority("인사", "생산", "재고", "영업", "구매", "회계")//구매
+                        .requestMatchers(new AntPathRequestMatcher("/ac/**")).hasAnyAuthority("인사", "영업", "구매", "회계")//회계
                         .anyRequest()
                         .authenticated()
-                        )
+                )
                 .formLogin((login) -> login
-                        .loginPage("/sixbeam")	// [A] 커스텀 로그인 페이지 지정
-                        .loginProcessingUrl("/login-process")	// [B] submit 받을 url
-                        .usernameParameter("userid")	// [C] submit할 아이디
-                        .passwordParameter("pw")	// [D] submit할 비밀번호
+                        .loginPage("/sixbeam")    // [A] 커스텀 로그인 페이지 지정
+                        .loginProcessingUrl("/login-process")    // [B] submit 받을 url
+                        .usernameParameter("userid")    // [C] submit할 아이디
+                        .passwordParameter("pw")    // [D] submit할 비밀번호
                         .defaultSuccessUrl("/sixbeam/home", true)
                         //이름 넣는거 추가
                         .successHandler((request, response, authentication) -> {
