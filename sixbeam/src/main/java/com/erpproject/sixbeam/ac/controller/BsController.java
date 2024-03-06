@@ -23,6 +23,7 @@ public class BsController {
         if (bsDt != null && !bsDt.isEmpty()) {
 
             BsEntity balanceSheet = bsService.findBalanceSheetByBsDt(bsDt);
+            bsService.updateBsReceivables(bsDt);
             model.addAttribute("balanceSheet", balanceSheet);
 
             Integer totalAsset = balanceSheet.getBsCash() + balanceSheet.getBsInventories()
