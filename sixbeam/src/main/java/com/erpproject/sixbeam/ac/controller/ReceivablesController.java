@@ -38,25 +38,18 @@ public class ReceivablesController {
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate)
     {
         Map<String, Integer> suminput = receivablesService.sum_input_account(startDate,endDate);
-        int receivablesSum = suminput.get(accountCode);
+        int receivablesSum = suminput.getOrDefault(accountCode,0);
         int basicReceivables = 0;
-//        int paidCash = 0;
-//        int paidSum = 0;
-//        int balance = basicPayables + payablesSum - paidSum;
-//        int unclaimedAmount = balance;
-//        String note = null;
-
+        model.addAttribute("거래처명 코드", accountCode);
+        model.addAttribute("거래처명", accountName);
+        model.addAttribute("기초채권", basicReceivables);
+        model.addAttribute("재고매출", receivablesSum);
 
         Map<String,Object> map =new HashMap<>();
         map.put("accountCode", accountCode);
         map.put("accountName", accountName);
         map.put("basicReceivables", basicReceivables);
         map.put("receivablesSum", receivablesSum);
-//        map.put("paidCash", paidCash);
-//        map.put("paidSum", paidSum);
-//        map.put("balance", balance);
-//        map.put("unclaimedAmount", unclaimedAmount);
-//        map.put("note", note);
 
         return ResponseEntity.ok().body(map);
     }
