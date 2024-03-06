@@ -55,13 +55,6 @@ public class BomController {
         return "/contents/pd/bom_list";
     }
 
-    // id로 리스트 조회
-    /*@GetMapping("/list/detail/{id}")
-    public ResponseEntity<List<BomEntity>> detail(@PathVariable("id") String itemCd) {
-
-        return bomService.getBomDetails(itemCd);
-    }*/
-
     @GetMapping("/detail/{itemCd}")
     public ResponseEntity<List<BomEntity>> detail(@PathVariable("itemCd") String fitemCd) {
 

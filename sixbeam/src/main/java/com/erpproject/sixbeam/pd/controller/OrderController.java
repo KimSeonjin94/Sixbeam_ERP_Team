@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,7 @@ public class OrderController {
 
         model.addAttribute("getEmpList", empInfoEntities);
         model.addAttribute("getFitemList", fitemEntities);
-        model.addAttribute("orderEntity", orderEntities);
+        model.addAttribute("getOrderList", orderEntities);
 
         orderService.readyOrderForm(model);
         return "contents/pd/order_form";
@@ -85,5 +86,30 @@ public class OrderController {
             errorResponse.put("redirectUrl", "/pd/order/create");
             return ResponseEntity.badRequest().body(errorResponse);
         }
+    }
+
+    @PostMapping("/turnboolean")
+    public ResponseEntity<?> orderToChange(@RequestBody List<String> orderCds, RedirectAttributes redirectAttributes) {
+        try {
+            // 주문 상태를 변경하는 비즈니스 로직을 호출합니다.
+            orderService.changeOrderStatus(orderCds);
+            Map<String, Object> successResponse = new HashMap<>();
+
+            successResponse.put("status", "success");
+            successResponse.put("message", "정상적으로 저장되었습니다.");
+            successResponse.put("redirectUrl", "/pd/order/orderlist");
+
+            return ResponseEntity.ok().body(successResponse); // 저장 후 목록 페이지로 리다이렉트
+
+        } catch (IllegalArgumentException e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+
+            errorResponse.put("status", "error");
+            errorResponse.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
+
+            errorResponse.put("redirectUrl", "/pd/order/order`list");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+
     }
 }

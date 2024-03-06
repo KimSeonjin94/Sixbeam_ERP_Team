@@ -1,24 +1,17 @@
 package com.erpproject.sixbeam.pd.service;
 
-import com.erpproject.sixbeam.ac.entity.AccountEntity;
-import com.erpproject.sixbeam.hr.dto.EmpInfoDto;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
 import com.erpproject.sixbeam.hr.service.EmpInfoService;
-import com.erpproject.sixbeam.pd.Form.BomForm;
 import com.erpproject.sixbeam.pd.Form.OrderForm;
-import com.erpproject.sixbeam.pd.dto.BomDto;
 import com.erpproject.sixbeam.pd.dto.OrderDto;
-import com.erpproject.sixbeam.pd.entity.*;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.entity.OrderEntity;
 import com.erpproject.sixbeam.pd.repository.FitemRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.repository.OrderRepository;
-import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
-import com.erpproject.sixbeam.st.entity.WhregistEntity;
-import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -55,10 +48,10 @@ public class OrderService {
         return itemRepository.findByItemCdStartingWith("F");
     }
 
-    public List<OrderEntity> getIdList(String orderCd) {
+    /*public List<OrderEntity> getIdList(String orderCd) {
 
-        return orderRepository.findByOrderCd(orderCd);
-    }
+        return orderRepository.findById(orderCd);
+    }*/
 
     public void getOrderList(Model model) {
 
@@ -169,5 +162,24 @@ public class OrderService {
         model.addAttribute("getempinfo", getemplist);
         model.addAttribute("getFitemlist", getFitemlist);
         model.addAttribute("orderSt", orderEntities);
+    }
+
+    public void changeOrderStatus(List<String> orderCds) {
+
+        // 작업 지시 코드 목록을 반복하여 각 주문의 상태를 변경
+        for (String orderCd : orderCds) {
+
+            // 코드를 사용하여 주문을 조회
+            OrderEntity order = orderRepository.findByOrderCd(orderCd);
+            if (order.isOrderSt()) {
+
+                order.setOrderSt(false);
+                orderRepository.save(order);
+            } else {
+
+                order.setOrderSt(true);
+                orderRepository.save(order);
+            }
+        }
     }
 }
