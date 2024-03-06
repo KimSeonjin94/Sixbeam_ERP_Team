@@ -25,13 +25,13 @@ public class OrinPutEntity {
     private String orinputCd;
     @Column(name = "ORINPUTREQ_DT", nullable = false)
     private LocalDate orinputReqDt;
-    @Column(name = "ORINPUTOR_DT")
+    @Column(name = "ORINPUTOR_DT", nullable = false)
     private LocalDate orinputOrDt;
     @ManyToOne
     @JoinColumn(name = "EMPINFO_ID", nullable = false)
     private EmpInfoEntity empInfoEntity;
     @ManyToOne
-    @JoinColumn(name = "ITEM_CD")
+    @JoinColumn(name = "ITEM_CD", nullable = false)
     private ItemEntity itemEntity;
     @Column(name = "ORINPUT_AMT")
     private int orinputAmt;
