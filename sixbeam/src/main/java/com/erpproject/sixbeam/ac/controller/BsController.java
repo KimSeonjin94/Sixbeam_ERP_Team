@@ -23,7 +23,7 @@ public class BsController {
     @GetMapping("/bs/balanceSheet")
     public String getBalanceSheet(@RequestParam(name="bsDtForm", required = false) String bsDt , Model model) {
         if (bsDt != null && !bsDt.isEmpty()) {
-
+            bsService.updateBsInventoriesByYear(bsDt);//재고자산 계산
             BsEntity balanceSheet = bsService.findBalanceSheetByBsDt(bsDt);
             bsService.updateBsReceivables(bsDt);
             model.addAttribute("balanceSheet", balanceSheet);

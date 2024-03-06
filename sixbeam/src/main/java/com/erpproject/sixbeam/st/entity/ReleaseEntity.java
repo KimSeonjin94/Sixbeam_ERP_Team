@@ -40,9 +40,6 @@ public class ReleaseEntity {
     @Column(name = "release_phone")
     private String releasePhone;
 
-    @Column(name = "release_zc")
-    private String releaseZc;
-
     @Column(name = "release_addr")
     private String releaseAddr;
 }

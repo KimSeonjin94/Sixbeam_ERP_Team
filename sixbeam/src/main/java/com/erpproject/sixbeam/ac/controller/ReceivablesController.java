@@ -40,16 +40,23 @@ public class ReceivablesController {
         Map<String, Integer> suminput = receivablesService.sum_input_account(startDate,endDate);
         int receivablesSum = suminput.getOrDefault(accountCode,0);
         int basicReceivables = 0;
-        model.addAttribute("거래처명 코드", accountCode);
-        model.addAttribute("거래처명", accountName);
-        model.addAttribute("기초채권", basicReceivables);
-        model.addAttribute("재고매출", receivablesSum);
+        int collect = 0;
+        int supplyPrice = 0;
+        int balance = basicReceivables + receivablesSum - collect;
+        int unclaimedAmount = balance;
+        String note = null;
+
 
         Map<String,Object> map =new HashMap<>();
         map.put("accountCode", accountCode);
         map.put("accountName", accountName);
         map.put("basicReceivables", basicReceivables);
         map.put("receivablesSum", receivablesSum);
+        map.put("collect", collect);
+        map.put("supplyPrice", supplyPrice);
+        map.put("balance", balance);
+        map.put("unclaimedAmount", unclaimedAmount);
+        map.put("note", note);
 
         return ResponseEntity.ok().body(map);
     }
