@@ -68,6 +68,29 @@ $('#payables').submit(function(e) {
             }
         });
     });
+$('#receivables').submit(function(e) {
+    var accountCd = $('#accountCode').val();
+    var accountNm = $('#accountName').val();
+    e.preventDefault();
+
+    $.ajax({
+        type: $(this).attr('method'), // POST 또는 GET
+        url: $(this).attr('action'),
+        data: $(this).serialize(), // 폼 데이터 직렬화
+        success: function(data) {
+            // 결과 데이터를 웹 페이지에 표시하는 코드
+            // 예를 들어 테이블의 내용을 업데이트하는 등의 작업을 수행할 수 있습니다.
+            $('.accountCode').val(data.accountCode);
+            $('.accountName').val(data.accountName);
+            $('.basicReceivables').val(data.basicReceivables);
+            $('.receivablesSum').val(data.receivablesSum);
+
+        },
+        error: function(xhr) {
+            // 에러 처리 로직
+        }
+    });
+});
 
 
 $("#accountCode").on('input', function() {

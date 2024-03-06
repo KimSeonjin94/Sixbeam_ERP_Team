@@ -30,7 +30,7 @@ public class BsService {
 
     private final EstimateService estimateService;
 
-    public void updateIsNetSales(String bsDt){
+    public void updateBsReceivables(String bsDt){
         Optional<BsEntity> OpBsEntity=bsRepository.findById(bsDt);
         int year= Integer.parseInt(bsDt.substring(0,4));
 
