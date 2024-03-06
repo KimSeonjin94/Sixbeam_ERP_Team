@@ -312,14 +312,11 @@ $(document).ready(function() {
                 extend: 'print',
                 className: 'btn btn-left ml-sm-1'
             }
-
         ],
-
         "order": [[1, "desc"]],
         initComplete: function() {
             // DataTables 초기화가 완료된 후 클래스 추가
             this.api().buttons().container().addClass("col-sm-12 d-flex justify-content-between");
-
         }
     });
 });
