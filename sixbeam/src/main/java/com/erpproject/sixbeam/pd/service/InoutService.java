@@ -14,9 +14,11 @@ import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,6 +59,13 @@ public class InoutService {
     public List<InoutEntity> getIdList(String inoutCd) {
 
         return inoutRepository.findByInoutCmptCd(inoutCd);
+    }
+
+    public List<InoutEntity> getFalseList(Model model) {
+
+        List<InoutEntity> falseorderSt = inoutRepository.findByOrderStFalse();
+
+        return inoutRepository.saveAll(falseorderSt);
     }
 
     public void saveInout(List<InoutDto> inoutDtos) {
