@@ -282,25 +282,21 @@ $('.table.emp').on('change input', '.selectbox', function () {
     //var itemstnd = parseFloat($row.find('.itemstnd').val());
     console.log($(this).val());
     if ($(this).hasClass('selectbox')) { // .selectbox에서의 변경인 경우에만 처리
-        var valueitemname = $(this).find(':selected').attr("data-itemNm");
-        var valueitmestnd = $(this).find(':selected').attr("data-itemStnd");
 
-        var valueempInfoId = $(this).find(':selected').attr("data-empId")
-        var valueempInfoPhone = $(this).find(':selected').attr("data-empPhone");
-        var valueempInfoEmail = $(this).find(':selected').attr("data-empEmail");
-        // $(this).closest('tr').find('.itemname').val(valueitemname);
-        // $(this).closest('tr').find('.itemstnd').val(valueitmestnd);
-        //
-        // $(this).closest('tr').find('.empInfoId').val(valueempInfoId);
-        // $(this).closest('tr').find('.empInfoPhone').val(valueempInfoPhone);
-        // $(this).closest('tr').find('.empInfoEmail').val(valueempInfoEmail);
+        if($(this).attr('name').includes("item")){
+            var valueitemname = $(this).find(':selected').attr("data-itemNm");
+            var valueitmestnd = $(this).find(':selected').attr("data-itemStnd");
+            $(this).closest('tr').find('.itemname').val(valueitemname);
+            $(this).closest('tr').find('.itemstnd').val(valueitmestnd);
+        }else if($(this).attr('name').includes("emp")){
+            var valueempInfoId = $(this).find(':selected').attr("data-empId")
+            var valueempInfoPhone = $(this).find(':selected').attr("data-empPhone");
+            var valueempInfoEmail = $(this).find(':selected').attr("data-empEmail");
+            $(this).closest('tr').find('.empInfoId').val(valueempInfoId);
+            $(this).closest('tr').find('.empInfoPhone').val(valueempInfoPhone);
+            $(this).closest('tr').find('.empInfoEmail').val(valueempInfoEmail);
+        }
 
-        $(this).find('.itemname').val(valueitemname);
-        $(this).find('.itemstnd').val(valueitmestnd);
-
-        $(this).find('.empInfoId').val(valueempInfoId);
-        $(this).find('.empInfoPhone').val(valueempInfoPhone);
-        $(this).find('.empInfoEmail').val(valueempInfoEmail);
     }
 });
 
