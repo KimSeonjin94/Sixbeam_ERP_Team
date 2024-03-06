@@ -84,7 +84,11 @@ $('#receivables').submit(function(e) {
             $('.accountName').val(data.accountName);
             $('.basicReceivables').val(data.basicReceivables);
             $('.receivablesSum').val(data.receivablesSum);
-
+            $('.collect').val(data.collect);
+            $('.supplyPrice').val(data.supplyPrice);
+            $('.balance').val(data.balance);
+            $('.unclaimedAmount').val(data.unclaimedAmount);
+            $('.note').val(data.note);
         },
         error: function(xhr) {
             // 에러 처리 로직
