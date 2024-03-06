@@ -40,4 +40,12 @@ public interface WhmoveRepository extends JpaRepository<WhmoveEntity,String> {
 
     List<WhmoveEntity> findByInputEntity(InputEntity inputEntity);
 
+    @Query("SELECT COALESCE(SUM(c.checkAmt), 0) FROM CheckEntity c " +
+            "WHERE YEAR(c.whmoveEntity.whmoveDt) = :year " +
+            "AND c.whmoveEntity.whregistEntity = :whregistEntity " +
+            "AND c.whmoveEntity.itemEntity = :itemEntity")
+    Integer findWhItemCheck(@Param("year") int year,
+                            @Param("whregistEntity") WhregistEntity whregistEntity,
+                            @Param("itemEntity") ItemEntity itemEntity);
+
 }

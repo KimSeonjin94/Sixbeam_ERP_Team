@@ -29,7 +29,8 @@ CheckService {
     private final CheckRepository checkRepository;
     private final WhregistRepository whregistRepository;
     private final ItemRepository itemRepository;
-    private final ApplicationEventPublisher eventPublisher;
+    private final WhmoveRepository whmoveRepository;
+
 
     //창고별 조회------------------------------------------------------------------------------
     public int getWhIncoming(LocalDate whmoveDt, WhregistEntity whregistEntity) {
@@ -65,7 +66,7 @@ CheckService {
         return totalWhItemIncoming - totalWhItemOutgoing;
     }
 
-    //기준일자의 모든 창고와 품목에 대한 수량 조회------------------------------------------------------------------------------------
+    //기준일자의 모든 창고와 품목에 대한 수량 조회-----------------------------------------------------------------------------
     public List<Map<String, Object>> getAllWhItemCheckList(LocalDate date) {
         List<Map<String, Object>> resultList = new ArrayList<>();
         List<WhregistEntity> allWhregists = getAllWhregists(); // 모든 창고 조회
@@ -84,16 +85,13 @@ CheckService {
         }
         return resultList;
     }
-
     private List<WhregistEntity> getAllWhregists() {
         return whregistRepository.findAll();
     }
-
     private List<ItemEntity> getAllItems() {
         return itemRepository.findAll();
     }
-
-    //기준일자의 선택한 창고와 품목에 대한 수량 조회------------------------------------------------------------------------------------
+    //기준일자의 특정창고와 품목에 대한 수량 조회-----------------------------------------------------------------------------
     public List<Map<String, Object>> getAllWhCheckList(LocalDate date, String whregistCd) {
         List<Map<String, Object>> resultList = new ArrayList<>();
         Optional<WhregistEntity> whregistEntity = whregistRepository.findById(whregistCd);
@@ -110,7 +108,7 @@ CheckService {
         }
         return resultList;
     }
-
+    //이벤트리스너--------------------------------------------------------------------------------------------------------
     public void addRowCheck(WhmoveEntity whmoveEntity) {
         CheckEntity checkEntity = new CheckEntity();
         Long newCheckCd = generateNewCheckCd();
@@ -125,7 +123,6 @@ CheckService {
         Long sequenceNumber = beforeCd + 1;
         return sequenceNumber;
     }
-
     public void updateRowCheck(WhmoveEntity whmoveEntity) {
         CheckEntity temp = checkRepository.BywhmoveCd(whmoveEntity);
         CheckEntity checkEntity = new CheckEntity();
@@ -135,7 +132,6 @@ CheckService {
         temp = checkEntity;
         checkRepository.save(temp);
     }
-
     @Transactional
     public void deleteRowCheck(List<WhmoveEntity> whmoveEntities) {
         List<CheckEntity> checkEntitiesToDelete = new ArrayList<>();
@@ -145,26 +141,4 @@ CheckService {
             checkRepository.deleteAll(checkEntities);
         }
     }
-
-    //호진 형님 이거 갖다가 쓰세용~
-    //    public List<CheckEntity> dataForYear(int year) {
-//        return checkRepository.findByWhmoveEntity_WhmoveDtYear(year);
-//    }
-//    public Map<Integer, Object> getSumByYear(int year) {
-//        List<WhregistEntity> allWhregists = getAllWhregists(); // 모든 창고 조회
-//        List<ItemEntity> allItems = getAllItems(); // 모든 품목 조회
-//        List<CheckEntity> a = this.dataForYear(year);
-//        for (WhregistEntity whregist : allWhregists) {
-//            for (ItemEntity item : allItems) {
-//                Map<String, Object> result = new HashMap<>();
-//                result.put("whregistCd", whregist.getWhregistCd());
-//                result.put("itemNm", item.getItemCd());
-//                if (a.get(0).getWhmoveEntity().getWhmoveGb() == "입고") {
-//
-//                }
-//                result.put("currentStock", getTotalWhItemCheckAmt(date, whregist, item));
-//            }
-//        }
-//    }
-
 }

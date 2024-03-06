@@ -15,14 +15,6 @@ import java.util.List;
 
 @Repository
 public interface CheckRepository extends JpaRepository<CheckEntity, Long> {
-    //날짜별 Check 테이블 총 재고 조회(아이템, 창고 구분x)
-    @Query("SELECT SUM(c.checkAmt) FROM CheckEntity c WHERE c.whmoveEntity.whmoveGb = :whmoveGb AND c.whmoveEntity.whmoveDt <= :date")
-    Integer findTotalCheck(@Param("whmoveGb") String whmoveGb, @Param("date") LocalDate date);
-
-    //날짜 및 품목별 Check 테이블 총 재고 조회(창고 구분x)
-    @Query("SELECT SUM(c.checkAmt) FROM CheckEntity c WHERE c.whmoveEntity.whmoveGb = :whmoveGb AND c.whmoveEntity.whmoveDt <= :date AND c.whmoveEntity.itemEntity = :itemEntity")
-    Integer findItemCheck(@Param("whmoveGb") String whmoveGb, @Param("date") LocalDate date, @Param("itemEntity") ItemEntity itemEntity);
-
     //날짜 및 창고별 Check 테이블 총 재고 조회(품목 구분x)
     @Query("SELECT SUM(c.checkAmt) FROM CheckEntity c WHERE c.whmoveEntity.whmoveGb = :whmoveGb AND c.whmoveEntity.whmoveDt <= :date AND c.whmoveEntity.whregistEntity = :whregistEntity")
     Integer findWhCheck(@Param("whmoveGb") String whmoveGb, @Param("date") LocalDate date, @Param("whregistEntity") WhregistEntity whregistEntity);
