@@ -5,6 +5,7 @@ import com.erpproject.sixbeam.pd.Form.BomForm;
 import com.erpproject.sixbeam.pd.Form.OrderForm;
 import com.erpproject.sixbeam.pd.dto.BomDto;
 import com.erpproject.sixbeam.pd.dto.OrderDto;
+import com.erpproject.sixbeam.pd.entity.FitemEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.entity.OrderEntity;
 import com.erpproject.sixbeam.pd.entity.RitemEntity;
@@ -32,14 +33,13 @@ public class OrderController {
 
         OrderForm form = new OrderForm();
         List<EmpInfoEntity> empInfoEntities = orderService.getEmpList();
-        List<ItemEntity> itemEntities =  orderService.getItemList();
+        List<ItemEntity> fitemEntities =  orderService.getFitemList();
         List<OrderEntity> orderEntities = orderService.getList();
 
         form.getOrderDtos().add(new OrderDto());
-        form.getOrderDtos().add(new OrderDto());
 
         model.addAttribute("getEmpList", empInfoEntities);
-        model.addAttribute("getItemList", itemEntities);
+        model.addAttribute("getFitemList", fitemEntities);
         model.addAttribute("orderEntity", orderEntities);
 
         orderService.readyOrderForm(model);

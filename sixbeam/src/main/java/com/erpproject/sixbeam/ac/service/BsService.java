@@ -3,19 +3,27 @@ package com.erpproject.sixbeam.ac.service;
 import com.erpproject.sixbeam.ac.entity.BsEntity;
 import com.erpproject.sixbeam.ac.entity.IsEntity;
 import com.erpproject.sixbeam.ac.repository.BsRepository;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.repository.ItemRepository;
+import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
 import com.erpproject.sixbeam.ss.service.EstimateService;
+import com.erpproject.sixbeam.st.entity.WhregistEntity;
+import com.erpproject.sixbeam.st.repository.WhmoveRepository;
+import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class BsService {
     private final BsRepository bsRepository;
+    private final WhmoveRepository whmoveRepository;
+    private final WhregistRepository whregistRepository;
+    private final ItemRepository itemRepository;
 
     public BsEntity findBalanceSheetByBsDt(String bsDt) {
         return bsRepository.findByBsDt(bsDt);
@@ -30,7 +38,7 @@ public class BsService {
 
     private final EstimateService estimateService;
 
-    public void updateIsNetSales(String bsDt){
+    public void updateBsReceivables(String bsDt){
         Optional<BsEntity> OpBsEntity=bsRepository.findById(bsDt);
         int year= Integer.parseInt(bsDt.substring(0,4));
 
@@ -46,6 +54,22 @@ public class BsService {
             bsEntity.setBsReceivables(sum);
             bsRepository.save(bsEntity);
         }
+    }
+
+    public void updateBsInventoriesByYear(String bsDt) { //재고자산 계산
+        int year = Integer.parseInt(bsDt);
+        List<WhregistEntity> allWhregists = whregistRepository.findAll();
+        List<ItemEntity> allItems = itemRepository.findAll();
+        for (WhregistEntity whregist : allWhregists) {
+            for (ItemEntity item : allItems) {
+                int currentStock = getTotalWhItemCheckAmtByYear(year, whregist, item);
+                long totalPayable = item.getItemUp() * currentStock;
+                bsRepository.updateBsInventories(bsDt, totalPayable);
+            }
+        }
+    }
+    private int getTotalWhItemCheckAmtByYear(int year, WhregistEntity whregist, ItemEntity item) {
+        return whmoveRepository.findWhItemCheck(year, whregist, item);
     }
 
 }

@@ -91,13 +91,15 @@ $(document).ready(function() {
         var releasePhone = $('#releasePhone').val();
         var releaseZc = $('#releaseZc').val();
         var releaseAddr = $('#releaseAddr').val();
+        var accountCd=$('#accountCd').val();
+        var whregistCd=$('#whregistCode').val();
 
         $('.table.item tbody tr').each(function(index) {
             // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
             $(this).find('.RegisDate').val(releaseDt);
             $(this).find('.EmpInfoId').val(empInfoId);
             $(this).find('.AccountCode').val(accountCd);
-            $(this).find('.WhregistCode').val(whregistNm);
+            $(this).find('.WhregistCode').val(whregistCd);
             $(this).find('.ReleaseRv').val(releaseRv);
             $(this).find('.ReleasePhone').val(releasePhone);
             $(this).find('.ReleaseZc').val(releaseZc);
@@ -116,8 +118,22 @@ $(document).ready(function() {
             success: function(response) {
                 // 성공적으로 제출된 경우의 처리 로직
                 console.log('Form Submitted Successfully');
+                $('#successModal .modal-body').text(response.message);
+                // 성공 시 리다이렉션
+                $('#successModal').modal('show');
+                // 모달이 닫힐 때 리다이렉션
+                $('#successModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
             },
             error: function(response) {
+                $('#failModal .modal-body').text(response.message); // 에러 메시지를 모달에 설정
+                // 오류 메시지 모달 표시
+                $('#failModal').modal('show'); // 올바른 셀렉터 사용
+                // 모달이 닫힐 때 리다이렉션
+                $('#failModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
                 // 오류 처리 로직
                 console.log('Error Submitting Form');
             }
@@ -150,7 +166,7 @@ $('#detailAsCd[data-id]').on('click', function() {
                 $('#updateascmptDt').val(data[0].ascmptDt);
                 $('#updateasSt').val(data[0].asSt);
                 $('#updateasTi').val(data[0].asTi);
-                $('#updatewhregistName').val(data[0].whregistEntity.whregistCd);
+                $('#updatewhregistName').val(data[0].whregistEntity.whregistNm);
                 $('#updateasMo').val(data[0].asMo);
                 // 데이터 항목별로 행 추가
                 data.forEach(function(Asitem, index) {
@@ -181,7 +197,7 @@ $(document).ready(function() {
     $('#stcddelete').click(function() {
         $('#deleteStModal').modal('hide');
         // 선택 정보의 ID 가져오기
-        var selectedStId = $('#dataTable input[name="selectedSt"]:checked').map(function(){
+        var selectedStId = $('#dataTableSt input[name="selectedSt"]:checked').map(function(){
             return $(this).val();
         }).get();
 

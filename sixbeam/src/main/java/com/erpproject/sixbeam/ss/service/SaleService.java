@@ -9,7 +9,7 @@ import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
-import com.erpproject.sixbeam.st.WhmoveRowAddedEvent;
+import com.erpproject.sixbeam.st.event.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.transaction.Transactional;
