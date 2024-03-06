@@ -24,8 +24,11 @@ public class FitemController {
 
     @GetMapping("/finitemlist")
     public String saveFinItem(Model model) {
+
         List<FitemEntity> fitemEntities = fitemService.saveFinItems();
+
         model.addAttribute("fitemEntities", fitemEntities);
+
         return "contents/pd/finitem_list";
     }
 }

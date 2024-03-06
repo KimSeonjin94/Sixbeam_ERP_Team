@@ -297,6 +297,12 @@ $('.table.emp').on('change input', '.selectbox', function () {
             $(this).closest('tr').find('.empInfoEmail').val(valueempInfoEmail);
         }
 
+        $(this).find('.itemname').val(valueitemname);
+        $(this).find('.itemstnd').val(valueitmestnd);
+
+        $(this).find('.empInfoId').val(valueempInfoId);
+        $(this).find('.empInfoPhone').val(valueempInfoPhone);
+        $(this).find('.empInfoEmail').val(valueempInfoEmail);
     }
 });
 
