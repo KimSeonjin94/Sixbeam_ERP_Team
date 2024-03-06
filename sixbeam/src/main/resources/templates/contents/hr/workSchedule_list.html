@@ -1,7 +1,8 @@
 <html layout:decorate="~{layout/default}">
 <head>
-    <!-- 추가된 부분 -->
+    <!-- jQuery 다음에 DataTables 라이브러리가 이미 로드되어 있다면, 다시 로드하지 않아도 됩니다. -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- 추가된 부분 -->
     <script>
         $(document).ready(function () {
             $('#selectWorkScheduleDate').on('input', function () {
@@ -15,6 +16,10 @@
                     success: function (data) {
                         // 성공적으로 데이터를 받아왔을 때 부분 업데이트 수행
                         $('#dataTable').html(data);
+
+                        // DataTable 초기화 (기존 DataTables 라이브러리를 사용한다고 가정)
+                        $('#dataTable').DataTable().destroy();
+                        $('#dataTable').DataTable();
                     },
                     error: function (error) {
                         console.log("Error:", error);
@@ -23,7 +28,7 @@
             });
         });
     </script>
-</head>>
+</head>
 <body>
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
