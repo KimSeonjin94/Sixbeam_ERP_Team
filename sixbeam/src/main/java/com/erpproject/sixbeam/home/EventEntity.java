@@ -24,6 +24,6 @@ public class EventEntity {
     private String title;
     private LocalDate start;
     private LocalDate end;
-
+    private String backgroundColor;
     // 생성자, getter, setter 생략
 }
