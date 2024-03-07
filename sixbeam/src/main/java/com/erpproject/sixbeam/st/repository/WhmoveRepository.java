@@ -31,6 +31,8 @@ public interface WhmoveRepository extends JpaRepository<WhmoveEntity,String> {
     @Query("SELECT w FROM WhmoveEntity w WHERE w.saleEntity = :saleEntity")
     List<WhmoveEntity> BySaleCd(@Param("saleEntity") SaleEntity saleEntity);
 
+
+
     @Query("SELECT w FROM WhmoveEntity w WHERE w.inputEntity = :inputEntity")
     WhmoveEntity ByInputCd(@Param("inputEntity") InputEntity inputEntity);
 
@@ -40,12 +42,14 @@ public interface WhmoveRepository extends JpaRepository<WhmoveEntity,String> {
 
     List<WhmoveEntity> findByInputEntity(InputEntity inputEntity);
 
-    @Query("SELECT COALESCE(SUM(c.checkAmt), 0) FROM CheckEntity c " +
-            "WHERE YEAR(c.whmoveEntity.whmoveDt) = :year " +
+    @Query("SELECT COALESCE(SUM(CASE WHEN c.whmoveEntity.whmoveGb = '입고' THEN c.checkAmt ELSE -c.checkAmt END), 0) FROM CheckEntity c " +
+            "WHERE c.whmoveEntity.whmoveDt <= :endDate " +
             "AND c.whmoveEntity.whregistEntity = :whregistEntity " +
             "AND c.whmoveEntity.itemEntity = :itemEntity")
-    Integer findWhItemCheck(@Param("year") int year,
-                            @Param("whregistEntity") WhregistEntity whregistEntity,
-                            @Param("itemEntity") ItemEntity itemEntity);
+    Integer findWhItemCheckByYear(
+            @Param("endDate") LocalDate endDate,
+            @Param("whregistEntity") WhregistEntity whregistEntity,
+            @Param("itemEntity") ItemEntity itemEntity
+    );
 
 }

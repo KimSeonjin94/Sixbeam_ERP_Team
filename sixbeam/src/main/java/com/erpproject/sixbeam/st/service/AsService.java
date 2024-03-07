@@ -47,15 +47,6 @@ public class AsService {
         return this.asRepository.findByAsCd(id);
     }
 
-    public AsEntity getAsEntity(String asCd) {
-        Optional<AsEntity> asEntity = this.asRepository.findById(asCd);
-        if (asEntity.isPresent()) {
-            return asEntity.get();
-        } else {
-            throw new DataNotFoundException("asEntity not found");
-        }
-    }
-
     public void create(List<AsDto> asDtos) {
         for (AsDto asDto : asDtos) {
             EmpInfoEntity empInfoEntity = empInfoRepository.findById(asDto.getEmpInfoEntity().getEmpInfoId())
@@ -105,7 +96,6 @@ public class AsService {
             asEntitiesToDelete.addAll(asEntities);
             asRepository.deleteAll(asEntities);
         }
-        // List<AsEntity>를 가지는 이벤트 생성
         WhmoveRowDeletedEvent<AsEntity> asDeletedEvent = new WhmoveRowDeletedEvent<>(this, asEntitiesToDelete);
         deleteEvent.publishEvent(asDeletedEvent);
     }

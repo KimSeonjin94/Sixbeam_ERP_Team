@@ -5,6 +5,7 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     <!--google calendar-->
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.11/index.global.min.js'></script>
+    <script src='fullcalendar/dist/index.global.js'></script>
 </head>
 <body>
 <div layout:fragment="content" class="container-fluid">
@@ -23,36 +24,40 @@
                 </div>
 
                 <div class="card-body mb-12">
-
                     <div id="calendar" class="fc fc-media-screen fc-direction-ltr fc-theme-standard"></div>
-                    <!-- modal 추가 -->
-                    <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
+                </div>
+                <!-- 모달 창 -->
+                <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editEventModalLabel">이벤트 수정</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
                                     <div class="form-group">
-                                        <label for="taskId" class="col-form-label">일정 내용</label>
-                                        <input type="text" class="form-control" id="calendar_content" name="calendar_content">
-                                        <label for="taskId" class="col-form-label">시작 날짜</label>
-                                        <input type="date" class="form-control" id="calendar_start_date" name="calendar_start_date">
-                                        <label for="taskId" class="col-form-label">종료 날짜</label>
-                                        <input type="date" class="form-control" id="calendar_end_date" name="calendar_end_date">
-                                        <input type="hidden" class="form-control" id="blue" name="blue">
+                                        <label for="eventTitleInput">내용</label>
+                                        <input type="text" class="form-control" id="eventTitleInput">
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-warning" id="addCalendar">추가</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                            id="sprintSettingModalClose">취소</button>
-                                </div>
-
+                                    <label for="eventColorSelect">색깔</label>
+                                    <select class="form-control" id="eventColorSelect">
+                                        <option value="red">빨강</option>
+                                        <option value="yellow">노랑</option>
+                                        <option value="green">초록</option>
+                                        <option value="blue">파랑</option>
+                                        <option value="aqua">하늘</option>
+                                        <option value="silver">실버</option>
+                                        <!-- 원하는 다른 색상을 추가할 수 있습니다. -->
+                                    </select>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="editEventModalConfirm">확인</button>
+                                <button type="button" class="btn btn-warning" id="editEventModalDelete">삭제</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                             </div>
                         </div>
                     </div>
@@ -61,80 +66,144 @@
             </div>
 
         </div>
-        <script layout:fragment="script" type='text/javascript'>
-            document.addEventListener('DOMContentLoaded', function() {
-                var calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    locale: 'ko',
-                    googleCalendarApiKey : "AIzaSyBpL3vEBHMwFcrnYFMKpQmvPkSqZw1mXnQ",
-                    customButtons:{
-                        myCustomButtons:{
-                            text : "일정 추가",  // 버튼 내용
-                            click : function(){ // 버튼 클릭 시 이벤트 추가
-                                $("#calendarModal").modal("show"); // modal 나타내기
-                                $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
-                                    var eventData={
-                                        content : $("#calendar_content").val(),
-                                        start_date : $("#calendar_start_date").val(),
-                                        end_date : $("#calendar_end_date").val(),
-                                        color : $("#blue").val(),
-                                    };
+        <div class="col-md-6">
+            <script layout:fragment="script" type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var calendarEl = document.getElementById('calendar');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        locale: 'ko',
+                        googleCalendarApiKey : "AIzaSyBpL3vEBHMwFcrnYFMKpQmvPkSqZw1mXnQ",
+                        //드래그 버튼
+                        initialView: 'dayGridMonth',
+                        selectable: true,
+                        //헤더툴바
+                        headerToolbar:{
+                            start: 'today',
+                            center: 'title',
+                            end: 'prev,next'
+                        },
+                        editable: true,
+                        selectable: true,
+                        businessHours: true,
+                        dayMaxEvents: true,
+                        selectable: true,
+                        timeZone: 'UTC',
+                        events: function (fetchInfo, successCallback, failureCallback) {
+                            $.ajax({
+                                url: "/api/events",
+                                method: "GET",
+                                success: function (data) {
+                                    var events = data.map(function (event) {
+                                        return {
+                                            id: event.id,
+                                            title: event.title,
+                                            start: event.start,
+                                            end: event.end,
+                                            backgroundColor: event.backgroundColor
+                                        };
+                                    });
+                                    successCallback(events);
+                                },
+                                error: function (error) {
+                                    console.error('이벤트 가져오기 실패:', error);
+                                    failureCallback(error);
+                                }
+                            });
+                        },
+                        select: function(info) {
+                            $('#editEventModal').modal('show');
 
-                                    //내용 입력 여부 확인
-                                    if(eventData.content == null || eventData.content == ""){
-                                        alert("내용을 입력하세요.");
-                                    }else if(eventData.start_date == "" || eventData.end_date ==""){
-                                        alert("날짜를 입력하세요.");
-                                    }else if(new Date(eventData.end_date)- new Date(eventData.start_date) < 0){ // date 타입으로 변경 후 확인
-                                        alert("종료일이 시작일보다 먼저입니다.");
-                                    }else{ // 정상적인 입력 시
-                                        calendar.addEvent(eventData);
-                                        $("#calendarModal").modal("hide");
-                                        $("#calendar_content").val("");
-                                        $("#calendar_start_date").val("");
-                                        $("#calendar_end_date").val("");
-                                        $("#color").val("");
+                            $('#editEventModalConfirm').off('click').on('click', function() {
+                                var newTitle = $('#eventTitleInput').val();
+                                var selectedColor = $('#eventColorSelect').val();
+
+                                var startDate = info.start;
+                                var endDate = info.end || startDate;
+
+                                var eventData = {
+                                    title: newTitle,
+                                    start: startDate,
+                                    end: endDate,
+                                    backgroundColor: selectedColor // 사용자가 선택한 색상을 할당
+                                };
+
+                                // 추가: 서버에 새 이벤트 추가 요청
+                                $.ajax({
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    url: "/api/events",
+                                    data: JSON.stringify(eventData),
+                                    success: function(response) {
+                                        calendar.addEvent(response);
+                                    },
+                                    error: function(error) {
+                                        console.error('이벤트 추가 실패:', error);
                                     }
                                 });
-                            }
+
+                                $('#editEventModal').modal('hide');
+                            });
+                        },
+
+                        eventClick: function(info) {
+                            $('#editEventModal').modal('show');
+
+                            $('#editEventModalConfirm').on('click', function() {
+                                var newTitle = $('#eventTitleInput').val();
+
+                                info.event.setProp('title', newTitle);
+
+                                // 추가: 서버에 이벤트 수정 요청
+                                $.ajax({
+                                    type: "PUT",
+                                    contentType: "application/json",
+                                    url: "/api/events/" + info.event.id,
+                                    data: JSON.stringify({
+                                        title: newTitle,
+                                        start: info.event.start,
+                                        end: info.event.end,
+                                    }),
+                                    success: function(response) {
+                                        // 서버에서 수정된 이벤트를 받아와 반영
+                                        info.event.setProp('title', response.title);
+                                        info.event.setStart(response.start);
+                                        info.event.setEnd(response.end);
+                                    },
+                                    error: function(error) {
+                                        console.error('이벤트 수정 실패:', error);
+                                    }
+                                });
+
+                                $('#editEventModal').modal('hide');
+                            });
+
+                            $('#editEventModalDelete').off('click').on('click', function() {
+                                // 선택된 이벤트를 삭제
+                                if (info.event) {
+                                    var eventId = info.event.extendedProps.id; // 이벤트의 ID 가져오기
+                                    // 서버로 삭제 요청 보내기
+                                    $.ajax({
+                                        url: 'http://localhost:8080/api/events/' + info.event.id,
+                                        type: 'DELETE',
+                                        success: function() {
+                                            // 삭제 성공 시 캘린더에서도 이벤트 제거
+                                            info.event.remove();
+                                            // 모달 창 닫기
+                                            $('#editEventModal').modal('hide');
+                                        },
+                                        error: function() {
+                                            // 삭제 실패 시 예외 처리
+
+                                            alert('이벤트 삭제에 실패했습니다.');
+                                        }
+                                    });
+                                }
+                            });
                         }
-                    },
-                    //드래그 버튼
-                    initialView: 'dayGridMonth',
-                    selectable: true,
-                    //헤더툴바
-                    headerToolbar:{
-                        start: 'myCustomButtons,mySaveButton',
-                        center: 'title',
-                        end: 'today prev,next'
-                    },
-                    events: {
-                        googleCalendarId : 'ko.south_korea#holiday@group.v.calendar.google.com'
-                        , color: 'white'   // an option!
-                        , textColor: 'red', // an option!
-                        className: 'holiday-event',
-                    },
-                    eventClick: function(info) {
-//                        Prevent clicking on holiday events
-//                        if (info.event.extendedProps.className.includes('holiday-event')) {
-//                            info.jsEvent.stopPropagation();
-//                            info.jsEvent.preventDefault();
-//                        }
-                        alert('휴일은 클릭할수 없습니다.');
-                        info.jsEvent.stopPropagation();
-                        info.jsEvent.preventDefault();
-                    },
-                    editable: true,
-                    selectable: true,
-                    businessHours: true,
-                    dayMaxEvents: true,
-                    selectable: true,
-                    timeZone: 'UTC',
+                    });
+                    calendar.render();
                 });
-                calendar.render();
-            });
-        </script>
-        <div class="col-md-6">
+            </script>
 
             <div class="row">
                 <div class="col-md-12 mb-4">
