@@ -17,8 +17,9 @@
 						<th>작업 지시 코드</th>
 						<th>출고 날짜</th>
 						<th>담당자</th>
-						<th>품목 코드</th>
+						<th>규격</th>
 						<th>수량</th>
+						<th>창고</th>
 						<th>작업 상태</th>
 						<th></th>
 					</tr>
@@ -32,16 +33,17 @@
 						<td th:text = "${inout.inoutCmptCd}"></td>
 						<td th:text = "${inout.inoutDt}"></td>
 						<td th:text = "${inout.empInfoEntity.empInfoNm}"></td>
-						<td th:text = "${inout.itemEntity.itemCd}"></td>
+						<td th:text = "${inout.itemEntity.itemStnd}" th:value = "${inout.itemEntity.itemCd}"></td>
 						<td th:text = "${inout.orderEntity.orderAmt}"></td>
-						<td th:text = "${inout.orderEntity.orderSt}"></td>
+						<td th:text = "${inout.whregistEntity.whregistNm}" th:value = "${inout.whregistEntity.whregistCd}"></td>
+						<td th:text = "${inout.orderEntity.orderSt ? '미완료' : '완료'}"></td>
 						<div class = "btn-group" role = "group" aria-label = "Basic example">
 							<!-- Button trigger modal -->
 							<td>
 								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal">
-								        <!--data-target = "#detailInout" id = "detailOrderbtn"
-								        th:if = "${inout.orderSt != null and !inout.orderSt}"
-								        th:data-id = "${inout.inoutCmptCd}">-->
+									<!--data-target = "#detailInout" id = "detailOrderbtn"
+									th:if = "${inout.orderSt != null and !inout.orderSt}"
+									th:data-id = "${inout.inoutCmptCd}">-->
 									상세
 								</button>
 							</td>

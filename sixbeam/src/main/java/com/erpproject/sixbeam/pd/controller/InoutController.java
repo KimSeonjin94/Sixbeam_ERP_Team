@@ -10,6 +10,7 @@ import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.entity.OrderEntity;
 import com.erpproject.sixbeam.pd.repository.InoutRepository;
 import com.erpproject.sixbeam.pd.service.InoutService;
+import com.erpproject.sixbeam.pd.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +40,5 @@ public class InoutController {
 
         return "contents/pd/inout_list";
     }
-
-    /*@GetMapping("/detail/{inoutCmptCd}")
-    public ResponseEntity<List<InoutEntity>> detail(@PathVariable) {
-
-        return "";
-    }*/
 }
-
 
