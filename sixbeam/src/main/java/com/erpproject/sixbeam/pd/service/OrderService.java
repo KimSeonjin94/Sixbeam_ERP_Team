@@ -8,6 +8,7 @@ import com.erpproject.sixbeam.pd.dto.OrderDto;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.entity.OrderEntity;
 import com.erpproject.sixbeam.pd.repository.FitemRepository;
+import com.erpproject.sixbeam.pd.repository.InoutRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -29,9 +31,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final EmpInfoRepository empInfoRepository;
     private final ItemRepository itemRepository;
-    private final FitemRepository fitemRepository;
-    private final EmpInfoService empInfoService;
-    private final BomService bomService;
+    private final InoutRepository inoutRepository;
 
     public List<OrderEntity> getList() {
 
@@ -48,27 +48,18 @@ public class OrderService {
         return itemRepository.findByItemCdStartingWith("F");
     }
 
-    /*public List<OrderEntity> getIdList(String orderCd) {
-
-        return orderRepository.findById(orderCd);
-    }*/
-
     public void getOrderList(Model model) {
 
         OrderForm orderForm = new OrderForm();
 
         // 데이터 가져오기
         List<OrderEntity> getorderEntity = getList();
-        List<EmpInfoEntity> empInfoEntity = empInfoRepository.findAll();
-        List<ItemEntity> getFitemEntity = itemRepository.findByItemCdStartingWith("F");
 
         // form 데이터 입력란 추가
         orderForm.getOrderDtos().add(new OrderDto());
-        orderForm.getOrderDtos().add(new OrderDto());
 
         // 모델에 데이터 등록
-        model.addAttribute("getorderlist", getorderEntity);
-        model.addAttribute("getFitemlist", getFitemEntity);
+        model.addAttribute("getOrderList", getorderEntity);
     }
 
 
@@ -164,6 +155,7 @@ public class OrderService {
         model.addAttribute("orderSt", orderEntities);
     }
 
+    @Transactional
     public void changeOrderStatus(List<String> orderCds) {
 
         // 작업 지시 코드 목록을 반복하여 각 주문의 상태를 변경
@@ -179,6 +171,7 @@ public class OrderService {
 
                 order.setOrderSt(true);
                 orderRepository.save(order);
+                inoutRepository.deleteByOrderCd(orderCd);
             }
         }
     }

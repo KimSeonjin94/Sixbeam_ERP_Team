@@ -30,9 +30,6 @@ public class InoutEntity {
     @JoinColumn(name = "ORDER_CD")
     private OrderEntity orderEntity;
 
-    @Column(name = "ORDER_ST")
-    private boolean orderSt;
-
     @Column(name = "INOUT_DT")
     private LocalDate inoutDt;
 
