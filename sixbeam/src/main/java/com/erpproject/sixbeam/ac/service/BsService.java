@@ -38,19 +38,19 @@ public class BsService {
 
     private final EstimateService estimateService;
 
-    public void updateBsReceivables(String bsDt){
-        Optional<BsEntity> OpBsEntity=bsRepository.findById(bsDt);
-        int year= Integer.parseInt(bsDt.substring(0,4));
+    public void updateBsReceivables(String bsDt) {
+        Optional<BsEntity> OpBsEntity = bsRepository.findById(bsDt);
+        if (OpBsEntity.isPresent()) {
+            int year = Integer.parseInt(bsDt.substring(0, 4));
 
-        LocalDate startDate=LocalDate.of(year,1,1);
-        LocalDate endDate=LocalDate.of(year,12, LocalDate.of(year, 12, 1).lengthOfMonth());
+            LocalDate startDate = LocalDate.of(year, 1, 1);
+            LocalDate endDate = LocalDate.of(year, 12, LocalDate.of(year, 12, 1).lengthOfMonth());
 
 
+            int sum = estimateService.getIsNetSales(startDate, endDate);
 
-        int sum=estimateService.getIsNetSales(startDate,endDate);
 
-        if(OpBsEntity.isPresent()){
-            BsEntity bsEntity=OpBsEntity.get();
+            BsEntity bsEntity = OpBsEntity.get();
             bsEntity.setBsReceivables(sum);
             bsRepository.save(bsEntity);
         }
@@ -68,6 +68,7 @@ public class BsService {
             }
         }
     }
+
     private int getTotalWhItemCheckAmtByYear(int year, WhregistEntity whregist, ItemEntity item) {
         return whmoveRepository.findWhItemCheck(year, whregist, item);
     }
