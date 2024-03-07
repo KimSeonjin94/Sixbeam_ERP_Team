@@ -36,7 +36,7 @@
 					
 					<tbody>
 					
-					<tr th:each = "order : ${getorderlist}">
+					<tr th:each = "order : ${getOrderList}">
 						<td>
 							<input type = "checkbox" class = "selectedInfo" th:value = "${order.orderCd}">
 						</td>
@@ -46,7 +46,7 @@
 						<td th:text = "${order.empInfoEntity.empInfoId}"></td>
 						<td th:text = "${order.itemEntity.itemCd}"></td>
 						<td th:text = "${order.orderAmt}"></td>
-						<td th:text = "${order.orderSt}"></td>
+						<td th:text = "${order.orderSt ? '미완료' : '완료'}"></td>
 						<div class = "btn-group" role = "group" aria-label = "Basic example">
 							<!-- Button trigger modal -->
 							<td>
