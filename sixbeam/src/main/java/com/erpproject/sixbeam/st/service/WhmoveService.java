@@ -44,6 +44,7 @@ public class WhmoveService {
             throw new DataNotFoundException("whmoveEntity not found");
         }
     }
+
     //[이벤트리스너_As]-----------------------------------------------
     //-등록
     public void addRowAs(AsEntity asEntity) {//등록
@@ -61,6 +62,7 @@ public class WhmoveService {
         CheckRowAddedEvent<WhmoveEntity> whmoveEvent = new CheckRowAddedEvent<>(this, whmoveEntity);
         addEvent.publishEvent(whmoveEvent);
     }
+
     private String generateNewWhmoveAsCd(LocalDate asDate) { //기본키 자동생성
         String prefix = "WHM" + asDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
         String maxCd = whmoveRepository.getMaxWhmoveCd(asDate);
@@ -68,6 +70,7 @@ public class WhmoveService {
         String sequenceNumberString = String.format("%04d", sequenceNumber);
         return prefix + sequenceNumberString;
     }
+
     public void updateRowAs(AsEntity asEntity) { //수정
         WhmoveEntity tempAs = whmoveRepository.ByAsCd(asEntity);
         WhmoveEntity whmoveEntity = new WhmoveEntity();
@@ -84,9 +87,10 @@ public class WhmoveService {
         CheckRowUpdatedEvent<WhmoveEntity> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempAs);
         updateEvent.publishEvent(whmoveEvent);
     }
+
     //-삭제
     @Transactional
-    public void deleteRowAs(List<AsEntity> asEntities){ //삭제
+    public void deleteRowAs(List<AsEntity> asEntities) { //삭제
         List<WhmoveEntity> whmoveEntitiesToDelete = new ArrayList<>();
         for (AsEntity asEntity : asEntities) {
             List<WhmoveEntity> whmoveEntities = whmoveRepository.findByAsEntity(asEntity);
@@ -116,22 +120,22 @@ public class WhmoveService {
             whmoveRepository.save(whmoveEntity);
         }
     }
+
     public void updateRowSale(SaleEntity saleEntity) { //수정
-        WhmoveEntity tempSale = whmoveRepository.BySaleCd(saleEntity);
-        WhmoveEntity whmoveEntity = new WhmoveEntity();
-        whmoveEntity.setWhmoveDt(tempSale.getWhmoveDt());
-        whmoveEntity.setAsEntity(tempSale.getAsEntity());
-        whmoveEntity.setEmpInfoEntity(tempSale.getEmpInfoEntity());
-        whmoveEntity.setItemEntity(tempSale.getItemEntity());
-        whmoveEntity.setWhregistEntity(tempSale.getWhregistEntity());
-        whmoveEntity.setWhmoveGb(tempSale.getWhmoveGb());
-        whmoveEntity.setWhmoveCd(tempSale.getWhmoveCd());
+        List<WhmoveEntity> tempSale = whmoveRepository.BySaleCd(saleEntity);
+        List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
+        for (int i=0; i<tempSale.size(); i++) {
+            tempSale.get(i).setItemEntity(estimateEntities.get(i).getItemEntity());
+            tempSale.get(i).setWhregistEntity(saleEntity.getWhregistEntity());
+            tempSale.get(i).setWhmoveAmt(estimateEntities.get(i).getEstimateAmt());
 //        whmoveEntity.setWhmoveAmt(saleEntity); //sale테이블에서 변경된 수량만 반영
-        tempSale = whmoveEntity;
-        whmoveRepository.save(tempSale);
-        CheckRowUpdatedEvent<WhmoveEntity> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
+
+        }
+        whmoveRepository.saveAll(tempSale);
+        CheckRowUpdatedEvent<List<WhmoveEntity>> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
         updateEvent.publishEvent(whmoveEvent);
     }
+
     private String generateNewWhmoveSaleCd(LocalDate saleUploadDt) { //기본키 자동생성
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "WHM" + saleUploadDt.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
@@ -142,6 +146,7 @@ public class WhmoveService {
         String sequenceNumberString = String.format("%04d", sequenceNumber);
         return prefix + sequenceNumberString;
     }
+
     @Transactional
     public void deleteRowSale(List<SaleEntity> saleEntities) { //삭제
         List<WhmoveEntity> whmoveEntitesToDelete = new ArrayList<>();
@@ -169,6 +174,7 @@ public class WhmoveService {
         whmoveEntity.setWhmoveCd(newWhmoveCd);
         whmoveRepository.save(whmoveEntity);
     }
+
     private String generateNewInputCd(LocalDate inputPurDt) {//기본키 자동생성
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "WHM" + inputPurDt.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
@@ -179,6 +185,7 @@ public class WhmoveService {
         String sequenceNumberString = String.format("%04d", sequenceNumber);
         return prefix + sequenceNumberString;
     }
+
     public void updateRowInput(InputEntity inputEntity) { //수정
         WhmoveEntity tempInput = whmoveRepository.ByInputCd(inputEntity);
         WhmoveEntity whmoveEntity = new WhmoveEntity();
@@ -195,6 +202,7 @@ public class WhmoveService {
         CheckRowUpdatedEvent<WhmoveEntity> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempInput);
         updateEvent.publishEvent(whmoveEvent);
     }
+
     @Transactional
     public void deleteRowInput(List<InputEntity> inputEntities) { //삭제
         List<WhmoveEntity> whmoveEntitesToDelete = new ArrayList<>();

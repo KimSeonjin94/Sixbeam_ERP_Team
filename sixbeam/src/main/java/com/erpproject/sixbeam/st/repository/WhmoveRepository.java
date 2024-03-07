@@ -29,7 +29,7 @@ public interface WhmoveRepository extends JpaRepository<WhmoveEntity,String> {
     WhmoveEntity ByAsCd(@Param("asEntity") AsEntity asEntity);
 
     @Query("SELECT w FROM WhmoveEntity w WHERE w.saleEntity = :saleEntity")
-    WhmoveEntity BySaleCd(@Param("saleEntity") SaleEntity saleEntity);
+    List<WhmoveEntity> BySaleCd(@Param("saleEntity") SaleEntity saleEntity);
 
     @Query("SELECT w FROM WhmoveEntity w WHERE w.inputEntity = :inputEntity")
     WhmoveEntity ByInputCd(@Param("inputEntity") InputEntity inputEntity);
