@@ -171,19 +171,17 @@ insert into sixbeam_erp.pd_bom_tb (fitem_cd, ritem_cd, bom_use_mt, bom_work_tm) 
 ('F1005', 'R1014', 1, '01:20:00'),
 ('F1005', 'R1016', 1, '01:20:00');
 ---- order db ----
-insert into sixbeam_erp.pd_order_tb (order_deliv_dt, order_inst_dt, order_st, empinfo_id, order_amt, item_cd, order_cd)
-values ('2024-01-09', '2024-01-02', 0, '20241009', '2', 'F1002', 'OD2024-002'),
+insert into sixbeam_erp.pd_order_tb (order_deliv_dt, order_inst_dt, order_st, empinfo_id, order_amt, item_cd, order_cd) values
+('2024-01-09', '2024-01-02', 0, '20241009', '2', 'F1002', 'OD2024-002'),
 ('2024-01-09', '2024-01-02', 0, '20241009', '5', 'F1001', 'OD2024-003'),
-('2024-01-21', '2024-01-14', 0, '20241007', '7', 'R1004', 'OD2024-009'),
-('2024-01-24', '2024-01-17', 0, '20241009', '8', 'R1005', 'OD2024-010'),
-('2024-01-29', '2024-01-22', 1, '20241009', '3', 'R1007', 'OD2024-012');
+('2024-01-21', '2024-01-14', 1, '20241007', '7', 'R1004', 'OD2024-009'),
+('2024-01-24', '2024-01-17', 1, '20241009', '8', 'R1005', 'OD2024-010'),
+('2024-01-29', '2024-01-22', 0, '20241009', '3', 'R1007', 'OD2024-012');
 ---- inout db ----
-insert into sixbeam_erp.pd_inout_tb (inout_cmpt_cd, inout_dt, empinfo_id, order_cd, whregist_cd, item_cd) values
-('CMPT240103-042', '2024-01-03 00:00:00.000000', 20241009, 'OD2024-003', 'WHR1003', 'F1001'),
-('CMPT240103-041', '2024-01-03 00:00:00.000000', 20241009, 'OD2024-002', 'WHR1003', 'F1002'),
-('CMPT240115-011', '2024-01-15 00:00:00.000000', 20241007, 'OD2024-009', 'WHR1003', 'R1004'),
-('CMPT240118-025', '2024-01-18 00:00:00.000000', 20241009, 'OD2024-010', 'WHR1003', 'R1005'),
-('CMPT240123-005', '2024-01-23 00:00:00.000000', 20241009, 'OD2024-012', 'WHR1003', 'R1007');
+insert into sixbeam_erp.pd_inout_tb (inout_cmpt_cd, inout_dt, empinfo_id, order_cd, whregist_cd, item_cd, order_st) values
+('CMPT240103-042', '2024-01-03 00:00:00.000000', 20241009, 'OD2024-003', 'WHR1003', 'F1001', false),
+('CMPT240103-041', '2024-01-03 00:00:00.000000', 20241009, 'OD2024-002', 'WHR1003', 'F1002', false),
+('CMPT240123-005', '2024-01-23 00:00:00.000000', 20241009, 'OD2024-012', 'WHR1003', 'R1007', false);
 -- 창고이동 DB --
 insert into sixbeam_erp.st_whmove_tb (whmove_amt,whmove_dt,empinfo_id,item_cd,whmove_cd,whmove_gb,whregist_cd) values
 (1,'2024-01-02','20241009','F1001','WHM20240102-0001','출고','WHR1002'),
