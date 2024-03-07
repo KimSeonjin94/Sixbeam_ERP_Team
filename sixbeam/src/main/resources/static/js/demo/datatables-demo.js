@@ -334,7 +334,38 @@ $(document).ready(function() {
                 "next": "다음",
                 "previous": "이전"
             }},
-        "buttons": ['copy', 'excel', 'print'],
-        "order" :[[0,"desc"]]
+        buttons: [
+            {
+                text: '신규',
+                className: 'btn btn-primary mr-sm-1',
+                action: function ( e, dt, node, config ) {
+                    $('#newItem').modal('show');
+                }
+            },
+            {
+                text: '선택 항목 삭제',
+                className: 'btn btn-danger mr-auto',
+                action: function ( e, dt, node, config ) {
+                    $('#deleteItem').modal('show');
+                }
+            },
+            {
+                extend: 'copy',
+                className: 'btn btn-left mr-sm-1'
+            },
+            {
+                extend: 'excel',
+                className: 'btn btn-left mr-sm-1'
+            },
+            {
+                extend: 'print',
+                className: 'btn btn-left ml-sm-1'
+            }
+        ],
+        "order" :[[0,"desc"]],
+        initComplete: function() {
+            // DataTables 초기화가 완료된 후 클래스 추가
+            this.api().buttons().container().addClass("col-sm-12 d-flex justify-content-between");
+        }
     });
 });

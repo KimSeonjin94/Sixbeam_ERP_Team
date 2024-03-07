@@ -68,8 +68,9 @@ public class EstimateService {
         return this.itemRepository.findById(id);
     }
     //생성
+    @Transactional
     public void create(List<EstimateDto> estimateDtos) {
-        try {
+
             List<EstimateEntity> entities = new ArrayList<>();
             String newEstimateCd = generateNewEstimateCd(estimateDtos.get(0).getEstimateDt());
             for (EstimateDto estimateDto : estimateDtos) {
@@ -90,9 +91,7 @@ public class EstimateService {
                 entities.add(estimateEntity);
             }
             estimateRepository.saveAll(entities);
-        }catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
 
     }
     //수정
