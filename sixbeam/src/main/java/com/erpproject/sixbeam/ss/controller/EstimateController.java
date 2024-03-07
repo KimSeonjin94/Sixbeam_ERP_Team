@@ -108,7 +108,7 @@ public class EstimateController {
             // 실패 응답
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", "수정에 실패하였습니다.");
+            errorResponse.put("message", e.getMessage());
             errorResponse.put("redirectUrl", "/ss/estimate/list");
             return ResponseEntity.badRequest().body(errorResponse);
         }
@@ -127,7 +127,7 @@ public class EstimateController {
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", "삭제에 실패하였습니다.");
+            errorResponse.put("message", e.getMessage());
             errorResponse.put("redirectUrl", "/ss/estimate/list");
             return ResponseEntity.badRequest().body(errorResponse);
         }

@@ -75,9 +75,9 @@ public class EstimateService {
             String newEstimateCd = generateNewEstimateCd(estimateDtos.get(0).getEstimateDt());
             for (EstimateDto estimateDto : estimateDtos) {
                 EmpInfoEntity empInfoEntity = empInfoRepository.findById(estimateDto.getEmpInfoEntity().getEmpInfoId())
-                        .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                        .orElseThrow(() -> new EntityNotFoundException("EmpInfo not found"));
                 AccountEntity accountEntity = accountRepository.findById(estimateDto.getAccountEntity().getAccountCd())
-                        .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                        .orElseThrow(() -> new EntityNotFoundException("Account not found"));
                 ItemEntity itemEntity = itemRepository.findById(estimateDto.getItemEntity().getItemCd())
                         .orElseThrow(() -> new EntityNotFoundException("Item not found"));
 
@@ -96,7 +96,7 @@ public class EstimateService {
     }
     //수정
     public void updateAll(List<EstimateDto> estimateDtos){
-        if(saleRepository.findByEstimateCd(estimateDtos.get(0).getEstimateCd()) !=null){
+        if(saleRepository.findByEstimateCd(estimateDtos.get(0).getEstimateCd()).isPresent()){
             throw new IllegalStateException("판매 진행이 되어 수정 불가 합니다.");
         }
 
