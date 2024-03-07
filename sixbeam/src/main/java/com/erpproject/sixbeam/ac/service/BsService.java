@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -58,19 +59,21 @@ public class BsService {
 
     public void updateBsInventoriesByYear(String bsDt) { //재고자산 계산
         int year = Integer.parseInt(bsDt);
+        long totalPayable = 0;
+        LocalDate endDate = LocalDate.of(year, Month.DECEMBER, 31);
         List<WhregistEntity> allWhregists = whregistRepository.findAll();
         List<ItemEntity> allItems = itemRepository.findAll();
         for (WhregistEntity whregist : allWhregists) {
             for (ItemEntity item : allItems) {
-                int currentStock = getTotalWhItemCheckAmtByYear(year, whregist, item);
-                long totalPayable = item.getItemUp() * currentStock;
-                bsRepository.updateBsInventories(bsDt, totalPayable);
+                int currentStock = getTotalWhItemCheckAmtByYear(year, endDate, whregist, item);
+                totalPayable += item.getItemUp() * currentStock;
             }
         }
+        bsRepository.updateBsInventories(bsDt, totalPayable);
     }
 
-    private int getTotalWhItemCheckAmtByYear(int year, WhregistEntity whregist, ItemEntity item) {
-        return whmoveRepository.findWhItemCheck(year, whregist, item);
+    private int getTotalWhItemCheckAmtByYear(int year, LocalDate endDate, WhregistEntity whregist, ItemEntity item) {
+        return whmoveRepository.findWhItemCheckByYear(endDate, whregist, item);
     }
 
 }
