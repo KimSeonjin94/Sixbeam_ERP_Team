@@ -60,7 +60,6 @@ public class OrderController {
 
         return "contents/pd/order_list";
     }
-
     @PostMapping("/save")
     public ResponseEntity<?> saveorder(@ModelAttribute OrderForm orderForm) {
 
@@ -106,7 +105,6 @@ public class OrderController {
 
             errorResponse.put("status", "error");
             errorResponse.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
-
             errorResponse.put("redirectUrl", "/pd/order/order`list");
             return ResponseEntity.badRequest().body(errorResponse);
         }
