@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.pd.repository;
 
+import com.erpproject.sixbeam.pd.entity.InoutEntity;
 import com.erpproject.sixbeam.pd.entity.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +16,5 @@ public interface OrderRepository extends JpaRepository<OrderEntity, String> {
     @Query("SELECT MAX(o.orderCd) FROM OrderEntity o WHERE o.orderInstDt = :orderDate")
     String getMaxOrderCd(@Param("orderDate") LocalDate orderDate);
 
-    List<OrderEntity> findByOrderCd(String orderCd);
+    OrderEntity findByOrderCd(String orderCd);
 }
