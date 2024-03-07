@@ -35,8 +35,6 @@ public class SaleService {
     private final ApplicationEventPublisher addEvent;
     private final ApplicationEventPublisher deleteEvent;
     private final ApplicationEventPublisher updateEvent;
-    @Autowired
-    private ApplicationEventPublisher event;//[이벤트리스너]
 
     public List<SaleEntity> getList() {
         return this.saleRepository.findAll();
@@ -73,6 +71,7 @@ public class SaleService {
     }
     @Transactional
     public void delete(List<String> saleCds) {
+        List<SaleEntity> saleEntitiesToDelete = new ArrayList<>();
         for (String saleCd : saleCds) {
             Optional<SaleEntity> optionalSaleEntity = saleRepository.findById(saleCd);
             SaleEntity saleEntity=optionalSaleEntity.get();
@@ -80,8 +79,11 @@ public class SaleService {
                 throw new IllegalStateException("출고 진행이 되어 삭제 불가 합니다.");
             }else {
                 saleRepository.delete(saleEntity);
+                saleEntitiesToDelete.add(saleEntity);
             }
         }
+        WhmoveRowDeletedEvent<SaleEntity> saleDeletedEvent = new WhmoveRowDeletedEvent<>(this, saleEntitiesToDelete);
+        deleteEvent.publishEvent(saleDeletedEvent);
     }
 
     public List<SaleEntity> getSales(AccountEntity accountEntity){

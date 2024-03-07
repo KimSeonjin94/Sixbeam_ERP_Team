@@ -1,6 +1,7 @@
 package com.erpproject.sixbeam.st.Listener;
 
 import com.erpproject.sixbeam.pur.entity.InputEntity;
+import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
@@ -46,7 +47,7 @@ public class WhmoveListener {
     public void handleRowUpdatedEvent(WhmoveRowUpdatedEvent<?> event) { //판매,구매,AS의 전표수정 시 창고이동 테이블의 해당 행이 수정되는 이벤트리스너
         if (event.getEntity() instanceof SaleEntity) {
             // SaleEntity에 대한 처리
-            SaleEntity saleEntity = (SaleEntity) event.getEntity();
+            SaleAndEstimateDto saleEntity = (SaleAndEstimateDto) event.getEntity();
             whmoveService.updateRowSale(saleEntity);
         } else if (event.getEntity() instanceof  InputEntity) {
             // InputEntity에 대한 처리
