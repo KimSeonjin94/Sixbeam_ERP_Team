@@ -7,6 +7,8 @@ import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.service.ItemService;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
+import com.erpproject.sixbeam.ss.repository.SaleRepository;
+import com.erpproject.sixbeam.ss.service.EstimateService;
 import com.erpproject.sixbeam.ss.service.SaleService;
 import com.erpproject.sixbeam.st.dto.AsDto;
 import com.erpproject.sixbeam.st.dto.ReleaseDto;
@@ -23,10 +25,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 @RequiredArgsConstructor
 @Controller
@@ -39,6 +39,8 @@ public class ReleaseController {
     private final WhregistService whregistService;
     private final ItemService itemService;
     private final SaleService saleService;
+    private final SaleRepository saleRepository;
+    private final EstimateService estimateService;
 
     @GetMapping("/")
     public String root() {
@@ -57,10 +59,24 @@ public class ReleaseController {
         return "contents/st/release_list";
     }
     @GetMapping(value = "/list/detail/{releaseCd}")
-    public ResponseEntity<List<ReleaseEntity>> detail(@PathVariable("releaseCd") String releaseCd) {
+    public ResponseEntity<?> detail(@PathVariable("releaseCd") String releaseCd) {
         List<ReleaseEntity> releaseEntities = releaseService.getIdList(releaseCd);
         System.out.println(releaseEntities.toString());
-        return ResponseEntity.ok(releaseEntities);
+        Map<String,Object> map = new HashMap<>();
+        map.put("releaseEntities", releaseEntities);
+        List<SaleAndEstimateDto> saleAndEstimateDtos = new ArrayList<>();
+        for(ReleaseEntity releaseEntity : releaseEntities) {
+            Optional<SaleEntity> saleEntity= saleRepository.findById(releaseEntity.getSaleEntity().getSaleCd());
+            if(saleEntity.isEmpty()){
+                break;
+            }
+            SaleAndEstimateDto saleAndEstimateDto = new SaleAndEstimateDto();
+            saleAndEstimateDto.setSaleEntity(saleEntity.get());
+            saleAndEstimateDto.setEstimateEntity(estimateService.getIdList(saleEntity.get().getEstimateCd()));
+            saleAndEstimateDtos.add(saleAndEstimateDto);
+        }
+        map.put("saleAndEstimateDtos",saleAndEstimateDtos);
+        return ResponseEntity.ok(map);
     }
     //출하등록_페이지
     @GetMapping("/create")

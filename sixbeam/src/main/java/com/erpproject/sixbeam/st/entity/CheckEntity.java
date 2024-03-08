@@ -24,4 +24,5 @@ public class CheckEntity {
     @ManyToOne
     @JoinColumn(name = "whmove_cd")
     private WhmoveEntity whmoveEntity;
+
 }
