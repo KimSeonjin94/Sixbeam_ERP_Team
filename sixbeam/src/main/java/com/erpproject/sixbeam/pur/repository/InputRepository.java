@@ -23,4 +23,6 @@ public interface InputRepository extends JpaRepository<InputEntity, String> {
 
     @Query("SELECT i FROM InputEntity i WHERE i.inputPurDt BETWEEN :startDate and :endDate")
     List<InputEntity> findInputByDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    List<InputEntity> findByInputSiFl(boolean b);
 }

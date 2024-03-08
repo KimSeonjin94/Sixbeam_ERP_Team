@@ -17,10 +17,17 @@ import java.util.Map;
 @Service
 public class PurService {
     private final PurRepository purRepository;
+    private final InputRepository inputRepository;
 
     public List<PurEntity> getList() {
         return this.purRepository.findAll();
     }
+
+    public List<InputEntity> getInputList(){
+        return this.inputRepository.findByInputSiFl(false);
+    }
+
+
 
 
 }
