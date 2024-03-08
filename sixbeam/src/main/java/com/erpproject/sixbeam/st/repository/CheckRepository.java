@@ -27,12 +27,14 @@ public interface CheckRepository extends JpaRepository<CheckEntity, Long> {
     Long getMaxCheckCd();
 
     //이벤트리스너 delete
-    @Query("SELECT c FROM CheckEntity c WHERE c.whmoveEntity.whmoveCd = :whmoveCd")
-    List<CheckEntity> getBywhmoveCd(@Param("whmoveCd") String whmoveCd);
+//    @Query("SELECT c FROM CheckEntity c WHERE c.whmoveEntity.whmoveCd = :whmoveCd")
+//    List<CheckEntity> getBywhmoveCd(@Param("whmoveCd") String whmoveCd);
 
     //이벤트리스너 update
     @Query("SELECT c FROM CheckEntity c WHERE c.whmoveEntity = :whmoveEntity")
     CheckEntity BywhmoveCd(@Param("whmoveEntity") WhmoveEntity whmoveEntity);
 
 
+    @Query("SELECT c FROM CheckEntity c WHERE c.whmoveEntity.whmoveCd = :whmoveCd")
+    List<CheckEntity> findByWhmoveCd(@Param("whmoveCd") String whmoveCd);
 }
