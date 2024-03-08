@@ -25,22 +25,20 @@ public interface WhmoveRepository extends JpaRepository<WhmoveEntity,String> {
     @Query("SELECT MAX(w.whmoveCd) FROM WhmoveEntity w WHERE w.whmoveDt = :whmoveDate")
     String getMaxWhmoveCd(@Param("whmoveDate") LocalDate whmoveDate);
 
-    @Query("SELECT w FROM WhmoveEntity w WHERE w.asEntity = :asEntity")
-    WhmoveEntity ByAsCd(@Param("asEntity") AsEntity asEntity);
+    @Query("SELECT w FROM WhmoveEntity w WHERE w.asCd = :asCd")
+    WhmoveEntity ByAsCd(@Param("asCd") String asCd);
 
-    @Query("SELECT w FROM WhmoveEntity w WHERE w.saleEntity = :saleEntity")
-    WhmoveEntity BySaleCd(@Param("saleEntity") SaleEntity saleEntity);
+    @Query("SELECT w FROM WhmoveEntity w WHERE w.saleCd = :saleCd")
+    WhmoveEntity BySaleCd(@Param("saleCd") String saleCd);
 
+    @Query("SELECT w FROM WhmoveEntity w WHERE w.inputPurCd = :inputPurCd")
+    WhmoveEntity ByInputCd(@Param("inputPurCd") String inputPurCd);
 
+    List<WhmoveEntity> findByAsCd(String asCd);
 
-    @Query("SELECT w FROM WhmoveEntity w WHERE w.inputEntity = :inputEntity")
-    WhmoveEntity ByInputCd(@Param("inputEntity") InputEntity inputEntity);
+    List<WhmoveEntity> findBySaleCd(String saleCd);
 
-    List<WhmoveEntity> findByAsEntity(AsEntity asEntity);
-
-    List<WhmoveEntity> findBySaleEntity(SaleEntity saleEntity);
-
-    List<WhmoveEntity> findByInputEntity(InputEntity inputEntity);
+    List<WhmoveEntity> findByInputPurCd(String InputPurCd);
 
     @Query("SELECT COALESCE(SUM(CASE WHEN c.whmoveEntity.whmoveGb = '입고' THEN c.checkAmt ELSE -c.checkAmt END), 0) FROM CheckEntity c " +
             "WHERE c.whmoveEntity.whmoveDt <= :endDate " +

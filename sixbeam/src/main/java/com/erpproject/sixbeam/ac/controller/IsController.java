@@ -22,6 +22,8 @@ public class IsController {
     public String getIncomeStatement(@RequestParam(name="isDtForm", required = false) String isDt , Model model) {
         if (isDt != null && !isDt.isEmpty()) {
             isService.updateIsNetSales(isDt);
+            // 해당 년도의 데이터를 찾아 incomeStatement 엔티티에 반영
+            // 손익계산서 항목들 계산
             IsEntity incomeStatement = isService.findIncomeStatementByIsDt(isDt);
             model.addAttribute("incomeStatement", incomeStatement);
 
@@ -51,6 +53,9 @@ public class IsController {
             model.addAttribute("netIncome", netIncome);
 
         }
+
+        // 모든 년도를 담은 리스트를 모델에 추가
+        // 선택한 년도가 그대로 유지되도록
         List<String> isDtList = isService.findAllIsDts();
         model.addAttribute("isDts", isDtList);
         model.addAttribute("selectedIsDt", isDt);

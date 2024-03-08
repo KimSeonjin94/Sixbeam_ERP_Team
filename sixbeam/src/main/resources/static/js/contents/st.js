@@ -151,44 +151,41 @@ $('#detailReleaseCd[data-id]').on('click', function() {
         url: '/st/release/list/detail/' + releaseCd, // 서버 엔드포인트
         type: 'GET',
         success: function(data) {
-            data.forEach(function(value, key) {
-                console.log(key + ': ' + value);
-            });
+
             console.log(data);
-            if (data && data.length > 0) {
+            if (data.releaseEntities && data.releaseEntities.length > 0) {
                 // 성공 시 모달 내용 업데이트
                 var modaltBody = $('.ReleaseformEntry .table.item tbody');
                 modaltBody.empty();
-                $('#releaseCd').val(data[0].releaseCd);
-                $('#updateCurrentDate').val(data[0].releaseDt);
-//                $('#updateaccountCode').val(data[0].accountEntity.accountCd);
-                $('#updatename').val(data[0].empInfoEntity.empInfoNm);
-//                $('#updateaccountName').val(data[0].accountEntity.accountNm);
-                $('#updatereleaseAddr').val(data[0].releaseAddr);
-                $('#updatereleaseRv').val(data[0].releaseRv);
-                $('#updatereleasePhone').val(data[0].releasePhone);
+                var releaseEntity = data.releaseEntities[0]; // 첫 번째 releaseEntity 사용
+                $('#releaseCd').val(releaseEntity.releaseCd);
+                $('#updateCurrentDate').val(releaseEntity.releaseDt);
+                $('#updatename').val(releaseEntity.empInfoEntity.empInfoNm);
+                $('#updatereleaseAddr').val(releaseEntity.releaseAddr);
+                $('#updatereleaseRv').val(releaseEntity.releaseRv);
+                $('#updatereleasePhone').val(releaseEntity.releasePhone);
 
                 // 데이터 항목별로 행 추가
-                data.forEach(function(item, index) {
-                    var row = $('<tr>'); // 행 생성
-                    // 각 셀에 입력 요소와 name 속성 추가
-                    row.append('<td><input type="hidden" name="estimateDtos[' + index + '].releaseDt" class="form-control" value="' + item.releaseDt + '">'+
-                                        '<input type="hidden" name="estimateDtos[' + index + '].empInfoEntity.empInfoId" class="form-control" value="' + item.empInfoEntity.empInfoId+ '">'+
-                                        '<input type="hidden" name="estimateDtos[' + index + '].releaseCd" class="form-control" value="' + item.releaseCd+ '"></td>');
-                                        //'<input type="text" class="form-control" name="estimateDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
-                                        //row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
-                                        //row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
-//                                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateAmt" class="form-control itemamt" value="' + item.estimateAmt + '"></td>');
-//                                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateUp" class="form-control itemup" value="' + item.estimateUp + '"></td>');
-//                                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateSp" class="form-control itemsp" value="' + item.estimateSp + '"></td>');
-//                                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateVat" class="form-control itemvar" value="' + item.estimateVat + '"></td>');
-//                                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateTamt" class="form-control itemsum" value="' + item.estimateTamt + '"></td>');
-//                                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateEtc" class="form-control" value="' + item.estimateEtc + '"></td>');
-                                        modaltBody.append(row); // 생성된 행을 테이블에 추가
-                                    });
-//                if (currentUrl.includes("estimate")) {
-                                    $('#detail').modal('show'); // 모달 표시
-                           //     }
+                data.saleAndEstimateDtos.forEach(function(saleAndEstimateDto, dtoIndex) {
+                    // 각 SaleAndEstimateDto의 estimateEntities 배열을 순회
+                    saleAndEstimateDto.estimateEntity.forEach(function(item, index) {
+                        var row = $('<tr>'); // 행 생성
+                        // 각 셀에 입력 요소와 name 속성 추가
+                        row.append('<td><input type="text" class="form-control" name="estimateDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd + '"></td>');
+                        row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
+                        row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
+                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateAmt" class="form-control itemamt" value="' + item.estimateAmt + '"></td>');
+                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateUp" class="form-control itemup" value="' + item.estimateUp + '"></td>');
+                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateSp" class="form-control itemsp" value="' + item.estimateSp + '"></td>');
+                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateVat" class="form-control itemvar" value="' + item.estimateVat + '"></td>');
+                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateTamt" class="form-control itemsum" value="' + item.estimateTamt + '"></td>');
+                        row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateEtc" class="form-control" value="' + item.estimateEtc + '"></td>');
+                        modaltBody.append(row); // 생성된 행을 테이블에 추가
+                    });
+                });
+
+                $('#detail').modal('show'); // 모달 표시
+
             } else {
                 console.error('데이터가 비어있습니다.');
             }

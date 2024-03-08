@@ -26,11 +26,11 @@ public class WhmoveDto {
 
     private String whmoveGb;
 
-    private AsEntity asEntity;
+    private String asCd;
 
-    private SaleEntity saleEntity;
+    private String saleCd;
 
-    private InputEntity inputEntity;
+    private String InputPurCd;
 
     public WhmoveEntity toEntity() {
         WhmoveEntity entity = new WhmoveEntity();
@@ -41,9 +41,9 @@ public class WhmoveDto {
         entity.setWhregistEntity(this.whregistEntity);
         entity.setWhmoveAmt(this.whmoveAmt);
         entity.setWhmoveGb(this.whmoveGb);
-        entity.setAsEntity(this.asEntity);
-        entity.setSaleEntity(this.saleEntity);
-        entity.setInputEntity(this.inputEntity);
+        entity.setAsCd(this.asCd);
+        entity.setSaleCd(this.saleCd);
+        entity.setInputPurCd(this.InputPurCd);
         return  entity;
     }
 }
