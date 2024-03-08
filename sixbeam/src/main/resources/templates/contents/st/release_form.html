@@ -128,8 +128,8 @@
                                                     </a>
                                                 </td>
                                                 <td th:text="${sale.saleEntity.whregistEntity.whregistNm}"></td>
-                                                <td th:text="${sale.estimateEntity.accountEntity.accountNm}"></td>
-                                                <td th:text="${sale.estimateEntity.empInfoEntity.empInfoNm}"></td>
+                                                <td th:text="${sale.estimateEntity[0].accountEntity.accountNm}"></td>
+                                                <td th:text="${sale.estimateEntity[0].empInfoEntity.empInfoNm}"></td>
                                             </tr>
 
                                             </tbody>

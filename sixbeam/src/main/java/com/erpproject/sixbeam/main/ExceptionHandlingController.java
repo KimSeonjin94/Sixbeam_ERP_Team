@@ -17,6 +17,7 @@ public class ExceptionHandlingController implements ErrorController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     // 에러 페이지 정의
+    private final String ERROR_403_PAGE_PATH = "/error/403";
     private final String ERROR_404_PAGE_PATH = "/error/404";
     private final String ERROR_500_PAGE_PATH = "/error/500";
     private final String ERROR_ETC_PAGE_PATH = "/error/error";
@@ -36,7 +37,14 @@ public class ExceptionHandlingController implements ErrorController {
 
             // 로그로 상태값을 기록 및 출력
             logger.info("httpStatus : " + statusCode);
-
+            // 404 error
+            if (statusCode == HttpStatus.FORBIDDEN.value()) {
+                // 에러 페이지에 표시할 정보
+                model.addAttribute("code", status.toString());
+                model.addAttribute("msg", httpStatus.getReasonPhrase());
+                model.addAttribute("timestamp", new Date());
+                return ERROR_404_PAGE_PATH;
+            }
             // 404 error
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 // 에러 페이지에 표시할 정보

@@ -1,7 +1,6 @@
 package com.erpproject.sixbeam.st.service;
 
 import com.erpproject.sixbeam.pur.entity.InputEntity;
-import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
@@ -119,20 +118,19 @@ public class WhmoveService {
             addEvent.publishEvent(whmoveEvent);
         }
     }
-    public void updateRowSale(SaleAndEstimateDto saleAndEstimateDto) { //수정
-        WhmoveEntity tempSale = whmoveRepository.BySaleCd(saleAndEstimateDto.getSaleEntity().getSaleCd());
-        WhmoveEntity whmoveEntity = new WhmoveEntity();
-        whmoveEntity.setWhmoveDt(tempSale.getWhmoveDt());
-        whmoveEntity.setSaleCd(tempSale.getSaleCd());
-        whmoveEntity.setEmpInfoEntity(tempSale.getEmpInfoEntity());
-        whmoveEntity.setItemEntity(tempSale.getItemEntity());
-        whmoveEntity.setWhregistEntity(tempSale.getWhregistEntity());
-        whmoveEntity.setWhmoveGb(tempSale.getWhmoveGb());
-        whmoveEntity.setWhmoveCd(tempSale.getWhmoveCd());
-        whmoveEntity.setWhmoveAmt(tempSale.getWhmoveAmt());
-        tempSale = whmoveEntity;
-        whmoveRepository.save(tempSale);
-        CheckRowUpdatedEvent<WhmoveEntity> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
+
+    public void updateRowSale(SaleEntity saleEntity) { //수정
+        List<WhmoveEntity> tempSale = whmoveRepository.BySaleCd(saleEntity);
+        List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
+        for (int i=0; i<tempSale.size(); i++) {
+            tempSale.get(i).setItemEntity(estimateEntities.get(i).getItemEntity());
+            tempSale.get(i).setWhregistEntity(saleEntity.getWhregistEntity());
+            tempSale.get(i).setWhmoveAmt(estimateEntities.get(i).getEstimateAmt());
+//        whmoveEntity.setWhmoveAmt(saleEntity); //sale테이블에서 변경된 수량만 반영
+
+        }
+        whmoveRepository.saveAll(tempSale);
+        CheckRowUpdatedEvent<List<WhmoveEntity>> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
         updateEvent.publishEvent(whmoveEvent);
     }
     private String generateNewWhmoveSaleCd(LocalDate saleUploadDt) { //기본키 자동생성

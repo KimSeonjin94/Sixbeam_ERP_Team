@@ -61,7 +61,7 @@ public class InoutService {
         return inoutRepository.findByInoutCmptCd(inoutCd);
     }
 
-    public List<InoutEntity> getFalseList(Model model) {
+    public List<InoutEntity> getFalseList() {
 
         List<InoutEntity> falseorderSt = inoutRepository.findByOrderStFalse();
 
@@ -82,6 +82,8 @@ public class InoutService {
 
             inoutDto.setEmpInfoEntity(empInfoEntity);
             inoutDto.setItemEntity(itemEntity);
+            inoutDto.setOrderEntity(orderEntity);
+            inoutDto.setWhregistEntity(whregistEntity);
 
             InoutEntity inoutEntity = inoutDto.toEntity();
             String newinoutCmptCd = generateNewInoutCmptCd(inoutDto.getInoutDt());

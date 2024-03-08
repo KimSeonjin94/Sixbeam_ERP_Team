@@ -30,8 +30,6 @@ public class IsController {
             Integer grossProfit = incomeStatement.getIsNetSales() - incomeStatement.getIsCostSales();
             model.addAttribute("grossProfit", grossProfit);
 
-
-
             Integer operatingExpenses = incomeStatement.getIsWages();
             model.addAttribute("operatingExpenses", operatingExpenses);
 
@@ -46,6 +44,8 @@ public class IsController {
 
             Integer earningBeforeTaxes = operatingIncome + nonOperatingIncome - nonOperatingExpenses;
             model.addAttribute("earningBeforeTaxes", earningBeforeTaxes);
+
+            incomeStatement.setIsCortaxExp((int) (earningBeforeTaxes * 0.1));
 
             Integer netIncome = earningBeforeTaxes - incomeStatement.getIsCortaxExp();
             model.addAttribute("netIncome", netIncome);
