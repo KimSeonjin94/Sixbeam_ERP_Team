@@ -1,6 +1,8 @@
 <html layout:decorate="~{layout/default}">
 <head>
     <meta charset='utf-8'/>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!--fullcalendar-->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     <!--google calendar-->
@@ -68,6 +70,12 @@
         </div>
         <div class="col-md-6">
             <script layout:fragment="script" type='text/javascript'>
+                $('#editEventModal').on('keypress', function (e) {
+                    if (e.which === 13) { // Enter 키의 keyCode는 13입니다.
+                        e.preventDefault(); // 기본 동작 방지
+                        $('#editEventModalConfirm').click(); // 확인 버튼 클릭
+                    }
+                });
                 document.addEventListener('DOMContentLoaded', function() {
                     var calendarEl = document.getElementById('calendar');
                     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -111,6 +119,9 @@
                             });
                         },
                         select: function(info) {
+                            //모달창에 값넣기
+                            $('#eventTitleInput').val("");
+                            $('#eventColorSelect').val("");
                             $('#editEventModal').modal('show');
 
                             $('#editEventModalConfirm').off('click').on('click', function() {
@@ -145,36 +156,51 @@
                             });
                         },
 
-                        eventClick: function(info) {
+                        //이벤트 선택할 때 호출되는 이벤트 핸들러
+                        //info.event: 클릭된 이벤트를 나타내는 FullCalendar의 이벤트 객체입니다. 이 객체는 이벤트에 대한 모든 정보를 포함하고 있습니다.
+                        //info.el: 클릭된 이벤트의 HTML 요소입니다. FullCalendar에서 이벤트를 렌더링하는 데 사용됩니다.
+                        //info.jsEvent: 클릭 이벤트에 대한 원본 JavaScript 이벤트입니다. 주로 마우스 클릭 이벤트입니다.
+                        //info.view: 클릭된 이벤트가 발생한 뷰를 나타냅니다. 뷰는 FullCalendar에서 현재 보여지고 있는 캘린더 뷰를 나타냅니다.
+                        eventClick: function (info) {
+                            $('#eventTitleInput').val(info.event.title);
+                            $('#eventColorSelect').val(info.event.backgroundColor);
                             $('#editEventModal').modal('show');
 
                             $('#editEventModalConfirm').on('click', function() {
                                 var newTitle = $('#eventTitleInput').val();
-
-                                info.event.setProp('title', newTitle);
-
-                                // 추가: 서버에 이벤트 수정 요청
+                                var selectedColor = $('#eventColorSelect').val();
+                                var eventId = info.event.id; // info 객체로부터 이벤트 ID 추출
+//                                info.event.setProp('title', newTitle);
+                                var eventData = {
+                                    title: newTitle,
+                                    start: info.event.start, // 시작 일자 추출
+                                    end: info.event.end || info.event.start, // 종료 일자 추출 (없을 경우 시작 일자 사용)
+                                    backgroundColor: selectedColor,
+                                    id: eventId // 이벤트의 고유 식별자
+                                };
+                                // 서버에 수정된 이벤트 정보를 전송
                                 $.ajax({
                                     type: "PUT",
                                     contentType: "application/json",
-                                    url: "/api/events/" + info.event.id,
-                                    data: JSON.stringify({
-                                        title: newTitle,
-                                        start: info.event.start,
-                                        end: info.event.end,
-                                    }),
-                                    success: function(response) {
-                                        // 서버에서 수정된 이벤트를 받아와 반영
-                                        info.event.setProp('title', response.title);
-                                        info.event.setStart(response.start);
-                                        info.event.setEnd(response.end);
+                                    url: "/api/events/" + eventId,
+                                    data: JSON.stringify(eventData),
+                                    success: function (response) {
+                                        // 서버에서 성공적으로 응답을 받았을 때 수행할 작업
+                                        // 이전 이벤트를 삭제
+                                        info.event.remove();
+
+                                        // 새 이벤트를 추가
+                                        calendar.addEvent(response);
+                                        console.log("이벤트가 성공적으로 수정되었습니다.");
+
                                     },
-                                    error: function(error) {
+                                    error: function (error) {
+                                        // 서버에서 오류가 발생했을 때 수행할 작업
                                         console.error('이벤트 수정 실패:', error);
                                     }
                                 });
-
                                 $('#editEventModal').modal('hide');
+
                             });
 
                             $('#editEventModalDelete').off('click').on('click', function() {
@@ -199,10 +225,90 @@
                                     });
                                 }
                             });
-                        }
+                        },
+                        //이벤트를 드래그하여 다른 날짜나 시간으로 이동할 때 발생합니다.
+                        //이 이벤트 핸들러는 이벤트가 드래그되었을 때 발생하는 동작을 처리할 때 사용
+                        //info.event: 이동된 이벤트의 FullCalendar 이벤트 객체입니다.
+                        //info.oldEvent: 이동하기 전의 이벤트 정보를 포함하는 FullCalendar 이벤트 객체입니다.
+                        //info.delta: 이동한 시간 차이를 나타내는 객체입니다. { days, milliseconds, months, years } 형식의 값을 가집니다.
+                        eventDrop: function (info) {
+                            var newTitle = info.event.title;
+                            var selectedColor = info.event.backgroundColor;
+                            var newStart = info.event.start;
+                            var newEnd = info.event.end || newStart;
+                            var eventId = info.event.id;
+
+                            var eventData = {
+                                title: newTitle,
+                                start: newStart,
+                                end: newEnd,
+                                backgroundColor: selectedColor,
+                                id: eventId
+
+                            };
+
+                            // 서버에 수정된 이벤트 정보를 전송
+                            $.ajax({
+                                type: "PUT",
+                                contentType: "application/json",
+                                url: "/api/events/" + eventId,
+                                data: JSON.stringify(eventData),
+                                success: function (response) {
+                                    // 서버에서 성공적으로 응답을 받았을 때 수행할 작업
+                                    console.log("이벤트가 성공적으로 업데이트되었습니다.");
+                                },
+                                error: function (error) {
+                                    // 서버에서 오류가 발생했을 때 수행할 작업
+                                    console.error('이벤트 업데이트 실패:', error);
+                                }
+                            });
+                        },
+                        //이벤트를 늘리거나 줄였을 때 발생합니다.
+                        //이 이벤트 핸들러는 이벤트의 기간이 변경되었을 때 발생하는 동작을 처리할 때 사용됩니다.
+                        //info.event: 변경된 이벤트의 FullCalendar 이벤트 객체입니다.
+                        //info.oldEvent: 변경하기 전의 이벤트 정보를 포함하는 FullCalendar 이벤트 객체입니다.
+                        //info.delta: 크기 변경으로 인한 시간 차이를 나타내는 객체입니다. { days, milliseconds, months, years } 형식의 값을 가집니다.
+                        eventResize: function (info) {
+                            var newTitle = info.event.title;
+                            var selectedColor = info.event.backgroundColor;
+                            var newStart = info.event.start;
+                            var newEnd = info.event.end || newStart;
+                            var eventId = info.event.id;
+
+                            var eventData = {
+                                title: newTitle,
+                                start: newStart,
+                                end: newEnd,
+                                backgroundColor: selectedColor,
+                                id: eventId
+                            };
+
+                            // 서버에 수정된 이벤트 정보를 전송
+                            $.ajax({
+                                type: "PUT",
+                                contentType: "application/json",
+                                url: "/api/events/" + eventId,
+                                data: JSON.stringify(eventData),
+                                success: function (response) {
+                                    // 서버에서 성공적으로 응답을 받았을 때 수행할 작업
+                                    console.log("이벤트가 성공적으로 업데이트되었습니다.");
+                                },
+                                error: function (error) {
+                                    // 서버에서 오류가 발생했을 때 수행할 작업
+                                    console.error('이벤트 업데이트 실패:', error);
+                                }
+                            });
+                        },
+                        //달력에서 특정 날짜를 클릭할 때 발생합니다.
+                        //이 이벤트 핸들러는 사용자가 달력의 날짜를 선택할 때 유용하게 사용될 수 있습니다.
+                        //info.date: 클릭된 날짜의 JavaScript Date 객체입니다.
+                        //info.dayEl: 클릭된 날짜의 HTML 요소입니다. 이벤트 핸들러 내에서 이 요소를 조작할 수 있습니다.
+                        //dateClick: function (info) {},
+
                     });
                     calendar.render();
                 });
+
             </script>
 
             <div class="row">
