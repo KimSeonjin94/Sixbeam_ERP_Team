@@ -1,0 +1,61 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container-fluid">
+    <!-- Page Heading -->
+    <div class="card">
+        <div class="card-header">
+            매출전표
+        </div>
+        <form action="/ac/sales/salesSlip" method="post">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label for="accountCd" class="col-sm-2 col-form-label">전표일자</label>
+                    <input type="date" class="form-control col-sm-10" id="accountCd" name="accountCd">
+                </div>
+                <div class="form-group row">
+                    <label for="accountCodeList" class="col-sm-2 col-form-label">거래처 코드</label>
+                    <input type="text" class="form-control col-sm-10" id="accountCode" name="accountCode" list="accountCodeList">
+                    <datalist id="accountCodeList" >
+                        <option th:each="actlist : ${actList}" th:value="${actlist.accountCd}"
+                                th:text="${actlist.accountNm}">
+                        </option>
+                    </datalist>
+                </div>
+                <div class="form-group row">
+                    <label for="accountName" class="col-sm-2 col-form-label">거래처명</label>
+                    <input type="text" class="form-control col-sm-10" id="accountName" name="accountName">
+                </div>
+                <div class="form-group row">
+                    <label for="accountNb" class="col-sm-2 col-form-label">공급가액</label>
+                    <input type="text" class="form-control col-sm-10" id="accountNb" name="accountNb">
+                </div>
+                <div class="form-group row">
+                    <label for="accountAdd" class="col-sm-2 col-form-label">부가세</label>
+                    <input type="text" class="form-control col-sm-10" id="accountAdd" name="accountAdd">
+                </div>
+
+                <div class="form-group row">
+                    <label for="accountSectors" class="col-sm-2 col-form-label">적요</label>
+                    <input type="text" class="form-control col-sm-10" id="accountSectors" name="accountSectors">
+                </div>
+
+                <div class="form-group row">
+                    <label for="accountAcnb" class="col-sm-2 col-form-label">매출계정</label>
+                    <input type="text" class="form-control col-sm-10" id="accountAcnb" name="accountAcnb">
+                </div>
+                <div class="form-group row">
+                    <label for="accountPic" class="col-sm-2 col-form-label">입금계좌</label>
+                    <input type="text" class="form-control col-sm-10" id="accountPic" name="accountPic">
+                </div>
+                <div class="form-group row">
+                    <label for="accountEtc" class="col-sm-2 col-form-label">수수료</label>
+                    <input type="text" class="form-control col-sm-8" id="accountEtc" name="accountEtc">
+                </div>
+            </div>
+            <div class="card-footer text-muted d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary-ac">저장</button>
+                <button type="button" class="btn btn-secondary-ac">닫기</button>
+            </div>
+        </form>
+    </div>
+</div>
+</html>
