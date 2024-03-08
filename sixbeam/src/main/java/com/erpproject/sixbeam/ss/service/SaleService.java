@@ -104,7 +104,7 @@ public class SaleService {
         for(SaleEntity saleEntity:saleEntities){
             List<EstimateEntity> estimateEntities = estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
             SaleAndEstimateDto saleAndEstimateDto=new SaleAndEstimateDto();
-            saleAndEstimateDto.setEstimateEntity(estimateEntities.get(0));
+            saleAndEstimateDto.setEstimateEntity(estimateEntities);
             saleAndEstimateDto.setSaleEntity(saleEntity);
             saleAndEstimateDtos.add(saleAndEstimateDto);
         }
