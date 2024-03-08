@@ -30,6 +30,9 @@ $('#detailEstimateCd[data-id]').on('click', function() {
                 $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                 $('#updatename').val(data[0].empInfoEntity.empInfoNm);
                 $('#updateaccountName').val(data[0].accountEntity.accountNm);
+
+
+
                 var currentUrl = window.location.href;
                 if (currentUrl.includes("list")) {
                     $('#EstimateCurrentDate').val(data[0].estimateDt);
@@ -90,6 +93,15 @@ $('#detailSaleCd[data-id]').on('click', function(){
                 modaltBody = $('.formEntry .table.item tbody');
             }
             modaltBody.empty();
+
+            var total =0;
+            response.estimateEntities.forEach(function(item, index) {
+                total += item.estimateSp;
+
+            });
+            $('#accountNb').val(total.toLocaleString('ko-KR'));
+            $('#accountAdd').val((total/10).toLocaleString('ko-KR'));
+
 
             $('#saleCd').val(response.saleEntity.saleCd);
             $('#updateCurrentDate').val(response.saleEntity.saleUploadDt);
