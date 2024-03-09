@@ -5,9 +5,6 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!--fullcalendar-->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-    <!--google calendar-->
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.11/index.global.min.js'></script>
-    <script src='fullcalendar/dist/index.global.js'></script>
 </head>
 <body>
 <div layout:fragment="content" class="container-fluid">
@@ -77,6 +74,7 @@
                     }
                 });
                 document.addEventListener('DOMContentLoaded', function() {
+                    var holidays = [];
                     var calendarEl = document.getElementById('calendar');
                     var calendar = new FullCalendar.Calendar(calendarEl, {
                         locale: 'ko',
@@ -97,27 +95,67 @@
                         selectable: true,
                         timeZone: 'UTC',
                         events: function (fetchInfo, successCallback, failureCallback) {
-                            $.ajax({
-                                url: "/api/events",
-                                method: "GET",
-                                success: function (data) {
-                                    var events = data.map(function (event) {
-                                        return {
-                                            id: event.id,
-                                            title: event.title,
-                                            start: event.start,
-                                            end: event.end,
-                                            backgroundColor: event.backgroundColor
-                                        };
-                                    });
-                                    successCallback(events);
-                                },
-                                error: function (error) {
-                                    console.error('이벤트 가져오기 실패:', error);
-                                    failureCallback(error);
-                                }
+                            var customEventsPromise = new Promise(function (resolve, reject) {
+                                $.ajax({
+                                    url: "/api/events",
+                                    method: "GET",
+                                    success: function (data) {
+                                        var events = data.map(function (event) {
+                                            return {
+                                                id: event.id,
+                                                title: event.title,
+                                                start: event.start,
+                                                end: event.end,
+                                                backgroundColor: event.backgroundColor
+                                            };
+                                        });
+                                        resolve(events);
+                                    },
+                                    error: function (error) {
+                                        console.error('사용자 정의 이벤트 가져오기 실패:', error);
+                                        reject(error);
+                                    }
+                                });
+                            });
+
+                            var googleCalendarPromise = new Promise(function (resolve, reject) {
+                                $.ajax({
+                                    url: 'https://www.googleapis.com/calendar/v3/calendars/ko.south_korea%23holiday%40group.v.calendar.google.com/events',
+                                    data: {
+                                        key: 'AIzaSyBpL3vEBHMwFcrnYFMKpQmvPkSqZw1mXnQ'
+                                    },
+                                    success: function (data) {
+                                        var events = data.items.map(function (item) {
+                                            return {
+                                                id: item.id,
+                                                title: item.summary,
+                                                start: item.start.dateTime || item.start.date,
+                                                end: item.end.dateTime || item.end.date,
+                                                backgroundColor: 'red',
+                                                textColor: 'whites',
+                                                className: 'holiday-event'
+                                            };
+                                        });
+                                        resolve(events);
+                                    },
+                                    error: function (error) {
+                                        console.error('Google 캘린더 이벤트 가져오기 실패:', error);
+                                        reject(error);
+                                    }
+                                });
+                            });
+
+                            // 두 소스를 병렬로 불러와서 합치기
+                            Promise.all([customEventsPromise, googleCalendarPromise])
+                                .then(function (results) {
+                                var combinedEvents = [].concat.apply([], results);
+                                successCallback(combinedEvents);
+                            })
+                                .catch(function (error) {
+                                failureCallback(error);
                             });
                         },
+
                         select: function(info) {
                             //모달창에 값넣기
                             $('#eventTitleInput').val("");
@@ -298,6 +336,27 @@
                                     console.error('이벤트 업데이트 실패:', error);
                                 }
                             });
+                        },
+                        dayCellContent: function (arg) {
+                            var dateString = arg.date.getFullYear() + '-' + ('0' + (arg.date.getMonth() + 1)).slice(-2) + '-' + ('0' + arg.date.getDate()).slice(-2);
+                            console.log('Checking date:', dateString);
+                            console.log('Holidays:', holidays);
+
+                            if (holidays.includes(dateString)) {
+                                console.log('Holiday found!');
+                                return {html: '<div style="color: red;">' + arg.dayNumberText + '</div>'};
+                            }
+
+                            if (arg.date.getDay() === 0) {
+                                console.log('Sunday found!');
+                                return {html: '<div style="color: red;">' + arg.dayNumberText + '</div>'};
+                            }
+                            if (arg.date.getDay() === 6) {
+                                console.log('Saturday found!');
+                                return {html: '<div style="color: blue;">' + arg.dayNumberText + '</div>'};
+                            }
+
+                            return arg.dayNumberText;
                         },
                         //달력에서 특정 날짜를 클릭할 때 발생합니다.
                         //이 이벤트 핸들러는 사용자가 달력의 날짜를 선택할 때 유용하게 사용될 수 있습니다.
