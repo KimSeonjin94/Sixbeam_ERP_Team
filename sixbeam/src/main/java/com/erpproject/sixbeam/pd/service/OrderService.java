@@ -40,6 +40,11 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public OrderEntity getOrder(String orderCd) {
+
+        return orderRepository.findByOrderCd(orderCd);
+    }
+
     public List<EmpInfoEntity> getEmpList() {
 
         return empInfoRepository.findAll();

@@ -1,8 +1,10 @@
 package com.erpproject.sixbeam.pd.controller;
 
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import com.erpproject.sixbeam.pd.dto.InoutDto;
 import com.erpproject.sixbeam.pd.entity.InoutEntity;
+import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.repository.InoutRepository;
 import com.erpproject.sixbeam.pd.service.InoutService;
 import com.erpproject.sixbeam.pd.service.ItemService;
@@ -36,23 +38,17 @@ public class InoutController {
         return "contents/pd/inout_list";
     }
 
-    /*@GetMapping("/detail/{inoutCmptCd}")
-    public ResponseEntity<List<InoutEntity>> detail(@PathVariable("inoutCmptCd") String inoutCmptCd) {
+    @GetMapping("/detail/{inoutCmptCd}")
+    public ResponseEntity<InoutEntity> detail(@PathVariable("inoutCmptCd") String inoutCmptCd) {
 
-        String inoutlist = inoutService.getIdList(inoutCmptCd);
-        String empInfo
+        InoutEntity inoutEntity = inoutService.getInout(inoutCmptCd);
 
-        InoutDto inoutDto = new InoutDto();
-        inoutDto.setEmpInfoEntity(empInfo);
-        inoutDto.setItemEntity(itemInfo);
-
-        if (!inoutEntities.isEmpty()) {
-
-            return ResponseEntity.ok().body(inoutEntities);
+        if (inoutEntity != null) {
+            return ResponseEntity.ok().body(inoutEntity);
 
         } else {
 
             return ResponseEntity.notFound().build();
         }
-    }*/
+    }
 }
