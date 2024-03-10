@@ -29,28 +29,33 @@ public class CheckListener {
     }
 
     @EventListener
-    public void handleRowAddedEvent(CheckRowAddedEvent<?> event) {
-        if (event.getSource() instanceof WhmoveService) {
-            WhmoveService whmoveService = (WhmoveService) event.getSource();
-            if (event.getEntity() instanceof WhmoveEntity) {
-                WhmoveEntity whmoveEntity = (WhmoveEntity) event.getEntity();
-                checkService.addRowCheck(whmoveEntity);
-            }
-        }
+    public void handleRowAddedEvent(CheckRowAddedEvent<WhmoveEntity> event) {
+        WhmoveEntity whmoveEntity = event.getEntity();
+        checkService.addRowCheck(whmoveEntity);
     }
 
-    @EventListener
-    public void handleRowUpdatedEvent(CheckRowUpdatedEvent<WhmoveEntity> event) {
-        WhmoveEntity whmoveEntity = event.getEntity();
-        checkService.updateRowCheck(whmoveEntity);
-    }
+@EventListener
+public void handleRowUpdatedEvent(CheckRowUpdatedEvent<WhmoveEntity> event) {
+    WhmoveEntity whmoveEntity = event.getEntity();
+    checkService.updateRowCheck(whmoveEntity);
+}
+
+//@EventListener
+//public void handleRowDeletedEvent(CheckRowDeletedEvent<WhmoveEntity> event) {
+//    List<WhmoveEntity> entities = event.getEntities();
+//    List<WhmoveEntity> temp = new ArrayList<>();
+//    for (WhmoveEntity entity : entities) {
+//        temp.add(entity);
+//    }
+//    checkService.deleteRowCheck(temp);
+//}
 
     @EventListener
     public void handleRowDeletedEvent(CheckRowDeletedEvent<WhmoveEntity> event) {
         List<WhmoveEntity> entities = event.getEntities();
-        List<WhmoveEntity> temp = new ArrayList<>();
+        List<String> temp = new ArrayList<>();
         for (WhmoveEntity entity : entities) {
-            temp.add(entity);
+            temp.add(entity.getWhmoveCd());
         }
         checkService.deleteRowCheck(temp);
     }

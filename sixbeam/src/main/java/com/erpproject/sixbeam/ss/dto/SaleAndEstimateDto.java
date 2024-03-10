@@ -8,10 +8,12 @@ import lombok.Getter;
 
 import lombok.Setter;
 
+import java.util.List;
+
 
 @Getter
 @Setter
 public class SaleAndEstimateDto {
     private SaleEntity saleEntity;
-    private EstimateEntity estimateEntity;
+    private List<EstimateEntity> estimateEntity;
 }

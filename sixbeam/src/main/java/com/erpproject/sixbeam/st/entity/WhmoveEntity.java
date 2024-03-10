@@ -39,17 +39,14 @@ public class WhmoveEntity {
     @JoinColumn(name = "whregist_cd")
     private WhregistEntity whregistEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "as_cd")
-    private AsEntity asEntity;
+    @Column(name = "as_cd")
+    private String asCd;
 
-    @ManyToOne
-    @JoinColumn(name = "SALE_CD")
-    private SaleEntity saleEntity;
+    @Column(name = "SALE_CD")
+    private String saleCd;
 
-    @ManyToOne
-    @JoinColumn(name = "INPUTPUR_CD")
-    private InputEntity inputEntity;
+    @Column(name = "INPUTPUR_CD")
+    private String inputPurCd;
 
     @Column(name = "whmove_amt")
     private Integer whmoveAmt;

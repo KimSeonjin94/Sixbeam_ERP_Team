@@ -20,12 +20,11 @@ public class InoutDto {
     private String inoutCmptCd;
     private EmpInfoEntity empInfoEntity;
     private OrderEntity orderEntity;
-    private boolean orderSt;
     private LocalDate inoutDt;
     private WhregistEntity whregistEntity;
     private ItemEntity itemEntity;
 
     public InoutEntity toEntity() {
-        return new InoutEntity(inoutCmptCd, empInfoEntity, orderEntity, orderSt, inoutDt, whregistEntity, itemEntity);
+        return new InoutEntity(inoutCmptCd, empInfoEntity, orderEntity, inoutDt, whregistEntity, itemEntity);
     }
 }

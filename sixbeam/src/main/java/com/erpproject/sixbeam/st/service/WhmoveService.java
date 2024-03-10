@@ -1,6 +1,7 @@
 package com.erpproject.sixbeam.st.service;
 
 import com.erpproject.sixbeam.pur.entity.InputEntity;
+import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
@@ -50,7 +51,7 @@ public class WhmoveService {
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         String newWhmoveCd = generateNewWhmoveAsCd(asEntity.getAsDt());
         whmoveEntity.setWhmoveDt(asEntity.getAsDt());
-        whmoveEntity.setAsEntity(asEntity);
+        whmoveEntity.setAsCd(asEntity.getAsCd());
         whmoveEntity.setEmpInfoEntity(asEntity.getEmpInfoEntity());
         whmoveEntity.setItemEntity(asEntity.getItemEntity());
         whmoveEntity.setWhregistEntity(asEntity.getWhregistEntity());
@@ -69,10 +70,10 @@ public class WhmoveService {
         return prefix + sequenceNumberString;
     }
     public void updateRowAs(AsEntity asEntity) { //수정
-        WhmoveEntity tempAs = whmoveRepository.ByAsCd(asEntity);
+        WhmoveEntity tempAs = whmoveRepository.ByAsCd(asEntity.getAsCd());
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         whmoveEntity.setWhmoveDt(tempAs.getWhmoveDt());
-        whmoveEntity.setAsEntity(tempAs.getAsEntity());
+        whmoveEntity.setAsCd(tempAs.getAsCd());
         whmoveEntity.setEmpInfoEntity(tempAs.getEmpInfoEntity());
         whmoveEntity.setItemEntity(tempAs.getItemEntity());
         whmoveEntity.setWhregistEntity(tempAs.getWhregistEntity());
@@ -86,10 +87,10 @@ public class WhmoveService {
     }
     //-삭제
     @Transactional
-    public void deleteRowAs(List<AsEntity> asEntities){ //삭제
+    public void deleteRowAs(List<String> asEntities){ //삭제
         List<WhmoveEntity> whmoveEntitiesToDelete = new ArrayList<>();
-        for (AsEntity asEntity : asEntities) {
-            List<WhmoveEntity> whmoveEntities = whmoveRepository.findByAsEntity(asEntity);
+        for (String asEntity : asEntities) {
+            List<WhmoveEntity> whmoveEntities = whmoveRepository.findByAsCd(asEntity);
             whmoveEntitiesToDelete.addAll(whmoveEntities);
             whmoveRepository.deleteAll(whmoveEntities);
         }
@@ -105,7 +106,7 @@ public class WhmoveService {
         for (EstimateEntity estimateEntity : estimateEntities) {
             WhmoveEntity whmoveEntity = new WhmoveEntity();
             whmoveEntity.setWhmoveDt(saleEntity.getSaleUploadDt());
-            whmoveEntity.setSaleEntity(saleEntity);
+            whmoveEntity.setSaleCd(saleEntity.getSaleCd());
             whmoveEntity.setEmpInfoEntity(estimateEntity.getEmpInfoEntity());// 담당자(견적테이블 담당자)
             whmoveEntity.setItemEntity(estimateEntity.getItemEntity());//품목(견적테이블 품목)
             whmoveEntity.setWhregistEntity(saleEntity.getWhregistEntity());
@@ -114,24 +115,40 @@ public class WhmoveService {
             String newWhmoveCd = generateNewWhmoveSaleCd(saleEntity.getSaleUploadDt());
             whmoveEntity.setWhmoveCd(newWhmoveCd);
             whmoveRepository.save(whmoveEntity);
+            CheckRowAddedEvent<WhmoveEntity> whmoveEvent = new CheckRowAddedEvent<>(this, whmoveEntity);
+            addEvent.publishEvent(whmoveEvent);
         }
     }
-    public void updateRowSale(SaleEntity saleEntity) { //수정
-        WhmoveEntity tempSale = whmoveRepository.BySaleCd(saleEntity);
+    public void updateRowSale(SaleAndEstimateDto saleAndEstimateDto) { //수정
+        WhmoveEntity tempSale = whmoveRepository.BySaleCd(saleAndEstimateDto.getSaleEntity().getSaleCd());
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         whmoveEntity.setWhmoveDt(tempSale.getWhmoveDt());
-        whmoveEntity.setAsEntity(tempSale.getAsEntity());
+        whmoveEntity.setSaleCd(tempSale.getSaleCd());
         whmoveEntity.setEmpInfoEntity(tempSale.getEmpInfoEntity());
         whmoveEntity.setItemEntity(tempSale.getItemEntity());
         whmoveEntity.setWhregistEntity(tempSale.getWhregistEntity());
         whmoveEntity.setWhmoveGb(tempSale.getWhmoveGb());
         whmoveEntity.setWhmoveCd(tempSale.getWhmoveCd());
-//        whmoveEntity.setWhmoveAmt(saleEntity); //sale테이블에서 변경된 수량만 반영
+        whmoveEntity.setWhmoveAmt(tempSale.getWhmoveAmt());
         tempSale = whmoveEntity;
         whmoveRepository.save(tempSale);
         CheckRowUpdatedEvent<WhmoveEntity> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
         updateEvent.publishEvent(whmoveEvent);
     }
+
+//    public void updateRowSale(SaleEntity saleEntity) { //수정
+//        List<WhmoveEntity> tempSale = whmoveRepository.BySaleCd(saleEntity);
+//        List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
+//        for (int i=0; i<tempSale.size(); i++) {
+//            tempSale.get(i).setItemEntity(estimateEntities.get(i).getItemEntity());
+//            tempSale.get(i).setWhregistEntity(saleEntity.getWhregistEntity());
+//            tempSale.get(i).setWhmoveAmt(estimateEntities.get(i).getEstimateAmt());
+//
+//        }
+//        whmoveRepository.saveAll(tempSale);
+//        CheckRowUpdatedEvent<List<WhmoveEntity>> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
+//        updateEvent.publishEvent(whmoveEvent);
+//    }
     private String generateNewWhmoveSaleCd(LocalDate saleUploadDt) { //기본키 자동생성
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "WHM" + saleUploadDt.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
@@ -146,7 +163,7 @@ public class WhmoveService {
     public void deleteRowSale(List<SaleEntity> saleEntities) { //삭제
         List<WhmoveEntity> whmoveEntitesToDelete = new ArrayList<>();
         for (SaleEntity saleEntity : saleEntities) {
-            List<WhmoveEntity> whmoveEntities = whmoveRepository.findBySaleEntity(saleEntity);
+            List<WhmoveEntity> whmoveEntities = whmoveRepository.findBySaleCd(saleEntity.getSaleCd());
             whmoveEntitesToDelete.addAll(whmoveEntities);
             whmoveRepository.deleteAll(whmoveEntities);
         }
@@ -160,7 +177,7 @@ public class WhmoveService {
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         String newWhmoveCd = generateNewInputCd(inputEntity.getInputPurDt());
         whmoveEntity.setWhmoveDt(inputEntity.getInputPurDt());
-        whmoveEntity.setInputEntity(inputEntity);
+        whmoveEntity.setInputPurCd(inputEntity.getInputPurCd());
         whmoveEntity.setEmpInfoEntity(inputEntity.getOrinputEntity().getEmpInfoEntity());// 담당자(견적테이블 담당자)
         whmoveEntity.setItemEntity(inputEntity.getOrinputEntity().getItemEntity());//품목(견적테이블 품목)
         whmoveEntity.setWhregistEntity(inputEntity.getWhregistEntity());
@@ -168,6 +185,8 @@ public class WhmoveService {
         whmoveEntity.setWhmoveGb("입고");
         whmoveEntity.setWhmoveCd(newWhmoveCd);
         whmoveRepository.save(whmoveEntity);
+        CheckRowAddedEvent<WhmoveEntity> whmoveEvent = new CheckRowAddedEvent<>(this, whmoveEntity);
+        addEvent.publishEvent(whmoveEvent);
     }
     private String generateNewInputCd(LocalDate inputPurDt) {//기본키 자동생성
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
@@ -180,10 +199,10 @@ public class WhmoveService {
         return prefix + sequenceNumberString;
     }
     public void updateRowInput(InputEntity inputEntity) { //수정
-        WhmoveEntity tempInput = whmoveRepository.ByInputCd(inputEntity);
+        WhmoveEntity tempInput = whmoveRepository.ByInputCd(inputEntity.getInputPurCd());
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         whmoveEntity.setWhmoveDt(tempInput.getWhmoveDt());
-        whmoveEntity.setAsEntity(tempInput.getAsEntity());
+        whmoveEntity.setInputPurCd(tempInput.getInputPurCd());
         whmoveEntity.setEmpInfoEntity(tempInput.getEmpInfoEntity());
         whmoveEntity.setItemEntity(tempInput.getItemEntity());
         whmoveEntity.setWhregistEntity(tempInput.getWhregistEntity());
@@ -196,12 +215,12 @@ public class WhmoveService {
         updateEvent.publishEvent(whmoveEvent);
     }
     @Transactional
-    public void deleteRowInput(List<InputEntity> inputEntities) { //삭제
+    public void deleteRowInput(List<String> inputIds) { //삭제
         List<WhmoveEntity> whmoveEntitesToDelete = new ArrayList<>();
-        for (InputEntity inputEntity : inputEntities) {
-            List<WhmoveEntity> whmoveEntities = whmoveRepository.findByInputEntity(inputEntity);
-            whmoveEntitesToDelete.addAll(whmoveEntities);
-            whmoveRepository.deleteAll(whmoveEntities);
+        for (String inputId : inputIds) {
+            List<WhmoveEntity> tempList = whmoveRepository.findByInputPurCd(inputId);
+            whmoveEntitesToDelete.addAll(tempList);
+            whmoveRepository.deleteAll(tempList);
         }
         CheckRowDeletedEvent<WhmoveEntity> inputDeletedEvent = new CheckRowDeletedEvent<>(this, whmoveEntitesToDelete);
         deleteEvent.publishEvent(inputDeletedEvent);

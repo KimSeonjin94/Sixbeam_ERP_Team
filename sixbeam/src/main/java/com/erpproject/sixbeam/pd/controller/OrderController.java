@@ -10,6 +10,7 @@ import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.entity.OrderEntity;
 import com.erpproject.sixbeam.pd.entity.RitemEntity;
 import com.erpproject.sixbeam.pd.service.OrderService;
+import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,6 @@ public class OrderController {
     @GetMapping("/new")
     public String newOrderDto(Model model) {
 
-
         OrderForm form = new OrderForm();
         List<EmpInfoEntity> empInfoEntities = orderService.getEmpList();
         List<ItemEntity> fitemEntities =  orderService.getFitemList();
@@ -42,15 +43,27 @@ public class OrderController {
         model.addAttribute("getEmpList", empInfoEntities);
         model.addAttribute("getFitemList", fitemEntities);
         model.addAttribute("getOrderList", orderEntities);
+        model.addAttribute("orderForm",form);
 
         orderService.readyOrderForm(model);
         return "contents/pd/order_form";
     }
 
-    @GetMapping("/create")
+    @PostMapping("/create")
     public ResponseEntity<?> createOrderDto(@ModelAttribute OrderForm orderForm) {
 
-        return orderService.createOrderDto(orderForm);
+        List<OrderDto> orderDtos = orderForm.getOrderDtos();
+
+        try {
+            orderService.create(orderDtos);
+            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/pd/order/orderlist"));
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "저장에 실패 하였습니다.");
+            errorResponse.put("redirectUrl", "/pd/order/new");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @GetMapping("/orderlist")
@@ -60,7 +73,6 @@ public class OrderController {
 
         return "contents/pd/order_list";
     }
-
     @PostMapping("/save")
     public ResponseEntity<?> saveorder(@ModelAttribute OrderForm orderForm) {
 
@@ -106,7 +118,6 @@ public class OrderController {
 
             errorResponse.put("status", "error");
             errorResponse.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
-
             errorResponse.put("redirectUrl", "/pd/order/order`list");
             return ResponseEntity.badRequest().body(errorResponse);
         }

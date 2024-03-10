@@ -1,0 +1,119 @@
+<html layout:decorate="~{layout/default}">
+<div layout:fragment="content" class="container-fluid">
+    <!-- Page Heading -->
+    <div class="card">
+        <div class="card-header">
+            매입전표
+        </div>
+        <form action="/ac/pur/purSlip" method="post">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label for="updateCurrentDate" class="col-sm-2 col-form-label">전표일자</label>
+                    <input type="date" class="form-control col-sm-10" id="updateCurrentDate" name="accountCd">
+                </div>
+                <div class="form-group row">
+                    <label for="selectinputPurCd" class="col-sm-2 col-form-label">판매 코드</label>
+                    <input type="text" class="form-control col-sm-8" id="inputPurCd" name="inputPurCd">
+                    <div class="col-sm-2">
+                        <button type="button" id="selectinputPurCd" class="btn btn-primary" data-toggle="modal"
+                                data-target="#orinputdetail">판매 선택
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="accountCodeList" class="col-sm-2 col-form-label">거래처 코드</label>
+                    <input type="text" class="form-control col-sm-10" id="updateaccountCode" name="accountCode" list="accountCodeList">
+                    <datalist id="accountCodeList" >
+                        <option th:each="actlist : ${actList}" th:value="${actlist.accountCd}"
+                                th:text="${actlist.accountNm}">
+                        </option>
+                    </datalist>
+                </div>
+                <div class="form-group row">
+                    <label for="accountName" class="col-sm-2 col-form-label">거래처명</label>
+                    <input type="text" class="form-control col-sm-10" id="updateaccountName" name="accountName">
+                </div>
+                <div class="form-group row">
+                    <label for="accountNb" class="col-sm-2 col-form-label">공급가액</label>
+                    <input type="text" class="form-control col-sm-10" id="accountNb" name="accountNb">
+                </div>
+                <div class="form-group row">
+                    <label for="accountAdd" class="col-sm-2 col-form-label">부가세</label>
+                    <input type="text" class="form-control col-sm-10" id="accountAdd" name="accountAdd">
+                </div>
+
+                <div class="form-group row">
+                    <label for="accountSectors" class="col-sm-2 col-form-label">적요</label>
+                    <input type="text" class="form-control col-sm-10" id="accountSectors" name="accountSectors">
+                </div>
+
+                <div class="form-group row">
+                    <label for="accountAcnb" class="col-sm-2 col-form-label">매입계정</label>
+                    <input type="text" class="form-control col-sm-10" id="accountAcnb" name="accountAcnb">
+                </div>
+                <div class="form-group row">
+                    <label for="accountPic" class="col-sm-2 col-form-label">출금계좌</label>
+                    <input type="text" class="form-control col-sm-10" id="accountPic" name="accountPic">
+                </div>
+                <div class="form-group row">
+                    <label for="accountEtc" class="col-sm-2 col-form-label">수수료</label>
+                    <input type="text" class="form-control col-sm-8" id="accountEtc" name="accountEtc">
+                </div>
+            </div>
+            <div class="card-footer text-muted d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary-ac">저장</button>
+                <button type="button" class="btn btn-secondary-ac">닫기</button>
+            </div>
+        </form>
+    </div>
+    <div class="modal fade" id="orinputdetail" tabindex="-1" aria-labelledby="subjectsaleLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="subjectsaleLabel">판매</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="table-dark">
+                                    <tr>
+                                        <th>일자</th>
+                                        <th>구매코드</th>
+                                        <th>발주코드</th>
+                                        <th>창고코드</th>
+                                        <th>진행상태</th>
+                                        <th>전표발행일자</th>
+                                        <th>전표발행여부</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="input : ${inputEntities}">
+                                        <td th:text="${input.inputPurDt}"></td>
+                                        <td>
+                                            <a href="#" id="detailInputCd" th:data-id="${input.inputPurCd}">
+                                                <span th:text="${input.inputPurCd}">></span>
+                                            </a>
+                                        </td>
+                                        <td th:text="${input.orinputEntity.orinputCd}"></td>
+                                        <td th:text="${input.WhregistEntity.whregistCd}"></td>
+                                        <td th:text="${input.inputPrgSt}"></td>
+                                        <td th:text="${input.inputSiDt}"></td>
+                                        <td th:text="${input.inputSiFl}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

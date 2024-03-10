@@ -30,6 +30,9 @@ $('#detailEstimateCd[data-id]').on('click', function() {
                 $('#updateaccountCode').val(data[0].accountEntity.accountCd);
                 $('#updatename').val(data[0].empInfoEntity.empInfoNm);
                 $('#updateaccountName').val(data[0].accountEntity.accountNm);
+
+
+
                 var currentUrl = window.location.href;
                 if (currentUrl.includes("list")) {
                     $('#EstimateCurrentDate').val(data[0].estimateDt);
@@ -91,6 +94,15 @@ $('#detailSaleCd[data-id]').on('click', function(){
             }
             modaltBody.empty();
 
+            var total =0;
+            response.estimateEntities.forEach(function(item, index) {
+                total += item.estimateSp;
+
+            });
+            $('#accountNb').val(total.toLocaleString('ko-KR'));
+            $('#accountAdd').val((total/10).toLocaleString('ko-KR'));
+
+
             $('#saleCd').val(response.saleEntity.saleCd);
             $('#updateCurrentDate').val(response.saleEntity.saleUploadDt);
             $('#updateaccountCode').val(response.estimateEntities[0].accountEntity.accountCd);
@@ -117,15 +129,15 @@ $('#detailSaleCd[data-id]').on('click', function(){
                 var row = $('<tr>'); // 행 생성
 
                 // 각 셀에 입력 요소와 name 속성 추가
-                row.append('<td><input type="text" class="form-control" name="estimateDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd +'"></td>');
-                row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '"></td>');
-                row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '"></td>');
-                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateAmt" class="form-control itemamt" value="' + item.estimateAmt + '"></td>');
-                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateUp" class="form-control itemup" value="' + item.estimateUp + '"></td>');
-                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateSp" class="form-control itemsp" value="' + item.estimateSp + '"></td>');
-                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateVat" class="form-control itemvar" value="' + item.estimateVat + '"></td>');
-                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateTamt" class="form-control itemsum" value="' + item.estimateTamt + '"></td>');
-                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateEtc" class="form-control" value="' + item.estimateEtc + '"></td>');
+                row.append('<td><input type="text" class="form-control" name="estimateDtos[' + index + '].itemEntity.itemCd" value="' + item.itemEntity.itemCd +'" readonly></td>');
+                row.append('<td><input type="text" class="form-control itemname" value="' + item.itemEntity.itemNm + '" readonly></td>');
+                row.append('<td><input type="text" class="form-control itemstnd" value="' + item.itemEntity.itemStnd + '" readonly></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateAmt" class="form-control itemamt" value="' + item.estimateAmt + '" readonly></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateUp" class="form-control itemup" value="' + item.estimateUp + '" readonly></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateSp" class="form-control itemsp" value="' + item.estimateSp + '" readonly></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateVat" class="form-control itemvar" value="' + item.estimateVat + '" readonly></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateTamt" class="form-control itemsum" value="' + item.estimateTamt + '" readonly></td>');
+                row.append('<td><input type="text" name="estimateDtos[' + index + '].estimateEtc" class="form-control" value="' + item.estimateEtc + '"readonly></td>');
                 modaltBody.append(row); // 생성된 행을 테이블에 추가
             });
             var currentUrl = window.location.href;

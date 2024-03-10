@@ -1,7 +1,6 @@
 package com.erpproject.sixbeam.st.repository;
 
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
-import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.CheckEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
@@ -23,24 +22,19 @@ public interface CheckRepository extends JpaRepository<CheckEntity, Long> {
     @Query("SELECT SUM(c.checkAmt) FROM CheckEntity c WHERE c.whmoveEntity.whmoveGb = :whmoveGb AND c.whmoveEntity.whmoveDt <= :date AND c.whmoveEntity.whregistEntity = :whregistEntity AND c.whmoveEntity.itemEntity = :itemEntity")
     Integer findWhItemCheck(@Param("whmoveGb") String whmoveGb, @Param("date") LocalDate date, @Param("whregistEntity") WhregistEntity whregistEntity, @Param("itemEntity") ItemEntity itemEntity);
 
-    // 원하는 column들만 조회되도록 쿼리 메서드 수정
-    @Query("SELECT c.whmoveEntity.whmoveDt, c.whmoveEntity.whregistEntity.whregistCd, c.whmoveEntity.itemEntity.itemCd, c.checkAmt FROM CheckEntity c WHERE c.whmoveEntity.whmoveDt = :date")
-    List<Object[]> findCheckByDate(@Param("date") LocalDate date);
-
-    //test
-    @Query("SELECT c.whmoveEntity.whmoveDt, c.whmoveEntity.whregistEntity.whregistCd, c.whmoveEntity.itemEntity.itemCd, " +
-            "(SELECT SUM(c.checkAmt) FROM CheckEntity c WHERE c.whmoveEntity.whmoveGb = :whmoveGb AND c.whmoveEntity.whmoveDt <= :date AND c.whmoveEntity.whregistEntity = :whregistEntity AND c.whmoveEntity.itemEntity = :itemEntity) as Amt FROM CheckEntity c WHERE c.whmoveEntity.whmoveDt = :date")
-    List<Object[]> findtest(@Param("date") LocalDate date, @Param("whregistEntity") WhregistEntity whregistEntity, @Param("itemEntity") ItemEntity itemEntity);
-
-    //기본키 생성 메서드
+    //이벤트리스너 기본키 생성 메서드
     @Query("SELECT MAX(c.checkCd) FROM CheckEntity c")
     Long getMaxCheckCd();
 
-    @Query("SELECT c FROM CheckEntity c WHERE c.whmoveEntity.whmoveCd = :whmoveCd")
-    List<CheckEntity> getBywhmoveCd(@Param("whmoveCd") String whmoveCd);
+    //이벤트리스너 delete
+//    @Query("SELECT c FROM CheckEntity c WHERE c.whmoveEntity.whmoveCd = :whmoveCd")
+//    List<CheckEntity> getBywhmoveCd(@Param("whmoveCd") String whmoveCd);
 
+    //이벤트리스너 update
     @Query("SELECT c FROM CheckEntity c WHERE c.whmoveEntity = :whmoveEntity")
     CheckEntity BywhmoveCd(@Param("whmoveEntity") WhmoveEntity whmoveEntity);
 
 
+    @Query("SELECT c FROM CheckEntity c WHERE c.whmoveEntity.whmoveCd = :whmoveCd")
+    List<CheckEntity> findByWhmoveCd(@Param("whmoveCd") String whmoveCd);
 }
