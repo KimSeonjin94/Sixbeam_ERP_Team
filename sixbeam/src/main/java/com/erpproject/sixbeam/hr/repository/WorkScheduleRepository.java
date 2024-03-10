@@ -13,5 +13,4 @@ public interface WorkScheduleRepository extends JpaRepository<WorkScheduleEntity
     List<WorkScheduleEntity> findByWorkScheduleDate(LocalDate workScheduleDate);
     List<WorkScheduleEntity>findByWorkScheduleDateAndWorkScheduleCheckIsTrue(LocalDate workScheduleDate);
     List<WorkScheduleEntity> findByWorkScheduleDateAndEmpInfoEntity_EmpInfoId(LocalDate workScheduleDate, Long employeeId);
-    Optional<WorkScheduleEntity> findByEmpInfoEntity_EmpInfoIdAndWorkScheduleDate(EmpInfoEntity employeeId, LocalDate workScheduleDate);
 }

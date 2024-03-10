@@ -69,42 +69,49 @@ public class WorkScheduleController {
         Optional<EmpInfoEntity> emp = empInfoRepository.findByEmpInfoId(empInfoId);
         EmpInfoEntity empp = emp.get();
         WorkScheduleEntity workScheduleEntity = new WorkScheduleEntity();
-        workScheduleEntity.setEmpInfoEntity(empp);
-        workScheduleEntity.setWorkScheduleDate(LocalDate.now()); // 출근 또는 퇴근 시점의 날짜
-        workScheduleEntity.setWorkScheduleCheck(false); // 출퇴근 기록 체크 로직은 필요에 따라 추가
-        workScheduleEntity.setWorkScheduleStartTime(LocalTime.parse(currentTime));
-        workScheduleRepository.save(workScheduleEntity); // 해당 서비스 메서드를 정의하여 데이터베이스에 저장
-
+        List<WorkScheduleEntity>exist = workScheduleRepository.findByWorkScheduleDateAndEmpInfoEntity_EmpInfoId(LocalDate.now(),empInfoId);
+        if(!exist.isEmpty()){
+            WorkScheduleEntity existingEntity = exist.get(0); // 예시로 첫 번째 엔터티를 가져왔습니다. 필요에 따라 로직 수정
+            existingEntity.setWorkScheduleStartTime(LocalTime.parse(currentTime));
+            workScheduleRepository.save(existingEntity);
+        }
+        else{
+            workScheduleEntity.setEmpInfoEntity(empp);
+            workScheduleEntity.setWorkScheduleDate(LocalDate.now()); // 출근 또는 퇴근 시점의 날짜
+            workScheduleEntity.setWorkScheduleCheck(false); // 출퇴근 기록 체크 로직은 필요에 따라 추가
+            workScheduleEntity.setWorkScheduleStartTime(LocalTime.parse(currentTime));
+            workScheduleRepository.save(workScheduleEntity);
+        }
         // 성공적으로 기록되었을 때 응답
         return ResponseEntity.ok("처리되었습니다.");
     }
-    @PostMapping("/recordLeaveWork")
-    public ResponseEntity<String> recordLeaveWork(@RequestParam("currentTime") String currentTime) {
-        // 현재 로그인한 사용자의 EmpInfoEntity를 가져오는 로직이 필요할 수 있습니다.
-        // 이 부분은 세션 또는 사용자 인증에 따라 다르게 처리될 수 있습니다.
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Long empInfoId = Long.parseLong(username);
-        Optional<EmpInfoEntity> emp = empInfoRepository.findByEmpInfoId(empInfoId);
-        EmpInfoEntity empp = emp.get();
-        Optional<WorkScheduleEntity> existingWorkSchedule = workScheduleRepository
-                .findByEmpInfoEntity_EmpInfoIdAndWorkScheduleDate(empp, LocalDate.now());
-        if(existingWorkSchedule.isPresent()){
-            WorkScheduleEntity workScheduleEntity = existingWorkSchedule.get();
-            workScheduleEntity.setEmpInfoEntity(empp);
-            workScheduleEntity.setWorkScheduleDate(LocalDate.now()); // 출근 또는 퇴근 시점의 날짜
-            workScheduleEntity.setWorkScheduleCheck(false); // 출퇴근 기록 체크 로직은 필요에 따라 추가
-            workScheduleEntity.setWorkScheduleEndTime(LocalTime.parse(currentTime));
-            workScheduleRepository.save(workScheduleEntity);
-            return ResponseEntity.ok("퇴근이 기록되었습니다.");
-        }else{
-            WorkScheduleEntity workScheduleEntity = new WorkScheduleEntity();
-            workScheduleEntity.setEmpInfoEntity(empp);
-            workScheduleEntity.setWorkScheduleDate(LocalDate.now()); // 출근 또는 퇴근 시점의 날짜
-            workScheduleEntity.setWorkScheduleCheck(false); // 출퇴근 기록 체크 로직은 필요에 따라 추가
-            workScheduleEntity.setWorkScheduleEndTime(LocalTime.parse(currentTime));
-            workScheduleRepository.save(workScheduleEntity);
-            ResponseEntity.badRequest().body("출근 기록이 없습니다.");
-        }
-        return ResponseEntity.badRequest().body("사용자를 찾을 수 없습니다.");
-    }
+//    @PostMapping("/recordLeaveWork")
+//    public ResponseEntity<String> recordLeaveWork(@RequestParam("currentTime") String currentTime) {
+//        // 현재 로그인한 사용자의 EmpInfoEntity를 가져오는 로직이 필요할 수 있습니다.
+//        // 이 부분은 세션 또는 사용자 인증에 따라 다르게 처리될 수 있습니다.
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//        Long empInfoId = Long.parseLong(username);
+//        Optional<EmpInfoEntity> emp = empInfoRepository.findByEmpInfoId(empInfoId);
+//        EmpInfoEntity empp = emp.get();
+//        Optional<WorkScheduleEntity> existingWorkSchedule = workScheduleRepository
+//                .findByEmpInfoEntity_EmpInfoIdAndWorkScheduleDate(empp, LocalDate.now());
+//        if(existingWorkSchedule.isPresent()){
+//            WorkScheduleEntity workScheduleEntity = existingWorkSchedule.get();
+//            workScheduleEntity.setEmpInfoEntity(empp);
+//            workScheduleEntity.setWorkScheduleDate(LocalDate.now()); // 출근 또는 퇴근 시점의 날짜
+//            workScheduleEntity.setWorkScheduleCheck(false); // 출퇴근 기록 체크 로직은 필요에 따라 추가
+//            workScheduleEntity.setWorkScheduleEndTime(LocalTime.parse(currentTime));
+//            workScheduleRepository.save(workScheduleEntity);
+//            return ResponseEntity.ok("퇴근이 기록되었습니다.");
+//        }else{
+//            WorkScheduleEntity workScheduleEntity = new WorkScheduleEntity();
+//            workScheduleEntity.setEmpInfoEntity(empp);
+//            workScheduleEntity.setWorkScheduleDate(LocalDate.now()); // 출근 또는 퇴근 시점의 날짜
+//            workScheduleEntity.setWorkScheduleCheck(false); // 출퇴근 기록 체크 로직은 필요에 따라 추가
+//            workScheduleEntity.setWorkScheduleEndTime(LocalTime.parse(currentTime));
+//            workScheduleRepository.save(workScheduleEntity);
+//            ResponseEntity.badRequest().body("출근 기록이 없습니다.");
+//        }
+//        return ResponseEntity.badRequest().body("사용자를 찾을 수 없습니다.");
+//    }
 }
