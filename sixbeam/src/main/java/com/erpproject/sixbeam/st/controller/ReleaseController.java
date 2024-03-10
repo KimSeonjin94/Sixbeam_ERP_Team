@@ -87,9 +87,6 @@ public class ReleaseController {
         List<WhregistEntity> whregistEntitiy = this.whregistService.getList();
         List<ItemEntity> itemEntity = this.itemService.getList();
         List<SaleAndEstimateDto> saleAndEstimateDtos = this.saleService.getRelease("판매대기중");
-
-
-
         model.addAttribute("getactlist",accountEntity);
         model.addAttribute("getemplist",empInfoEntity);
         model.addAttribute("getitemlist",itemEntity);
@@ -100,7 +97,6 @@ public class ReleaseController {
     }
     @PostMapping("/save")
     public ResponseEntity<?> releaseCreateDto(@ModelAttribute ReleaseDto releaseDto){
-
         try {
             this.releaseService.create(releaseDto);
             Map<String, Object> successResponse = new HashMap<>();
@@ -133,7 +129,7 @@ public class ReleaseController {
         }
     }
     @PostMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam("selectedrel") List<String> selectedid, RedirectAttributes redirectAttributes){
+    public ResponseEntity<?> delete(@RequestParam("selectedrelease") List<String> selectedid, RedirectAttributes redirectAttributes){
         try{
             releaseService.delete(selectedid);
             Map<String,Object> response = new HashMap<>();
