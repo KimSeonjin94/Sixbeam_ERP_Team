@@ -45,10 +45,10 @@ public class WhmoveListener {
     }
     @EventListener
     public void handleRowUpdatedEvent(WhmoveRowUpdatedEvent<?> event) { //판매,구매,AS의 전표수정 시 창고이동 테이블의 해당 행이 수정되는 이벤트리스너
-        if (event.getEntity() instanceof SaleAndEstimateDto) {
+        if (event.getEntity() instanceof SaleEntity) {
             // SaleEntity에 대한 처리
-            SaleAndEstimateDto saleAndEstimateDto = (SaleAndEstimateDto) event.getEntity();
-            whmoveService.updateRowSale(saleAndEstimateDto);
+            SaleEntity saleEntity = (SaleEntity) event.getEntity();
+            whmoveService.updateRowSale(saleEntity);
         } else if (event.getEntity() instanceof  InputEntity) {
             // InputEntity에 대한 처리
             InputEntity inputEntity = (InputEntity) event.getEntity();
@@ -62,9 +62,9 @@ public class WhmoveListener {
     public void handleRowDeletedEvent(WhmoveRowDeletedEvent<?> event) { //판매,구매,AS의 전표삭제 시 창고이동 테이블의 해당 행 또는 행들이 삭제되는 이벤트리스너
         if (event.getEntities().get(0) instanceof SaleEntity) {
             List<SaleEntity> saleEntities = (List<SaleEntity>) event.getEntities();
-            List<SaleEntity> tempSale = new ArrayList<>();
+            List<String> tempSale = new ArrayList<>();
             for (SaleEntity saleEntity : saleEntities) {
-                tempSale.add(saleEntity);
+                tempSale.add(saleEntity.getSaleCd());
             }
             whmoveService.deleteRowSale(tempSale);
         } else if (event.getEntities().get(0) instanceof InputEntity) {

@@ -45,7 +45,7 @@ public class WhmoveService {
             throw new DataNotFoundException("whmoveEntity not found");
         }
     }
-    //[이벤트리스너_As]-----------------------------------------------
+    //[이벤트리스너_As]-------------------------------------------완료
     //-등록
     public void addRowAs(AsEntity asEntity) {//등록
         WhmoveEntity whmoveEntity = new WhmoveEntity();
@@ -88,13 +88,13 @@ public class WhmoveService {
     //-삭제
     @Transactional
     public void deleteRowAs(List<String> asEntities){ //삭제
-        List<WhmoveEntity> whmoveEntitiesToDelete = new ArrayList<>();
+        List<WhmoveEntity> asEntitiesToDelete = new ArrayList<>();
         for (String asEntity : asEntities) {
-            List<WhmoveEntity> whmoveEntities = whmoveRepository.findByAsCd(asEntity);
-            whmoveEntitiesToDelete.addAll(whmoveEntities);
-            whmoveRepository.deleteAll(whmoveEntities);
+            List<WhmoveEntity> tempAsList = whmoveRepository.findByAsCd(asEntity);
+            asEntitiesToDelete.addAll(tempAsList);
+            whmoveRepository.deleteAll(tempAsList);
         }
-        CheckRowDeletedEvent<WhmoveEntity> whDeletedEvent = new CheckRowDeletedEvent<>(this, whmoveEntitiesToDelete);
+        CheckRowDeletedEvent<WhmoveEntity> whDeletedEvent = new CheckRowDeletedEvent<>(this, asEntitiesToDelete);
         deleteEvent.publishEvent(whDeletedEvent);
     }
     //[이벤트리스너_As]-----------------------------------------------
@@ -119,23 +119,20 @@ public class WhmoveService {
             addEvent.publishEvent(whmoveEvent);
         }
     }
-    public void updateRowSale(SaleAndEstimateDto saleAndEstimateDto) { //수정
-        WhmoveEntity tempSale = whmoveRepository.BySaleCd(saleAndEstimateDto.getSaleEntity().getSaleCd());
-        WhmoveEntity whmoveEntity = new WhmoveEntity();
-        whmoveEntity.setWhmoveDt(tempSale.getWhmoveDt());
-        whmoveEntity.setSaleCd(tempSale.getSaleCd());
-        whmoveEntity.setEmpInfoEntity(tempSale.getEmpInfoEntity());
-        whmoveEntity.setItemEntity(tempSale.getItemEntity());
-        whmoveEntity.setWhregistEntity(tempSale.getWhregistEntity());
-        whmoveEntity.setWhmoveGb(tempSale.getWhmoveGb());
-        whmoveEntity.setWhmoveCd(tempSale.getWhmoveCd());
-        whmoveEntity.setWhmoveAmt(tempSale.getWhmoveAmt());
-        tempSale = whmoveEntity;
+    public void updateRowSale(SaleEntity saleEntity) { //수정
+        WhmoveEntity tempSale = whmoveRepository.BySaleCd(saleEntity.getSaleCd());
+        tempSale.setWhmoveDt(tempSale.getWhmoveDt());
+        tempSale.setSaleCd(tempSale.getSaleCd());
+        tempSale.setEmpInfoEntity(tempSale.getEmpInfoEntity());
+        tempSale.setItemEntity(tempSale.getItemEntity());
+        tempSale.setWhregistEntity(saleEntity.getWhregistEntity());
+        tempSale.setWhmoveGb(tempSale.getWhmoveGb());
+        tempSale.setWhmoveCd(tempSale.getWhmoveCd());
+        tempSale.setWhmoveAmt(tempSale.getWhmoveAmt());
         whmoveRepository.save(tempSale);
         CheckRowUpdatedEvent<WhmoveEntity> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
         updateEvent.publishEvent(whmoveEvent);
     }
-
 //    public void updateRowSale(SaleEntity saleEntity) { //수정
 //        List<WhmoveEntity> tempSale = whmoveRepository.BySaleCd(saleEntity);
 //        List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
@@ -160,19 +157,19 @@ public class WhmoveService {
         return prefix + sequenceNumberString;
     }
     @Transactional
-    public void deleteRowSale(List<SaleEntity> saleEntities) { //삭제
-        List<WhmoveEntity> whmoveEntitesToDelete = new ArrayList<>();
-        for (SaleEntity saleEntity : saleEntities) {
-            List<WhmoveEntity> whmoveEntities = whmoveRepository.findBySaleCd(saleEntity.getSaleCd());
-            whmoveEntitesToDelete.addAll(whmoveEntities);
-            whmoveRepository.deleteAll(whmoveEntities);
+    public void deleteRowSale(List<String> saleEntities) { //삭제
+        List<WhmoveEntity> saleEntitesToDelete = new ArrayList<>();
+        for (String saleEntity : saleEntities) {
+            List<WhmoveEntity> tempSaleList = whmoveRepository.findBySaleCd(saleEntity);
+            saleEntitesToDelete.addAll(tempSaleList);
+            whmoveRepository.deleteAll(tempSaleList);
         }
-        CheckRowDeletedEvent<WhmoveEntity> saleDeletedEvent = new CheckRowDeletedEvent<>(this, whmoveEntitesToDelete);
+        CheckRowDeletedEvent<WhmoveEntity> saleDeletedEvent = new CheckRowDeletedEvent<>(this, saleEntitesToDelete);
         deleteEvent.publishEvent(saleDeletedEvent);
     }
     //[이벤트리스너_Sale]---------------------------------------------
 
-    //[이벤트리스너_Input]---------------------------------------------
+    //[이벤트리스너_Input]----------------------------------------완료
     public void addRowInput(InputEntity inputEntity) { //등록
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         String newWhmoveCd = generateNewInputCd(inputEntity.getInputPurDt());
@@ -200,29 +197,27 @@ public class WhmoveService {
     }
     public void updateRowInput(InputEntity inputEntity) { //수정
         WhmoveEntity tempInput = whmoveRepository.ByInputCd(inputEntity.getInputPurCd());
-        WhmoveEntity whmoveEntity = new WhmoveEntity();
-        whmoveEntity.setWhmoveDt(tempInput.getWhmoveDt());
-        whmoveEntity.setInputPurCd(tempInput.getInputPurCd());
-        whmoveEntity.setEmpInfoEntity(tempInput.getEmpInfoEntity());
-        whmoveEntity.setItemEntity(tempInput.getItemEntity());
-        whmoveEntity.setWhregistEntity(tempInput.getWhregistEntity());
-        whmoveEntity.setWhmoveGb(tempInput.getWhmoveGb());
-        whmoveEntity.setWhmoveCd(tempInput.getWhmoveCd());
-        whmoveEntity.setWhmoveAmt(inputEntity.getOrinputEntity().getOrinputAmt()); //Input테이블에서 변경된 수량만 반영
-        tempInput = whmoveEntity;
+        tempInput.setWhmoveDt(tempInput.getWhmoveDt());
+        tempInput.setInputPurCd(tempInput.getInputPurCd());
+        tempInput.setEmpInfoEntity(tempInput.getEmpInfoEntity());
+        tempInput.setItemEntity(tempInput.getItemEntity());
+        tempInput.setWhregistEntity(inputEntity.getWhregistEntity());
+        tempInput.setWhmoveGb(tempInput.getWhmoveGb());
+        tempInput.setWhmoveCd(tempInput.getWhmoveCd());
+        tempInput.setWhmoveAmt(inputEntity.getOrinputEntity().getOrinputAmt());
         whmoveRepository.save(tempInput);
         CheckRowUpdatedEvent<WhmoveEntity> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempInput);
         updateEvent.publishEvent(whmoveEvent);
     }
     @Transactional
     public void deleteRowInput(List<String> inputIds) { //삭제
-        List<WhmoveEntity> whmoveEntitesToDelete = new ArrayList<>();
+        List<WhmoveEntity> inputEntitesToDelete = new ArrayList<>();
         for (String inputId : inputIds) {
-            List<WhmoveEntity> tempList = whmoveRepository.findByInputPurCd(inputId);
-            whmoveEntitesToDelete.addAll(tempList);
-            whmoveRepository.deleteAll(tempList);
+            List<WhmoveEntity> tempInputList = whmoveRepository.findByInputPurCd(inputId);
+            inputEntitesToDelete.addAll(tempInputList);
+            whmoveRepository.deleteAll(tempInputList);
         }
-        CheckRowDeletedEvent<WhmoveEntity> inputDeletedEvent = new CheckRowDeletedEvent<>(this, whmoveEntitesToDelete);
+        CheckRowDeletedEvent<WhmoveEntity> inputDeletedEvent = new CheckRowDeletedEvent<>(this, inputEntitesToDelete);
         deleteEvent.publishEvent(inputDeletedEvent);
     }
 }
