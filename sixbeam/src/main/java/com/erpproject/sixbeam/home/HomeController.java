@@ -48,4 +48,12 @@ public class HomeController {
         model.addAttribute("empInfoOne", empInfoEntityOptional.orElseThrow(() -> new RuntimeException("사용자 정보를 찾을 수 없습니다.")));
         return "contents/home/Profile_Form";
     }
+    @GetMapping("/check")
+    public String check(Model model){
+        return "contents/home/Check_Form";
+    }
+    @GetMapping("/attendmgt")
+    public String attendmgt(Model model){
+        return "contents/home/Attendmgt_Form";
+    }
 }

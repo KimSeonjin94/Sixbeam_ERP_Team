@@ -40,23 +40,64 @@
                     <div class="col-sm-4">
                         <input type="date" class="form-control" id="selectWorkScheduleDate">
                     </div>
-<!--                    <script>-->
-<!--                        // 페이지 로딩 시 실행-->
-<!--                        $(document).ready(function () {-->
-<!--                            // 오늘 날짜를 가져와서 YYYY-MM-DD 형식으로 변환-->
-<!--                            var today = new Date();-->
-<!--                            var formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');-->
-
-<!--                            // input 요소의 value 속성에 오늘 날짜 설정-->
-<!--                            $('#selectWorkScheduleDate').val(formattedDate);-->
-<!--                        });-->
-<!--                    </script>-->
                 </div>
             </form>
+
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">출퇴근 정보</h6>
+                    <div>
+                        <button type="button" class="btn btn-primary" onclick="submitAttendance()">출근</button>
+                        <button type="button" class="btn btn-secondary" onclick="submitLeaveWork()">퇴근</button>
+                    </div>
+                    <script>
+                        function submitAttendance() {
+                            // 현재 날짜와 시간을 가져오기
+                            var currentDate = new Date();
+                            var koreanTime = currentDate.toLocaleString('en-US', { timeZone: 'Asia/Seoul', hour12: false });
+                            var currentTime = koreanTime.slice(11, 19);
+                            // Ajax 요청 수행
+                            $.ajax({
+                                type: "POST",
+                                url: "/hr/workSchedule/recordAttendance",
+                                data: {
+                                    currentTime: currentTime
+                                },
+                                success: function (data) {
+                                    // 성공적으로 데이터를 받아왔을 때의 처리
+                                    console.log("Attendance recorded successfully:", data);
+                                    // 여기서는 성공 시 어떤 동작을 할지 정의
+                                    console.log("Current Time:", currentTime);
+                                },
+                                error: function (error) {
+                                    console.log("Error recording attendance:", error);
+                                }
+                            });
+                        }
+                        function submitLeaveWork(){
+                            // 현재 날짜와 시간을 가져오기
+                            var currentDate = new Date();
+                            var koreanTime = currentDate.toLocaleString('en-US', { timeZone: 'Asia/Seoul', hour12: false });
+                            var currentTime = koreanTime.slice(11, 19);
+                            // Ajax 요청 수행
+                            $.ajax({
+                                type: "POST",
+                                url: "/hr/workSchedule/recordLeaveWork",
+                                data: {
+                                    currentTime: currentTime
+                                },
+                                success: function (data) {
+                                    // 성공적으로 데이터를 받아왔을 때의 처리
+                                    console.log("Attendance recorded successfully:", data);
+                                    // 여기서는 성공 시 어떤 동작을 할지 정의
+                                    console.log("Current Time:", currentTime);
+                                },
+                                error: function (error) {
+                                    console.log("Error recording attendance:", error);
+                                }
+                            });
+                        }
+                    </script>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -71,7 +112,7 @@
                             </tr>
                             </thead>
                             <tbody th:fragment="workScheduleTable">
-                            <tr th:each="work : ${workScheduleList}">
+                            <tr th:each="work : ${workScheduleOne}">
                                 <td th:text="${work.workScheduleDate}"></td>
                                 <td th:text="${work.empInfoEntity.departEntity.departNm}"></td>
                                 <td th:text="${work.empInfoEntity.empInfoNm}" th:classappend="${work.workScheduleCheck} ? 'text-danger' : ''"></td>
