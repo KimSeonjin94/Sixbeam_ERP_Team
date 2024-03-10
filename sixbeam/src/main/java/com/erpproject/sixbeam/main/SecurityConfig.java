@@ -30,7 +30,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().and()
+        http.cors().and()
+                .csrf().disable()
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/sixbeam", "/login", "/register", "/css/**", "/js/**", "/vendor/**", "/hr/empinfo/pw").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/hr/**")).hasAnyAuthority("인사", "회계")//인사
