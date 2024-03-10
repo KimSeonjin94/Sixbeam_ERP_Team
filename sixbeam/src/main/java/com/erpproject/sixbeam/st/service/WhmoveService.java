@@ -87,10 +87,10 @@ public class WhmoveService {
     }
     //-삭제
     @Transactional
-    public void deleteRowAs(List<AsEntity> asEntities){ //삭제
+    public void deleteRowAs(List<String> asEntities){ //삭제
         List<WhmoveEntity> whmoveEntitiesToDelete = new ArrayList<>();
-        for (AsEntity asEntity : asEntities) {
-            List<WhmoveEntity> whmoveEntities = whmoveRepository.findByAsCd(asEntity.getAsCd());
+        for (String asEntity : asEntities) {
+            List<WhmoveEntity> whmoveEntities = whmoveRepository.findByAsCd(asEntity);
             whmoveEntitiesToDelete.addAll(whmoveEntities);
             whmoveRepository.deleteAll(whmoveEntities);
         }
@@ -135,6 +135,20 @@ public class WhmoveService {
         CheckRowUpdatedEvent<WhmoveEntity> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
         updateEvent.publishEvent(whmoveEvent);
     }
+
+//    public void updateRowSale(SaleEntity saleEntity) { //수정
+//        List<WhmoveEntity> tempSale = whmoveRepository.BySaleCd(saleEntity);
+//        List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
+//        for (int i=0; i<tempSale.size(); i++) {
+//            tempSale.get(i).setItemEntity(estimateEntities.get(i).getItemEntity());
+//            tempSale.get(i).setWhregistEntity(saleEntity.getWhregistEntity());
+//            tempSale.get(i).setWhmoveAmt(estimateEntities.get(i).getEstimateAmt());
+//
+//        }
+//        whmoveRepository.saveAll(tempSale);
+//        CheckRowUpdatedEvent<List<WhmoveEntity>> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
+//        updateEvent.publishEvent(whmoveEvent);
+//    }
     private String generateNewWhmoveSaleCd(LocalDate saleUploadDt) { //기본키 자동생성
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
         String prefix = "WHM" + saleUploadDt.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
@@ -201,12 +215,12 @@ public class WhmoveService {
         updateEvent.publishEvent(whmoveEvent);
     }
     @Transactional
-    public void deleteRowInput(List<InputEntity> inputEntities) { //삭제
+    public void deleteRowInput(List<String> inputIds) { //삭제
         List<WhmoveEntity> whmoveEntitesToDelete = new ArrayList<>();
-        for (InputEntity inputEntity : inputEntities) {
-            List<WhmoveEntity> whmoveEntities = whmoveRepository.findByInputPurCd(inputEntity.getInputPurCd());
-            whmoveEntitesToDelete.addAll(whmoveEntities);
-            whmoveRepository.deleteAll(whmoveEntities);
+        for (String inputId : inputIds) {
+            List<WhmoveEntity> tempList = whmoveRepository.findByInputPurCd(inputId);
+            whmoveEntitesToDelete.addAll(tempList);
+            whmoveRepository.deleteAll(tempList);
         }
         CheckRowDeletedEvent<WhmoveEntity> inputDeletedEvent = new CheckRowDeletedEvent<>(this, whmoveEntitesToDelete);
         deleteEvent.publishEvent(inputDeletedEvent);

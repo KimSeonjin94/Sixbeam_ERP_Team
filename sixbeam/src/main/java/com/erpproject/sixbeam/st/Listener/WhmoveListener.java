@@ -45,10 +45,10 @@ public class WhmoveListener {
     }
     @EventListener
     public void handleRowUpdatedEvent(WhmoveRowUpdatedEvent<?> event) { //판매,구매,AS의 전표수정 시 창고이동 테이블의 해당 행이 수정되는 이벤트리스너
-        if (event.getEntity() instanceof SaleEntity) {
+        if (event.getEntity() instanceof SaleAndEstimateDto) {
             // SaleEntity에 대한 처리
-            SaleAndEstimateDto saleEntity = (SaleAndEstimateDto) event.getEntity();
-            whmoveService.updateRowSale(saleEntity);
+            SaleAndEstimateDto saleAndEstimateDto = (SaleAndEstimateDto) event.getEntity();
+            whmoveService.updateRowSale(saleAndEstimateDto);
         } else if (event.getEntity() instanceof  InputEntity) {
             // InputEntity에 대한 처리
             InputEntity inputEntity = (InputEntity) event.getEntity();
@@ -60,25 +60,25 @@ public class WhmoveListener {
     }
     @EventListener
     public void handleRowDeletedEvent(WhmoveRowDeletedEvent<?> event) { //판매,구매,AS의 전표삭제 시 창고이동 테이블의 해당 행 또는 행들이 삭제되는 이벤트리스너
-        if (event.getEntities() instanceof SaleEntity) {
+        if (event.getEntities().get(0) instanceof SaleEntity) {
             List<SaleEntity> saleEntities = (List<SaleEntity>) event.getEntities();
             List<SaleEntity> tempSale = new ArrayList<>();
             for (SaleEntity saleEntity : saleEntities) {
                 tempSale.add(saleEntity);
             }
             whmoveService.deleteRowSale(tempSale);
-        } else if (event.getEntities() instanceof InputEntity) {
+        } else if (event.getEntities().get(0) instanceof InputEntity) {
             List<InputEntity> inputEntities = (List<InputEntity>) event.getEntities();
-            List<InputEntity> tempInput = new ArrayList<>();
+            List<String> tempInput = new ArrayList<>();
             for (InputEntity inputEntity : inputEntities) {
-                tempInput.add(inputEntity);
+                tempInput.add(inputEntity.getInputPurCd());
             }
             whmoveService.deleteRowInput(tempInput);
-        } else if (event.getEntities() instanceof AsEntity) {
+        } else if (event.getEntities().get(0) instanceof AsEntity) {
             List<AsEntity> asEntities = (List<AsEntity>) event.getEntities();
-            List<AsEntity> tempAs = new ArrayList<>();
+            List<String> tempAs = new ArrayList<>();
             for (AsEntity asEntity : asEntities) {
-                tempAs.add(asEntity);
+                tempAs.add(asEntity.getAsCd());
             }
             whmoveService.deleteRowAs(tempAs);
         }

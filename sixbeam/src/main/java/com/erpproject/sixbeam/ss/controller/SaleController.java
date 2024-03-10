@@ -131,7 +131,7 @@ public class SaleController {
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");
-            errorResponse.put("message", "삭제에 실패하였습니다.");
+            errorResponse.put("message", e.getMessage());
             errorResponse.put("redirectUrl", "/ss/sale/list");
             return ResponseEntity.badRequest().body(errorResponse);
         }

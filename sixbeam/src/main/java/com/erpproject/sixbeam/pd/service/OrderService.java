@@ -81,34 +81,15 @@ public class OrderService {
         }
     }
 
-
-    public ResponseEntity<?> createOrderDto(@ModelAttribute OrderForm orderForm) {
-
-        List<OrderDto> orderDtos = orderForm.getOrderDtos();
-
-        try {
-            create(orderDtos);
-            return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonMap("redirctUrl", "/pd/order/new"));
-
-        } catch (Exception e) {
-
-            Map<String, Object> errorResponse = new HashMap<>();
-
-            errorResponse.put("status", "error");
-            errorResponse.put("message", "저장에 실패 하였습니다. 입력화면으로 돌아갑니다");
-            errorResponse.put("redirectUrl", "/pd/bom/new");
-
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
-    }
-
+    @Transactional
     public void create(List<OrderDto> orderDtos) {
 
-        List<OrderEntity> orderEntities = new ArrayList<>();
 
-        String newOrderCd = generateNewOrderCd(orderDtos.get(0).getOrderInstDt());
+
 
         for (OrderDto orderDto : orderDtos) {
+
+            String newOrderCd = generateNewOrderCd(orderDtos.get(0).getOrderInstDt());
 
             EmpInfoEntity empInfoEntity = empInfoRepository.findById(orderDto.getEmpInfoEntity().getEmpInfoId())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
@@ -118,12 +99,11 @@ public class OrderService {
             orderDto.setEmpInfoEntity(empInfoEntity);
             orderDto.setItemEntity(itemEntity);
 
-            OrderEntity orderEntity = new OrderEntity();
+           OrderEntity orderEntity = orderDto.toEntity();
             orderEntity.setOrderCd(newOrderCd);
-            orderEntity = orderDto.toEntity();
-            orderEntities.add(orderEntity);
+            orderRepository.save(orderEntity);
         }
-        orderRepository.saveAll(orderEntities);
+
     }
 
     private String generateNewOrderCd(LocalDate inputDate) {

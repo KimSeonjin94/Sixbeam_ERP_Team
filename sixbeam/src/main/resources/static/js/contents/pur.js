@@ -30,6 +30,8 @@ $('#detailOrinputCd[data-id]').on('click', function() {
                 }
                 modaltBody.empty();
 
+
+
                 $('#orinputCd').val(data[0].orinputCd);
                 $('#updateCurrentDate').val(data[0].orinputOrDt);
                 $('#orinputDate').val(data[0].orinputOrDt);
@@ -81,6 +83,7 @@ $('#detailInputCd[data-id]').on('click', function() {
     var purId = $(this).data('id'); // data-id 속성에서 ID 가져오기
     var purDetailUrl = '/pur/input/list/detail/' + purId;
     console.log(purDetailUrl);
+    $('#orinputdetail').modal('hide');
 
     // AJAX 요청
     $.ajax({
@@ -92,6 +95,15 @@ $('#detailInputCd[data-id]').on('click', function() {
                 //#updateInput ID를 가진 요소 안에 있는 .formEntry 클래스를 가진 하위 요소 내부에 있는 .table.item 클래스를 가진 테이블의 본문(tbody) 요소를 선택
                 var modaltBody = $('#updateInput .formEntry .table.item tbody');
                 modaltBody.empty();
+
+                var total =0;
+                data.forEach(function(item, index) {
+                    total += item.orinputEntity.orinputSp;
+
+                });
+                $('#accountNb').val(total.toLocaleString('ko-KR'));
+                $('#accountAdd').val((total/10).toLocaleString('ko-KR'));
+                $('#inputPurCd').val(data[0].inputPurCd);
 
                 $('#orinputCode').val(data[0].orinputEntity.orinputCd);
                 $('#updateCurrentDate').val(data[0].inputPurDt);
