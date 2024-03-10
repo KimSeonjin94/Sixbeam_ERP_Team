@@ -69,17 +69,35 @@ public class WorkScheduleController {
         Optional<EmpInfoEntity> emp = empInfoRepository.findByEmpInfoId(empInfoId);
         EmpInfoEntity empp = emp.get();
         WorkScheduleEntity workScheduleEntity = new WorkScheduleEntity();
-        List<WorkScheduleEntity>exist = workScheduleRepository.findByWorkScheduleDateAndEmpInfoEntity_EmpInfoId(LocalDate.now(),empInfoId);
-        if(!exist.isEmpty()){
+        List<WorkScheduleEntity> exist = workScheduleRepository.findByWorkScheduleDateAndEmpInfoEntity_EmpInfoId(LocalDate.now(), empInfoId);
+
+        if (!exist.isEmpty()) {
             WorkScheduleEntity existingEntity = exist.get(0); // 예시로 첫 번째 엔터티를 가져왔습니다. 필요에 따라 로직 수정
             existingEntity.setWorkScheduleStartTime(LocalTime.parse(currentTime));
+
+            // currentTime이 09:00:00을 넘었는지 확인하여 workScheduleCheck 설정
+            LocalTime targetTime = LocalTime.parse("09:00:00");
+            if (LocalTime.parse(currentTime).compareTo(targetTime) > 0) {
+                existingEntity.setWorkScheduleCheck(true);
+            } else {
+                existingEntity.setWorkScheduleCheck(false);
+            }
+
             workScheduleRepository.save(existingEntity);
-        }
-        else{
+        } else {
             workScheduleEntity.setEmpInfoEntity(empp);
             workScheduleEntity.setWorkScheduleDate(LocalDate.now()); // 출근 또는 퇴근 시점의 날짜
             workScheduleEntity.setWorkScheduleCheck(false); // 출퇴근 기록 체크 로직은 필요에 따라 추가
             workScheduleEntity.setWorkScheduleStartTime(LocalTime.parse(currentTime));
+
+            // currentTime이 09:00:00을 넘었는지 확인하여 workScheduleCheck 설정
+            LocalTime targetTime = LocalTime.parse("09:00:00");
+            if (LocalTime.parse(currentTime).compareTo(targetTime) > 0) {
+                workScheduleEntity.setWorkScheduleCheck(true);
+            } else {
+                workScheduleEntity.setWorkScheduleCheck(false);
+            }
+
             workScheduleRepository.save(workScheduleEntity);
         }
         // 성공적으로 기록되었을 때 응답
@@ -94,17 +112,35 @@ public class WorkScheduleController {
         Optional<EmpInfoEntity> emp = empInfoRepository.findByEmpInfoId(empInfoId);
         EmpInfoEntity empp = emp.get();
         WorkScheduleEntity workScheduleEntity = new WorkScheduleEntity();
-        List<WorkScheduleEntity>exist = workScheduleRepository.findByWorkScheduleDateAndEmpInfoEntity_EmpInfoId(LocalDate.now(),empInfoId);
-        if(!exist.isEmpty()){
+        List<WorkScheduleEntity> exist = workScheduleRepository.findByWorkScheduleDateAndEmpInfoEntity_EmpInfoId(LocalDate.now(), empInfoId);
+
+        if (!exist.isEmpty()) {
             WorkScheduleEntity existingEntity = exist.get(0); // 예시로 첫 번째 엔터티를 가져왔습니다. 필요에 따라 로직 수정
             existingEntity.setWorkScheduleEndTime(LocalTime.parse(currentTime));
+
+            // currentTime이 18:00 이전이면 workScheduleCheck를 true로 설정
+            LocalTime targetTime = LocalTime.parse("18:00:00");
+            if (LocalTime.parse(currentTime).isBefore(targetTime)) {
+                existingEntity.setWorkScheduleCheck(true);
+            } else {
+                existingEntity.setWorkScheduleCheck(false);
+            }
+
             workScheduleRepository.save(existingEntity);
-        }
-        else{
+        } else {
             workScheduleEntity.setEmpInfoEntity(empp);
             workScheduleEntity.setWorkScheduleDate(LocalDate.now()); // 출근 또는 퇴근 시점의 날짜
             workScheduleEntity.setWorkScheduleCheck(false); // 출퇴근 기록 체크 로직은 필요에 따라 추가
             workScheduleEntity.setWorkScheduleEndTime(LocalTime.parse(currentTime));
+
+            // currentTime이 18:00 이전이면 workScheduleCheck를 true로 설정
+            LocalTime targetTime = LocalTime.parse("18:00:00");
+            if (LocalTime.parse(currentTime).isBefore(targetTime)) {
+                workScheduleEntity.setWorkScheduleCheck(true);
+            } else {
+                workScheduleEntity.setWorkScheduleCheck(false);
+            }
+
             workScheduleRepository.save(workScheduleEntity);
         }
         return ResponseEntity.ok("처리되었습니다.");
