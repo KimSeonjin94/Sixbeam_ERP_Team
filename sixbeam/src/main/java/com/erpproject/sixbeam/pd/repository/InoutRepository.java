@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface InoutRepository extends JpaRepository<InoutEntity, String> {
 
-    List<InoutEntity> findByInoutCmptCd(String inoutCd);
+    String findByInoutCmptCd(String inoutCd);
 
     @Query("SELECT MAX(i.inoutCmptCd) FROM InoutEntity i WHERE i.inoutDt = :inoutDate")
     String getMaxInoutCmptCd(@Param("inoutDate") LocalDate inoutDate);

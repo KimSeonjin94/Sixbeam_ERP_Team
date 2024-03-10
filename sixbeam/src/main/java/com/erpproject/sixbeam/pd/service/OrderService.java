@@ -5,6 +5,7 @@ import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
 import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import com.erpproject.sixbeam.pd.Form.OrderForm;
 import com.erpproject.sixbeam.pd.dto.OrderDto;
+import com.erpproject.sixbeam.pd.entity.InoutEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.entity.OrderEntity;
 import com.erpproject.sixbeam.pd.repository.FitemRepository;
@@ -32,6 +33,7 @@ public class OrderService {
     private final EmpInfoRepository empInfoRepository;
     private final ItemRepository itemRepository;
     private final InoutRepository inoutRepository;
+    private final InoutService inoutService;
 
     public List<OrderEntity> getList() {
 
@@ -85,8 +87,6 @@ public class OrderService {
     public void create(List<OrderDto> orderDtos) {
 
 
-
-
         for (OrderDto orderDto : orderDtos) {
 
             String newOrderCd = generateNewOrderCd(orderDtos.get(0).getOrderInstDt());
@@ -99,7 +99,7 @@ public class OrderService {
             orderDto.setEmpInfoEntity(empInfoEntity);
             orderDto.setItemEntity(itemEntity);
 
-           OrderEntity orderEntity = orderDto.toEntity();
+            OrderEntity orderEntity = orderDto.toEntity();
             orderEntity.setOrderCd(newOrderCd);
             orderRepository.save(orderEntity);
         }
@@ -147,6 +147,7 @@ public class OrderService {
 
                 order.setOrderSt(false);
                 orderRepository.save(order);
+                inoutService.saveInout(orderCd);
             } else {
 
                 order.setOrderSt(true);

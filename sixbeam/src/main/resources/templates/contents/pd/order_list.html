@@ -6,7 +6,13 @@
 	<div class = "card shadow mb-4">
 		<div class = "card-header py-3" style = "display: flex;">
 			<h6 class = "m-0-ac font-weight-bold text-primary">작업 지시서</h6>
+			<div>
+				<button type = "button" class = "btn btn-danger-ac" data-toggle = "modal" data-target = "#turnBoolean">
+					작업 상태 변경
+				</button>
+			</div>
 		</div>
+		
 		
 		<div class = "card-body">
 			<div class = "table-responsive">
@@ -18,7 +24,7 @@
 						<th>지시 날짜</th>
 						<th>납기 날짜</th>
 						<th>담당자</th>
-						<th>품목 코드</th>
+						<th>규격</th>
 						<th>수량</th>
 						<th>작업상태</th>
 						<th>상세</th>
@@ -28,23 +34,23 @@
 					<tbody>
 					<tr th:each = "order : ${getOrderList}">
 						<td>
-							<input type = "checkbox" name = "selectedInfo" th:value = "${order.orderCd}">
+							<input type = "checkbox" class = "selectedInfo" th:value = "${order.orderCd}">
 						</td>
 						<td th:text = "${order.orderCd}"></td>
 						<td th:text = "${order.orderInstDt}"></td>
 						<td th:text = "${order.orderDelivDt}"></td>
-						<td th:text = "${order.empInfoEntity.empInfoId}"></td>
-						<td th:text = "${order.itemEntity.itemCd}"></td>
+						<td th:text = "${order.empInfoEntity.empInfoNm}"
+						    th:value = "${order.empInfoEntity.empInfoId}"></td>
+						<td th:text = "${order.itemEntity.itemStnd}" th:value = "${order.itemEntity.itemCd}"></td>
 						<td th:text = "${order.orderAmt}"></td>
 						<td th:text = "${order.orderSt ? '미완료' : '완료'}"></td>
 						<div class = "btn-group" role = "group" aria-label = "Basic example">
 							<!-- Button trigger modal -->
 							<td>
 								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
-								        data-target = "#detailOrder" th:onclick = "setEmpInfo(
-                                        [[${order.empInfoEntity.empInfoNm}]],
-                                        [[${order.empInfoEntity.empInfoPhone}]],
-                                        [[${order.empInfoEntity.empInfoEmail}]])">
+								        data-target = "#detailOrder" id = "detailOrderbtn"
+								        th:if = "${order.orderCd != null}"
+								        th:data-id = "${order.orderCd}">
 									상세
 								</button>
 							</td>
@@ -62,7 +68,7 @@
 				<div class = "modal-content">
 					
 					<div class = "modal-header">
-						<h5 class = "modal-title" id = "newPdLabel">작업지시서 등록</h5>
+						<h5 class = "modal-title" id = "newPdLabel">작업 지시서 등록</h5>
 						<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
 							<span aria-hidden = "true">&times;</span>
 						</button>
