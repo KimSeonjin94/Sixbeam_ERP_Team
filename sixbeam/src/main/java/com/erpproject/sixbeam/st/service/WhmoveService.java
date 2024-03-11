@@ -132,41 +132,44 @@ public class WhmoveService {
         }
     }
 
-    //    public void updateRowSale(SaleEntity saleEntity) { //수정
-//        WhmoveEntity tempSale = whmoveRepository.BySaleCd(saleEntity.getSaleCd());
-//        tempSale.setWhmoveDt(tempSale.getWhmoveDt());
-//        tempSale.setSaleCd(tempSale.getSaleCd());
-//        tempSale.setEmpInfoEntity(tempSale.getEmpInfoEntity());
-//        tempSale.setItemEntity(tempSale.getItemEntity());
-//        tempSale.setWhregistEntity(saleEntity.getWhregistEntity());
-//        tempSale.setWhmoveGb(tempSale.getWhmoveGb());
-//        tempSale.setWhmoveCd(tempSale.getWhmoveCd());
-//        tempSale.setWhmoveAmt(tempSale.getWhmoveAmt());
-//        whmoveRepository.save(tempSale);
-//        CheckRowUpdatedEvent<WhmoveEntity> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
-//        updateEvent.publishEvent(whmoveEvent);
-//    }
-    public void updateRowSale(SaleEntity saleEntity) { //수정
-        List<WhmoveEntity> tempSale = whmoveRepository.BySaleCd(saleEntity.getSaleCd());
-        List<EstimateEntity> estimateEntities = estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
-        // ItemEntity를 키로 하고 EstimateEntity를 값으로 하는 맵 생성
-        Map<ItemEntity, EstimateEntity> itemToEstimateMap = new HashMap<>();
-        for (EstimateEntity estimateEntity : estimateEntities) {
-            itemToEstimateMap.put(estimateEntity.getItemEntity(), estimateEntity);
-        }
-
-        // tempSale 리스트의 각 WhmoveEntity에 대해 매핑된 EstimateEntity가 있는지 확인
-        for (WhmoveEntity whmoveEntity : tempSale) {
-            EstimateEntity matchedEstimate = itemToEstimateMap.get(whmoveEntity.getItemEntity());
-            if (matchedEstimate != null) {
-                whmoveEntity.setWhregistEntity(saleEntity.getWhregistEntity());
-                whmoveEntity.setWhmoveAmt(matchedEstimate.getEstimateAmt());
-            }
-        }
-        whmoveRepository.saveAll(tempSale);
-        CheckRowUpdatedEvent<List<WhmoveEntity>> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
+        public void updateRowSale(SaleEntity saleEntity) { //수정
+        WhmoveEntity tempSale = whmoveRepository.BySaleCd(saleEntity.getSaleCd());
+        tempSale.setWhmoveDt(tempSale.getWhmoveDt());
+        tempSale.setSaleCd(tempSale.getSaleCd());
+        tempSale.setEmpInfoEntity(tempSale.getEmpInfoEntity());
+        tempSale.setItemEntity(tempSale.getItemEntity());
+        tempSale.setWhregistEntity(saleEntity.getWhregistEntity());
+        tempSale.setWhmoveGb(tempSale.getWhmoveGb());
+        tempSale.setWhmoveCd(tempSale.getWhmoveCd());
+        tempSale.setWhmoveAmt(tempSale.getWhmoveAmt());
+        tempSale.setInoutCmptCd(null);
+        tempSale.setAsCd(null);
+        tempSale.setInputPurCd(null);
+        whmoveRepository.save(tempSale);
+        CheckRowUpdatedEvent<WhmoveEntity> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
         updateEvent.publishEvent(whmoveEvent);
     }
+//    public void updateRowSale(SaleEntity saleEntity) { //수정
+//        List<WhmoveEntity> tempSale = whmoveRepository.BySaleCd(saleEntity.getSaleCd());
+//        List<EstimateEntity> estimateEntities = estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
+//        // ItemEntity를 키로 하고 EstimateEntity를 값으로 하는 맵 생성
+//        Map<ItemEntity, EstimateEntity> itemToEstimateMap = new HashMap<>();
+//        for (EstimateEntity estimateEntity : estimateEntities) {
+//            itemToEstimateMap.put(estimateEntity.getItemEntity(), estimateEntity);
+//        }
+//
+//        // tempSale 리스트의 각 WhmoveEntity에 대해 매핑된 EstimateEntity가 있는지 확인
+//        for (WhmoveEntity whmoveEntity : tempSale) {
+//            EstimateEntity matchedEstimate = itemToEstimateMap.get(whmoveEntity.getItemEntity());
+//            if (matchedEstimate != null) {
+//                whmoveEntity.setWhregistEntity(saleEntity.getWhregistEntity());
+//                whmoveEntity.setWhmoveAmt(matchedEstimate.getEstimateAmt());
+//            }
+//        }
+//        whmoveRepository.saveAll(tempSale);
+//        CheckRowUpdatedEvent<List<WhmoveEntity>> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
+//        updateEvent.publishEvent(whmoveEvent);
+//    }
 
     private String generateNewWhmoveSaleCd(LocalDate saleUploadDt) { //기본키 자동생성
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
