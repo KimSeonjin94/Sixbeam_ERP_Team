@@ -54,7 +54,6 @@ public class ReleaseService {
         ReleaseEntity releaseEntity = releaseDto.toEntity();
         releaseEntity.setReleaseCd(newReleaseCd);
         releaseRepository.save(releaseEntity);
-
     }
 
     public void updateAll(ReleaseDto releaseDto) {
