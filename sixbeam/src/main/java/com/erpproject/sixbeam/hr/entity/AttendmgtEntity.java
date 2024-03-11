@@ -19,20 +19,13 @@ import java.time.LocalTime;
 
 public class AttendmgtEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="HR_ATTENDMGT_TB_attendmgtCd_seq")
-    @SequenceGenerator(name ="HR_ATTENDMGT_TB_attendmgtCd_seq", sequenceName ="HR_ATTENDMGT_TB_attendmgtCd_seq",
-            initialValue = 100001, allocationSize =1)
-    @Column(name ="attendmgtCd")
-    private Long attendmgtCd;//급여식별자
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "empinfoId")
     private EmpInfoEntity empInfoEntity;//사원Id
-    @Column(name ="AttendmgtTardy")
-    private int AttendmgtTardy;//지각
-    @Column(name ="AttendmgtLearly")
-    private int AttendmgtLearly;//조퇴
-    @Column(name ="AttendmgtAbsent")
-    private int AttendmgtAbsent;//결석
-    @Column(name ="AttendmgtOverTime")
-    private int AttendmgtOverTime;//연장근무
+    private String title;
+    private LocalDate start;
+    private LocalDate end;
+    private String backgroundColor;
 }
