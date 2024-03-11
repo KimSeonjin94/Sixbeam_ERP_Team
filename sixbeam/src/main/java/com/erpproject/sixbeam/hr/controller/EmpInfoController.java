@@ -10,6 +10,7 @@ import com.erpproject.sixbeam.hr.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -146,5 +147,14 @@ public class EmpInfoController {
 
             return ResponseEntity.badRequest().body(errorResponse);
         }
+    }
+    @PostMapping("/changePw")
+    public String changePassword(Model model,
+                                 @RequestParam("newPassword") String newPassword,
+                                 @RequestParam("confirmPassword") String confirmPassword){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Long empInfoId = Long.parseLong(username);
+        empInfoService.changeEmpInfoPasswordById(empInfoId,newPassword);
+        return "redirect:/sixbeam/profile";
     }
 }
