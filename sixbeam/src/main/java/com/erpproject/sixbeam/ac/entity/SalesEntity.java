@@ -27,8 +27,8 @@ public class SalesEntity {
     @ManyToOne
     @JoinColumn(name="SALE_CD")
     private SaleEntity saleEntity;
-    @Column(name="SALES_ETC")
-    private String salesEtc;
+    @Column(name="SALES_PRICE")
+    private int salesPrice;
     @Column(name="SALES_SUBJECT",nullable = false)
     private String salesSubject;
 

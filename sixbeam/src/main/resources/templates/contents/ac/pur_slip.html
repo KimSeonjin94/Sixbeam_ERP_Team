@@ -5,24 +5,24 @@
         <div class="card-header">
             매입전표
         </div>
-        <form action="/ac/pur/purSlip" method="post">
+        <form class = "purSlip" action="/ac/pur/purSlip" th:object="${PurDto}" method="post">
             <div class="card-body">
                 <div class="form-group row">
                     <label for="updateCurrentDate" class="col-sm-2 col-form-label">전표일자</label>
-                    <input type="date" class="form-control col-sm-10" id="updateCurrentDate" name="accountCd">
+                    <input type="date" class="form-control col-sm-10" id="updateCurrentDate" name="purNb">
                 </div>
                 <div class="form-group row">
                     <label for="selectinputPurCd" class="col-sm-2 col-form-label">판매 코드</label>
-                    <input type="text" class="form-control col-sm-8" id="inputPurCd" name="inputPurCd">
+                    <input type="text" class="form-control col-sm-8" id="inputPurCd" name="inputEntity.inputPurCd">
                     <div class="col-sm-2">
                         <button type="button" id="selectinputPurCd" class="btn btn-primary" data-toggle="modal"
-                                data-target="#orinputdetail">판매 선택
+                                data-target="#orinputdetail">구매 선택
                         </button>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="accountCodeList" class="col-sm-2 col-form-label">거래처 코드</label>
-                    <input type="text" class="form-control col-sm-10" id="updateaccountCode" name="accountCode" list="accountCodeList">
+                    <input type="text" class="form-control col-sm-10" id="updateaccountCode" name="accountEntity.accountCd" list="accountCodeList">
                     <datalist id="accountCodeList" >
                         <option th:each="actlist : ${actList}" th:value="${actlist.accountCd}"
                                 th:text="${actlist.accountNm}">
@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group row">
                     <label for="accountNb" class="col-sm-2 col-form-label">공급가액</label>
-                    <input type="text" class="form-control col-sm-10" id="accountNb" name="accountNb">
+                    <input type="text" class="form-control col-sm-10" id="accountNb" name="purPrice">
                 </div>
                 <div class="form-group row">
                     <label for="accountAdd" class="col-sm-2 col-form-label">부가세</label>
@@ -49,11 +49,11 @@
 
                 <div class="form-group row">
                     <label for="accountAcnb" class="col-sm-2 col-form-label">매입계정</label>
-                    <input type="text" class="form-control col-sm-10" id="accountAcnb" name="accountAcnb">
+                    <input type="text" class="form-control col-sm-10" id="accountAcnb" name="accountAcnb" value="원재료" readonly>
                 </div>
                 <div class="form-group row">
                     <label for="accountPic" class="col-sm-2 col-form-label">출금계좌</label>
-                    <input type="text" class="form-control col-sm-10" id="accountPic" name="accountPic">
+                    <input type="text" class="form-control col-sm-10" id="accountPic" name="purSubject" value="외상매입금" readonly>
                 </div>
                 <div class="form-group row">
                     <label for="accountEtc" class="col-sm-2 col-form-label">수수료</label>
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="card-footer text-muted d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary-ac">저장</button>
+                <button type="submit" class="btn btn-primary-ac" th:onclick="purSlipFinished()">저장</button>
                 <button type="button" class="btn btn-secondary-ac">닫기</button>
             </div>
         </form>
@@ -115,5 +115,43 @@
             </div>
         </div>
     </div>
+
+    <!-- 성공 창 모달 -->
+    <div class="modal fade hide" tabindex="-1" role="dialog" id="successModal" th:data-show-modal="${showModal}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">성공</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 실패 창 모달 -->
+    <div class="modal fade hide" tabindex="-1" role="dialog" id="failModal" th:data-show-modal="${showModal}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">실패</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </html>
