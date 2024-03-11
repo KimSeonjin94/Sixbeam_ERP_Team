@@ -5,6 +5,8 @@ import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.entity.SalesEntity;
 import com.erpproject.sixbeam.ac.repository.SalesRepository;
 import com.erpproject.sixbeam.ac.service.AccountService;
+import com.erpproject.sixbeam.ac.service.SalesService;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.service.SaleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +24,17 @@ import java.util.List;
 public class SalesController {
     private final AccountService accountService;
 
-//    @Autowired
-//    private SalesRepository salesRepository;
-//    @Autowired
-//    private SaleService saleService;
-//    @Autowired
-//    private ApplicationEventPublisher event;
+
+    private final SalesService salesService;
+
+    private final ApplicationEventPublisher event;
 
     @GetMapping("/sales/salesSlip")
     public String salesSlipForm(Model model) {
         List<AccountEntity> actEntity = this.accountService.getList();
+        List<SaleEntity> saleEntities = this.salesService.getSaleList();
         model.addAttribute("actList", actEntity);
+        model.addAttribute("saleEntities",saleEntities);
         return "contents/ac/sales_slip";
     }
 

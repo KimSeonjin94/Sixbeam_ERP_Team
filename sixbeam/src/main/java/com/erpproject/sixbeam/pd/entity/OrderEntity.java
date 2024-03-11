@@ -19,7 +19,7 @@ import java.util.Date;
 public class OrderEntity {
 
     @Id
-    @Column(name = "ORDER_CD")
+    @Column(name = "ORDER_CD", nullable = false)
     private String orderCd;
 
     @Column(name = "ORDER_INST_DT")
@@ -29,11 +29,11 @@ public class OrderEntity {
     private LocalDate orderDelivDt;
 
     @ManyToOne
-    @JoinColumn(name = "EMPINFO_ID")
+    @JoinColumn(name = "EMPINFO_ID", nullable = false)
     private EmpInfoEntity empInfoEntity;
 
     @ManyToOne
-    @JoinColumn(name = "ITEM_CD")
+    @JoinColumn(name = "ITEM_CD", nullable = false)
     private ItemEntity itemEntity;
 
     @Column(name = "ORDER_AMT")

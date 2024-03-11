@@ -8,21 +8,31 @@
         <form action="/ac/sales/salesSlip" method="post">
             <div class="card-body">
                 <div class="form-group row">
-                    <label for="accountCd" class="col-sm-2 col-form-label">전표일자</label>
-                    <input type="date" class="form-control col-sm-10" id="accountCd" name="accountCd">
+                    <label for="updateCurrentDate" class="col-sm-2 col-form-label">전표일자</label>
+                    <input type="date" class="form-control col-sm-10" id="updateCurrentDate" name="accountCd">
+                </div>
+                <div class="form-group row">
+                    <label for="selectEstimateCd" class="col-sm-2 col-form-label">구매 코드</label>
+                    <input type="text" class="form-control col-sm-8" id="saleCd" name="saleCd">
+                    <div class="col-sm-2">
+                        <button type="button" id="selectEstimateCd" class="btn btn-primary" data-toggle="modal"
+                                data-target="#saledetail">판매 선택
+                        </button>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label for="accountCodeList" class="col-sm-2 col-form-label">거래처 코드</label>
-                    <input type="text" class="form-control col-sm-10" id="accountCode" name="accountCode" list="accountCodeList">
+                    <input type="text" class="form-control col-sm-10" id="updateaccountCode" name="accountCode" list="accountCodeList">
                     <datalist id="accountCodeList" >
                         <option th:each="actlist : ${actList}" th:value="${actlist.accountCd}"
                                 th:text="${actlist.accountNm}">
                         </option>
                     </datalist>
                 </div>
+
                 <div class="form-group row">
-                    <label for="accountName" class="col-sm-2 col-form-label">거래처명</label>
-                    <input type="text" class="form-control col-sm-10" id="accountName" name="accountName">
+                    <label for="updateaccountName" class="col-sm-2 col-form-label">거래처명</label>
+                    <input type="text" class="form-control col-sm-10" id="updateaccountName" name="accountName">
                 </div>
                 <div class="form-group row">
                     <label for="accountNb" class="col-sm-2 col-form-label">공급가액</label>
@@ -56,6 +66,68 @@
                 <button type="button" class="btn btn-secondary-ac">닫기</button>
             </div>
         </form>
+    </div>
+    <!-- 수정 Modal -->
+    <div class="modal fade" id="saledetail" tabindex="-1" aria-labelledby="subjectsaleLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="subjectsaleLabel">판매</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table item table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>판매 코드</th>
+                                        <th>견적 코드</th>
+                                        <th>계산서 발급일자</th>
+                                        <th>계산서 발급 상태</th>
+                                        <th>결제 일자</th>
+                                        <th>창고 코드</th>
+                                        <th>창고</th>
+                                        <th>출고 상태</th>
+                                        <th>출고 일자</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="sale : ${saleEntities}">
+                                        <td>
+                                            <a href="#" id="detailSaleCd" th:data-id="${sale.saleCd}">
+                                                <span th:text="${sale.saleCd}"></span>
+                                            </a>
+                                        </td>
+                                        <td th:text="${sale.estimateCd}">
+                                        </td>
+                                        <td th:text="${sale.saleBillingDt}">
+                                        </td>
+                                        <td th:text="${sale.saleBillingSt ? '발행' : '발행 전'}">
+                                        </td>
+                                        <td th:text="${sale.salePaymentDt}">
+                                        </td>
+                                        <td th:text="${sale.WhregistEntity?.whregistCd}">
+                                        </td>
+                                        <td th:text="${sale.WhregistEntity?.whregistNm}">
+                                        </td>
+                                        <td th:text="${sale.saleShippingSt}">
+                                        </td>
+                                        <td th:text="${sale.saleShippingDt}">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </html>

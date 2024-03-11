@@ -40,14 +40,24 @@ public void handleRowUpdatedEvent(CheckRowUpdatedEvent<WhmoveEntity> event) {
     checkService.updateRowCheck(whmoveEntity);
 }
 
-@EventListener
-public void handleRowDeletedEvent(CheckRowDeletedEvent<WhmoveEntity> event) {
-    List<WhmoveEntity> entities = event.getEntities();
-    List<WhmoveEntity> temp = new ArrayList<>();
-    for (WhmoveEntity entity : entities) {
-        temp.add(entity);
+//@EventListener
+//public void handleRowDeletedEvent(CheckRowDeletedEvent<WhmoveEntity> event) {
+//    List<WhmoveEntity> entities = event.getEntities();
+//    List<WhmoveEntity> temp = new ArrayList<>();
+//    for (WhmoveEntity entity : entities) {
+//        temp.add(entity);
+//    }
+//    checkService.deleteRowCheck(temp);
+//}
+
+    @EventListener
+    public void handleRowDeletedEvent(CheckRowDeletedEvent<WhmoveEntity> event) {
+        List<WhmoveEntity> entities = event.getEntities();
+        List<String> temp = new ArrayList<>();
+        for (WhmoveEntity entity : entities) {
+            temp.add(entity.getWhmoveCd());
+        }
+        checkService.deleteRowCheck(temp);
     }
-    checkService.deleteRowCheck(temp);
-}
 
 }

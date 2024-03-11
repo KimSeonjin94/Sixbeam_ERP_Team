@@ -343,7 +343,7 @@ $(document).ready(function() {
                 }
             },
             {
-                text: '선택 항목 삭제',
+                text: '삭제',
                 className: 'btn btn-danger mr-auto',
                 action: function ( e, dt, node, config ) {
                     $('#deleteItem').modal('show');

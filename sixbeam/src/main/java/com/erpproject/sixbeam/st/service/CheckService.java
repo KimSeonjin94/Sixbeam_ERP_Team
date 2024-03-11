@@ -132,12 +132,19 @@ CheckService {
         temp = checkEntity;
         checkRepository.save(temp);
     }
+//    @Transactional
+//    public void deleteRowCheck(List<WhmoveEntity> whmoveEntities) {
+//        List<CheckEntity> checkEntitiesToDelete = new ArrayList<>();
+//        for (WhmoveEntity whmoveEntity : whmoveEntities) {
+//            List<CheckEntity> checkEntities = checkRepository.test(whmoveEntity.getWhmoveCd());
+//            checkEntitiesToDelete.addAll(checkEntities);
+//            checkRepository.deleteAll(checkEntities);
+//        }
+//    }
     @Transactional
-    public void deleteRowCheck(List<WhmoveEntity> whmoveEntities) {
-        List<CheckEntity> checkEntitiesToDelete = new ArrayList<>();
-        for (WhmoveEntity whmoveEntity : whmoveEntities) {
-            List<CheckEntity> checkEntities = checkRepository.getBywhmoveCd(whmoveEntity.getWhmoveCd());
-            checkEntitiesToDelete.addAll(checkEntities);
+    public void deleteRowCheck(List<String> whmoveEntities) {
+        for (String whmoveEntity : whmoveEntities) {
+            List<CheckEntity> checkEntities = checkRepository.findByWhmoveCd(whmoveEntity);
             checkRepository.deleteAll(checkEntities);
         }
     }
