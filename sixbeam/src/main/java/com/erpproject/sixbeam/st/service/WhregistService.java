@@ -69,6 +69,5 @@ public class WhregistService {
         String sequenceNumberString = String.format("%04d", sequenceNumber);
         return prefix + sequenceNumberString;
     }
-
 }
 
