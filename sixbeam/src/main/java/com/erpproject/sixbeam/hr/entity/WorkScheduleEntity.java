@@ -20,7 +20,7 @@ public class WorkScheduleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "HR_WORKSCHEDULE_TB_workScheduleCd_seq")
     @SequenceGenerator(name = "HR_WORKSCHEDULE_TB_workScheduleCd_seq", sequenceName = "HR_WORKSCHEDULE_TB_workScheduleCd_seq",
-            initialValue = 10023, allocationSize = 1)
+            initialValue = 10031, allocationSize = 1)
     @Column(name = "workScheduleCd")
     private Long workScheduleCd;//출퇴근 식별자
     @ManyToOne

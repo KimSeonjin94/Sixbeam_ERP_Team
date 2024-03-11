@@ -1,7 +1,9 @@
 package com.erpproject.sixbeam.pd.controller;
 
 import com.erpproject.sixbeam.pd.Form.BomForm;
+import com.erpproject.sixbeam.pd.Form.OrderForm;
 import com.erpproject.sixbeam.pd.dto.BomDto;
+import com.erpproject.sixbeam.pd.dto.OrderDto;
 import com.erpproject.sixbeam.pd.entity.BomEntity;
 import com.erpproject.sixbeam.pd.entity.FitemEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
@@ -16,7 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping("/pd/bom")
@@ -35,11 +40,12 @@ public class BomController {
         BomForm bomForm = new BomForm();
         List<RitemEntity> ritemEntities = ritemService.getRitemList();
 
-        // 등록창 두 줄
-        bomForm.getBomDtos().add(new BomDto());
+        // 등록창 한 줄
         bomForm.getBomDtos().add(new BomDto());
 
-        model.addAttribute("getitemlist", ritemEntities);
+        model.addAttribute("getRitemList", ritemEntities);
+        model.addAttribute("bomForm", bomForm);
+
 
         bomService.readyBomForm(model);
         return "/contents/pd/bom_form";
@@ -47,9 +53,20 @@ public class BomController {
 
     // 새 bom 작성
     @PostMapping("/create")
-    public ResponseEntity<?> createBomDto(@ModelAttribute BomForm bomForm) {
+    public ResponseEntity<?> createOrderDto(@ModelAttribute BomForm bomForm) {
 
-        return bomService.createBomDto(bomForm);
+        List<BomDto> bomDtos = bomForm.getBomDtos();
+
+        try {
+            bomService.create(bomDtos);
+            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/pd/bom/bomlist"));
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "저장에 실패 하였습니다.");
+            errorResponse.put("redirectUrl", "/pd/bom/new");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     // bom 리스트 출력
