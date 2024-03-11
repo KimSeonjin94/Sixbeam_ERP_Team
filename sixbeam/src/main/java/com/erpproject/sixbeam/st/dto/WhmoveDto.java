@@ -32,6 +32,8 @@ public class WhmoveDto {
 
     private String InputPurCd;
 
+    private String inoutCmptCd;
+
     public WhmoveEntity toEntity() {
         WhmoveEntity entity = new WhmoveEntity();
         entity.setWhmoveCd(this.whmoveCd);
@@ -44,6 +46,7 @@ public class WhmoveDto {
         entity.setAsCd(this.asCd);
         entity.setSaleCd(this.saleCd);
         entity.setInputPurCd(this.InputPurCd);
+        entity.setInoutCmptCd(this.inoutCmptCd);
         return  entity;
     }
 }
