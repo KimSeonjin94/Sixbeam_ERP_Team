@@ -9,12 +9,12 @@ public class SalesDto {
     private String salesNb;
     private AccountEntity accountEntity;
     private SaleEntity saleEntity;
-    private String salesEtc;
+    private int salesPrice;
     private String salesSubject;
 
 
     public SalesEntity toEntity() {
 
-        return new SalesEntity(salesNb, accountEntity, saleEntity, salesEtc, salesSubject);
+        return new SalesEntity(salesNb, accountEntity, saleEntity, salesPrice, salesSubject);
     }
 }
