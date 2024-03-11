@@ -89,6 +89,7 @@ public class ItemController {
     public String deleteItem(@RequestParam("itemCd") List<String> itemCd) {
 
         itemService.deleteItem(itemCd);
+
         return "redirect:/pd/bom/bomlist";
     }
 }

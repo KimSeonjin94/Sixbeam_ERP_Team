@@ -208,9 +208,7 @@ $('#detailItembtn[data-id]').on('click', function () {
 
 $('#editItembtn[data-id]').on('click', function () {
 
-    var itemCd = $(this).data('id'); // this - 클릭된 요소
-    var itemNm = $(this).val();
-    var itemStnd = $(this).val();
+    var edititemcd = $(this).data('id'); // this - 클릭된 요소
 
     // 선택한 품목에 대한 부속품 정보를 요청하기 위해 Ajax를 사용
     $.ajax({
@@ -222,32 +220,29 @@ $('#editItembtn[data-id]').on('click', function () {
             console.log(response);
 
             // 부속품 정보를 받아온 후, 테이블에 동적으로 추가
-            var ritemDetailsTable = $('#ritemDetails');
+            var ritemEditTable = $('#ritemEdit');
 
             // 기존에 표시된 내용을 모두 지우고 새로운 내용으로 대체
-            ritemDetailsTable.empty();
+            ritemEditTable.empty();
 
-            response.forEach(function (bomEntity, index) {
-
-                itemSum += (bomEntity.ritemEntity.itemUp * bomEntity.bomUseMt);
+            response.forEach(function (ritemEntity, index) {
 
                 // 부속품의 각 정보를 테이블에 추가
                 var row = $('<tr>');
 
-                row.append('<td>' + bomEntity.ritemEntity.itemCd + '</td>' +
-                    '<td><input type="text" class="form-control" value="' + bomEntity.ritemEntity.itemNm + '"></td>' +
-                    '<td><input type="text" class="form-control" value="' + bomEntity.ritemEntity.itemStnd + '"></td>' +
-                    '<td><input type="text" class="form-control" value="' + bomEntity.bomUseMt + '"></td>' +
-                    '<td><input type="text" class="form-control" value="' + bomEntity.ritemEntity.itemUp + '"></td>');
+                row.append('<td>' + ritemEntity.itemCd + '</td>' +
+                    '<td><input type="text" class="form-control" value="' + ritemEntity.itemNm + '"></td>' +
+                    '<td><input type="text" class="form-control" value="' + ritemEntity.itemStnd + '"></td>' +
+                    '<td><input type="text" class="form-control" value="' + ritemEntity.itemUp + '"></td>');
 
                 // 새로운 행을 테이블에 추가
                 ritemDetailsTable.append(row);
             });
 
-            $('#detailItemCd').val(response[0].fitemEntity.itemCd)
-            $('#detailItemNm').val(response[0].fitemEntity.itemNm)
-            $('#detailItemStnd').val(response[0].fitemEntity.itemStnd)
-            $('#detailItemUp').val(itemSum);
+            $('#editItemCd').val(response[0].ritemEntity.itemCd)
+            $('#editItemNm').val(response[0].ritemEntity.itemNm)
+            $('#editItemStnd').val(response[0].ritemEntity.itemStnd)
+            $('#editItemUp').val(itemSum);
         },
 
         error: function (xhr, status, error) {
@@ -455,34 +450,23 @@ $(document).ready(function() {
 });
 
 function calculateTotal() {
-    var totalAmt = 0, totalUp = 0, totalSp = 0, totalVat = 0, totalSum = 0;
+
+    var totalAmt = 0, totalUp = 0, totalSum = 0;
 
     $('.itemamt').each(function() {
-        totalAmt += parseInt($(this).val()) || 0;
+        totalAmt += parseInt($(this).val().replace(/[^\d]/g, '')) || 0;
     });
     $('.itemup').each(function() {
-        var value = $(this).val();
+        var value = $(this).val().replace(/[^\d]/g, '');
         totalUp += parseInt(value) || 0;
     });
-    // $('.itemsp').each(function() {
-    //     var value = $(this).val().replace(/[^\d]/g, '');
-    //     totalSp += parseInt(value) || 0;
-    // });
-    // $('.itemvar').each(function() {
-    //     var value = $(this).val().replace(/[^\d]/g, '');
-    //     totalVat += parseInt(value) || 0;
-    // });
     $('.itemsum').each(function() {
         var value = $(this).val().replace(/[^\d]/g, '');
         totalSum += parseInt(value) || 0;
     });
     console.log(totalSum);
     // 계산된 합계를 통화 형식으로 표시
-    //$('#totalAmt').text(totalAmt);
     $('#totalUp').text(formatCurrency(totalSum));
-    //$('#totalSp').text(formatCurrency(totalSp));
-    //$('#totalVat').text(formatCurrency(totalVat));
-    //$('#totalSum').text(formatCurrency(totalSum));
 }
 
 $(document).ready(function () {
@@ -491,6 +475,7 @@ $(document).ready(function () {
         // 폼 제출을 막음
         e.preventDefault();
 
+        // 작업지시서 등록 3개(id)
         // 지시 일자의 값
         var orderinstdt = $('#currentDate').val();
         // 납기 날짜의 값
@@ -498,19 +483,26 @@ $(document).ready(function () {
         // 작업 상태의 값
         var orderst = $('#orderSt').val();
 
-        /*var itemnm = $('#itemNm').val();
+        // bom 등록 3개(id)
+        var itemnm = $('#itemNm').val();
         var itemstnd = $('#itemStnd').val();
-        var itemup = $('#itemup').val();*/
+        var itemup = $('#itemup').val();
+
+        console.log(itemnm);
+        console.log(itemstnd);
+        console.log(itemup);
 
         $('.table.order tbody tr').each(function (index) {
             // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+            // 작업 지시서 내용 저장(클래스)
             $(this).find('.orderInstDt').val(orderinstdt);
             $(this).find('.orderDelivDt').val(orderdelivdt);
             $(this).find('.orderSt').val(orderst);
 
-            /*$(this).find('.itemNm').val(itemnm);
-            $(this).find('.itemStnd').val(itemstnd);
-            $(this).find('.itemup').val(itemup);*/
+            // bom 내용 저장(클래스)
+            $(this).find('.fitemNm').val(itemnm);
+            $(this).find('.fitemStnd').val(itemstnd);
+            $(this).find('.fitemup').val(itemup);
         });
 
         var formData = new FormData(this);
@@ -563,7 +555,7 @@ $(document).ready(function () {
         var itemstnd = $('#itemStnd').val();
         var itemup = $('#itemup').val();
 
-        $('.table.order tbody tr').each(function (index) {
+        $('.table.bom tbody tr').each(function (index) {
             // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
             $(this).find('.fitemNm').val(itemnm);
             $(this).find('.fitemStnd').val(itemstnd);

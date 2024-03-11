@@ -18,7 +18,6 @@
 						<th>품목</th>
 						<th>규격</th>
 						<th>단가</th>
-						<th>수정</th>
 					</tr>
 					</thead>
 					
@@ -31,14 +30,6 @@
 						<td th:text = "${item.itemNm}"></td>
 						<td th:text = "${item.itemStnd}"></td>
 						<td th:text = "|${#numbers.formatInteger(item.itemUp, 0,'COMMA')}원|"></td>
-						<div class = "btn-group" role = "group" aria-label = "Basic example">
-							<!-- Button trigger modal -->
-							<td>
-								<button type = "button" class = "btn btn-warning-pd" data-toggle = "modal"
-								        data-target = "#editItem" id = "editItembtn" th:data-id = "${item.itemCd}">
-									수정
-								</button>
-						</div>
 					</tr>
 					</tbody>
 				</table>
@@ -48,11 +39,11 @@
 			<!-- 신규 등록 모달 -->
 			<div class = "modal fade" id = "newPd" tabindex = "-1" aria-labelledby = "newPdModalLabel"
 			     aria-hidden = "true">
-				<div class = "modal-dialog modal-dialog-centered modal-xl">
+				<div class = "modal-dialog modal-dialog-centered modal-m">
 					<div class = "modal-content">
 						
 						<div class = "modal-header">
-							<h5 class = "modal-title" id = "newPdLabel">품목 등록</h5>
+							<h5 class = "modal-title" id = "newPdLabel">단품 품목 등록</h5>
 							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
 								<span aria-hidden = "true">&times;</span>
 							</button>
@@ -61,20 +52,20 @@
 						<form action = "/pd/item/rcreate" method = "post" id = "createform">
 							<div class = "modal-body-ac">
 								<div class = "form-group row">
-									<label for = "itemNm" class = "col-sm-2 col-form-label">품목명</label>
-									<input type = "text" class = "form-control col-sm-10" id = "itemNm"
+									<label for = "itemNm" class = "col-sm-3 col-form-label">품목명</label>
+									<input type = "text" class = "form-control col-sm-8" id = "itemNm"
 									       name = "itemNm" style = "text-transform: uppercase;"
 									       oninput = "checkInput3(event)">
 								</div>
 								<div class = "form-group row">
-									<label for = "itemStnd" class = "col-sm-2 col-form-label">규격</label>
-									<input type = "text" class = "form-control col-sm-10" id = "itemStnd"
+									<label for = "itemStnd" class = "col-sm-3 col-form-label">규격</label>
+									<input type = "text" class = "form-control col-sm-8" id = "itemStnd"
 									       name = "itemStnd" style = "text-transform: uppercase;"
 									       oninput = "checkInput3(event)">
 								</div>
 								<div class = "form-group row">
-									<label for = "itemUp" class = "col-sm-2 col-form-label">단가</label>
-									<input type = "text" class = "form-control col-sm-10" id = "itemUp" name = "itemUp"
+									<label for = "itemUp" class = "col-sm-3 col-form-label">단가</label>
+									<input type = "text" class = "form-control col-sm-8" id = "itemUp" name = "itemUp"
 									       oninput = "checkInput2(event);">
 								</div>
 							</div>
@@ -82,51 +73,6 @@
 							<div class = "modal-footer">
 								<button type = "submit" class = "btn btn-primary" th:onclick = "createItemFinished()">
 									저장
-								</button>
-								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			
-			
-			<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
-			     aria-hidden = "true">
-				<div class = "modal-dialog modal-dialog-centered modal-xl">
-					<div class = "modal-content">
-						<div class = "modal-header">
-							<h5 class = "modal-title" id = "editItemLabel">품목 정보 수정</h5>
-							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
-								<span aria-hidden = "true">&times;</span>
-							</button>
-						</div>
-						
-						<form action = "/pd/item/update" method = "post">
-							<div class = "modal-body-ac">
-								<div class = "form-group row">
-									<label for = "editItemCd" class = "col-sm-2 col-form-label">품목 코드</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemCd"
-									       name = "itemCd" readonly>
-								</div>
-								<div class = "form-group row">
-									<label for = "editItemNm" class = "col-sm-2 col-form-label">품목명</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemNm"
-									       name = "itemNm" style = "text-transform: uppercase;">
-								</div>
-								<div class = "form-group row">
-									<label for = "editItemStnd" class = "col-sm-2 col-form-label">규격</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemStnd"
-									       name = "itemStnd" style = "text-transform: uppercase;">
-								</div>
-								<div class = "form-group row">
-									<label for = "editItemUp" class = "col-sm-2 col-form-label">단가</label>
-									<input type = "text" class = "form-control col-sm-10" id = "editItemUp"
-									       name = "itemUp" oninput = "checkInput2(event);">
-								</div>
-							</div>
-							<div class = "modal-footer">
-								<button type = "submit" class = "btn btn-danger" th:onclick = "editItemFinished()">수정
 								</button>
 								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
 							</div>
