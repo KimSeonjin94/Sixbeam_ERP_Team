@@ -5,10 +5,7 @@ import com.erpproject.sixbeam.pd.Form.BomForm;
 import com.erpproject.sixbeam.pd.Form.OrderForm;
 import com.erpproject.sixbeam.pd.dto.BomDto;
 import com.erpproject.sixbeam.pd.dto.OrderDto;
-import com.erpproject.sixbeam.pd.entity.FitemEntity;
-import com.erpproject.sixbeam.pd.entity.ItemEntity;
-import com.erpproject.sixbeam.pd.entity.OrderEntity;
-import com.erpproject.sixbeam.pd.entity.RitemEntity;
+import com.erpproject.sixbeam.pd.entity.*;
 import com.erpproject.sixbeam.pd.service.OrderService;
 import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +70,7 @@ public class OrderController {
 
         return "contents/pd/order_list";
     }
+
     @PostMapping("/save")
     public ResponseEntity<?> saveorder(@ModelAttribute OrderForm orderForm) {
 
@@ -121,6 +119,19 @@ public class OrderController {
             errorResponse.put("redirectUrl", "/pd/order/order`list");
             return ResponseEntity.badRequest().body(errorResponse);
         }
+    }
 
+    @GetMapping("/detail/{orderCd}")
+    public ResponseEntity<OrderEntity> detail(@PathVariable("orderCd") String orderCd) {
+
+        OrderEntity orderEntity = orderService.getOrder(orderCd);
+
+        if (orderEntity != null) {
+            return ResponseEntity.ok().body(orderEntity);
+
+        } else {
+
+            return ResponseEntity.notFound().build();
+        }
     }
 }

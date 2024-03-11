@@ -71,6 +71,7 @@
       </filter>
     </filter-actions>
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_pur_tb" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_sales_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="mrs.book" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_is_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ss_member_tb" active-filter-id="EMPTY_FILTER" />
@@ -81,6 +82,7 @@
     </filter-actions>
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.pur_input_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.hr" active-filter-id="" />
+    <filter-actions connection-id="4204dc23-a855-4ca8-936d-ff84fb298ee4" dataset="sixbeam_erp.ac_receivables_tb" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="33a9cda8-5af4-457f-af27-0d483a5aa955" dataset="sixbeam_erp.ac_account_tb" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">

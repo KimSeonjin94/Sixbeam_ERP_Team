@@ -10,7 +10,7 @@
 		
 		<div class = "card-body">
 			<div class = "table-responsive">
-				<table class = "table table-bordered" id = "dataTablePd" width = "100%" cellspacing = "0">
+				<table class = "table table-bordered" id = "dataTablePdOrder" width = "100%" cellspacing = "0">
 					<thead>
 					<tr>
 						<th>선택</th>
@@ -18,7 +18,7 @@
 						<th>지시 날짜</th>
 						<th>납기 날짜</th>
 						<th>담당자</th>
-						<th>품목 코드</th>
+						<th>규격</th>
 						<th>수량</th>
 						<th>작업상태</th>
 						<th>상세</th>
@@ -28,23 +28,23 @@
 					<tbody>
 					<tr th:each = "order : ${getOrderList}">
 						<td>
-							<input type = "checkbox" name = "selectedInfo" th:value = "${order.orderCd}">
+							<input type = "checkbox" class = "selectedInfo" th:value = "${order.orderCd}">
 						</td>
 						<td th:text = "${order.orderCd}"></td>
 						<td th:text = "${order.orderInstDt}"></td>
 						<td th:text = "${order.orderDelivDt}"></td>
-						<td th:text = "${order.empInfoEntity.empInfoId}"></td>
-						<td th:text = "${order.itemEntity.itemCd}"></td>
+						<td th:text = "${order.empInfoEntity.empInfoNm}"
+						    th:value = "${order.empInfoEntity.empInfoId}"></td>
+						<td th:text = "${order.itemEntity.itemStnd}" th:value = "${order.itemEntity.itemCd}"></td>
 						<td th:text = "${order.orderAmt}"></td>
 						<td th:text = "${order.orderSt ? '미완료' : '완료'}"></td>
 						<div class = "btn-group" role = "group" aria-label = "Basic example">
 							<!-- Button trigger modal -->
 							<td>
 								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
-								        data-target = "#detailOrder" th:onclick = "setEmpInfo(
-                                        [[${order.empInfoEntity.empInfoNm}]],
-                                        [[${order.empInfoEntity.empInfoPhone}]],
-                                        [[${order.empInfoEntity.empInfoEmail}]])">
+								        data-target = "#detailOrder" id = "detailOrderbtn"
+								        th:if = "${order.orderCd != null}"
+								        th:data-id = "${order.orderCd}">
 									상세
 								</button>
 							</td>
@@ -53,130 +53,45 @@
 					</tbody>
 				</table>
 			</div>
+			<!--<span>
+				<button type = "button" class = "btn btn-danger" data-toggle = "modal"
+				        data-target = "#turnBoolean" id = "turnBooleanbtn">
+					작업 상태 변경
+				</button>
+			</span>-->
 		</div>
 		
-		<!-- 신규 등록 모달 -->
-		<div class = "modal fade" id = "newOrder" tabindex = "-1" aria-labelledby = "newOrderModalLabel"
-		     aria-hidden = "true">
-			<div class = "modal-dialog modal-dialog-centered modal-xl">
+		<!-- 상세 모달 -->
+		<div class = "modal fade" id = "detailOrder" tabindex = "-1" aria-labelledby = "detailPdModalLabel"
+		     aria-modal = "true">
+			<div class = "modal-dialog modal-dialog-centered modal-lg">
 				<div class = "modal-content">
-					
 					<div class = "modal-header">
-						<h5 class = "modal-title" id = "newPdLabel">작업지시서 등록</h5>
+						<h5 class = "modal-title" id = "detailPdLabel">작업 지시서 상세 정보</h5>
 						<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
-							<span aria-hidden = "true">&times;</span>
+							<span aria-hidden = "true">×</span>
 						</button>
 					</div>
 					
-					<form class = "formEntry" th:action = "@{/pd/order/create}" th:object = "${orderForm}"
-					      method = "post">
-						<div class = "modal-body">
-							<div class = "form-group row">
-								<label for = "instDt" class = "col-sm-2 col-form-label">지시 날짜</label>
-								<input type = "date" class = "form-control" id = "instDt">
-							</div>
-							<div class = "form-group row">
-								<label for = "delivDt" class = "col-sm-2 col-form-label">납기 날짜</label>
-								<input type = "date" class = "form-control" id = "delivDt">
-							</div>
-							<div class = "form-group row">
-								<label for = "orderNm" class = "col-sm-2 col-form-label">담당자</label>
-								<div class = "col-sm-4">
-									<select id = "orderNm" class = "form-control">
-										<option value = "">담당자 선택</option>
-										<option th:each = "emplist : ${getEmpList}" th:value = "${emplist.empInfoId}"
-										        th:text = "${emplist.empInfoNm}"></option>
-									</select>
-								</div>
-							</div>
-							<div class = "form-group row">
-								<label for = "itemCd" class = "col-sm-2 col-form-label">품목 코드</label>
-								<div class = "col-sm-4">
-									<input type = "text" class = "form-control" id = "itemCd">
-								</div>
-							</div>
-							<div class = "form-group row">
-								<label for = "itemNm" class = "col-sm-2 col-form-label">품목명</label>
-								<div class = "col-sm-4">
-									<input type = "text" class = "form-control" id = "itemNm">
-								</div>
-							</div>
-							<div class = "form-group row">
-								<label for = "itemStnd" class = "col-sm-2 col-form-label">규격</label>
-								<div class = "col-sm-4">
-									<input type = "text" class = "form-control" id = "itemStnd">
-								</div>
-							</div>
-							<div class = "form-group row">
-								<label for = "orderAmt" class = "col-sm-2 col-form-label">수량</label>
-								<div class = "col-sm-4">
-									<input type = "text" class = "form-control" id = "orderAmt">
-								</div>
-							</div>
-							<div class = "form-group row">
-								<label for = "orderSt" class = "col-sm-2 col-form-label">작업 상태</label>
-								<div class = "col-sm-4">
-									<input type = "text" class = "form-control" id = "orderSt">
-								</div>
-							</div>
-							
-							<div class = "modal-footer">
-								<button type = "submit" class = "btn btn-primary"
-								        th:onclick = "createItemFinished()">저장
-								</button>
-								<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기
-								</button>
-							</div>
-						</div>
-					</form>
+					<table class = "table order">
+						<thead>
+						<tr>
+							<th>담당자 코드</th>
+							<th>담당자 연락처</th>
+							<th>담당자 메일</th>
+							<th>단품 코드</th>
+							<th>품목명</th>
+						</tr>
+						</thead>
+						
+						<!-- tbody의 id를 js로 전송하여 ajax로 처리-->
+						<tbody id = "detailOrderList"></tbody>
+					</table>
 				</div>
 			</div>
 		</div>
 		
-		<div class = "modal fade" id = "editItem" tabindex = "-1" aria-labelledby = "editItemModalLabel"
-		     aria-hidden = "true">
-			<div class = "modal-dialog modal-dialog-centered modal-xl">
-				<div class = "modal-content">
-					<div class = "modal-header">
-						<h5 class = "modal-title" id = "editItemLabel">품목 정보 수정</h5>
-						<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
-							<span aria-hidden = "true">&times;</span>
-						</button>
-					</div>
-					<form action = "/pd/item/edit" method = "post">
-						<div class = "modal-body-ac">
-							<div class = "form-group row">
-								<label for = "editItemCd" class = "col-sm-2 col-form-label">품목 코드</label>
-								<input type = "text" class = "form-control col-sm-10" id = "editItemCd"
-								       name = "editCd" readonly>
-							</div>
-							<div class = "form-group row">
-								<label for = "editItemNm" class = "col-sm-2 col-form-label">품목명</label>
-								<input type = "text" class = "form-control col-sm-10" id = "editItemNm"
-								       name = "editNm" style = "text-transform: uppercase;">
-							</div>
-							<div class = "form-group row">
-								<label for = "editItemStnd" class = "col-sm-2 col-form-label">규격</label>
-								<input type = "text" class = "form-control col-sm-10" id = "editItemStnd"
-								       name = "editStnd" readonly>
-							</div>
-							<div class = "form-group row">
-								<label for = "editItemUp" class = "col-sm-2 col-form-label">단가</label>
-								<input type = "text" class = "form-control col-sm-10" id = "editItemUp"
-								       name = "editUp" oninput = "checkInput2(event);">
-							</div>
-						</div>
-						<div class = "modal-footer">
-							<button type = "submit" class = "btn btn-danger" th:onclick = "editItemFinished()">
-								수정
-							</button>
-							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		
+		<!-- 상태 변경 모달 -->
 		<div class = "modal fade" id = "turnBoolean" tabindex = "-1" aria-labelledby = "turnBooleanModalLabel"
 		     aria-hidden = "true">
 			<div class = "modal-dialog modal-dialog-centered">
@@ -199,6 +114,5 @@
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 </html>
