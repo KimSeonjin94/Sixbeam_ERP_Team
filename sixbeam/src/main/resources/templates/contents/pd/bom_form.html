@@ -33,6 +33,7 @@
 						<th>품목명</th>
 						<th>수량</th>
 						<th>단가</th>
+						<th>가격</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -63,7 +64,9 @@
 						</td>
 						<td>
 							<input type = "text" class = "form-control itemup" readonly>
-							<input type = "hidden" class = "form-control itemsum" readonly>
+						</td>
+						<td>
+							<input type = "text" class = "form-control itemsum" readonly>
 						</td>
 					</tr>
 					
@@ -98,7 +101,8 @@
 					</tbody>
 					<tfoot>
 					<tr>
-						<th colspan = "4">합계</th>
+						<th colspan = "4"></th>
+						<th style = "text-align: right;">합계</th>
 						<th id = "totalUp"></th>
 					</tr>
 					</tfoot>
@@ -116,12 +120,8 @@
 						       id = "deleteOrderbtn">
 					</div>
 					<div class = "col-sm-6 text-md-right">
-						<button type = "submit" class = "btn btn-primary">
-							저장
-						</button>
-						<button type = "button" class = "btn btn-danger reset">
-							초기화
-						</button>
+						<button type = "submit" class = "btn btn-primary">저장</button>
+						<button type = "button" class = "btn btn-danger reset">초기화</button>
 					</div>
 				</div>
 			</form>
