@@ -56,8 +56,8 @@ public class BomController {
     @GetMapping("/bomlist")
     public String list(Model model) {
 
-        /*bomService.getBomList(model);
-        return "/contents/pd/bom_list";*/
+//        bomService.getBomList(model);
+//        return "/contents/pd/bom_list";
 
         // 서비스를 통해 모든 품목을 가져옴
         List<ItemEntity> itemEntities = itemService.getList();
