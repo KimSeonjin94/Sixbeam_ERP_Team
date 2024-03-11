@@ -403,11 +403,15 @@ $('.table.order').on('change input', '.selectbox', function () {
 
         if ($(this).attr('name').includes("item")) {
 
+            var valueitemcd = $(this).find(':selected').attr("data-itemCd");
             var valueitemname = $(this).find(':selected').attr("data-itemNm");
             var valueitmestnd = $(this).find(':selected').attr("data-itemStnd");
+            var valueitemup = $(this).find(':selected').attr("data-itemUp");
 
-            $(this).closest('tr').find('.itemname').val(valueitemname);
-            $(this).closest('tr').find('.itemstnd').val(valueitmestnd);
+            $(this).closest('tr').find('.itemCd').val(valueitemname);
+            $(this).closest('tr').find('.itemNm').val(valueitemname);
+            $(this).closest('tr').find('.itemStnd').val(valueitmestnd);
+            $(this).closest('tr').find('.itemup').val(valueitemup);
 
         } else if ($(this).attr('name').includes("emp")) {
 
@@ -420,14 +424,66 @@ $('.table.order').on('change input', '.selectbox', function () {
             $(this).closest('tr').find('.empInfoEmail').val(valueempInfoEmail);
         }
 
-        $(this).find('.itemname').val(valueitemname);
-        $(this).find('.itemstnd').val(valueitmestnd);
+        $(this).find('.itemCd').val(valueitemcd);
+        $(this).find('.itemNm').val(valueitemname);
+        $(this).find('.itemStnd').val(valueitmestnd);
+        $(this).find('.itemup').val(valueitemup);
 
         $(this).find('.empInfoId').val(valueempInfoId);
         $(this).find('.empInfoPhone').val(valueempInfoPhone);
         $(this).find('.empInfoEmail').val(valueempInfoEmail);
     }
 });
+
+$(document).ready(function() {
+
+    // 데이터가 변경될 때마다 합계를 다시 계산합니다.
+    // 예를 들어, 행이 추가되거나 삭제될 때, 입력 값이 변경될 때 등
+    $('.table.order').on('input', '.itemamt, .itemup, .itemsp, .itemvar, .itemsum', function() {
+        var $row = $(this).closest('tr');
+        var itemamt = $row.find('.itemamt').val();
+        console.log(itemamt);
+        var itemup = $row.find('.itemup').val();
+        console.log(itemup);
+        var itemsum = itemup * itemamt;
+
+        $row.find('.itemsum').val(itemsum);
+        console.log(itemsum);
+        calculateTotal();
+
+    });
+});
+
+function calculateTotal() {
+    var totalAmt = 0, totalUp = 0, totalSp = 0, totalVat = 0, totalSum = 0;
+
+    $('.itemamt').each(function() {
+        totalAmt += parseInt($(this).val()) || 0;
+    });
+    $('.itemup').each(function() {
+        var value = $(this).val();
+        totalUp += parseInt(value) || 0;
+    });
+    // $('.itemsp').each(function() {
+    //     var value = $(this).val().replace(/[^\d]/g, '');
+    //     totalSp += parseInt(value) || 0;
+    // });
+    // $('.itemvar').each(function() {
+    //     var value = $(this).val().replace(/[^\d]/g, '');
+    //     totalVat += parseInt(value) || 0;
+    // });
+    $('.itemsum').each(function() {
+        var value = $(this).val().replace(/[^\d]/g, '');
+        totalSum += parseInt(value) || 0;
+    });
+    console.log(totalSum);
+    // 계산된 합계를 통화 형식으로 표시
+    //$('#totalAmt').text(totalAmt);
+    $('#totalUp').text(formatCurrency(totalSum));
+    //$('#totalSp').text(formatCurrency(totalSp));
+    //$('#totalVat').text(formatCurrency(totalVat));
+    //$('#totalSum').text(formatCurrency(totalSum));
+}
 
 $(document).ready(function () {
     // 폼이 제출될 때마다 실행되도록 변경
@@ -436,17 +492,25 @@ $(document).ready(function () {
         e.preventDefault();
 
         // 지시 일자의 값
-        var orderInstDt = $('#currentDate').val();
+        var orderinstdt = $('#currentDate').val();
         // 납기 날짜의 값
-        var orderDelivDt = $('#orderDelivDt').val();
+        var orderdelivdt = $('#orderDelivDt').val();
         // 작업 상태의 값
-        var orderSt = $('#orderSt').val();
+        var orderst = $('#orderSt').val();
+
+        /*var itemnm = $('#itemNm').val();
+        var itemstnd = $('#itemStnd').val();
+        var itemup = $('#itemup').val();*/
 
         $('.table.order tbody tr').each(function (index) {
             // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
-            $(this).find('.orderInstDt').val(orderInstDt);
-            $(this).find('.orderDelivDt').val(orderDelivDt);
-            $(this).find('.orderSt').val(orderSt);
+            $(this).find('.orderInstDt').val(orderinstdt);
+            $(this).find('.orderDelivDt').val(orderdelivdt);
+            $(this).find('.orderSt').val(orderst);
+
+            /*$(this).find('.itemNm').val(itemnm);
+            $(this).find('.itemStnd').val(itemstnd);
+            $(this).find('.itemup').val(itemup);*/
         });
 
         var formData = new FormData(this);
@@ -495,18 +559,15 @@ $(document).ready(function () {
         // 폼 제출을 막음
         e.preventDefault();
 
-        // 지시 일자의 값
-        var orderInstDt = $('#currentDate').val();
-        // 납기 날짜의 값
-        var orderDelivDt = $('#orderDelivDt').val();
-        // 작업 상태의 값
-        var orderSt = $('#orderSt').val();
+        var itemnm = $('#itemNm').val();
+        var itemstnd = $('#itemStnd').val();
+        var itemup = $('#itemup').val();
 
         $('.table.order tbody tr').each(function (index) {
             // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
-            $(this).find('.orderInstDt').val(orderInstDt);
-            $(this).find('.orderDelivDt').val(orderDelivDt);
-            $(this).find('.orderSt').val(orderSt);
+            $(this).find('.fitemNm').val(itemnm);
+            $(this).find('.fitemStnd').val(itemstnd);
+            $(this).find('.fitemup').val(itemup);
         });
 
         var formData = new FormData(this);
@@ -628,13 +689,68 @@ function deleteLastOrder() {
     }
 }
 
+/*function addNewBom() {
+
+    // 테이블의 마지막 행을 복제
+    var $lastBom = $('form .table.bom tbody tr:last');
+    var $newBom = $lastBom.clone();
+
+    // 복제된 행의 name 속성(itemCd)에 포함된 인덱스를 증가
+    $newBom.find('input, select').each(function () {
+
+        var name = $(this).attr('name');
+        console.log(name);
+
+        if (name) {
+
+            var match = name.match(/(\d+)/);
+            if (match) {
+
+                var index = parseInt(match[0], 10);
+                var newName = name.replace('[' + index + ']', '[' + (index + 1) + ']');
+                $(this).attr('name', newName);
+            }
+        }
+
+        // 입력 필드의 값을 초기화합니다.
+        if ($(this).is('input[type="text"]')) {
+            $(this).val('');
+
+        } else if ($(this).is('select')) {
+            $(this).val($(this).find('option:first').val());
+
+        } else if ($(this).is('input[type="hidden"]')) {
+            // 숨겨진 필드의 처리가 필요한 경우 여기에 로직을 추가
+        }
+    });
+
+    // 새로운 행을 테이블에 추가합니다.
+    $newBom.appendTo('form .table.bom tbody');
+}
+
+function deleteLastBom() {
+    // tbody 내의 행을 대상으로 선택
+    const $tbody = $('form .table.bom tbody');
+
+    // tbody 내의 행 개수 확인
+    const bomCount = $tbody.find('tr').length;
+
+    // 행이 1개만 남았을 때, 모달 표시
+    if (bomCount <= 1) {
+        $('#cannotDeleteModal').modal('show');
+    } else {
+        // 그 외의 경우, 마지막 행 삭제
+        $tbody.find('tr:last').remove();
+    }
+}*/
+
 $(document).ready(function () {
 
     $('.addNewOrderbtn').click(function () {
         addNewOrder();
     });
 
-    $('.deleteorderbtn').click(function () {
+    $('.deleteOrderbtn').click(function () {
         deleteLastOrder();
     });
 });
@@ -649,3 +765,26 @@ $(document).ready(function () {
         deleteLastOrder();
     });
 });
+
+/*
+$(document).ready(function () {
+
+    $('.addNewBombtn').click(function () {
+        addNewBom();
+    });
+
+    $('.deleteBombtn').click(function () {
+        deleteLastBom();
+    });
+});
+
+$(document).ready(function () {
+
+    $('#addNewBombtn').click(function () {
+        addNewBom();
+    });
+
+    $('#deleteBombtn').click(function () {
+        deleteLastBom();
+    });
+});*/
