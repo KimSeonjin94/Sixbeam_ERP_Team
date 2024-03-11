@@ -243,9 +243,15 @@
                             <form class="formEntry" th:action="@{/ss/sale/update}"
                                   th:object="${saleDto}" method="post">
                                 <div class="form-group row">
+                                    <label for="selectEstimateCd" class="col-sm-2 col-form-label">판매 코드</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control col-sm-10" id="saleCd" name="saleCd">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="updateCurrentDate" class="col-sm-2 col-form-label">판매 등록 일자</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="updateCurrentDate" readonly>
+                                        <input type="text" class="form-control" id="updateCurrentDate" name="saleUploadDt" readonly>
                                     </div>
                                     <label for="updatename" class="col-sm-2 col-form-label">담당자</label>
                                     <div class="col-sm-4">
@@ -279,10 +285,11 @@
                                     </div>
                                     <label for="updatewhregistname" class="col-sm-2 col-form-label">창고명</label>
                                     <div class="col-sm-4">
-                                        <select id="updatewhregistname" class="form-control">
+                                        <select id="updatewhregistname" name="whregistEntity.whregistCd" class="form-control">
                                             <option th:each="whregistlist : ${getwhregistlist}"
                                                     th:value="${whregistlist.whregistCd}"
-                                                    th:text="${whregistlist.whregistNm}"></option>
+                                                    th:text="${whregistlist.whregistNm}">
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -325,7 +332,8 @@
         </div>
     </div>
     <!-- 성공 모달 -->
-    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
