@@ -69,6 +69,7 @@ public class SaleService {
         Optional<WhregistEntity> whregistEntity =whregistRepository.findById(saleDto.getWhregistEntity().getWhregistCd());
         if(whregistEntity.isPresent()) {
             saleEntity.setWhregistEntity(whregistEntity.get());
+            saleRepository.save(saleEntity);
         }else{
             throw new IllegalArgumentException("잘못된 선택입니다");
         }

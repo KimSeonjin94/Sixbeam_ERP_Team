@@ -1,0 +1,174 @@
+<html layout:decorate = "~{layout/default}">
+<div layout:fragment = "content" class = "container-fluid">
+	<!-- Page Heading -->
+	<h1 class = "h3 mb-2 text-gray-800">생산</h1>
+	
+	<div class = "card shadow mb-4">
+		<div class = "card-header py-3" style = "display: flex;">
+			<h6 class = "m-0-ac font-weight-bold text-primary">자재 명세서 리스트</h6>
+		</div>
+		
+		<div class = "card-body">
+			<div class = "table-responsive">
+				<table class = "table table-bordered" id = "dataTablePd" width = "100%" cellspacing = "0">
+					<thead>
+					<tr>
+						<th></th>
+						<th>품목 코드</th>
+						<th>품목명</th>
+						<th>규격</th>
+						<th>가격</th>
+						<th></th>
+					</tr>
+					</thead>
+					
+					<tbody>
+					<tr th:each = "bom : ${getbomlist}">
+						<td>
+							<input th:type = "checkbox" th:name = "selectedInfo" th:value = "${bom.fitemEntity.itemCd}">
+						</td>
+						<td th:text = "${bom.fitemEntity.itemCd}"></td>
+						<td th:text = "${bom.fitemEntity.itemNm}"></td>
+						<td th:text = "${bom.fitemEntity.itemStnd}"></td>
+						<td th:text = "|${#numbers.formatInteger(bom.fitemEntity.itemUp, 0,'COMMA')}원|"></td>
+						<div class = "btn-group" role = "group" aria-label = "Basic example">
+							<!-- Button trigger modal -->
+							<td>
+								<button type = "button" class = "btn btn-warning-ac" data-toggle = "modal"
+								        data-target = "#editItem">
+									수정
+								</button>
+								<button type = "button" class = "btn btn-success-pd" data-toggle = "modal"
+								        data-target = "#detailItem" id = "detailItembtn"
+								        th:if = "${bom.fitemEntity.itemCd != null and bom.fitemEntity.itemCd.startsWith('F')}"
+								        th:data-id = "${bom.fitemEntity.itemCd}">
+									상세
+								</button>
+							</td>
+						</div>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<!-- Modal -->
+		<div class = "modal fade" id = "newPd" tabindex = "-1" aria-labelledby = "newPdModalLabel"
+		     aria-hidden = "true">
+			<div class = "modal-dialog modal-dialog-centered modal-xl">
+				<div class = "modal-content">
+					
+					<div class = "modal-header">
+						<h5 class = "modal-title" id = "newPdLabel">품목 등록</h5>
+						<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+							<span aria-hidden = "true">&times;</span>
+						</button>
+					</div>
+					
+					<form action = "/pd/item/fcreate" method = "post">
+						<div class = "modal-body">
+							<div class = "form-group row">
+								<label for = "itemCd" class = "col-sm-2 col-form-label">품목 코드</label>
+								<input type = "text" class = "form-control col-sm-10" id = "itemCd" name = "itemCd"
+								       style = "text-transform: uppercase;" oninput = "checkInput(event)">
+							</div>
+							<div class = "form-group row">
+								<label for = "itemNm" class = "col-sm-2 col-form-label">품목명</label>
+								<input type = "text" class = "form-control col-sm-10" id = "itemNm"
+								       name = "itemNm" style = "text-transform: uppercase;">
+							</div>
+							<div class = "form-group row">
+								<label for = "itemStnd" class = "col-sm-2 col-form-label">규격</label>
+								<input type = "text" class = "form-control col-sm-10" id = "itemStnd"
+								       name = "itemStnd" style = "text-transform: uppercase;">
+							</div>
+							<div class = "form-group row">
+								<label for = "itemUp" class = "col-sm-2 col-form-label">단가</label>
+								<input type = "text" class = "form-control col-sm-10" id = "itemUp" name = "itemUp"
+								       oninput = "checkInput2(event);">
+							</div>
+						</div>
+						
+						<div class = "modal-footer">
+							<button type = "submit" class = "btn btn-primary"
+							        th:onclick = "createItemFinished()">저장
+							</button>
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class = "modal fade" id = "editPd" tabindex = "-1" aria-labelledby = "editPdModalLabel"
+		     aria-hidden = "true">
+			<div class = "modal-dialog modal-dialog-centered modal-xl">
+				<div class = "modal-content">
+					<div class = "modal-header">
+						<h5 class = "modal-title" id = "editItemLabel">품목 정보 수정</h5>
+						<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+							<span aria-hidden = "true">&times;</span>
+						</button>
+					</div>
+					<form action = "/pd/item/edit" method = "post">
+						<div class = "modal-body">
+							<div class = "form-group row">
+								<label for = "editItemCd" class = "col-sm-2 col-form-label">품목 코드</label>
+								<input type = "text" class = "form-control col-sm-10" id = "editItemCd"
+								       name = "editCd" readonly>
+							</div>
+							<div class = "form-group row">
+								<label for = "editItemNm" class = "col-sm-2 col-form-label">품목명</label>
+								<input type = "text" class = "form-control col-sm-10" id = "editItemNm"
+								       name = "editNm" style = "text-transform: uppercase;">
+							</div>
+							<div class = "form-group row">
+								<label for = "editItemStnd" class = "col-sm-2 col-form-label">규격</label>
+								<input type = "text" class = "form-control col-sm-10" id = "editItemStnd"
+								       name = "editStnd" readonly>
+							</div>
+							<div class = "form-group row">
+								<label for = "editItemUp" class = "col-sm-2 col-form-label">가격</label>
+								<input type = "text" class = "form-control col-sm-10" id = "editItemUp"
+								       name = "editUp" oninput = "checkInput2(event);">
+							</div>
+						</div>
+						<div class = "modal-footer">
+							<button type = "submit" class = "btn btn-danger" th:onclick = "editItemFinished()">
+								수정
+							</button>
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class = "modal fade" id = "deletePd" tabindex = "-1" aria-labelledby = "deletePdModalLabel"
+		     aria-hidden = "true">
+			<div class = "modal-dialog modal-dialog-centered">
+				<div class = "modal-content">
+					
+					<div class = "modal-header">
+						<h5 class = "modal-title" id = "deletePdLabel">품목 삭제</h5>
+						<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+							<span aria-hidden = "true">&times;</span>
+						</button>
+					</div>
+					
+					<div class = "modal-body">
+						<p>선택한 품목을 삭제하시겠습니까?</p>
+					</div>
+					
+					<div class = "modal-footer">
+						<button type = "button" class = "btn btn-danger" onclick = "deleteItemFinished()">삭제</button>
+						<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+</div>
+</div>
+</html>

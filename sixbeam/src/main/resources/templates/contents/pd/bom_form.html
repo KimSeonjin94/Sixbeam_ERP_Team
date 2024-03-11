@@ -7,7 +7,7 @@
 		</div>
 		
 		<div class = "card-body">
-			<form class = "formEntry" th:action = "@{/pd/bom/create}" th:object = "${bomForm}" method = "post">
+			<form class = "formEntryBom" th:action = "@{/pd/bom/create}" th:object = "${bomForm}" method = "post">
 				<div class = "form-group row">
 					<label class = "col-sm-1 col-form-label">품목명</label>
 					<div class = "col-sm-4">
@@ -25,7 +25,7 @@
 					</div>
 				</div>
 				
-				<table class = "table item" id = "bomitem">
+				<table class = "table bom" id = "bominfo">
 					<thead>
 					<tr>
 						<th>규격</th>
