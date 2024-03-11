@@ -13,12 +13,12 @@
 				<table class = "table table-bordered" id = "dataTablePd" width = "100%" cellspacing = "0">
 					<thead>
 					<tr>
-						<th></th>
+						<th>선택</th>
 						<th>품목 코드</th>
 						<th>품목</th>
 						<th>규격</th>
 						<th>단가</th>
-						<th></th>
+						<th>수정</th>
 					</tr>
 					</thead>
 					
@@ -35,11 +35,7 @@
 							<!-- Button trigger modal -->
 							<td>
 								<button type = "button" class = "btn btn-warning-pd" data-toggle = "modal"
-								        data-target = "#detailItem" th:onclick = "setItemInfo
-								        ([[${item.itemCd}]],
-                                        [[${item.itemNm}]],
-                                        [[${item.itemStnd}]],
-                                        [[${item.itemUp}]])">
+								        data-target = "#editItem" id = "editItembtn" th:data-id = "${item.itemCd}">
 									수정
 								</button>
 						</div>
@@ -49,14 +45,14 @@
 			</div>
 			
 			
-			<!-- Modal -->
-			<div class = "modal fade" id = "newItem" tabindex = "-1" aria-labelledby = "newItemModalLabel"
+			<!-- 신규 등록 모달 -->
+			<div class = "modal fade" id = "newPd" tabindex = "-1" aria-labelledby = "newPdModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered modal-xl">
 					<div class = "modal-content">
 						
 						<div class = "modal-header">
-							<h5 class = "modal-title" id = "newItemLabel">품목 등록</h5>
+							<h5 class = "modal-title" id = "newPdLabel">품목 등록</h5>
 							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
 								<span aria-hidden = "true">&times;</span>
 							</button>
@@ -139,13 +135,13 @@
 				</div>
 			</div>
 			
-			<div class = "modal fade" id = "deleteItem" tabindex = "-1" aria-labelledby = "deleteItemModalLabel"
+			<div class = "modal fade" id = "deletePd" tabindex = "-1" aria-labelledby = "deletePdModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered">
 					<div class = "modal-content">
 						
 						<div class = "modal-header">
-							<h5 class = "modal-title" id = "deleteItemLabel">품목 삭제</h5>
+							<h5 class = "modal-title" id = "deletePdLabel">품목 삭제</h5>
 							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
 								<span aria-hidden = "true">&times;</span>
 							</button>
@@ -154,7 +150,7 @@
 						<form id = "deleteForm" action = "/pd/item/delete" method = "post">
 							<div class = "modal-body-ac">
 								<p>선택한 품목을 삭제하시겠습니까?</p>
-								<input type = "hidden" name = "itemCd" id = "deleteItemInfo" value = ""/>
+								<input type = "hidden" name = "itemCd" id = "deletePdInfo" value = ""/>
 							</div>
 							<div class = "modal-footer">
 								<button type = "button" class = "btn btn-danger" onclick = "deleteItemFinished()">삭제

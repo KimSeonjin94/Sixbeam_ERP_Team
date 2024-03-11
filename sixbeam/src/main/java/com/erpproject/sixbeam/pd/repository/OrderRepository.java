@@ -17,4 +17,5 @@ public interface OrderRepository extends JpaRepository<OrderEntity, String> {
     String getMaxOrderCd(@Param("orderDate") LocalDate orderDate);
 
     OrderEntity findByOrderCd(String orderCd);
+
 }

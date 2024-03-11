@@ -13,12 +13,12 @@
 				<table class = "table table-bordered" id = "dataTablePd" width = "100%" cellspacing = "0">
 					<thead>
 					<tr>
-						<th></th>
+						<th>선택</th>
 						<th>품목 코드</th>
 						<th>품목</th>
 						<th>규격</th>
 						<th>가격</th>
-						<th></th>
+						<th>상세</th>
 					</tr>
 					</thead>
 					
@@ -47,7 +47,7 @@
 				</table>
 			</div>
 			
-			<!-- Modal -->
+			<!-- 신규 등록 모달 -->
 			<div class = "modal fade" id = "newPd" tabindex = "-1" aria-labelledby = "newPdModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered modal-xl">
@@ -160,13 +160,13 @@
 				</div>
 			</div>
 			
-			<div class = "modal fade" id = "deleteItem" tabindex = "-1" aria-labelledby = "deleteItemModalLabel"
+			<div class = "modal fade" id = "deletePd" tabindex = "-1" aria-labelledby = "deletePdModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered">
 					<div class = "modal-content">
 						
 						<div class = "modal-header">
-							<h5 class = "modal-title" id = "deleteItemLabel">품목 삭제</h5>
+							<h5 class = "modal-title" id = "deletePdLabel">품목 삭제</h5>
 							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
 								<span aria-hidden = "true">&times;</span>
 							</button>
@@ -175,7 +175,7 @@
 						<form id = "deleteForm" action = "/pd/item/delete" method = "post">
 							<div class = "modal-body-ac">
 								<p>선택한 품목을 삭제하시겠습니까?</p>
-								<input type = "hidden" name = "itemCd" id = "deleteItemInfo" value = ""/>
+								<input type = "hidden" name = "itemCd" id = "deletePdInfo" value = ""/>
 							</div>
 							<div class = "modal-footer">
 								<button type = "button" class = "btn btn-danger" onclick = "deleteItemFinished()">삭제

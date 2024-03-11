@@ -1,5 +1,3 @@
-
-
 function createItemFinished() {
 
     var itemNm = $('#itemNm').val();
@@ -27,6 +25,16 @@ function createItemFinished() {
     }
 }
 
+function editItemFinished() {
+
+    var itemCd = $('#itemCd').val();
+    var itemNm = $('#itemNm').val();
+    var itemStnd = $('#itemStnd').val();
+    var itemUp = $('#itemUp').val();
+
+    alert('거래처 정보가 수정되었습니다.');
+}
+
 function deleteItemFinished() {
 
     // 체크박스의 값(계정 ID)을 저장할 배열
@@ -50,7 +58,7 @@ function deleteItemFinished() {
         var itemIdsToDelete = selectedIds.join(',');
 
         // 숨겨진 입력 필드에 값을 설정
-        document.getElementById('deleteItemInfo').value = itemIdsToDelete;
+        document.getElementById('deletePdInfo').value = itemIdsToDelete;
 
         alert('품목이 삭제되었습니다.');
         // 폼을 제출하여 서버에 삭제 요청을 보냅니다
@@ -198,17 +206,18 @@ $('#detailItembtn[data-id]').on('click', function () {
     });
 });
 
-$('#editDetailItembtn[data-id]').on('click', function () {
+$('#editItembtn[data-id]').on('click', function () {
 
     var itemCd = $(this).data('id'); // this - 클릭된 요소
-    var itemSum = 0;
+    var itemNm = $(this).val();
+    var itemStnd = $(this).val();
 
     // 선택한 품목에 대한 부속품 정보를 요청하기 위해 Ajax를 사용
     $.ajax({
 
         // 서버의 해당 URL로 요청
-        url: '/pd/bom/detail/' + itemCd,
-        type: 'GET',
+        url: '/pd/item/update/',
+        type: 'POST',
         success: function (response) {
             console.log(response);
 
@@ -251,6 +260,84 @@ $('#editDetailItembtn[data-id]').on('click', function () {
 
 $('#detailOrderbtn[data-id]').on('click', function () {
 
+    var orderCd = $(this).data('id'); // this - 클릭된 요소
+
+    // 선택한 품목에 대한 부속품 정보를 요청하기 위해 Ajax를 사용
+    $.ajax({
+
+        // 서버의 해당 URL로 요청 - 엔드포인트
+        url: '/pd/order/detail/' + orderCd,
+        type: 'GET',
+        success: function (response) {
+
+            console.log(response);
+
+            // 부속품 정보를 받아온 후, 테이블에 동적으로 추가
+            var orderdetail = $('#detailOrderList');
+
+            // 기존에 표시된 내용을 모두 지우고 새로운 내용으로 대체
+            orderdetail.empty();
+
+            // 부속품의 각 정보를 테이블에 추가
+            var row = $('<tr>');
+            row.append('<td>' + response.empInfoEntity.empInfoId + '</td>' +
+                '<td>' + response.empInfoEntity.empInfoPhone + '</td>' +
+                '<td>' + response.empInfoEntity.empInfoEmail + '</td>' +
+                '<td>' + response.itemEntity.itemCd + '</td>' +
+                '<td>' + response.itemEntity.itemNm + '</td>');
+            // 새로운 행을 테이블에 추가
+            orderdetail.append(row);
+        },
+
+        error: function (xhr, status, error) {
+
+            // 요청이 실패한 경우 오류 메시지를 콘솔에 출력
+            console.error('Failed to fetch order details:', error);
+        }
+    });
+});
+
+$('#detailOrderbtn[data-id]').on('click', function () {
+
+    var orderCd = $(this).data('id'); // this - 클릭된 요소
+
+    // 선택한 품목에 대한 부속품 정보를 요청하기 위해 Ajax를 사용
+    $.ajax({
+
+        // 서버의 해당 URL로 요청 - 엔드포인트
+        url: '/pd/order/detail/' + orderCd,
+        type: 'GET',
+        success: function (response) {
+
+            console.log(response);
+
+            // 부속품 정보를 받아온 후, 테이블에 동적으로 추가
+            var orderdetail = $('#detailOrderList');
+
+            // 기존에 표시된 내용을 모두 지우고 새로운 내용으로 대체
+            orderdetail.empty();
+
+            // 부속품의 각 정보를 테이블에 추가
+            var row = $('<tr>');
+            row.append('<td>' + response.empInfoEntity.empInfoId + '</td>' +
+                '<td>' + response.empInfoEntity.empInfoPhone + '</td>' +
+                '<td>' + response.empInfoEntity.empInfoEmail + '</td>' +
+                '<td>' + response.itemEntity.itemCd + '</td>' +
+                '<td>' + response.itemEntity.itemNm + '</td>');
+            // 새로운 행을 테이블에 추가
+            orderdetail.append(row);
+        },
+
+        error: function (xhr, status, error) {
+
+            // 요청이 실패한 경우 오류 메시지를 콘솔에 출력
+            console.error('Failed to fetch order details:', error);
+        }
+    });
+});
+
+$('#detailInoutbtn[data-id]').on('click', function () {
+
     var inoutCmptCd = $(this).data('id'); // this - 클릭된 요소
 
     // 선택한 품목에 대한 부속품 정보를 요청하기 위해 Ajax를 사용
@@ -264,38 +351,27 @@ $('#detailOrderbtn[data-id]').on('click', function () {
             console.log(response);
 
             // 부속품 정보를 받아온 후, 테이블에 동적으로 추가
-            var ritemDetailsTable = $('#ritemDetails');
+            var inoutdetail = $('#detailInoutList');
 
             // 기존에 표시된 내용을 모두 지우고 새로운 내용으로 대체
-            ritemDetailsTable.empty();
+            inoutdetail.empty();
 
-            response.forEach(function (bomEntity, index) {
-
-                // 부속품의 각 정보를 테이블에 추가
-                var row = $('<tr>');
-
-                row.append('<td>' + bomEntity.ritemEntity.itemCd + '</td>' +
-                    '<td>' + bomEntity.ritemEntity.itemNm + '</td>' +
-                    '<td>' + bomEntity.ritemEntity.itemStnd + '</td>' +
-                    '<td>' + bomEntity.bomUseMt + '</td>' +
-                    '<td>' + bomEntity.ritemEntity.itemUp + '</td>');
-
-                // 새로운 행을 테이블에 추가
-                ritemDetailsTable.append(row);
-
-                itemSum += (bomEntity.ritemEntity.itemUp * bomEntity.bomUseMt);
-            });
-
-            $('#detailItemCd').val(response[0].fitemEntity.itemCd)
-            $('#detailItemNm').val(response[0].fitemEntity.itemNm)
-            $('#detailItemStnd').val(response[0].fitemEntity.itemStnd)
-            $('#detailItemUp').val(itemSum);
+            // 부속품의 각 정보를 테이블에 추가
+            var row = $('<tr>');
+            row.append('<td>' + response.empInfoEntity.empInfoId + '</td>' +
+                '<td>' + response.empInfoEntity.empInfoPhone + '</td>' +
+                '<td>' + response.empInfoEntity.empInfoEmail + '</td>' +
+                '<td>' + response.itemEntity.itemCd + '</td>' +
+                '<td>' + response.itemEntity.itemNm + '</td>' +
+                '<td>' + response.whregistEntity.whregistCd + '</td>');
+            // 새로운 행을 테이블에 추가
+            inoutdetail.append(row);
         },
 
         error: function (xhr, status, error) {
 
             // 요청이 실패한 경우 오류 메시지를 콘솔에 출력
-            console.error('Failed to fetch ritem details:', error);
+            console.error('Failed to fetch inout details:', error);
         }
     });
 });
@@ -353,50 +429,9 @@ $('.table.order').on('change input', '.selectbox', function () {
     }
 });
 
-/*$(document).ready(function() {
-    calculateTotals2();
-
-    // 데이터가 변경될 때마다 합계를 다시 계산합니다.
-    // 예를 들어, 행이 추가되거나 삭제될 때, 입력 값이 변경될 때 등
-    $('.table.item').on('input', '.itemamt, .itemup, .itemsp, .itemvar, .itemsum', function() {
-        calculateTotals2();
-    });
-});
-
-function calculateTotals2() {
-    var totalAmt = 0, totalUp = 0, totalSp = 0, totalVat = 0, totalSum = 0;
-
-    $('.itemamt').each(function () {
-        totalAmt += parseInt($(this).val()) || 0;
-    });
-    $('.itemup').each(function () {
-        var value = $(this).val().replace(/[^\d]/g, '');
-        totalUp += parseInt(value) || 0;
-    });
-    $('.itemsp').each(function () {
-        var value = $(this).val().replace(/[^\d]/g, '');
-        totalSp += parseInt(value) || 0;
-    });
-    $('.itemvar').each(function () {
-        var value = $(this).val().replace(/[^\d]/g, '');
-        totalVat += parseInt(value) || 0;
-    });
-    $('.itemsum').each(function () {
-        var value = $(this).val().replace(/[^\d]/g, '');
-        totalSum += parseInt(value) || 0;
-    });
-
-    // 계산된 합계를 통화 형식으로 표시
-    $('#totalAmt').text(totalAmt);
-    $('#totalUp').text(formatCurrency(totalUp));
-    $('#totalSp').text(formatCurrency(totalSp));
-    $('#totalVat').text(formatCurrency(totalVat));
-    $('#totalSum').text(formatCurrency(totalSum));
-}*/
-
-$(document).ready(function() {
+$(document).ready(function () {
     // 폼이 제출될 때마다 실행되도록 변경
-    $('.formEntryOrder').submit(function(e) {
+    $('.formEntryOrder').submit(function (e) {
         // 폼 제출을 막음
         e.preventDefault();
 
@@ -407,7 +442,7 @@ $(document).ready(function() {
         // 작업 상태의 값
         var orderSt = $('#orderSt').val();
 
-        $('.table.order tbody tr').each(function(index) {
+        $('.table.order tbody tr').each(function (index) {
             // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
             $(this).find('.orderInstDt').val(orderInstDt);
             $(this).find('.orderDelivDt').val(orderDelivDt);
@@ -417,7 +452,7 @@ $(document).ready(function() {
         var formData = new FormData(this);
 
         // FormData 객체를 반복하여 폼 데이터 확인
-        formData.forEach(function(value, key) {
+        formData.forEach(function (value, key) {
             console.log(key + ': ' + value);
         });
 
@@ -426,7 +461,7 @@ $(document).ready(function() {
             type: $(this).attr('method'), // POST 또는 GET
             url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
-            success: function(response) {
+            success: function (response) {
                 $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
                 // 성공 시 리다이렉션
                 $('#successModal').modal('show');
@@ -435,7 +470,67 @@ $(document).ready(function() {
                     window.location.href = response.redirectUrl;
                 });
             },
-            error: function(xhr) {
+            error: function (xhr) {
+                // 오류 처리 로직
+                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
+                // 서버로부터 받은 에러 메시지를 알림
+                // 오류 처리 로직
+                var response = JSON.parse(xhr.responseText);
+                $('#failModal .modal-body').text(response.message);  //controller에서 받은 message 출력
+                // 오류 메시지 모달 표시
+                $('#failModal').modal('show'); // 올바른 셀렉터 사용
+                // 모달이 닫힐 때 리다이렉션
+                $('#failModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
+                console.log('Error Submitting Form');
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    // 폼이 제출될 때마다 실행되도록 변경
+    $('.formEntryBom').submit(function (e) {
+        // 폼 제출을 막음
+        e.preventDefault();
+
+        // 지시 일자의 값
+        var orderInstDt = $('#currentDate').val();
+        // 납기 날짜의 값
+        var orderDelivDt = $('#orderDelivDt').val();
+        // 작업 상태의 값
+        var orderSt = $('#orderSt').val();
+
+        $('.table.order tbody tr').each(function (index) {
+            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
+            $(this).find('.orderInstDt').val(orderInstDt);
+            $(this).find('.orderDelivDt').val(orderDelivDt);
+            $(this).find('.orderSt').val(orderSt);
+        });
+
+        var formData = new FormData(this);
+
+        // FormData 객체를 반복하여 폼 데이터 확인
+        formData.forEach(function (value, key) {
+            console.log(key + ': ' + value);
+        });
+
+        // AJAX를 사용하여 폼 데이터 제출
+        $.ajax({
+            type: $(this).attr('method'), // POST 또는 GET
+            url: $(this).attr('action'),
+            data: $(this).serialize(), // 폼 데이터 직렬화
+            success: function (response) {
+                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
+                // 성공 시 리다이렉션
+                $('#successModal').modal('show');
+                // 모달이 닫힐 때 리다이렉션
+                $('#successModal').on('hidden.bs.modal', function () {
+                    window.location.href = response.redirectUrl;
+                });
+            },
+            error: function (xhr) {
                 // 오류 처리 로직
                 var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
                 // 서버로부터 받은 에러 메시지를 알림
