@@ -46,33 +46,6 @@ function createItemFinished() {
     }
 }
 
-function createRitemFinished() {
-
-    var itemNm = $('#itemNm').val();
-    var itemStnd = $('#itemStnd').val();
-    var itemUp = $('#itemUp').val();
-
-    // 품목 코드가 공백인 경우
-    if (!itemNm || itemNm.trim() === '') {
-        alert('품목명을 입력하세요.');
-        event.preventDefault();
-        return;
-
-    } else if (!itemStnd || itemStnd.trim() === '') {
-        alert('규격을 입력하세요.');
-        event.preventDefault();
-        return;
-
-    } else if (!itemUp || itemUp.trim() === '') {
-        alert('단가를 입력하세요.');
-        event.preventDefault();
-        return;
-
-    } else {
-        alert('품목이 등록되었습니다.')
-    }
-}
-
 function createOrderFinished() {
     var isValid = true; // 유효성 검사 변수 초기화
 
@@ -127,8 +100,8 @@ function deleteItemFinished() {
 
         // 폼을 제출하여 서버에 삭제 요청을 보냅니다
         document.getElementById('deleteForm').submit();
+        alert('품목이 삭제되었습니다.');
     }
-    alert('품목이 삭제되었습니다.');
 }
 
 // boolean값인 작업 상태 변경 기능

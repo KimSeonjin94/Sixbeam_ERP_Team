@@ -11,16 +11,17 @@ import com.erpproject.sixbeam.pd.repository.FitemRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.repository.RitemRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.Generated;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -105,7 +106,7 @@ public class BomService {
         }
     }
 
-    public ResponseEntity<?> createBomDto(@ModelAttribute BomForm bomForm) {
+    /*public ResponseEntity<?> createBomDto(@ModelAttribute BomForm bomForm) {
 
         List<BomDto> bomDtos = bomForm.getBomDtos();
 
@@ -123,7 +124,7 @@ public class BomService {
 
             return ResponseEntity.badRequest().body(errorResponse);
         }
-    }
+    }*/
 
     public void create(List<BomDto> bomDtos) {
 
