@@ -1,19 +1,26 @@
 package com.erpproject.sixbeam.ac.service;
 
+import com.erpproject.sixbeam.ac.dto.PurDto;
+import com.erpproject.sixbeam.ac.dto.SalesDto;
+import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.entity.SalesEntity;
 import com.erpproject.sixbeam.ac.repository.SalesRepository;
+import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import com.erpproject.sixbeam.ss.service.EstimateService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class SalesService {
     private final SalesRepository salesRepository;
+    SalesEntity salesEntity;
 
     public List<SalesEntity> getList() {
         return this.salesRepository.findAll();
@@ -29,6 +36,18 @@ public class SalesService {
         return estimateService.getAccountTotal(accountCd);
     }
 
+    public void saveSalesSLip(SalesDto salesDto) {
+        salesEntity = salesDto.toEntity();
 
+//        salesEntity.setSalesNb();
+//        salesEntity.setSaleEntity();
+//        salesEntity.setAccountEntity();
+//        salesEntity.setSalesPrice();
+//        salesEntity.setSalesSubject();
+
+
+
+        salesRepository.save(salesEntity);
+    }
 
 }

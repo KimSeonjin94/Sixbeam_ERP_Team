@@ -28,8 +28,8 @@ public class PurEntity {
     @ManyToOne
     @JoinColumn(name="INPUTPUR_CD")
     private InputEntity inputEntity;
-    @Column(name="PUR_ETC")
-    private String purEtc;
+    @Column(name="PUR_PRICE")
+    private int purPrice;
     @Column(name="PUR_SUBJECT",nullable = false)
     private String purSubject;
 
