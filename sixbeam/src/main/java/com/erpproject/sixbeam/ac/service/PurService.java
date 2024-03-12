@@ -6,9 +6,8 @@ import com.erpproject.sixbeam.ac.entity.PurEntity;
 import com.erpproject.sixbeam.ac.repository.AccountRepository;
 import com.erpproject.sixbeam.ac.repository.PurRepository;
 import com.erpproject.sixbeam.pur.entity.InputEntity;
-import com.erpproject.sixbeam.pur.entity.OrinPutEntity;
 import com.erpproject.sixbeam.pur.repository.InputRepository;
-import com.erpproject.sixbeam.pur.repository.OrinPutRepository;
+import com.erpproject.sixbeam.pur.service.InputService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +23,7 @@ public class PurService {
     private final PurRepository purRepository;
     private final InputRepository inputRepository;
     private final AccountRepository accountRepository;
+    private final InputService inputService;
 
     PurEntity purEntity;
     public List<InputEntity> getInputList(){
@@ -43,6 +43,7 @@ public class PurService {
         purEntity.setInputEntity(inputEntity);
 
         inputRepository.updateInput(LocalDate.now(),purDto.getInputEntity().getInputPurCd());
+        inputService.updateInputEntity(purDto.getInputEntity().getInputPurCd());
 
         purRepository.save(purEntity);
 
