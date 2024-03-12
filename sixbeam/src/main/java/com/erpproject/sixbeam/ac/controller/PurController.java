@@ -35,7 +35,7 @@ public class PurController {
         List<AccountEntity> actEntity = this.accountService.getList();
         List<InputEntity> inputEntities = this.purService.getInputList();
         model.addAttribute("actList", actEntity);
-        model.addAttribute("inputEntities",inputEntities);
+        model.addAttribute("inputEntities", inputEntities);
         return "contents/ac/pur_slip";
     }
 
@@ -50,12 +50,12 @@ public class PurController {
             Response.put("redirectUrl", "/ac/pur/purSlip");  // 저장 후 목록 페이지로 리다이렉트
             return ResponseEntity.ok().body(Response);
         } catch (Exception e) {
-        Response = new HashMap<>();
-        Response.put("status", "error");
-        Response.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
-        Response.put("redirectUrl", "/ac/pur/purSlip");
-        return ResponseEntity.badRequest().body(Response);
-    }
+            Response = new HashMap<>();
+            Response.put("status", "error");
+            Response.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
+            Response.put("redirectUrl", "/ac/pur/purSlip");
+            return ResponseEntity.badRequest().body(Response);
+        }
     }
 
 }

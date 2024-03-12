@@ -59,7 +59,7 @@
 							<input type = "text" class = "form-control itemNm" readonly>
 						</td>
 						<td>
-							<input type = "text" class = "form-control itemamt" th:name = "'bomDtos[0].bomUseMt'"
+							<input type = "text" class = "form-control itemamt orderAmt" th:name = "'bomDtos[0].bomUseMt'"
 							       oninput = "checkInput2(event)">
 						</td>
 						<td>
@@ -120,8 +120,8 @@
 						       id = "deleteOrderbtn">
 					</div>
 					<div class = "col-sm-6 text-md-right">
-						<button type = "submit" class = "btn btn-primary">저장</button>
-						<button type = "button" class = "btn btn-danger reset">초기화</button>
+						<button type = "submit" class = "btn btn-primary" onclick = "createItemFinished()">저장</button>
+						<button type = "button" class = "btn btn-danger reset2">초기화</button>
 					</div>
 				</div>
 			</form>

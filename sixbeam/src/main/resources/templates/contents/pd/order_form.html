@@ -81,7 +81,7 @@
 							<input type = "text" class = "form-control empInfoEmail" readonly>
 						</td>
 						<td>
-							<input type = "text" class = "form-control" th:name = "'orderDtos[0].orderAmt'"
+							<input type = "text" class = "form-control orderAmt" th:name = "'orderDtos[0].orderAmt'"
 							       oninput = "checkInput2(event)">
 						</td>
 					</tr>
@@ -100,8 +100,8 @@
 						       id = "deleteOrderbtn">
 					</div>
 					<div class = "col-sm-6 text-md-right">
-						<button type = "submit" class = "btn btn-primary">저장</button>
-						<button type = "button" class = "btn btn-danger reset">초기화</button>
+						<button type = "submit" class = "btn btn-primary" onclick = "createOrderFinished()">저장</button>
+						<button type = "button" class = "btn btn-danger reset2">초기화</button>
 					
 					</div>
 				</div>
