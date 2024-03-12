@@ -1,14 +1,13 @@
 package com.erpproject.sixbeam.pd.controller;
 
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import com.erpproject.sixbeam.pd.Form.BomForm;
 import com.erpproject.sixbeam.pd.Form.OrderForm;
 import com.erpproject.sixbeam.pd.dto.BomDto;
 import com.erpproject.sixbeam.pd.dto.OrderDto;
-import com.erpproject.sixbeam.pd.entity.FitemEntity;
-import com.erpproject.sixbeam.pd.entity.ItemEntity;
-import com.erpproject.sixbeam.pd.entity.OrderEntity;
-import com.erpproject.sixbeam.pd.entity.RitemEntity;
+import com.erpproject.sixbeam.pd.entity.*;
+import com.erpproject.sixbeam.pd.service.FitemService;
 import com.erpproject.sixbeam.pd.service.OrderService;
 import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +28,8 @@ import java.util.Map;
 public class OrderController {
 
     private final OrderService orderService;
+    private final FitemService fitemService;
+    private final EmpInfoService empInfoService;
 
     @GetMapping("/new")
     public String newOrderDto(Model model) {
@@ -70,9 +71,16 @@ public class OrderController {
     public String list(Model model) {
 
         orderService.getOrderList(model);
+        // 신규 버튼으로 나오는 모달에서 option 사용할 수 있게 가져오는 데이터
+        List<FitemEntity> fitemEntities = fitemService.getFitemList();
+        List<EmpInfoEntity> empInfoEntities = empInfoService.getList();
+
+        model.addAttribute("getFitemList", fitemEntities);
+        model.addAttribute("getEmpList", empInfoEntities);
 
         return "contents/pd/order_list";
     }
+
     @PostMapping("/save")
     public ResponseEntity<?> saveorder(@ModelAttribute OrderForm orderForm) {
 
@@ -121,6 +129,27 @@ public class OrderController {
             errorResponse.put("redirectUrl", "/pd/order/order`list");
             return ResponseEntity.badRequest().body(errorResponse);
         }
+    }
 
+    @GetMapping("/detail/{orderCd}")
+    public ResponseEntity<OrderEntity> detail(@PathVariable("orderCd") String orderCd) {
+
+        OrderEntity orderEntity = orderService.getOrder(orderCd);
+
+        if (orderEntity != null) {
+            return ResponseEntity.ok().body(orderEntity);
+
+        } else {
+
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/delete")
+    public String deleteOrder(@RequestParam("orderCd") List<String> orderCd) {
+
+        orderService.deleteOrder(orderCd);
+
+        return "redirect:/pd/order/orderlist";
     }
 }

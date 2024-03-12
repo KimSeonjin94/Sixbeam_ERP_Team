@@ -2,6 +2,7 @@ package com.erpproject.sixbeam.ac.entity;
 
 
 import com.erpproject.sixbeam.pur.entity.InputEntity;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,18 +20,22 @@ import jakarta.persistence.Table;
 @Setter
 @Table(name="AC_PUR_TB")
 public class PurEntity {
-    @Id
+
     @Column(name="PUR_NB",nullable = false)
     private String purNb;
     @ManyToOne
     @JoinColumn(name="ACCOUNT_CD")
     private AccountEntity accountEntity;
-    @ManyToOne
-    @JoinColumn(name="INPUTPUR_CD")
-    private InputEntity inputEntity;
-    @Column(name="PUR_ETC")
-    private String purEtc;
+    @Id
+    @Column(name="INPUTPUR_CD")
+    private String inputPurCd;
+    @Column(name="PUR_PRICE")
+    private int purPrice;
     @Column(name="PUR_SUBJECT",nullable = false)
     private String purSubject;
+
+    @ManyToOne
+    @JoinColumn(name = "INPUTPUR_CD", referencedColumnName = "INPUTPUR_CD", insertable = false, updatable = false)
+    private InputEntity inputEntity;
 
 }

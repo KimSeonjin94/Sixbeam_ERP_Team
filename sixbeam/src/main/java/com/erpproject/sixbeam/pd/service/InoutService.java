@@ -36,60 +36,34 @@ public class InoutService {
         return inoutRepository.findAll();
     }
 
-    public List<EmpInfoEntity> getEmpList() {
+    public InoutEntity getInout(String inoutCmptCd) {
 
-        return empInfoRepository.findAll();
+        return inoutRepository.findByInoutCmptCd(inoutCmptCd);
     }
 
-    public List<ItemEntity> getItemList() {
+    // OrderEntity의 orderSt가 false인 경우에만 InoutEntity를 저장
+    public void saveInout(String orderCd) {
 
-        return itemRepository.findAll();
-    }
+        InoutDto inoutDto = new InoutDto();
+        OrderEntity orderEntity = orderRepository.findById(orderCd)
+                .orElseThrow(() -> new EntityNotFoundException("작업지시코드를 찾을 수 없습니다."));
+        EmpInfoEntity empInfoEntity = empInfoRepository.findById(orderEntity.getEmpInfoEntity().getEmpInfoId())
+                .orElseThrow(() -> new EntityNotFoundException("사원코드를 찾을 수 없습니다."));
+        ItemEntity itemEntity = itemRepository.findById(orderEntity.getItemEntity().getItemCd())
+                .orElseThrow(() -> new EntityNotFoundException("품목코드를 찾을 수 없습니다."));
+        WhregistEntity whregistEntity = whregistRepository.findById("WHR1003")
+                .orElseThrow(() -> new EntityNotFoundException("창고코드를 찾을 수 없습니다."));
 
-    public List<WhregistEntity> getWhList() {
+        String newinoutCmptCd = generateNewInoutCmptCd(LocalDate.now());
+        inoutDto.setInoutCmptCd(newinoutCmptCd);
+        inoutDto.setEmpInfoEntity(empInfoEntity);
+        inoutDto.setOrderEntity(orderEntity);
+        inoutDto.setInoutDt(LocalDate.now());
+        inoutDto.setWhregistEntity(whregistEntity);
+        inoutDto.setItemEntity(itemEntity);
 
-        return whregistRepository.findAll();
-    }
-
-    public List<OrderEntity> getOdList() {
-
-        return orderRepository.findAll();
-    }
-
-    public List<InoutEntity> getIdList(String inoutCd) {
-
-        return inoutRepository.findByInoutCmptCd(inoutCd);
-    }
-
-    public List<InoutEntity> getFalseList() {
-
-        List<InoutEntity> falseorderSt = inoutRepository.findByOrderStFalse();
-
-        return inoutRepository.saveAll(falseorderSt);
-    }
-
-    public void saveInout(List<InoutDto> inoutDtos) {
-
-        for (InoutDto inoutDto : inoutDtos) {
-            EmpInfoEntity empInfoEntity = empInfoRepository.findById(inoutDto.getEmpInfoEntity().getEmpInfoId())
-                    .orElseThrow(() -> new EntityNotFoundException("사원코드를 찾을 수 없습니다."));
-            ItemEntity itemEntity = itemRepository.findById(inoutDto.getItemEntity().getItemCd())
-                    .orElseThrow(() -> new EntityNotFoundException("품목코드를 찾을 수 없습니다."));
-            OrderEntity orderEntity = orderRepository.findById(inoutDto.getOrderEntity().getOrderCd())
-                    .orElseThrow(() -> new EntityNotFoundException("작업지시코드를 찾을 수 없습니다."));
-            WhregistEntity whregistEntity = whregistRepository.findById(inoutDto.getWhregistEntity().getWhregistCd()).
-                    orElseThrow(() -> new EntityNotFoundException("창고코드를 찾을 수 없습니다."));
-
-            inoutDto.setEmpInfoEntity(empInfoEntity);
-            inoutDto.setItemEntity(itemEntity);
-            inoutDto.setOrderEntity(orderEntity);
-            inoutDto.setWhregistEntity(whregistEntity);
-
-            InoutEntity inoutEntity = inoutDto.toEntity();
-            String newinoutCmptCd = generateNewInoutCmptCd(inoutDto.getInoutDt());
-            inoutEntity.setInoutCmptCd(newinoutCmptCd);
-            inoutRepository.save(inoutEntity);
-        }
+        InoutEntity inoutEntity = inoutDto.toEntity();
+        inoutRepository.save(inoutEntity);
     }
 
     private String generateNewInoutCmptCd(LocalDate inoutDate) {

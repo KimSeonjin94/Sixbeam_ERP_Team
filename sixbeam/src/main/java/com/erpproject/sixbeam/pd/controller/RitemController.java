@@ -1,6 +1,7 @@
 package com.erpproject.sixbeam.pd.controller;
 
 import com.erpproject.sixbeam.pd.entity.RitemEntity;
+import com.erpproject.sixbeam.pd.service.FitemService;
 import com.erpproject.sixbeam.pd.service.RitemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,8 +20,11 @@ public class RitemController {
 
     @GetMapping("/rawitemlist")
     public String saveRawItem(Model model) {
+
         List<RitemEntity> ritemEntities = ritemService.saveRawItems();
+
         model.addAttribute("ritemEntities", ritemEntities);
+
         return "contents/pd/rawitem_list";
     }
 }

@@ -9,7 +9,7 @@
 		<div class = "card-body">
 			<form class = "formEntryOrder" th:action = "@{/pd/order/create}" th:object = "${orderForm}" method = "post">
 				<div class = "form-group row">
-					<label for = "currentDate" class = "col-sm-1 col-form-label">지시 날짜</label>
+					<label class = "col-sm-1 col-form-label">지시 날짜</label>
 					<div class = "col-sm-4">
 						<input type = "date" class = "form-control" id = "currentDate">
 					</div>
@@ -43,19 +43,22 @@
 						<td>
 							<select class = "selectbox form-control"
 							        th:name = "'orderDtos[' + 0 + '].itemEntity.itemCd'">
-								<option value = "">코드 선택</option>
+								<option value = "">품목 선택</option>
 								<option th:each = "fitemlist : ${getFitemList}" th:value = "${fitemlist.itemCd}"
 								        th:data-itemNm = "${fitemlist.itemCd}"
 								        th:data-itemStnd = "${fitemlist.itemNm}"
 								        th:data-itemUp = "${fitemlist.itemUp}"
 								        th:text = "${fitemlist.itemStnd}"></option>
 							</select>
+							<input type = "hidden" class = "orderInstDt" th:name = "'orderDtos[0].orderInstDt'">
+							<input type = "hidden" class = "orderDelivDt" th:name = "'orderDtos[0].orderDelivDt'">
+							<input type = "hidden" class = "orderSt" th:name = "'orderDtos[0].orderSt'">
 						</td>
 						<td>
-							<input type = "text" class = "form-control itemname" readonly>
+							<input type = "text" class = "form-control itemNm" readonly>
 						</td>
 						<td>
-							<input type = "text" class = "form-control itemstnd" readonly>
+							<input type = "text" class = "form-control itemStnd" readonly>
 						</td>
 						<td>
 							<select class = "selectbox form-control"
@@ -76,12 +79,10 @@
 						</td>
 						<td>
 							<input type = "text" class = "form-control empInfoEmail" readonly>
-							<input type = "hidden" class = "orderInstDt" th:name = "'orderDtos[0].orderInstDt'">
-							<input type = "hidden" class = "orderDelivDt" th:name = "'orderDtos[0].orderDelivDt'">
-							<input type = "hidden" class = "orderSt" th:name = "'orderDtos[0].orderSt'">
 						</td>
 						<td>
-							<input type = "text" class = "form-control" th:name="'orderDtos[0].orderAmt'" oninput = "checkInput2(event)">
+							<input type = "text" class = "form-control orderAmt" th:name = "'orderDtos[0].orderAmt'"
+							       oninput = "checkInput2(event)">
 						</td>
 					</tr>
 					</tbody>
@@ -99,12 +100,9 @@
 						       id = "deleteOrderbtn">
 					</div>
 					<div class = "col-sm-6 text-md-right">
-						<button type = "submit" class = "btn btn-primary">
-							저장
-						</button>
-						<button type = "button" class = "btn btn-danger reset">
-							초기화
-						</button>
+						<button type = "submit" class = "btn btn-primary" onclick = "createOrderFinished()">저장</button>
+						<button type = "button" class = "btn btn-danger reset2">초기화</button>
+					
 					</div>
 				</div>
 			</form>

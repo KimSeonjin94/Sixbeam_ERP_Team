@@ -45,6 +45,9 @@ public class WhmoveEntity {
     @Column(name = "SALE_CD")
     private String saleCd;
 
+    @Column(name = "INOUT_CMPT_CD")
+    private String inoutCmptCd;
+
     @Column(name = "INPUTPUR_CD")
     private String inputPurCd;
 

@@ -7,25 +7,25 @@
 		</div>
 		
 		<div class = "card-body">
-			<form class = "formEntry" th:action = "@{/pd/bom/create}" th:object = "${bomForm}" method = "post">
+			<form class = "formEntryOrder" th:action = "@{/pd/bom/create}" th:object = "${bomForm}" method = "post">
 				<div class = "form-group row">
 					<label class = "col-sm-1 col-form-label">품목명</label>
 					<div class = "col-sm-4">
-						<input type = "text" class = "form-control" id = "itemNm">
+						<input type = "text" class = "form-control" id = "itemNm" oninput = "checkInput3(event)">
 					</div>
 					<label class = "col-sm-1 col-form-label">규격</label>
 					<div class = "col-sm-4">
-						<input type = "text" class = "form-control" id = "itemstnd">
+						<input type = "text" class = "form-control" id = "itemStnd" oninput = "checkInput3(event)">
 					</div>
 				</div>
 				<div class = "form-group row">
 					<label class = "col-sm-1 col-form-label">가격</label>
 					<div class = "col-sm-4">
-						<input type = "text" class = "form-control" id = "itemUp" oninput="checkInput2(event)">
+						<input type = "text" class = "form-control" id = "itemup" oninput = "checkInput2(event)">
 					</div>
 				</div>
 				
-				<table class = "table item" id = "bomitem">
+				<table class = "table order" id = "bominfo">
 					<thead>
 					<tr>
 						<th>규격</th>
@@ -33,6 +33,7 @@
 						<th>품목명</th>
 						<th>수량</th>
 						<th>단가</th>
+						<th>가격</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -41,32 +42,35 @@
 							<select class = "selectbox form-control"
 							        th:name = "'bomDtos[' + 0 + '].ritemEntity.itemCd'">
 								<option value = "">코드 선택</option>
-								<option th:each = "ritemlist : ${getitemlist}" th:value = "${ritemlist.itemCd}"
+								<option th:each = "ritemlist : ${getRitemList}" th:value = "${ritemlist.itemCd}"
 								        th:data-itemNm = "${ritemlist.itemCd}"
 								        th:data-itemStnd = "${ritemlist.itemNm}"
 								        th:data-itemUp = "${ritemlist.itemUp}"
 								        th:text = "${ritemlist.itemStnd}"></option>
 							</select>
+							<input type = "hidden" class = "fitemNm" th:name = "'bomDtos[0].fitemEntity.itemNm'">
+							<input type = "hidden" class = "fitemStnd" th:name = "'bomDtos[0].fitemEntity.itemStnd'">
+							<input type = "hidden" class = "fitemup" th:name = "'bomDtos[0].fitemEntity.itemUp'">
 						</td>
 						<td>
-							<input type = "text" class = "form-control itemname"
-							       th:field = "*{bomDtos[0].fitemEntity.itemNm}" oninput = "checkInput3(event)" readonly>
+							<input type = "text" class = "form-control itemCd" readonly>
 						</td>
 						<td>
-							<input type = "text" class = "form-control itemstnd" th:field = "*{bomDtos[0].fitemEntity.itemStnd}"oninput = "checkInput3(event)" readonly>
+							<input type = "text" class = "form-control itemNm" readonly>
 						</td>
 						<td>
-							<input type = "text" class = "form-control itemamt"
-							       th:field = "*{bomDtos[0].bomUseMt}" oninput = "checkInput2(event)">
+							<input type = "text" class = "form-control itemamt orderAmt" th:name = "'bomDtos[0].bomUseMt'"
+							       oninput = "checkInput2(event)">
 						</td>
 						<td>
-							<input type = "hidden" class = "form-control itemup">
-							<input type = "text" class = "form-control itemsum"
-							       oninput = "checkInput2(event)" readonly="">
+							<input type = "text" class = "form-control itemup" readonly>
+						</td>
+						<td>
+							<input type = "text" class = "form-control itemsum" readonly>
 						</td>
 					</tr>
 					
-					<tr>
+					<!--<tr>
 						<td>
 							<select class = "selectbox form-control"
 							        th:name = "'bomDtos[' + 1 + '].ritemEntity.itemCd'">
@@ -79,10 +83,10 @@
 							</select>
 						</td>
 						<td>
-							<input type = "text" class = "form-control itemname" readonly>
+							<input type = "text" class = "form-control itemNm" readonly>
 						</td>
 						<td>
-							<input type = "text" class = "form-control itemstnd" readonly>
+							<input type = "text" class = "form-control itemStnd" readonly>
 						</td>
 						<td>
 							<input type = "text" class = "form-control itemamt" th:field = "*{bomDtos[1].bomUseMt}"
@@ -93,35 +97,31 @@
 							<input type = "text" class = "form-control itemsum"
 							       oninput = "checkInput2(event)" readonly>
 						</td>
-					</tr>
+					</tr>-->
 					</tbody>
 					<tfoot>
 					<tr>
-						<th colspan = "3">합계</th>
-						<th id = "totalAmt"></th>
-						<th id = "totalSum"></th>
+						<th colspan = "4"></th>
+						<th style = "text-align: right;">합계</th>
+						<th id = "totalUp"></th>
 					</tr>
 					</tfoot>
-				
 				</table>
+				
 				<div class = "row">
 					<div class = "col-sm-6">
 						<input type = 'button'
 						       value = '품목 추가'
 						       class = "btn btn-secondary"
-						       id = "addnewrowbtn">
+						       id = "addNewOrderbtn">
 						<input type = 'button'
 						       value = '품목 삭제'
 						       class = "btn btn-danger"
-						       id = "deleterowbtn">
+						       id = "deleteOrderbtn">
 					</div>
 					<div class = "col-sm-6 text-md-right">
-						<button type = "submit" class = "btn btn-primary" >
-							저장
-						</button>
-						<button type = "button" class = "btn btn-danger reset">
-							초기화
-						</button>
+						<button type = "submit" class = "btn btn-primary" onclick = "createItemFinished()">저장</button>
+						<button type = "button" class = "btn btn-danger reset2">초기화</button>
 					</div>
 				</div>
 			</form>
@@ -146,6 +146,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class = "modal fade" id = "successModal" tabindex = "-1" role = "dialog" aria-labelledby = "modalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog" role = "document">
@@ -165,6 +166,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class = "modal fade" tabindex = "-1" role = "dialog" id = "failModal" aria-labelledby = "modalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog" role = "document">

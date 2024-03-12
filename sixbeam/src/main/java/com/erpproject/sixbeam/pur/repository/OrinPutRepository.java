@@ -17,6 +17,6 @@ public interface OrinPutRepository extends JpaRepository<OrinPutEntity, String> 
     @Query("SELECT MAX(o.orinputCd) FROM OrinPutEntity o WHERE o.orinputOrDt = :orinputDate")
     String getMaxOrinputCd(@Param("orinputDate")LocalDate orinputDate);
 
-    @Query("SELECT o FROM OrinPutEntity o WHERE o.accountEntity.accountCd = :accountCd")
-    OrinPutEntity findByaccountCd(@Param("accountCd")String accountCd);
+    @Query("SELECT o FROM OrinPutEntity o, InputEntity i WHERE i.inputSiFl = false and o.orinputCd = i.orinputEntity.orinputCd")
+    List<OrinPutEntity> findByInputComplete();
 }

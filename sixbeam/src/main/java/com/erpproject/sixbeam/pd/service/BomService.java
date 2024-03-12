@@ -31,7 +31,7 @@ public class BomService {
     private final FitemRepository fitemRepository;
     private final RitemRepository ritemRepository;
     private final ItemService itemService;
-    private final FitemService fitemService;
+    private final RitemService ritemService;
 
     // 모든 품목을 가져오는 메서드
     public List<BomEntity> getList() {
@@ -39,19 +39,9 @@ public class BomService {
         return bomRepository.findAll();
     }
 
-    public Optional<ItemEntity> getItemCd(String itemCd) {
-
-        return itemRepository.findById(itemCd);
-    }
-
     public List<BomEntity> getFitemList(String fitemCd) {
 
         return bomRepository.findByFitemEntity_ItemCd(fitemCd);
-    }
-
-    public List<BomEntity> getRitemList(String ritemCd) {
-
-        return bomRepository.findByRitemEntity_ItemCd(ritemCd);
     }
 
     public void getBomList(Model model) {
@@ -60,35 +50,35 @@ public class BomService {
 
         // 데이터 가져오기
         List<BomEntity> getbomEntity = getList();
-        List<ItemEntity> getitemEntity = this.itemService.getList();
+//        List<ItemEntity> getitemEntity = this.itemService.getList();
 
         // form 데이터 입력란 추가
         bomForm.getBomDtos().add(new BomDto());
 
         // 모델에 데이터 등록
         model.addAttribute("getbomlist", getbomEntity);
-        model.addAttribute("getitemlist", getitemEntity);
     }
-
 
     public void readyBomForm(Model model) {
 
         BomForm bomForm = new BomForm();
 
-        List<ItemEntity> cpus = this.itemService.getCPU();
+        List<RitemEntity> ritemEntities = ritemService.getRitemList();
+
+        /*List<ItemEntity> cpus = this.itemService.getCPU();
         List<ItemEntity> mbs = this.itemService.getMB();
         List<ItemEntity> vgas = this.itemService.getVGA();
         List<ItemEntity> rams = this.itemService.getRAM();
         List<ItemEntity> ssds = this.itemService.getSSD();
         List<ItemEntity> hdds = this.itemService.getHDD();
         List<ItemEntity> powers = this.itemService.getPOWER();
-        List<ItemEntity> cases = this.itemService.getCASE();
+        List<ItemEntity> cases = this.itemService.getCASE();*/
 
         // 새로운 폼 생성(폼 페이지의 한 행)
         bomForm.getBomDtos().add(new BomDto());
 
         // 빈 BomDto를 생성하여 모델에 추가
-        model.addAttribute("cpu", cpus);
+        /*model.addAttribute("cpu", cpus);
         model.addAttribute("MB", mbs);
         model.addAttribute("vga", vgas);
         model.addAttribute("ram", rams);
@@ -96,7 +86,7 @@ public class BomService {
         model.addAttribute("hdd", hdds);
         model.addAttribute("power", powers);
         model.addAttribute("case", cases);
-        model.addAttribute("bomForm", bomForm);
+        model.addAttribute("bomForm", bomForm);*/
     }
 
     public void updateAll(List<BomDto> bomDtos) {
@@ -137,15 +127,27 @@ public class BomService {
 
     public void create(List<BomDto> bomDtos) {
 
-        List<BomEntity> bomEntities = new ArrayList<>();
+//        List<BomEntity> bomEntities = new ArrayList<>();
+
+        // 엔티티 분할 실수로 인한 처리 itemEntity 처리
+        String newFitemCd = itemService.generateNewFitemCd();
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setItemCd(newFitemCd);
+        itemEntity.setItemNm(bomDtos.get(0).getFitemEntity().getItemNm());
+        itemEntity.setItemStnd(bomDtos.get(0).getFitemEntity().getItemStnd());
+        itemEntity.setItemUp(bomDtos.get(0).getFitemEntity().getItemUp());
+
+        itemRepository.save(itemEntity);
 
         for (BomDto bomDto : bomDtos) {
 
-            String newFitemCd = itemService.generateNewFitemCd();
-
             FitemEntity fitemEntity = new FitemEntity();
+
+//            FitemEntity fitemEntity = fitemRepository.findById(bomDto.getFitemEntity().getItemCd()).orElseThrow(() -> new EntityNotFoundException("FitemInfo not found"));
             fitemEntity.setItemCd(newFitemCd);
             fitemEntity.setItemNm(bomDto.getFitemEntity().getItemNm());
+            fitemEntity.setItemStnd(bomDto.getFitemEntity().getItemStnd());
+            fitemEntity.setItemUp(bomDto.getFitemEntity().getItemUp());
 
             RitemEntity ritemEntity = ritemRepository.findById(bomDto.getRitemEntity().getItemCd()).orElseThrow(() -> new EntityNotFoundException("Ritem not found"));
 
@@ -154,9 +156,8 @@ public class BomService {
 
             BomEntity bomEntity = bomDto.toEntity();
 
-            bomEntities.add(bomEntity);
+            bomRepository.save(bomEntity);
         }
-        bomRepository.saveAll(bomEntities);
     }
 
     public ResponseEntity<List<BomEntity>> getBomDetails(String itemCd) {
