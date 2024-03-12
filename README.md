@@ -28,7 +28,7 @@
 ### 공지
 - 우리 깃허브가 많이 아파요 화이팅입니다.
 
-### Git-Flow 규칙
+## Git-Flow 규칙
 - origin (master를 이름 변경하여 백업하는 브랜치)
 
 - master (개발 완료된 기능들을 버전으로 만들어 관리하는 브랜치)
@@ -45,7 +45,7 @@
 
 ### 커밋 규칙
 
-- Title: {기능명}
+- Title: 날짜 {기능명} 작업명
 - subject: 변경점 및 문제점 표기
 
 ### 머지 규칙
@@ -54,10 +54,26 @@
 
 
 ## 네이밍 규칙
-- 객체명 : 클래스명의 소문자 약자 **ex) Promt pt, Result Set rs**
-- 클래스명 : 첫글자 대문자 → 파스칼 **ex) ClassTv**
-- 변수명 : 무조건 첫글자 단어 소문자로 하며 → 카멜(동사 자제 명사 위주) **ex) accountEntity**
-- 메소드명 : 단어구분을 → 스네이크(동사 사용) **ex) get_list**
+
+**Class(클래스)**
+- 파스칼 표기법을 사용한다.
+- 명사로 시작한다.
+- Ex) EmpEntity, EmpRepogitory 등
+
+**Methods(메서드)**
+- 카멜 표기법을 사용한다.
+- 동사로 시작한다.
+- Ex) setMyName, isMyName 등
+
+**Variable(변수)**
+- 소문자로 시작한다.
+- 카멜 표기법을 사용한다.
+- Ex) empEntity , empRepogitory 등
+
+**FileName(파일명)**
+- 클래스를 제외한 파일명은 소문자를 사용한다.
+- 스네이크을 사용해 '_'로 구분한다.
+- Ex) emp_list , emp_form 등
 
 ##  주요 기능
 
