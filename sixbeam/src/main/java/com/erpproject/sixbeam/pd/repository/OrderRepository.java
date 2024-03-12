@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, String> {
 
-    @Query("SELECT MAX(o.orderCd) FROM OrderEntity o WHERE o.orderInstDt = :orderDate")
+    @Query("SELECT MAX(o.orderCd) FROM OrderEntity o WHERE YEAR(o.orderInstDt) = YEAR(:orderDate)")
     String getMaxOrderCd(@Param("orderDate") LocalDate orderDate);
 
     OrderEntity findByOrderCd(String orderCd);
