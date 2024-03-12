@@ -22,7 +22,7 @@ public class BomEntity {
     private FitemEntity fitemEntity;
 
     @Id
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "RITEM_CD", referencedColumnName = "item_Cd")
     private RitemEntity ritemEntity;
 

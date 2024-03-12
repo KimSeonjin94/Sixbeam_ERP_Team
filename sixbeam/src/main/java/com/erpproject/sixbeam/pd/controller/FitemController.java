@@ -2,9 +2,11 @@ package com.erpproject.sixbeam.pd.controller;
 
 import com.erpproject.sixbeam.pd.entity.FitemEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.entity.RitemEntity;
 import com.erpproject.sixbeam.pd.repository.FitemRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.service.FitemService;
+import com.erpproject.sixbeam.pd.service.RitemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,13 +23,16 @@ import java.util.List;
 public class FitemController {
 
     private final FitemService fitemService;
+    private final RitemService ritemService;
 
     @GetMapping("/finitemlist")
     public String saveFinItem(Model model) {
 
         List<FitemEntity> fitemEntities = fitemService.saveFinItems();
+        List<RitemEntity> ritemEntities = ritemService.getRitemList();
 
         model.addAttribute("fitemEntities", fitemEntities);
+        model.addAttribute("getRitemList", ritemEntities);
 
         return "contents/pd/finitem_list";
     }

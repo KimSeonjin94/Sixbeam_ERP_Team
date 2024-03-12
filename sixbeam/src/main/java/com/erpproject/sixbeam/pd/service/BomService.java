@@ -27,6 +27,7 @@ import java.util.*;
 public class BomService {
 
     private final BomRepository bomRepository;
+    private final ItemRepository itemRepository;
     private final FitemRepository fitemRepository;
     private final RitemRepository ritemRepository;
     private final ItemService itemService;
@@ -128,11 +129,21 @@ public class BomService {
 
 //        List<BomEntity> bomEntities = new ArrayList<>();
 
+        // 엔티티 분할 실수로 인한 처리 itemEntity 처리
+        String newFitemCd = itemService.generateNewFitemCd();
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setItemCd(newFitemCd);
+        itemEntity.setItemNm(bomDtos.get(0).getFitemEntity().getItemNm());
+        itemEntity.setItemStnd(bomDtos.get(0).getFitemEntity().getItemStnd());
+        itemEntity.setItemUp(bomDtos.get(0).getFitemEntity().getItemUp());
+
+        itemRepository.save(itemEntity);
+
         for (BomDto bomDto : bomDtos) {
 
-            String newFitemCd = itemService.generateNewFitemCd();
-
             FitemEntity fitemEntity = new FitemEntity();
+
+//            FitemEntity fitemEntity = fitemRepository.findById(bomDto.getFitemEntity().getItemCd()).orElseThrow(() -> new EntityNotFoundException("FitemInfo not found"));
             fitemEntity.setItemCd(newFitemCd);
             fitemEntity.setItemNm(bomDto.getFitemEntity().getItemNm());
             fitemEntity.setItemStnd(bomDto.getFitemEntity().getItemStnd());
