@@ -50,7 +50,7 @@ public class InputController {
     @GetMapping("/create")
     public String InPutCreate(Model model) {
         InputDto inputDto = new InputDto();
-        List<OrinPutEntity> orinPutEntity = orinPutService.getList();
+        List<OrinPutEntity> orinPutEntity = orinPutService.getListInputComplete();
         List<WhregistEntity> whregistEntity = whregistService.getList();
         model.addAttribute("orinputEntities",orinPutEntity);
         model.addAttribute("getwhregistlist",whregistEntity);

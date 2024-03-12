@@ -122,4 +122,15 @@ public class InputService {
         WhmoveRowDeletedEvent<InputEntity> inputDeletedEvent = new WhmoveRowDeletedEvent<>(this, inputEntitiesToDelete);
         deleteEvent.publishEvent(inputDeletedEvent);
     }
+
+    @Transactional
+    public void updateInputEntity(String inputPurCd) {
+        List<InputEntity> inputEntityList = inputRepository.findByinputPurCd(inputPurCd);
+
+        for(InputEntity inputEntity : inputEntityList) {
+            OrinPutEntity orinPutEntity = inputEntity.getOrinputEntity();
+            orinPutEntity.setOrinputEtc("구매완료");
+            inputRepository.save(inputEntity);
+        }
+    }
 }
