@@ -5,20 +5,20 @@
     <h1 class="h3 mb-2 text-gray-800">재고 관리</h1>
     <div class="btn-group" role="group" aria-label="Basic example"></div>
     <!-- DataTales Example -->
-    <div class="card-body">
-        <div class="card shadow mb-4">
+    <div class="card shadow mb-3">
+        <div class="card-header py-3">
+            <div>
+                <h6 class="m-0 font-weight-bold text-primary">재고 조회</h6>
+            </div>
             <div class="card-body">
                 <form th:action="@{/st/check/whlist}" method="post">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">재고 조회</label>
-                    </div>
                     <div class="mb-3">
                         <label for="whmoveDt" class="form-label">기준일자</label>
-                        <input type="date" class="form-control" id="whmoveDt" name="date">
+                        <input type="date" class="form-control col-sm-2" id="whmoveDt" name="date">
                     </div>
-                    <div class="col-sm-4">
-                        <label for="whregistCode" class="col-sm-2 col-form-label">창고명</label>
-                        <select id="whregistCode" name="whregistEntity.whregistCd" class="form-control">
+                    <div class="mb-3">
+                        <label for="whregistCode" class="form-label">창고명</label>
+                        <select id="whregistCode" name="whregistEntity.whregistCd" class="form-control col-sm-2">
                             <option th:each="whregistlist : ${getwhregistlist}" th:value="${whregistlist.whregistCd}" th:text="${whregistlist.whregistNm}"></option>
                         </select>
                     </div>
