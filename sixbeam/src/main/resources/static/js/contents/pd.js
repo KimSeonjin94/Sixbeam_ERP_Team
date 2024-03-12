@@ -2,6 +2,54 @@ function createItemFinished() {
 
     var itemNm = $('#itemNm').val();
     var itemStnd = $('#itemStnd').val();
+    var itemUp = $('#itemup').val();
+
+    var isValid = true; // 유효성 검사 변수 초기화
+
+    // 각 텍스트 입력란에 대해 반복하여 유효성을 검사합니다.
+    $('.orderAmt').each(function () {
+        var orderAmt = $(this).val();
+
+        // 값이 비어있는 경우
+        if (!orderAmt || orderAmt.trim() === '') {
+            alert('수량을 입력하세요.');
+            isValid = false; // 유효성 검사 변수를 false로 설정
+            return false; // 반복문 탈출
+        }
+    });
+
+    // 품목 코드가 공백인 경우
+    if (!itemNm || itemNm.trim() === '') {
+        alert('품목명을 입력하세요.');
+        event.preventDefault();
+        return false;
+
+    } else if (!itemStnd || itemStnd.trim() === '') {
+        alert('규격을 입력하세요.');
+        event.preventDefault();
+        return false;
+
+    } else if (!itemUp || itemUp.trim() === '') {
+        alert('단가를 입력하세요.');
+        event.preventDefault();
+        return false;
+
+    } else {
+        // 모든 텍스트 입력란이 유효한 경우
+        if (isValid) {
+            alert('품목이 등록되었습니다.');
+            return true; // 폼 제출 허용
+        } else {
+            event.preventDefault(); // 폼 제출 방지
+            return false;
+        }
+    }
+}
+
+function createRitemFinished() {
+
+    var itemNm = $('#itemNm').val();
+    var itemStnd = $('#itemStnd').val();
     var itemUp = $('#itemUp').val();
 
     // 품목 코드가 공백인 경우
@@ -25,15 +73,31 @@ function createItemFinished() {
     }
 }
 
-function editItemFinished() {
+function createOrderFinished() {
+    var isValid = true; // 유효성 검사 변수 초기화
 
-    var itemCd = $('#itemCd').val();
-    var itemNm = $('#itemNm').val();
-    var itemStnd = $('#itemStnd').val();
-    var itemUp = $('#itemUp').val();
+    // 각 텍스트 입력란에 대해 반복하여 유효성을 검사합니다.
+    $('.orderAmt').each(function () {
+        var orderAmt = $(this).val();
 
-    alert('거래처 정보가 수정되었습니다.');
+        // 값이 비어있는 경우
+        if (!orderAmt || orderAmt.trim() === '') {
+            alert('수량을 입력하세요.');
+            isValid = false; // 유효성 검사 변수를 false로 설정
+            return false; // 반복문 탈출
+        }
+    });
+
+    // 모든 텍스트 입력란이 유효한 경우
+    if (isValid) {
+        alert('작업지시서가 등록되었습니다.');
+        return true; // 폼 제출 허용
+    } else {
+        event.preventDefault(); // 폼 제출 방지
+        return false;
+    }
 }
+
 
 function deleteItemFinished() {
 
@@ -45,6 +109,7 @@ function deleteItemFinished() {
         '' +
         'selectedInfo:checked').forEach(function (checkbox) {
         selectedIds.push(checkbox.value);
+        console.log(selectedIds);
     });
 
     // 선택된 체크박스가 없으면 에러 메시지를 표시하고 함수를 종료
@@ -60,10 +125,10 @@ function deleteItemFinished() {
         // 숨겨진 입력 필드에 값을 설정
         document.getElementById('deletePdInfo').value = itemIdsToDelete;
 
-        alert('품목이 삭제되었습니다.');
         // 폼을 제출하여 서버에 삭제 요청을 보냅니다
         document.getElementById('deleteForm').submit();
     }
+    alert('품목이 삭제되었습니다.');
 }
 
 // boolean값인 작업 상태 변경 기능
@@ -78,6 +143,7 @@ function turnBoolean() {
         'selectedInfo:checked').forEach(function (checkbox) {
         selectedIds.push(checkbox.value);
     });
+    console.log(selectedIds);
 
     if (selectedIds.length === 0) {
         alert('변경할 항목을 선택해주세요.');
@@ -430,11 +496,11 @@ $('.table.order').on('change input', '.selectbox', function () {
     }
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     // 데이터가 변경될 때마다 합계를 다시 계산합니다.
     // 예를 들어, 행이 추가되거나 삭제될 때, 입력 값이 변경될 때 등
-    $('.table.order').on('input', '.itemamt, .itemup, .itemsp, .itemvar, .itemsum', function() {
+    $('.table.order').on('input', '.itemamt, .itemup, .itemsp, .itemvar, .itemsum', function () {
         var $row = $(this).closest('tr');
         var itemamt = $row.find('.itemamt').val();
         console.log(itemamt);
@@ -453,14 +519,14 @@ function calculateTotal() {
 
     var totalAmt = 0, totalUp = 0, totalSum = 0;
 
-    $('.itemamt').each(function() {
+    $('.itemamt').each(function () {
         totalAmt += parseInt($(this).val().replace(/[^\d]/g, '')) || 0;
     });
-    $('.itemup').each(function() {
+    $('.itemup').each(function () {
         var value = $(this).val().replace(/[^\d]/g, '');
         totalUp += parseInt(value) || 0;
     });
-    $('.itemsum').each(function() {
+    $('.itemsum').each(function () {
         var value = $(this).val().replace(/[^\d]/g, '');
         totalSum += parseInt(value) || 0;
     });
@@ -518,70 +584,14 @@ $(document).ready(function () {
             url: $(this).attr('action'),
             data: $(this).serialize(), // 폼 데이터 직렬화
             success: function (response) {
-                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
+                window.location.href = response.redirectUrl;
+                /*$('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
                 // 성공 시 리다이렉션
                 $('#successModal').modal('show');
                 // 모달이 닫힐 때 리다이렉션
                 $('#successModal').on('hidden.bs.modal', function () {
                     window.location.href = response.redirectUrl;
-                });
-            },
-            error: function (xhr) {
-                // 오류 처리 로직
-                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
-                // 서버로부터 받은 에러 메시지를 알림
-                // 오류 처리 로직
-                var response = JSON.parse(xhr.responseText);
-                $('#failModal .modal-body').text(response.message);  //controller에서 받은 message 출력
-                // 오류 메시지 모달 표시
-                $('#failModal').modal('show'); // 올바른 셀렉터 사용
-                // 모달이 닫힐 때 리다이렉션
-                $('#failModal').on('hidden.bs.modal', function () {
-                    window.location.href = response.redirectUrl;
-                });
-                console.log('Error Submitting Form');
-            }
-        });
-    });
-});
-
-$(document).ready(function () {
-    // 폼이 제출될 때마다 실행되도록 변경
-    $('.formEntryBom').submit(function (e) {
-        // 폼 제출을 막음
-        e.preventDefault();
-
-        var itemnm = $('#itemNm').val();
-        var itemstnd = $('#itemStnd').val();
-        var itemup = $('#itemup').val();
-
-        $('.table.bom tbody tr').each(function (index) {
-            // 현재 행의 인덱스를 사용하여 입력 필드에 값을 설정
-            $(this).find('.fitemNm').val(itemnm);
-            $(this).find('.fitemStnd').val(itemstnd);
-            $(this).find('.fitemup').val(itemup);
-        });
-
-        var formData = new FormData(this);
-
-        // FormData 객체를 반복하여 폼 데이터 확인
-        formData.forEach(function (value, key) {
-            console.log(key + ': ' + value);
-        });
-
-        // AJAX를 사용하여 폼 데이터 제출
-        $.ajax({
-            type: $(this).attr('method'), // POST 또는 GET
-            url: $(this).attr('action'),
-            data: $(this).serialize(), // 폼 데이터 직렬화
-            success: function (response) {
-                $('#successModal .modal-body').text(response.message);  //controller에서 받은 message 출력
-                // 성공 시 리다이렉션
-                $('#successModal').modal('show');
-                // 모달이 닫힐 때 리다이렉션
-                $('#successModal').on('hidden.bs.modal', function () {
-                    window.location.href = response.redirectUrl;
-                });
+                });*/
             },
             error: function (xhr) {
                 // 오류 처리 로직
@@ -780,3 +790,13 @@ $(document).ready(function () {
         deleteLastBom();
     });
 });*/
+
+$('.reset2').click(function () {
+    // 폼 내의 모든 input 필드의 값을 초기화
+    $('.formEntryOrder input[type="text"]').val('');
+    $('.formEntryOrder input[type="date"]').val('');
+    $('.formEntryOrder select').each(function () {
+        this.selectedIndex = 0;
+    });
+    $('#currentDate').val(new Date().toISOString().substring(0, 10));
+});

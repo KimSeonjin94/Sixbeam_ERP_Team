@@ -14,6 +14,8 @@ import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -91,7 +94,6 @@ public class OrderService {
     @Transactional
     public void create(List<OrderDto> orderDtos) {
 
-
         for (OrderDto orderDto : orderDtos) {
 
             String newOrderCd = generateNewOrderCd(orderDtos.get(0).getOrderInstDt());
@@ -112,10 +114,10 @@ public class OrderService {
     }
 
     private String generateNewOrderCd(LocalDate inputDate) {
-        // 현재 날짜를 기반으로 새로운 구매 코드 생성
+        // 현재 날짜를 기반으로 새로운 작업 지시 코드 생성
         String prefix = "OD" + inputDate.format(DateTimeFormatter.ofPattern("yyyy")) + "-";
 
-        // DB에서 최대 구매 코드를 가져와서 숫자 부분 추출 후 +1 증가
+        // DB에서 최대 작업 지시 코드를 가져와서 숫자 부분 추출 후 +1 증가
         String maxCd = orderRepository.getMaxOrderCd(inputDate);
         int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(maxCd.lastIndexOf("-") + 1)) + 1 : 1;
 
@@ -160,5 +162,20 @@ public class OrderService {
                 inoutRepository.deleteByOrderCd(orderCd);
             }
         }
+    }
+
+    @Transactional
+    public ResponseEntity<String> deleteOrder(List<String> orderCd) {
+
+        try {
+            for (String ordercd : orderCd) {
+                orderRepository.findById(ordercd).ifPresent(orderRepository::delete);
+            }
+        } catch (DataAccessException e) {
+
+            log.error("데이터베이스 조작 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("데이터베이스 조작 중 오류 발생");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("작업 지시서가 삭제되었습니다.");
     }
 }

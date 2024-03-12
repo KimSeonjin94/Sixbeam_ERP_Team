@@ -60,7 +60,7 @@
 						</div>
 						
 						<div class = "modal-body">
-							<form class = "formEntryOrder" th:action = "@{/pd/bom/create}" th:object = "${bomForm}"
+							<form class = "formEntryOrder" th:action = "@{/pd/bom/fcreate}" th:object = "${bomForm}"
 							      method = "post">
 								<div class = "form-group row">
 									<label class = "col-sm-1 col-form-label">품목명</label>
@@ -97,14 +97,14 @@
 									<tr>
 										<td>
 											<select class = "selectbox form-control"
-											        th:name = "'orderDtos[' + 0 + '].itemEntity.itemCd'">
+											        th:name = "'bomDtos[' + 0 + '].ritemEntity.itemCd'">
 												<option value = "">품목 선택</option>
-												<option th:each = "fitemlist : ${getFitemList}"
-												        th:value = "${fitemlist.itemCd}"
-												        th:data-itemNm = "${fitemlist.itemCd}"
-												        th:data-itemStnd = "${fitemlist.itemNm}"
-												        th:data-itemUp = "${fitemlist.itemUp}"
-												        th:text = "${fitemlist.itemStnd}"></option>
+												<option th:each = "ritemlist : ${getRitemList}"
+												        th:value = "${ritemlist.itemCd}"
+												        th:data-itemNm = "${ritemlist.itemCd}"
+												        th:data-itemStnd = "${ritemlist.itemNm}"
+												        th:data-itemUp = "${ritemlist.itemUp}"
+												        th:text = "${ritemlist.itemStnd}"></option>
 											</select>
 											<input type = "hidden" class = "fitemNm"
 											       th:name = "'bomDtos[0].fitemEntity.itemNm'">
@@ -120,7 +120,7 @@
 											<input type = "text" class = "form-control itemNm" readonly>
 										</td>
 										<td>
-											<input type = "text" class = "form-control itemamt"
+											<input type = "text" class = "form-control itemamt orderAmt"
 											       th:name = "'bomDtos[0].bomUseMt'"
 											       oninput = "checkInput2(event)">
 										</td>
@@ -182,8 +182,10 @@
 										       id = "deleteOrderbtn">
 									</div>
 									<div class = "col-sm-6 text-md-right">
-										<button type = "submit" class = "btn btn-primary">저장</button>
-										<button type = "button" class = "btn btn-danger reset">초기화</button>
+										<button type = "submit" class = "btn btn-primary"
+										        onclick = "createItemFinished()">저장
+										</button>
+										<button type = "button" class = "btn btn-danger reset2">초기화</button>
 									</div>
 								</div>
 							</form>
@@ -258,8 +260,6 @@
 						</table>
 						
 						<div class = "modal-footer">
-							<!--<button type = "submit" class = "btn btn-danger" th:onclick = "createItemFinished()">수정
-							</button>-->
 							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">
 								닫기
 							</button>
@@ -282,7 +282,7 @@
 							</button>
 						</div>
 						
-						<form id = "deleteForm" action = "/pd/item/delete" method = "post">
+						<form id = "deleteForm" action = "/pd/item/fdelete" method = "post">
 							<div class = "modal-body-ac">
 								<p>선택한 품목을 삭제하시겠습니까?</p>
 								<input type = "hidden" name = "itemCd" id = "deletePdInfo" value = ""/>
@@ -297,6 +297,47 @@
 								</button>
 							</div>
 						</form>
+					</div>
+				</div>
+			</div>
+			
+			<div class = "modal fade" id = "cannotDeleteModal" tabindex = "-1" role = "dialog"
+			     aria-labelledby = "modalLabel" aria-hidden = "true">
+				<div class = "modal-dialog" role = "document">
+					<div class = "modal-content">
+						<div class = "modal-header">
+							<h5 class = "modal-title" id = "modalLabel">삭제 불가</h5>
+							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+								<span aria-hidden = "true">&times;</span>
+							</button>
+						</div>
+						<div class = "modal-body">
+							더 이상 삭제할 수 없습니다.
+						</div>
+						<div class = "modal-footer">
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class = "modal fade" tabindex = "-1" role = "dialog" id = "failModal"
+			     aria-labelledby = "modalLabel"
+			     aria-hidden = "true">
+				<div class = "modal-dialog" role = "document">
+					<div class = "modal-content">
+						<div class = "modal-header">
+							<h5 class = "modal-title">실패</h5>
+							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+								<span aria-hidden = "true">&times;</span>
+							</button>
+						</div>
+						<div class = "modal-body">
+							<p>데이터 저장에 실패하였습니다.</p>
+						</div>
+						<div class = "modal-footer">
+							<button type = "button" class = "btn btn-secondary" data-dismiss = "modal">닫기</button>
+						</div>
 					</div>
 				</div>
 			</div>
