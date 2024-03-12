@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -109,5 +110,12 @@ public class EmpInfoService {
         // 해당 아이디에 대한 비밀번호 조회 로직
         EmpInfoEntity emp = empInfoRepository.findByEmpInfoId(empInfoId).orElse(null);
         return (emp != null) ? emp.getEmpInfoPw() : null;
+    }
+    public void changeEmpInfoPasswordById(Long empInfoId, String newPassword){
+        Optional<EmpInfoEntity>empInfoEntity = empInfoRepository.findByEmpInfoId(empInfoId);
+        empInfoEntity.ifPresent(empInfo->{
+            empInfo.setEmpInfoPw(newPassword);
+            empInfoRepository.save(empInfo);
+        });
     }
 }

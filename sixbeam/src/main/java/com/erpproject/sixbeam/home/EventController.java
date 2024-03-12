@@ -27,7 +27,7 @@ public class EventController {
     }
 
     @PutMapping("/{eventId}")
-    public EventEntity updateEvent(@PathVariable Long eventId, @RequestBody EventEntity event) {
+    public EventEntity updateEvent(@PathVariable("eventId") Long eventId, @RequestBody EventEntity event) {
         // Ensure the event ID matches the path variable
         if (!eventId.equals(event.getId())) {
             throw new IllegalArgumentException("Event ID in path must match the ID in the request body");

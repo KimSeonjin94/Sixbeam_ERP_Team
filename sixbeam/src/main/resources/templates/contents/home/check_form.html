@@ -1,0 +1,167 @@
+<html layout:decorate="~{layout/default}">
+<head>
+    <!-- jQuery 다음에 DataTables 라이브러리가 이미 로드되어 있다면, 다시 로드하지 않아도 됩니다. -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- 추가된 부분 -->
+    <script>
+        $(document).ready(function () {
+            // 오늘 날짜를 가져오기
+            var today = new Date();
+
+            // 날짜를 YYYY-MM-DD 형식으로 변환
+            var formattedDate = today.toISOString().split('T')[0];
+
+            // 입력 필드에 초기값 설정
+            $('#selectWorkScheduleDate').val(formattedDate);
+
+            // 초기값으로 데이터 로드
+            loadWorkScheduleData(formattedDate);
+
+            // 이하 생략...
+        });
+
+        function loadWorkScheduleData(selectedDate) {
+            // Ajax 요청 수행
+            $.ajax({
+                type: "POST",
+                url: "/hr/workSchedule/create",
+                data: { selectedDate: selectedDate },
+                success: function (data) {
+                    // 성공적으로 데이터를 받아왔을 때 부분 업데이트 수행
+                    $('#dataTable').html(data);
+
+                    // DataTable 초기화 (기존 DataTables 라이브러리를 사용한다고 가정)
+                    $('#dataTable').DataTable().destroy();
+                    $('#dataTable').DataTable();
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div layout:fragment="content" class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form class="formEntry" th:action="@{/hr/workSchedule/create}" th:object="${workScheduleForm}"
+                  method="post" onsubmit="submitForm(event)">
+                <div class="form-group row">
+                    <label for="selectWorkScheduleDate" class="col-sm-2 col-form-label">일자</label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" id="selectWorkScheduleDate">
+                    </div>
+                </div>
+            </form>
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div>
+                        <button type="button" class="btn btn-primary" onclick="submitAttendance()">출근</button>
+                        <button type="button" class="btn btn-secondary" onclick="submitLeaveWork()">퇴근</button>
+                    </div>
+                    <script>
+                        function submitAttendance() {
+                            // 현재 날짜와 시간을 가져오기
+                            var currentDate = new Date();
+                            var koreanTime = currentDate.toLocaleString('en-US', { timeZone: 'Asia/Seoul', hour12: false });
+                            var currentTime = koreanTime.slice(11, 19);
+                            // Ajax 요청 수행
+                            $.ajax({
+                                type: "POST",
+                                url: "/hr/workSchedule/recordAttendance",
+                                data: {
+                                    currentTime: currentTime
+                                },
+                                success: function (data) {
+                                    // 성공적으로 데이터를 받아왔을 때의 처리
+                                    console.log("Attendance recorded successfully:", data);
+                                    // 여기서는 성공 시 어떤 동작을 할지 정의
+                                    console.log("Current Time:", currentTime);
+                                    updateDataTable();
+                                },
+                                error: function (error) {
+                                    console.log("Error recording attendance:", error);
+                                }
+                            });
+                        }
+                        function submitLeaveWork(){
+                            // 현재 날짜와 시간을 가져오기
+                            var currentDate = new Date();
+                            var koreanTime = currentDate.toLocaleString('en-US', { timeZone: 'Asia/Seoul', hour12: false });
+                            var currentTime = koreanTime.slice(11, 19);
+                            // Ajax 요청 수행
+                            $.ajax({
+                                type: "POST",
+                                url: "/hr/workSchedule/recordLeaveWork",
+                                data: {
+                                    currentTime: currentTime
+                                },
+                                success: function (data) {
+                                    // 성공적으로 데이터를 받아왔을 때의 처리
+                                    console.log("Attendance recorded successfully:", data);
+                                    // 여기서는 성공 시 어떤 동작을 할지 정의
+                                    console.log("Current Time:", currentTime);
+                                    updateDataTable();
+                                },
+                                error: function (error) {
+                                    console.log("Error recording attendance:", error);
+                                }
+                            });
+                        }
+                        function updateDataTable() {
+                            var selectedDate = $('#selectWorkScheduleDate').val();
+
+                            // Ajax 요청 수행
+                            $.ajax({
+                                type: "POST",
+                                url: "/hr/workSchedule/create",
+                                data: { selectedDate: selectedDate },
+                                success: function (data) {
+                                    // 성공적으로 데이터를 받아왔을 때 부분 업데이트 수행
+                                    $('#dataTable').html(data);
+
+                                    // DataTable 초기화 (기존 DataTables 라이브러리를 사용한다고 가정)
+                                    $('#dataTable').DataTable().destroy();
+                                    $('#dataTable').DataTable();
+                                },
+                                error: function (error) {
+                                    console.log("Error:", error);
+                                }
+                            });
+                        }
+                    </script>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead class="table-dark">
+                            <tr>
+                                <th>날짜</th>
+                                <th>부서</th>
+                                <th>이름</th>
+                                <th>출근시간</th>
+                                <th>퇴근시간</th>
+                            </tr>
+                            </thead>
+                            <tbody th:fragment="workScheduleTable">
+                            <tr th:each="work : ${workScheduleOne}">
+                                <td th:text="${work.workScheduleDate}"></td>
+                                <td th:text="${work.empInfoEntity.departEntity.departNm}"></td>
+                                <td th:text="${work.empInfoEntity.empInfoNm}" th:classappend="${work.workScheduleCheck} ? 'text-danger' : ''"></td>
+                                <td th:text="${work.workScheduleStartTime}"></td>
+                                <td th:text="${work.workScheduleEndTime}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

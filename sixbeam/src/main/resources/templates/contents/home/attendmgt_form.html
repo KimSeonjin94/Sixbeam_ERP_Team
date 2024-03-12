@@ -4,52 +4,30 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function () {
-            // 페이지 로드 시 초기값 설정
-            setDefaultDateAndLoadData();
-
             // input type="date"의 값이 변경되었을 때 동작할 함수
             $('#selectWorkScheduleDate').on('input', function () {
                 // 선택된 날짜 가져오기
                 var selectedDate = $(this).val();
 
-                // 데이터 로드 함수 호출
-                loadWorkScheduleData(selectedDate);
+                // Ajax 요청 수행
+                $.ajax({
+                    type: "POST",
+                    url: "/hr/attendmgtsearch/create",
+                    data: { selectedDate: selectedDate },
+                    success: function (data) {
+                        // 성공적으로 데이터를 받아왔을 때 부분 업데이트 수행
+                        $('#dataTable').html(data);
+
+                        // DataTable 초기화 (이미 DataTables가 사용 중이라고 가정)
+                        $('#dataTable').DataTable().destroy();
+                        $('#dataTable').DataTable();
+                    },
+                    error: function (error) {
+                        console.log("Error:", error);
+                    }
+                });
             });
         });
-
-        function setDefaultDateAndLoadData() {
-            // 오늘 날짜를 가져오기
-            var today = new Date();
-
-            // 날짜를 YYYY-MM-DD 형식으로 변환
-            var formattedDate = today.toISOString().split('T')[0];
-
-            // 입력 필드에 초기값 설정
-            $('#selectWorkScheduleDate').val(formattedDate);
-
-            // 초기값으로 데이터 로드
-            loadWorkScheduleData(formattedDate);
-        }
-
-        function loadWorkScheduleData(selectedDate) {
-            // Ajax 요청 수행
-            $.ajax({
-                type: "POST",
-                url: "/hr/attendmgtsearch/create",
-                data: { selectedDate: selectedDate },
-                success: function (data) {
-                    // 성공적으로 데이터를 받아왔을 때 부분 업데이트 수행
-                    $('#dataTable').html(data);
-
-                    // DataTable 초기화 (이미 DataTables가 사용 중이라고 가정)
-                    $('#dataTable').DataTable().destroy();
-                    $('#dataTable').DataTable();
-                },
-                error: function (error) {
-                    console.log("Error:", error);
-                }
-            });
-        }
     </script>
 </head>>
 <body>

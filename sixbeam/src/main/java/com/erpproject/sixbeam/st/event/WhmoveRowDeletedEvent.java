@@ -17,4 +17,3 @@ public class WhmoveRowDeletedEvent<T> extends ApplicationEvent {
         this.entities = new ArrayList<>(entities);
     }
 }
-

@@ -1,0 +1,97 @@
+<html layout:decorate="~{layout/default}">
+<head>
+    <meta charset='utf-8'/>
+</head>
+<body>
+<div layout:fragment="content" class="container-fluid">
+
+    <div class="container mt-4">
+        <div class="row">
+
+            <!-- Profile Card -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>프로필 정보</h4>
+                    </div>
+                    <div class="row">
+                        <!-- Profile Image -->
+                        <div class="col-md-4">
+                            <img src="https://i.namu.wiki/i/1kx-vrxAPo6-AxhHW8Zym_Suf2rckF-_2-_AGx0vG9iO_sU8ZdWyKyn0nkLsOsbYXi_oRP8B-u6qZ-nigicm95lkCLIb0zNp5-ImTSx092NLrG3Jm1PDB8GN_saQBUE_j-aqRFKWOnMFJ2zFZFFtFw.webp" alt="Profile Image" class="card-img-top">
+                        </div>
+                        <!-- Profile Information -->
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="'이름 : ' + ${empInfoOne.empInfoNm}"></h5>
+                                <!-- "부서 : "과 실제 부서를 함께 출력 -->
+                                <h5 class="card-title" th:text="'부서 : ' + ${empInfoOne.departEntity.departNm}"></h5>
+                                <!-- "직책 : "과 실제 직책을 함께 출력 -->
+                                <h5 class="card-title" th:text="'직책 : ' + ${empInfoOne.positionEntity.positionNm}"></h5>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" onclick="openModal()">비밀번호 변경</button>
+                    <button type="button" class="btn btn-secondary" onclick="cancle()">취소</button>
+                </div>
+                <!--비밀번호 변경하는 모달-->
+                <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="changePasswordModalLabel">비밀번호 변경</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- 새 비밀번호 입력 폼 -->
+                                <form id="changePasswordForm" th:action="@{/hr/empinfo/changePw}" method="post">
+                                    <!-- 새 비밀번호 입력 폼 -->
+                                    <label for="newPassword">새 비밀번호:</label>
+                                    <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+
+                                    <!-- 비밀번호 확인 입력 폼 -->
+                                    <label for="confirmPassword">비밀번호 확인:</label>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+
+                                    <!-- 변경 버튼 클릭 시 모달 닫고, 폼 제출 -->
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="changePassword()">변경</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    function openModal(){
+                        $('#changePasswordModal').modal('show');
+                    }
+                    function cancle() {
+                        window.location.href = "/sixbeam/home"; // 원하는 링크로 변경
+                    }
+                    function changePassword() {
+                        var newPassword = document.getElementById("newPassword").value;
+                        var confirmPassword = document.getElementById("confirmPassword").value;
+
+                        // 새 비밀번호와 확인 비밀번호 비교
+                        if (newPassword === confirmPassword) {
+                            document.getElementById("changePasswordForm").submit();
+                            alert('비밀번호가 변경되었습니다.')
+                            $('#changePasswordModal').modal('hide');
+                        } else {
+                            alert("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+                        }
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
