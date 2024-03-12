@@ -32,6 +32,10 @@ public class OrinPutService {
         return this.orinPutRepository.findAll();
     }
 
+    public List<OrinPutEntity> getListInputComplete() {
+        return this.orinPutRepository.findByInputComplete();
+    }
+
     public List<AccountEntity> getactList() {
         return this.accountRepository.findAccountCdByEtc("구매처");
     }
