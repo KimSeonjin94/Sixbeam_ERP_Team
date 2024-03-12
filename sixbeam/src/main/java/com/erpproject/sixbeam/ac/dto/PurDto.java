@@ -15,10 +15,8 @@ public class PurDto {
     private int purPrice;
     private String purSubject;
 
-
-
     public PurEntity toEntity() {
 
-        return new PurEntity(purNb, accountEntity, inputEntity, purPrice, purSubject);
+        return new PurEntity(purNb, accountEntity, inputEntity.getInputPurCd(), purPrice, purSubject,inputEntity );
     }
 }

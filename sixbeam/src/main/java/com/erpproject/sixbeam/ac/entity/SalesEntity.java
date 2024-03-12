@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.ac.entity;
 
+import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,18 +19,22 @@ import jakarta.persistence.Table;
 @Setter
 @Table(name="AC_SALES_TB")
 public class SalesEntity {
-    @Id
+
     @Column(name="SALES_NB",nullable = false)
     private String salesNb;
     @ManyToOne
     @JoinColumn(name="ACCOUNT_CD")
     private AccountEntity accountEntity;
-    @ManyToOne
-    @JoinColumn(name="SALE_CD")
-    private SaleEntity saleEntity;
+    @Id
+    @Column(name="SALE_CD")
+    private String saleCd;
     @Column(name="SALES_PRICE")
     private int salesPrice;
     @Column(name="SALES_SUBJECT",nullable = false)
     private String salesSubject;
+
+    @ManyToOne
+    @JoinColumn(name = "SALE_CD", referencedColumnName = "SALE_CD", insertable = false, updatable = false)
+    private SaleEntity saleEntity;
 
 }
