@@ -1,6 +1,7 @@
 package com.erpproject.sixbeam.ss;
 
 import com.erpproject.sixbeam.ac.entity.SalesEntity;
+import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.service.SaleService;
 import com.erpproject.sixbeam.st.entity.ReleaseEntity;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class SsListener {
-    private SaleService saleService;
+    private final SaleService saleService;
 
     @EventListener
     public void handleRowAddEvent(SsRowAddEvent<?> event){
@@ -17,10 +18,10 @@ public class SsListener {
             ReleaseEntity releaseEntity= (ReleaseEntity) event.getEntity();
 
             saleService.addRowRelease(releaseEntity);
-        }else if(event.getEntity() instanceof SalesEntity){
-            SalesEntity salesEntity = (SalesEntity) event.getEntity();
+        }else if(event.getEntity() instanceof SaleEntity){
+            SaleEntity saleEntity = (SaleEntity) event.getEntity();
 
-            saleService.addRowSales(salesEntity);
+            saleService.addRowSales(saleEntity);
 
         }
     }

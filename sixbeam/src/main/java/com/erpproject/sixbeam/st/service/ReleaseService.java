@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
+import com.erpproject.sixbeam.ss.SsRowAddEvent;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import com.erpproject.sixbeam.st.dto.ReleaseDto;
@@ -14,6 +15,7 @@ import com.erpproject.sixbeam.st.entity.ReleaseEntity;
 import com.erpproject.sixbeam.st.repository.ReleaseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ public class ReleaseService {
     private final ReleaseRepository releaseRepository;
     private final EmpInfoRepository empInfoRepository;
     private final SaleRepository saleRepository;
+    private final ApplicationEventPublisher addRowEvent;
 
     public List<ReleaseEntity> getList() {
         return this.releaseRepository.findAll();
@@ -54,6 +57,8 @@ public class ReleaseService {
         ReleaseEntity releaseEntity = releaseDto.toEntity();
         releaseEntity.setReleaseCd(newReleaseCd);
         releaseRepository.save(releaseEntity);
+        SsRowAddEvent<ReleaseEntity> saleEntitySsRowAddEvent = new SsRowAddEvent<>(this,releaseEntity);
+        addRowEvent.publishEvent(saleEntitySsRowAddEvent);
     }
 
     public void updateAll(ReleaseDto releaseDto) {
