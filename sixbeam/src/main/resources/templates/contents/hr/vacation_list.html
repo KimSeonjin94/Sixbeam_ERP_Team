@@ -1,0 +1,397 @@
+<html layout:decorate="~{layout/default}" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!--fullcalendar-->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+</head>>
+<body>
+<div layout:fragment="content" class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+
+
+
+            <!-- Full Calendar -->
+
+            <div class="card shadow mb-4">
+
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+
+                    <h6 class="m-0 font-weight-bold text-primary">일정 관리</h6>
+
+                </div>
+
+                <div class="card-body mb-12">
+                    <div id="calendar" class="fc fc-media-screen fc-direction-ltr fc-theme-standard"></div>
+                </div>
+                <!-- 모달 창 -->
+                <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editEventModalLabel">이벤트 수정</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="eventTitleInput">사유</label>
+                                        <input type="text" class="form-control" id="eventTitleInput">
+                                    </div>
+                                    <label for="eventColorSelect">종류</label>
+                                    <select class="form-control" id="eventColorSelect">
+                                        <!-- 연가는 빨간색 공가는 노란색 -->
+                                        <option value="red">연차</option>
+                                        <option value="yellow">공가</option>
+                                    </select>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="editEventModalConfirm">확인</button>
+                                <button type="button" class="btn btn-warning" id="editEventModalDelete">삭제</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <script layout:fragment="script" type='text/javascript'>
+                $('#editEventModal').on('keypress', function (e) {
+                    if (e.which === 13) { // Enter 키의 keyCode는 13입니다.
+                        e.preventDefault(); // 기본 동작 방지
+                        $('#editEventModalConfirm').click(); // 확인 버튼 클릭
+                    }
+                });
+                document.addEventListener('DOMContentLoaded', function() {
+                    var holidays = [];
+                    var calendarEl = document.getElementById('calendar');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        locale: 'ko',
+                        googleCalendarApiKey : "AIzaSyBpL3vEBHMwFcrnYFMKpQmvPkSqZw1mXnQ",
+                        //드래그 버튼
+                        initialView: 'dayGridMonth',
+                        selectable: true,
+                        //헤더툴바
+                        headerToolbar:{
+                            start: 'today',
+                            center: 'title',
+                            end: 'prev,next'
+                        },
+                        editable: true,
+                        selectable: true,
+                        businessHours: true,
+                        dayMaxEvents: true,
+                        selectable: true,
+                        timeZone: 'UTC',
+                        events: function (fetchInfo, successCallback, failureCallback) {
+                            var customAttendPromise = new Promise(function (resolve, reject) {
+                                $.ajax({
+                                    url: "/api/attendmgt",
+                                    method: "GET",
+                                    success: function (data) {
+                                        var events = data.map(function (event) {
+                                            return {
+                                                id: event.id,
+                                                title: event.title,
+                                                start: event.start,
+                                                end: event.end,
+                                                backgroundColor: event.backgroundColor
+                                            };
+                                        });
+                                        resolve(events);
+                                    },
+                                    error: function (error) {
+                                        console.error('사용자 정의 이벤트 가져오기 실패:', error);
+                                        reject(error);
+                                    }
+                                });
+                            });
+                            var customEventsPromise = new Promise(function (resolve, reject) {
+                                $.ajax({
+                                    url: "/api/events",
+                                    method: "GET",
+                                    success: function (data) {
+                                        var events = data.map(function (event) {
+                                            return {
+                                                id: event.id,
+                                                title: event.title,
+                                                start: event.start,
+                                                end: event.end,
+                                                backgroundColor: event.backgroundColor
+                                            };
+                                        });
+                                        resolve(events);
+                                    },
+                                    error: function (error) {
+                                        console.error('사용자 정의 이벤트 가져오기 실패:', error);
+                                        reject(error);
+                                    }
+                                });
+                            });
+
+                            var googleCalendarPromise = new Promise(function (resolve, reject) {
+                                $.ajax({
+                                    url: 'https://www.googleapis.com/calendar/v3/calendars/ko.south_korea%23holiday%40group.v.calendar.google.com/events',
+                                    data: {
+                                        key: 'AIzaSyBpL3vEBHMwFcrnYFMKpQmvPkSqZw1mXnQ'
+                                    },
+                                    success: function (data) {
+                                        var events = data.items.map(function (item) {
+                                            return {
+                                                id: item.id,
+                                                title: item.summary,
+                                                start: item.start.dateTime || item.start.date,
+                                                end: item.end.dateTime || item.end.date,
+                                                backgroundColor: 'red',
+                                                textColor: 'whites',
+                                                className: 'holiday-event'
+                                            };
+                                        });
+                                        resolve(events);
+                                    },
+                                    error: function (error) {
+                                        console.error('Google 캘린더 이벤트 가져오기 실패:', error);
+                                        reject(error);
+                                    }
+                                });
+                            });
+
+                            // 두 소스를 병렬로 불러와서 합치기
+                            Promise.all([customAttendPromise, customEventsPromise, googleCalendarPromise])
+                                .then(function (results) {
+                                var combinedEvents = [].concat.apply([], results);
+                                successCallback(combinedEvents);
+                            })
+                                .catch(function (error) {
+                                failureCallback(error);
+                            });
+                        },
+
+                        select: function(info) {
+                            //모달창에 값넣기
+                            $('#eventTitleInput').val("");
+                            $('#eventColorSelect').val("");
+                            $('#editEventModal').modal('show');
+
+                            $('#editEventModalConfirm').off('click').on('click', function() {
+                                var newTitle = $('#eventTitleInput').val();
+                                var selectedColor = $('#eventColorSelect').val();
+
+                                var startDate = info.start;
+                                var endDate = info.end || startDate;
+
+                                var eventData = {
+                                    title: newTitle,
+                                    start: startDate,
+                                    end: endDate,
+                                    backgroundColor: selectedColor // 사용자가 선택한 색상을 할당
+                                };
+
+                                // 추가: 서버에 새 이벤트 추가 요청
+                                $.ajax({
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    url: "/api/attendmgt",
+                                    data: JSON.stringify(eventData),
+                                    success: function(response) {
+                                        calendar.addEvent(response);
+                                    },
+                                    error: function(error) {
+                                        console.error('이벤트 추가 실패:', error);
+                                    }
+                                });
+
+                                $('#editEventModal').modal('hide');
+                            });
+                        },
+
+                        //이벤트 선택할 때 호출되는 이벤트 핸들러
+                        //info.event: 클릭된 이벤트를 나타내는 FullCalendar의 이벤트 객체입니다. 이 객체는 이벤트에 대한 모든 정보를 포함하고 있습니다.
+                        //info.el: 클릭된 이벤트의 HTML 요소입니다. FullCalendar에서 이벤트를 렌더링하는 데 사용됩니다.
+                        //info.jsEvent: 클릭 이벤트에 대한 원본 JavaScript 이벤트입니다. 주로 마우스 클릭 이벤트입니다.
+                        //info.view: 클릭된 이벤트가 발생한 뷰를 나타냅니다. 뷰는 FullCalendar에서 현재 보여지고 있는 캘린더 뷰를 나타냅니다.
+                        eventClick: function (info) {
+                            $('#eventTitleInput').val(info.event.title);
+                            $('#eventColorSelect').val(info.event.backgroundColor);
+                            $('#editEventModal').modal('show');
+
+                            $('#editEventModalConfirm').on('click', function() {
+                                var newTitle = $('#eventTitleInput').val();
+                                var selectedColor = $('#eventColorSelect').val();
+                                var eventId = info.event.id; // info 객체로부터 이벤트 ID 추출
+                                //                                info.event.setProp('title', newTitle);
+                                var eventData = {
+                                    title: newTitle,
+                                    start: info.event.start, // 시작 일자 추출
+                                    end: info.event.end || info.event.start, // 종료 일자 추출 (없을 경우 시작 일자 사용)
+                                    backgroundColor: selectedColor,
+                                    id: eventId // 이벤트의 고유 식별자
+                                };
+                                // 서버에 수정된 이벤트 정보를 전송
+                                $.ajax({
+                                    type: "PUT",
+                                    contentType: "application/json",
+                                    url: "/api/attendmgt" + eventId,
+                                    data: JSON.stringify(eventData),
+                                    success: function (response) {
+                                        // 서버에서 성공적으로 응답을 받았을 때 수행할 작업
+                                        // 이전 이벤트를 삭제
+                                        info.event.remove();
+
+                                        // 새 이벤트를 추가
+                                        calendar.addEvent(response);
+                                        console.log("이벤트가 성공적으로 수정되었습니다.");
+
+                                    },
+                                    error: function (error) {
+                                        // 서버에서 오류가 발생했을 때 수행할 작업
+                                        console.error('이벤트 수정 실패:', error);
+                                    }
+                                });
+                                $('#editEventModal').modal('hide');
+
+                            });
+
+                            $('#editEventModalDelete').off('click').on('click', function() {
+                                // 선택된 이벤트를 삭제
+                                if (info.event) {
+                                    var eventId = info.event.extendedProps.id; // 이벤트의 ID 가져오기
+                                    // 서버로 삭제 요청 보내기
+                                    $.ajax({
+                                        url: '/api/attendmgt/' + info.event.id,
+                                        type: 'DELETE',
+                                        success: function() {
+                                            // 삭제 성공 시 캘린더에서도 이벤트 제거
+                                            info.event.remove();
+                                            // 모달 창 닫기
+                                            $('#editEventModal').modal('hide');
+                                        },
+                                        error: function() {
+                                            // 삭제 실패 시 예외 처리
+
+                                            alert('이벤트 삭제에 실패했습니다.');
+                                        }
+                                    });
+                                }
+                            });
+                        },
+                        //이벤트를 드래그하여 다른 날짜나 시간으로 이동할 때 발생합니다.
+                        //이 이벤트 핸들러는 이벤트가 드래그되었을 때 발생하는 동작을 처리할 때 사용
+                        //info.event: 이동된 이벤트의 FullCalendar 이벤트 객체입니다.
+                        //info.oldEvent: 이동하기 전의 이벤트 정보를 포함하는 FullCalendar 이벤트 객체입니다.
+                        //info.delta: 이동한 시간 차이를 나타내는 객체입니다. { days, milliseconds, months, years } 형식의 값을 가집니다.
+                        eventDrop: function (info) {
+                            var newTitle = info.event.title;
+                            var selectedColor = info.event.backgroundColor;
+                            var newStart = info.event.start;
+                            var newEnd = info.event.end || newStart;
+                            var eventId = info.event.id;
+
+                            var eventData = {
+                                title: newTitle,
+                                start: newStart,
+                                end: newEnd,
+                                backgroundColor: selectedColor,
+                                id: eventId
+
+                            };
+
+                            // 서버에 수정된 이벤트 정보를 전송
+                            $.ajax({
+                                type: "PUT",
+                                contentType: "application/json",
+                                url: "/api/attendmgt/" + eventId,
+                                data: JSON.stringify(eventData),
+                                success: function (response) {
+                                    // 서버에서 성공적으로 응답을 받았을 때 수행할 작업
+                                    console.log("이벤트가 성공적으로 업데이트되었습니다.");
+                                },
+                                error: function (error) {
+                                    // 서버에서 오류가 발생했을 때 수행할 작업
+                                    console.error('이벤트 업데이트 실패:', error);
+                                }
+                            });
+                        },
+                        //이벤트를 늘리거나 줄였을 때 발생합니다.
+                        //이 이벤트 핸들러는 이벤트의 기간이 변경되었을 때 발생하는 동작을 처리할 때 사용됩니다.
+                        //info.event: 변경된 이벤트의 FullCalendar 이벤트 객체입니다.
+                        //info.oldEvent: 변경하기 전의 이벤트 정보를 포함하는 FullCalendar 이벤트 객체입니다.
+                        //info.delta: 크기 변경으로 인한 시간 차이를 나타내는 객체입니다. { days, milliseconds, months, years } 형식의 값을 가집니다.
+                        eventResize: function (info) {
+                            var newTitle = info.event.title;
+                            var selectedColor = info.event.backgroundColor;
+                            var newStart = info.event.start;
+                            var newEnd = info.event.end || newStart;
+                            var eventId = info.event.id;
+
+                            var eventData = {
+                                title: newTitle,
+                                start: newStart,
+                                end: newEnd,
+                                backgroundColor: selectedColor,
+                                id: eventId
+                            };
+
+                            // 서버에 수정된 이벤트 정보를 전송
+                            $.ajax({
+                                type: "PUT",
+                                contentType: "application/json",
+                                url: "/api/attendmgt/" + eventId,
+                                data: JSON.stringify(eventData),
+                                success: function (response) {
+                                    // 서버에서 성공적으로 응답을 받았을 때 수행할 작업
+                                    console.log("이벤트가 성공적으로 업데이트되었습니다.");
+                                },
+                                error: function (error) {
+                                    // 서버에서 오류가 발생했을 때 수행할 작업
+                                    console.error('이벤트 업데이트 실패:', error);
+                                }
+                            });
+                        },
+                        dayCellContent: function (arg) {
+                            var dateString = arg.date.getFullYear() + '-' + ('0' + (arg.date.getMonth() + 1)).slice(-2) + '-' + ('0' + arg.date.getDate()).slice(-2);
+                            console.log('Checking date:', dateString);
+                            console.log('Holidays:', holidays);
+
+                            if (holidays.includes(dateString)) {
+                                console.log('Holiday found!');
+                                return {html: '<div style="color: red;">' + arg.dayNumberText + '</div>'};
+                            }
+
+                            if (arg.date.getDay() === 0) {
+                                console.log('Sunday found!');
+                                return {html: '<div style="color: red;">' + arg.dayNumberText + '</div>'};
+                            }
+                            if (arg.date.getDay() === 6) {
+                                console.log('Saturday found!');
+                                return {html: '<div style="color: blue;">' + arg.dayNumberText + '</div>'};
+                            }
+
+                            return arg.dayNumberText;
+                        },
+                        //달력에서 특정 날짜를 클릭할 때 발생합니다.
+                        //이 이벤트 핸들러는 사용자가 달력의 날짜를 선택할 때 유용하게 사용될 수 있습니다.
+                        //info.date: 클릭된 날짜의 JavaScript Date 객체입니다.
+                        //info.dayEl: 클릭된 날짜의 HTML 요소입니다. 이벤트 핸들러 내에서 이 요소를 조작할 수 있습니다.
+                        //dateClick: function (info) {},
+
+                    });
+                    calendar.render();
+                });
+
+            </script>
+
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
