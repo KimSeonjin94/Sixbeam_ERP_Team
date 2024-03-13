@@ -184,6 +184,6 @@ public class ItemService {
             log.error("데이터베이스 조작 중 오류 발생", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("데이터베이스 조작 중 오류 발생");
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body("품목이 삭제되었습니다.");
     }
 }
