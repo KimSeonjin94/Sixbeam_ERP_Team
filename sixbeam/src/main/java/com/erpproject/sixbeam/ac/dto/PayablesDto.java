@@ -13,6 +13,6 @@ public class PayablesDto {
 
     public PayablesEntity toEntity() {
 
-        return new PayablesEntity(accountCd, accountNm, accountEntity, payablesPur, payablesPaid, payablesRest);
+        return new PayablesEntity(accountCd,accountNm , accountEntity, payablesPur, payablesPaid, payablesRest);
     }
 }

@@ -13,10 +13,10 @@
                                 </tr>
                             </thead>
                             <tr>
-                                <th class="is">과목</th>
+                                <th class="is">회계연도</th>
                                 <th class="card-header-date">
                                     <select class="selectQ" name="isDtForm" onchange="this.form.submit()">
-                                        <option value="">분기 선택</option>
+                                        <option value="">회계연도 선택</option>
                                         <option th:each="isDt : ${isDts}"
                                                 th:value="${isDt}"
                                                 th:text="${isDt}"
