@@ -115,30 +115,28 @@ public class ItemService {
 
     public void saveRitem(ItemDto itemDto) {
 
-        String itemNm = itemDto.getItemNm();
+        /*String itemNm = itemDto.getItemNm();
         String itemStnd = itemDto.getItemStnd();
-        Long itemUp = itemDto.getItemUp();
-
-        // 품목 코드가 공백인지 확인
-        if (itemNm == null || itemNm.trim().isEmpty()) {
-            throw new IllegalArgumentException("품목명을 입력해주세요");
-
-        } else if (itemStnd == null || itemStnd.trim().isEmpty()) {
-            throw new IllegalArgumentException("규격을 입력해주세요");
-
-        } else if (itemUp == null || String.valueOf(itemUp).trim().isEmpty()) {
-            throw new IllegalArgumentException("단가를 입력해주세요");
-        }
+        Long itemUp = itemDto.getItemUp();*/
+        ItemEntity itemEntity = new ItemEntity();
 
         // 새로운 아이템 코드 생성
         String newItemCd = generateNewRitemCd();
-        itemDto.setItemCd(newItemCd);
+        itemEntity.setItemCd(newItemCd);
+        itemEntity.setItemNm(itemDto.getItemNm());
+        itemEntity.setItemStnd(itemDto.getItemStnd());
+        itemEntity.setItemUp(itemDto.getItemUp());
 
-        ItemEntity itemEntity = itemDto.toEntity();
+        /*itemDto.setItemCd(newItemCd);
+        itemDto.setItemNm(item);
+        itemDto.setItemStnd(itemStnd);
+        itemDto.setItemUp(itemUp);*/
+
+//        ItemEntity itemEntity = itemDto.toEntity();
         itemRepository.save(itemEntity);
     }
 
-    private String generateNewRitemCd() {
+    public String generateNewRitemCd() {
 
         // "F"로 시작하는 새로운 품목 코드 생성
         String prefix = "R";
