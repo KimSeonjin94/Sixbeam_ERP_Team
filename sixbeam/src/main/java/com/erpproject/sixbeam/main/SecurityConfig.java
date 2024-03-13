@@ -33,7 +33,7 @@ public class SecurityConfig {
         http.cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/sixbeam", "/login", "/register", "/css/**", "/js/**", "/vendor/**", "/hr/empinfo/pw").permitAll()
+                        .requestMatchers("/sixbeam", "/login", "/register", "/css/**", "/js/**", "/vendor/**","/img/**", "/hr/empinfo/pw").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/hr/**")).hasAnyAuthority("인사", "회계")//인사
                         .requestMatchers(new AntPathRequestMatcher("/pd/**")).hasAnyAuthority("인사", "생산", "재고", "영업", "구매", "회계")//생산
                         .requestMatchers(new AntPathRequestMatcher("/st/**")).hasAnyAuthority("인사", "생산", "재고", "영업", "구매", "회계")//재고

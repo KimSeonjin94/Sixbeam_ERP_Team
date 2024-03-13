@@ -1,11 +1,13 @@
 package com.erpproject.sixbeam.pd.controller;
 
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.hr.service.EmpInfoService;
 import com.erpproject.sixbeam.pd.Form.BomForm;
 import com.erpproject.sixbeam.pd.Form.OrderForm;
 import com.erpproject.sixbeam.pd.dto.BomDto;
 import com.erpproject.sixbeam.pd.dto.OrderDto;
 import com.erpproject.sixbeam.pd.entity.*;
+import com.erpproject.sixbeam.pd.service.FitemService;
 import com.erpproject.sixbeam.pd.service.OrderService;
 import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,8 @@ import java.util.Map;
 public class OrderController {
 
     private final OrderService orderService;
+    private final FitemService fitemService;
+    private final EmpInfoService empInfoService;
 
     @GetMapping("/new")
     public String newOrderDto(Model model) {
@@ -67,6 +71,12 @@ public class OrderController {
     public String list(Model model) {
 
         orderService.getOrderList(model);
+        // 신규 버튼으로 나오는 모달에서 option 사용할 수 있게 가져오는 데이터
+        List<FitemEntity> fitemEntities = fitemService.getFitemList();
+        List<EmpInfoEntity> empInfoEntities = empInfoService.getList();
+
+        model.addAttribute("getFitemList", fitemEntities);
+        model.addAttribute("getEmpList", empInfoEntities);
 
         return "contents/pd/order_list";
     }
@@ -133,5 +143,13 @@ public class OrderController {
 
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("/delete")
+    public String deleteOrder(@RequestParam("orderCd") List<String> orderCd) {
+
+        orderService.deleteOrder(orderCd);
+
+        return "redirect:/pd/order/orderlist";
     }
 }

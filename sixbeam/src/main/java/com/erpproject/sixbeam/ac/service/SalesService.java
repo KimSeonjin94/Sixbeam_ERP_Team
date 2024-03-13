@@ -4,13 +4,17 @@ import com.erpproject.sixbeam.ac.dto.PurDto;
 import com.erpproject.sixbeam.ac.dto.SalesDto;
 import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.ac.entity.SalesEntity;
+import com.erpproject.sixbeam.ac.repository.AccountRepository;
 import com.erpproject.sixbeam.ac.repository.SalesRepository;
 import com.erpproject.sixbeam.pur.entity.InputEntity;
+import com.erpproject.sixbeam.ss.SsRowAddEvent;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import com.erpproject.sixbeam.ss.service.EstimateService;
+import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,26 +32,30 @@ public class SalesService {
 
     private final SaleRepository saleRepository;
     private final EstimateService estimateService;
-    public List<SaleEntity> getSaleList(){
+    private final AccountRepository accountRepository;
+    private final ApplicationEventPublisher addRowEvent;
+    public List<SaleEntity> getSaleList() {
         return this.saleRepository.findBySaleBillingSt(false);
     }
 
-    public int getSaleList(String accountCd){
+    public int getSaleList(String accountCd) {
         return estimateService.getAccountTotal(accountCd);
     }
 
     public void saveSalesSLip(SalesDto salesDto) {
         salesEntity = salesDto.toEntity();
 
-//        salesEntity.setSalesNb();
-//        salesEntity.setSaleEntity();
-//        salesEntity.setAccountEntity();
-//        salesEntity.setSalesPrice();
-//        salesEntity.setSalesSubject();
-
-
-
+        SaleEntity saleEntity = saleRepository.findById(salesDto.getSaleEntity().getSaleCd())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid"));
+        AccountEntity accountEntity = accountRepository.findById(salesDto.getAccountEntity().getAccountCd())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid"));
+        salesEntity.setSaleEntity(saleEntity);
+        salesEntity.setAccountEntity(accountEntity);
         salesRepository.save(salesEntity);
+        saleEntity.setSaleBillingSt(true);
+        saleRepository.save(saleEntity);
+        SsRowAddEvent<SaleEntity> saleEntitySsRowAddEvent = new SsRowAddEvent<>(this,saleEntity);
+        addRowEvent.publishEvent(saleEntitySsRowAddEvent);
     }
 
 }

@@ -11,22 +11,24 @@ import com.erpproject.sixbeam.pd.repository.FitemRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.repository.RitemRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.Generated;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class BomService {
 
     private final BomRepository bomRepository;
+    private final ItemRepository itemRepository;
     private final FitemRepository fitemRepository;
     private final RitemRepository ritemRepository;
     private final ItemService itemService;
@@ -104,7 +106,7 @@ public class BomService {
         }
     }
 
-    public ResponseEntity<?> createBomDto(@ModelAttribute BomForm bomForm) {
+    /*public ResponseEntity<?> createBomDto(@ModelAttribute BomForm bomForm) {
 
         List<BomDto> bomDtos = bomForm.getBomDtos();
 
@@ -122,17 +124,27 @@ public class BomService {
 
             return ResponseEntity.badRequest().body(errorResponse);
         }
-    }
+    }*/
 
     public void create(List<BomDto> bomDtos) {
 
 //        List<BomEntity> bomEntities = new ArrayList<>();
 
+        // 엔티티 분할 실수로 인한 처리 itemEntity 처리
+        String newFitemCd = itemService.generateNewFitemCd();
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setItemCd(newFitemCd);
+        itemEntity.setItemNm(bomDtos.get(0).getFitemEntity().getItemNm());
+        itemEntity.setItemStnd(bomDtos.get(0).getFitemEntity().getItemStnd());
+        itemEntity.setItemUp(bomDtos.get(0).getFitemEntity().getItemUp());
+
+        itemRepository.save(itemEntity);
+
         for (BomDto bomDto : bomDtos) {
 
-            String newFitemCd = itemService.generateNewFitemCd();
-
             FitemEntity fitemEntity = new FitemEntity();
+
+//            FitemEntity fitemEntity = fitemRepository.findById(bomDto.getFitemEntity().getItemCd()).orElseThrow(() -> new EntityNotFoundException("FitemInfo not found"));
             fitemEntity.setItemCd(newFitemCd);
             fitemEntity.setItemNm(bomDto.getFitemEntity().getItemNm());
             fitemEntity.setItemStnd(bomDto.getFitemEntity().getItemStnd());

@@ -59,7 +59,28 @@ public class BomController {
 
         try {
             bomService.create(bomDtos);
-            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/pd/bom/bomlist"));
+
+            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/pd/rawitem/rawitemlist"));
+
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "저장에 실패 하였습니다.");
+            errorResponse.put("redirectUrl", "/pd/rawitem/rawitemlist");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @PostMapping("/fcreate")
+    public ResponseEntity<?> createFitemOrderDto(@ModelAttribute BomForm bomForm) {
+
+        List<BomDto> bomDtos = bomForm.getBomDtos();
+
+        try {
+            bomService.create(bomDtos);
+
+            return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/pd/finitem/finitemlist"));
+
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("status", "error");

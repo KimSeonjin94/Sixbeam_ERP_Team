@@ -142,14 +142,11 @@ public class SaleService {
         }
     }
 
-    public void addRowSales(SalesEntity salesEntity) {
-        Optional<SaleEntity> optionalSaleEntity=saleRepository.findById(salesEntity.getSaleEntity().getSaleCd());
-        if(optionalSaleEntity.isPresent()){
-            SaleEntity saleEntity=optionalSaleEntity.get();
+    public void addRowSales(SaleEntity saleEntity) {
             saleEntity.setSaleBillingDt(LocalDate.now());
             saleEntity.setSaleBillingSt(true);
             saleEntity.setSalePaymentDt(LocalDate.now());
             saleRepository.save(saleEntity);
-        }
+
     }
 }

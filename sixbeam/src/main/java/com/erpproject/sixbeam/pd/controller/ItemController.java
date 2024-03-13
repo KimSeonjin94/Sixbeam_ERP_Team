@@ -85,10 +85,19 @@ public class ItemController {
     }
 
     // 품목 삭제
-    @PostMapping("/delete")
-    public String deleteItem(@RequestParam("itemCd") List<String> itemCd) {
+    @PostMapping("/fdelete")
+    public String deletefItem(@RequestParam("itemCd") List<String> itemCd) {
 
         itemService.deleteItem(itemCd);
-        return "redirect:/pd/bom/bomlist";
+
+        return "redirect:/pd/finitem/finitemlist";
+    }
+
+    @PostMapping("/rdelete")
+    public String deleterItem(@RequestParam("itemCd") List<String> itemCd) {
+
+        itemService.deleteItem(itemCd);
+
+        return "redirect:/pd/rawitem/rawitemlist";
     }
 }
