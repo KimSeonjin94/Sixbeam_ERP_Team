@@ -294,7 +294,7 @@ $(document).ready(function () {
 
         }
     });
-    //---- 구매쪽 데이터테이블 ----
+    //---- 재고쪽 데이터테이블 ----
     $('#dataTableSt').DataTable({
         "language": {
             "emptyTable": "데이터가 없어요.",
