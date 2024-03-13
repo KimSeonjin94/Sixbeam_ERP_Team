@@ -1,5 +1,7 @@
 package com.erpproject.sixbeam.main;
 
+import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
+import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -7,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,11 +19,17 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+    private final EmpInfoRepository empInfoRepository;
+
+    public SecurityConfig(EmpInfoRepository empInfoRepository) {
+        this.empInfoRepository = empInfoRepository;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -53,6 +62,17 @@ public class SecurityConfig {
                         .successHandler((request, response, authentication) -> {
                             String username = authentication.getName();
                             request.getSession().setAttribute("username", username);
+                            username = SecurityContextHolder.getContext().getAuthentication().getName();
+                            Long empInfoId = Long.parseLong(username);
+                            Optional<EmpInfoEntity> emp = empInfoRepository.findByEmpInfoId(empInfoId);
+                            if (emp.isPresent()) {
+                                EmpInfoEntity empp = emp.get();
+                                String name = empp.getEmpInfoNm();
+                                request.getSession().setAttribute("name", name);
+                            } else {
+                                // 적절한 기본값 설정 또는 예외 처리
+                                request.getSession().setAttribute("name", "Unknown");
+                            }
                             response.sendRedirect("/sixbeam/home");
                         })
                         //
