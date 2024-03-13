@@ -7,11 +7,14 @@ import com.erpproject.sixbeam.ac.entity.SalesEntity;
 import com.erpproject.sixbeam.ac.repository.AccountRepository;
 import com.erpproject.sixbeam.ac.repository.SalesRepository;
 import com.erpproject.sixbeam.pur.entity.InputEntity;
+import com.erpproject.sixbeam.ss.SsRowAddEvent;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.SaleRepository;
 import com.erpproject.sixbeam.ss.service.EstimateService;
+import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,7 +33,7 @@ public class SalesService {
     private final SaleRepository saleRepository;
     private final EstimateService estimateService;
     private final AccountRepository accountRepository;
-
+    private final ApplicationEventPublisher addRowEvent;
     public List<SaleEntity> getSaleList() {
         return this.saleRepository.findBySaleBillingSt(false);
     }
@@ -49,6 +52,10 @@ public class SalesService {
         salesEntity.setSaleEntity(saleEntity);
         salesEntity.setAccountEntity(accountEntity);
         salesRepository.save(salesEntity);
+        saleEntity.setSaleBillingSt(true);
+        saleRepository.save(saleEntity);
+        SsRowAddEvent<SaleEntity> saleEntitySsRowAddEvent = new SsRowAddEvent<>(this,saleEntity);
+        addRowEvent.publishEvent(saleEntitySsRowAddEvent);
     }
 
 }
