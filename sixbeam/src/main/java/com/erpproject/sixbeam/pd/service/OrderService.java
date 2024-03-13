@@ -12,6 +12,7 @@ import com.erpproject.sixbeam.pd.repository.FitemRepository;
 import com.erpproject.sixbeam.pd.repository.InoutRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.repository.OrderRepository;
+import groovyjarjarantlr4.v4.codegen.model.Loop;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -182,6 +183,7 @@ public class OrderService {
     @Transactional
     public ResponseEntity<String> deleteOrder(List<String> orderCd) {
         try {
+
             // 주문 목록을 반복하여 각 주문을 확인하고 삭제
             for (String ordercd : orderCd) {
 
@@ -210,13 +212,13 @@ public class OrderService {
                     if (isInUse) {
                         // 메시지를 표시하고 반복문을 탈출합니다.
                         System.out.println("창고 불출한 작업지시서는 삭제할 수 없습니다.");
-                        break;
+//                        break;
 
                     } else {
                         // isInUse가 false이면 해당 주문을 사용하는 InoutEntity가 없으므로 삭제
                         orderRepository.delete(orderEntity);
                         // 모든 주문이 성공적으로 삭제되었음을 클라이언트에게 알림
-                        return ResponseEntity.status(HttpStatus.OK).body("작업지시서가 삭제되었습니다.");
+//                        return ResponseEntity.status(HttpStatus.OK).body("작업지시서가 삭제되었습니다.");
                     }
                 }
             }

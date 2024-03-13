@@ -12,7 +12,8 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class OrderDto {
+public class
+OrderDto {
 
     private String orderCd;
     private LocalDate orderInstDt;

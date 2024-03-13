@@ -76,6 +76,7 @@ function deleteItemFinished() {
 
     // 체크박스의 값(계정 ID)을 저장할 배열
     var selectedIds = [];
+    var itemLength = selectedIds.length;
 
     // 모든 'selectedInfo' 클래스를 가진 체크박스를 찾고 선택된 항목의 값만 배열에 추가
     document.querySelectorAll('.' +
@@ -98,9 +99,26 @@ function deleteItemFinished() {
         // 숨겨진 입력 필드에 값을 설정
         document.getElementById('deletePdInfo').value = itemIdsToDelete;
 
-        // 폼을 제출하여 서버에 삭제 요청을 보냅니다
+        // 폼을 제출하여 서버에 삭제 요청
         document.getElementById('deleteForm').submit();
-        alert('품목이 삭제되었습니다.');
+
+        // 모달 창을 표시
+        // $('#deletePd').modal('show');
+
+        // 모달 창을 표시
+
+        if (selectedIds === 0) {
+            alert('작업 지시서가 삭제되었습니다.')
+
+        } else if (selectedIds > 0 && selectedIds < itemLength) {
+            alert('창고불출된 작업지시서를 제외하고 삭제되었습니다.');
+
+        } else {
+            alert('창고불출된 작업지시서를 삭제할 수 없습니다.')
+        }
+
+        $('#deletePd').modal('show');
+        // alert('품목이 삭제되었습니다.');
     }
 }
 
