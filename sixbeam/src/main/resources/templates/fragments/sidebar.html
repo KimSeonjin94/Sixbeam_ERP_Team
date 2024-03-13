@@ -18,7 +18,7 @@
             <div id="Tap-home" class="tab-pane fade" role="tabpanel" aria-labelledby="home-Tab">
                 <!-- Divider -->
                 <!-- Heading -->
-                <div class="sidebar-heading" th:text="${session.username}+'님 환영 합니다.'">
+                <div class="sidebar-heading" th:text="${session.name}+'님 환영 합니다.'">
 
                 </div>
             </div>
@@ -60,6 +60,7 @@
                             <a class="collapse-item" href="/hr/attendmgt/list">근태 수정</a>
                             <a class="collapse-item" href="/hr/attendmgtsearch/list">근태 조회</a>
                             <a class="collapse-item" href="/hr/workSchedule/list">출퇴근 조회</a>
+                            <a class="collapse-item" href="/hr/vvacation">휴가 조회</a>
                         </div>
                     </div>
                 </li>

@@ -145,4 +145,12 @@ public class WorkScheduleController {
         }
         return ResponseEntity.ok("처리되었습니다.");
     }
+    @PostMapping("/myAttendenceRecord")
+    public String  myAttendenceRecord(@RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate, Model model){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Long empInfoId = Long.parseLong(username);
+        List<WorkScheduleEntity>workScheduleOne =workScheduleRepository.findByWorkScheduleDateAndEmpInfoEntity_EmpInfoId(selectedDate,empInfoId);
+        model.addAttribute("workScheduleOne",workScheduleOne);
+        return "contents/home/check_form :: workScheduleOneOne";
+    }
 }

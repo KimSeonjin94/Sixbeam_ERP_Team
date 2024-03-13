@@ -5,6 +5,20 @@
     <!-- 추가된 부분 -->
     <script>
         $(document).ready(function () {
+            // 페이지 로드 시 초기값 설정
+            setDefaultDateAndLoadData();
+
+            // input type="date"의 값이 변경되었을 때 동작할 함수
+            $('#selectWorkScheduleDate').on('input', function () {
+                // 선택된 날짜 가져오기
+                var selectedDate = $(this).val();
+
+                // 데이터 로드 함수 호출
+                loadWorkScheduleData(selectedDate);
+            });
+        });
+
+        function setDefaultDateAndLoadData() {
             // 오늘 날짜를 가져오기
             var today = new Date();
 
@@ -16,9 +30,7 @@
 
             // 초기값으로 데이터 로드
             loadWorkScheduleData(formattedDate);
-
-            // 이하 생략...
-        });
+        }
 
         function loadWorkScheduleData(selectedDate) {
             // Ajax 요청 수행
@@ -30,7 +42,7 @@
                     // 성공적으로 데이터를 받아왔을 때 부분 업데이트 수행
                     $('#dataTable').html(data);
 
-                    // DataTable 초기화 (기존 DataTables 라이브러리를 사용한다고 가정)
+                    // DataTable 초기화 (이미 DataTables가 사용 중이라고 가정)
                     $('#dataTable').DataTable().destroy();
                     $('#dataTable').DataTable();
                 },
@@ -52,17 +64,6 @@
                     <div class="col-sm-4">
                         <input type="date" class="form-control" id="selectWorkScheduleDate">
                     </div>
-<!--                    <script>-->
-<!--                        // 페이지 로딩 시 실행-->
-<!--                        $(document).ready(function () {-->
-<!--                            // 오늘 날짜를 가져와서 YYYY-MM-DD 형식으로 변환-->
-<!--                            var today = new Date();-->
-<!--                            var formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');-->
-
-<!--                            // input 요소의 value 속성에 오늘 날짜 설정-->
-<!--                            $('#selectWorkScheduleDate').val(formattedDate);-->
-<!--                        });-->
-<!--                    </script>-->
                 </div>
             </form>
             <!-- DataTales Example -->
