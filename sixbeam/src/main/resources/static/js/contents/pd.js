@@ -46,33 +46,6 @@ function createItemFinished() {
     }
 }
 
-function createRitemFinished() {
-
-    var itemNm = $('#itemNm').val();
-    var itemStnd = $('#itemStnd').val();
-    var itemUp = $('#itemUp').val();
-
-    // 품목 코드가 공백인 경우
-    if (!itemNm || itemNm.trim() === '') {
-        alert('품목명을 입력하세요.');
-        event.preventDefault();
-        return;
-
-    } else if (!itemStnd || itemStnd.trim() === '') {
-        alert('규격을 입력하세요.');
-        event.preventDefault();
-        return;
-
-    } else if (!itemUp || itemUp.trim() === '') {
-        alert('단가를 입력하세요.');
-        event.preventDefault();
-        return;
-
-    } else {
-        alert('품목이 등록되었습니다.')
-    }
-}
-
 function createOrderFinished() {
     var isValid = true; // 유효성 검사 변수 초기화
 
@@ -103,6 +76,7 @@ function deleteItemFinished() {
 
     // 체크박스의 값(계정 ID)을 저장할 배열
     var selectedIds = [];
+    var itemLength = selectedIds.length;
 
     // 모든 'selectedInfo' 클래스를 가진 체크박스를 찾고 선택된 항목의 값만 배열에 추가
     document.querySelectorAll('.' +
@@ -125,10 +99,27 @@ function deleteItemFinished() {
         // 숨겨진 입력 필드에 값을 설정
         document.getElementById('deletePdInfo').value = itemIdsToDelete;
 
-        // 폼을 제출하여 서버에 삭제 요청을 보냅니다
+        // 폼을 제출하여 서버에 삭제 요청
         document.getElementById('deleteForm').submit();
+
+        // 모달 창을 표시
+        // $('#deletePd').modal('show');
+
+        // 모달 창을 표시
+
+        if (selectedIds === 0) {
+            alert('작업 지시서가 삭제되었습니다.')
+
+        } else if (selectedIds > 0 && selectedIds < itemLength) {
+            alert('창고불출된 작업지시서를 제외하고 삭제되었습니다.');
+
+        } else {
+            alert('창고불출된 작업지시서를 삭제할 수 없습니다.')
+        }
+
+        $('#deletePd').modal('show');
+        // alert('품목이 삭제되었습니다.');
     }
-    alert('품목이 삭제되었습니다.');
 }
 
 // boolean값인 작업 상태 변경 기능
