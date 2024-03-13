@@ -93,13 +93,13 @@
                         events: function (fetchInfo, successCallback, failureCallback) {
                             var customAttendPromise = new Promise(function (resolve, reject) {
                                 $.ajax({
-                                    url: "/api/attendmgt",
+                                    url: "/hr/vacation",
                                     method: "GET",
                                     success: function (data) {
                                         var events = data.map(function (event) {
                                             return {
                                                 id: event.id,
-                                                title: event.title,
+                                                title: event.empInfoEntity.departEntity.departNm+' - '+event.empInfoEntity.empInfoNm,
                                                 start: event.start,
                                                 end: event.end,
                                                 backgroundColor: event.backgroundColor
@@ -198,7 +198,7 @@
                                 $.ajax({
                                     type: "POST",
                                     contentType: "application/json",
-                                    url: "/api/attendmgt",
+                                    url: "/hr/vacation",
                                     data: JSON.stringify(eventData),
                                     success: function(response) {
                                         calendar.addEvent(response);
@@ -238,7 +238,7 @@
                                 $.ajax({
                                     type: "PUT",
                                     contentType: "application/json",
-                                    url: "/api/attendmgt" + eventId,
+                                    url: "/hr/vacation" + eventId,
                                     data: JSON.stringify(eventData),
                                     success: function (response) {
                                         // 서버에서 성공적으로 응답을 받았을 때 수행할 작업
@@ -265,7 +265,7 @@
                                     var eventId = info.event.extendedProps.id; // 이벤트의 ID 가져오기
                                     // 서버로 삭제 요청 보내기
                                     $.ajax({
-                                        url: '/api/attendmgt/' + info.event.id,
+                                        url: '/hr/vacation/' + info.event.id,
                                         type: 'DELETE',
                                         success: function() {
                                             // 삭제 성공 시 캘린더에서도 이벤트 제거
@@ -307,7 +307,7 @@
                             $.ajax({
                                 type: "PUT",
                                 contentType: "application/json",
-                                url: "/api/attendmgt/" + eventId,
+                                url: "/hr/vacation/" + eventId,
                                 data: JSON.stringify(eventData),
                                 success: function (response) {
                                     // 서버에서 성공적으로 응답을 받았을 때 수행할 작업
@@ -343,7 +343,7 @@
                             $.ajax({
                                 type: "PUT",
                                 contentType: "application/json",
-                                url: "/api/attendmgt/" + eventId,
+                                url: "/hr/vacation/" + eventId,
                                 data: JSON.stringify(eventData),
                                 success: function (response) {
                                     // 서버에서 성공적으로 응답을 받았을 때 수행할 작업

@@ -30,4 +30,7 @@ public class AttendmgtService {
     public List<AttendmgtEntity> getAllEvents() {
         return attendmgtRepository.findAll();
     }
+    public List<AttendmgtEntity> getEventsByEmpInfoId(Long empInfoId) {
+        return attendmgtRepository.findByEmpInfoEntity_EmpInfoId(empInfoId);
+    }
 }

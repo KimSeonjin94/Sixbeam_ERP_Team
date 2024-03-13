@@ -1,19 +1,41 @@
 package com.erpproject.sixbeam.hr.controller;
-
-
-import lombok.RequiredArgsConstructor;
+import com.erpproject.sixbeam.home.EventEntity;
+import com.erpproject.sixbeam.home.EventService;
+import com.erpproject.sixbeam.hr.entity.AttendmgtEntity;
+import com.erpproject.sixbeam.hr.service.AttendmgtService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
-
-@RequiredArgsConstructor
+@RestController
 @RequestMapping("/hr/vacation")
-@Controller
 public class VacationController {
-    @GetMapping("/list")
-    public String List() {
-        return "contents/hr/vacation_list";
+    private final AttendmgtService attendmgtService;
+
+    @Autowired
+    public VacationController(AttendmgtService attendmgtService) {
+        this.attendmgtService = attendmgtService;
+    }
+
+    @GetMapping
+    public List<AttendmgtEntity> getAllEvents() {
+        return attendmgtService.getAllEvents();
+    }
+
+    @PostMapping
+    public AttendmgtEntity addEvent(@RequestBody AttendmgtEntity event) {
+        return attendmgtService.addEvent(event);
+    }
+
+    @PutMapping("/{eventId}")
+    public AttendmgtEntity updateEvent(@PathVariable("eventId") Long eventId, @RequestBody AttendmgtEntity event) {
+        return attendmgtService.updateEvent(event);
+    }
+
+    @DeleteMapping("/{eventId}")
+    public void deleteEvent(@PathVariable("eventId") Long eventId) {
+        attendmgtService.deleteEvent(eventId);
     }
 }
