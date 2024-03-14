@@ -89,7 +89,6 @@ $(document).ready(function() {
         var saleCd  = $('#saleCd').val();
         var releaseRv = $('#releaseRv').val();
         var releasePhone = $('#releasePhone').val();
-        var releaseZc = $('#releaseZc').val();
         var releaseAddr = $('#releaseAddr').val();
         var accountCd=$('#accountCd').val();
         var whregistCd=$('#whregistCode').val();
@@ -102,7 +101,6 @@ $(document).ready(function() {
             $(this).find('.WhregistCode').val(whregistCd);
             $(this).find('.ReleaseRv').val(releaseRv);
             $(this).find('.ReleasePhone').val(releasePhone);
-            $(this).find('.ReleaseZc').val(releaseZc);
             $(this).find('.ReleaseAddr').val(releaseAddr);
         });
         var formData = new FormData(this);
@@ -159,8 +157,8 @@ $('#detailReleaseCd[data-id]').on('click', function() {
                 modaltBody.empty();
                 var releaseEntity = data.releaseEntities[0]; // 첫 번째 releaseEntity 사용
                 $('#releaseCd').val(releaseEntity.releaseCd);
-                $('#updateCurrentDate').val(releaseEntity.releaseDt);
-                $('#updatename').val(releaseEntity.empInfoEntity.empInfoNm);
+                $('#releaseCurrentDate').val(releaseEntity.releaseDt);
+                $('#releasename').val(releaseEntity.empInfoEntity.empInfoNm);
                 $('#updatereleaseAddr').val(releaseEntity.releaseAddr);
                 $('#updatereleaseRv').val(releaseEntity.releaseRv);
                 $('#updatereleasePhone').val(releaseEntity.releasePhone);

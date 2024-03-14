@@ -1,58 +1,57 @@
 <html layout:decorate="~{layout/default}">
 <div layout:fragment="content" class="container-fluid">
+    <div class="btn-group" role="group" aria-label="Basic example"></div>
     <div class="card shadow mb-4">
-        <div class="card-body">
+        <div class="card-header py-3">
             <form class="WhregistformEntry" th:action="@{/st/whregist/save}" th:object="${whregistForm}" method="post">
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">창고 등록</label>
-                    <div class="mb-3">
-                        <label for="whregistNm" class="form-label">창고명</label>
-                        <input type="text" name="whregistNm" class="form-control"
-                               th:field="*{whregistDtos[0].whregistNm}" id="whregistNm">
-                    </div>
-                    <div class="col-sm-6 text-md-right">
-                        <button type="submit" class="btn btn-primary">
-                            저장
-                        </button>
-                        <button type="reset" class="btn btn-danger">
-                            초기화
-                        </button>
-                    </div>
+                <h6 class="m-0 font-weight-bold text-primary">창고 등록</h6>
+                <div class="mb-3">
+                    <label for="whregistNm" class="form-label">창고명</label>
+                    <input type="text" name="whregistNm" class="form-control col-sm-2"
+                           th:field="*{whregistDtos[0].whregistNm}" id="whregistNm">
+                </div>
+                <div class="col-sm-2 text-md-right">
+                    <button type="submit" class="btn btn-primary">
+                        저장
+                    </button>
+                    <button type="reset" class="btn btn-danger">
+                        초기화
+                    </button>
                 </div>
             </form>
-            <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel2">성공</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        </div>
+        </div>
+        <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel2">성공</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" tabindex="-1" role="dialog" id="failModal" aria-labelledby="modalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">실패</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="failModal" aria-labelledby="modalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">실패</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
