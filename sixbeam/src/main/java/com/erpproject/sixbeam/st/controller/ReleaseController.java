@@ -52,8 +52,10 @@ public class ReleaseController {
         List<ReleaseEntity> releaseEntity = this.releaseService.getList();
         List<EmpInfoEntity> empInfoEntity = this.empInfoService.getList();
         List<SaleEntity> saleEntity = this.saleService.getList();
+        List<SaleAndEstimateDto> saleAndEstimateDtos = this.saleService.getRelease("판매대기중");
         model.addAttribute("releaseEntityList",releaseEntity);
         model.addAttribute("getemplist",empInfoEntity);
+        model.addAttribute("getsaleAndEstimatelist",saleAndEstimateDtos);
         model.addAttribute("getsalelist",saleEntity);
         model.addAttribute("releaseForm",releaseForm);
         return "contents/st/release_list";
