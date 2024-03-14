@@ -1,10 +1,24 @@
-<html layout:decorate="~{layout/default}">
+<html layout:decorate="~{layout/default}" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <!-- jQuery 다음에 DataTables 라이브러리가 이미 로드되어 있다면, 다시 로드하지 않아도 됩니다. -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- 추가된 부분 -->
     <script>
         $(document).ready(function () {
+            // 페이지 로드 시 초기값 설정
+            setDefaultDateAndLoadData();
+
+            // input type="date"의 값이 변경되었을 때 동작할 함수
+            $('#selectWorkScheduleDate').on('input', function () {
+                // 선택된 날짜 가져오기
+                var selectedDate = $(this).val();
+
+                // 데이터 로드 함수 호출
+                loadWorkScheduleData(selectedDate);
+            });
+        });
+
+        function setDefaultDateAndLoadData() {
             // 오늘 날짜를 가져오기
             var today = new Date();
 
@@ -16,21 +30,19 @@
 
             // 초기값으로 데이터 로드
             loadWorkScheduleData(formattedDate);
-
-            // 이하 생략...
-        });
+        }
 
         function loadWorkScheduleData(selectedDate) {
             // Ajax 요청 수행
             $.ajax({
                 type: "POST",
-                url: "/hr/workSchedule/create",
+                url: "/hr/workSchedule/myAttendenceRecord",
                 data: { selectedDate: selectedDate },
                 success: function (data) {
                     // 성공적으로 데이터를 받아왔을 때 부분 업데이트 수행
                     $('#dataTable').html(data);
 
-                    // DataTable 초기화 (기존 DataTables 라이브러리를 사용한다고 가정)
+                    // DataTable 초기화 (이미 DataTables가 사용 중이라고 가정)
                     $('#dataTable').DataTable().destroy();
                     $('#dataTable').DataTable();
                 },
@@ -45,7 +57,7 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form class="formEntry" th:action="@{/hr/workSchedule/create}" th:object="${workScheduleForm}"
+            <form class="formEntry" th:action="@{/hr/workSchedule/myAttendenceRecord}" th:object="${workScheduleForm}"
                   method="post" onsubmit="submitForm(event)">
                 <div class="form-group row">
                     <label for="selectWorkScheduleDate" class="col-sm-2 col-form-label">일자</label>
@@ -54,7 +66,6 @@
                     </div>
                 </div>
             </form>
-
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -146,7 +157,7 @@
                                 <th>퇴근시간</th>
                             </tr>
                             </thead>
-                            <tbody th:fragment="workScheduleTable">
+                            <tbody th:fragment="workScheduleOneOne">
                             <tr th:each="work : ${workScheduleOne}">
                                 <td th:text="${work.workScheduleDate}"></td>
                                 <td th:text="${work.empInfoEntity.departEntity.departNm}"></td>
