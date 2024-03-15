@@ -5,6 +5,8 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!--fullcalendar-->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <script th:src="@{/vendor/chart.js/Chart.js}"></script>
+
 </head>
 <body>
 <div layout:fragment="content" class="container-fluid">
@@ -26,7 +28,8 @@
                     <div id="calendar" class="fc fc-media-screen fc-direction-ltr fc-theme-standard"></div>
                 </div>
                 <!-- 모달 창 -->
-                <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
+                <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog"
+                     aria-labelledby="editEventModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -208,7 +211,7 @@
                                 var newTitle = $('#eventTitleInput').val();
                                 var selectedColor = $('#eventColorSelect').val();
                                 var eventId = info.event.id; // info 객체로부터 이벤트 ID 추출
-//                                info.event.setProp('title', newTitle);
+                                //                                info.event.setProp('title', newTitle);
                                 var eventData = {
                                     title: newTitle,
                                     start: info.event.start, // 시작 일자 추출
@@ -427,28 +430,28 @@
                                         window.onload = getLocationAndWeather;
 
                                         // 시계 API
-                                          const dpTime = function () {
-                                          const now = new Date()
-                                          let hours = now.getHours()
-                                          let minutes = now.getMinutes()
-                                          let seconds = now.getSeconds()
-                                          let ampm = ''
-                                          if (hours > 12) {
-                                            hours -= 12
-                                            ampm = '오후'
-                                          } else {
-                                            ampm = '오전'
-                                          }
-                                          if (hours < 10) {
-                                            hours = '0' + hours
-                                          }
-                                          if (minutes < 10) {
-                                            minutes = '0' + minutes
-                                          }
-                                          if (seconds < 10) {
-                                            seconds = '0' + seconds
-                                          }
-                                          document.querySelector('#time').innerHTML = ampm + hours + ":" + minutes + ":" + seconds
+                                        const dpTime = function () {
+                                            const now = new Date()
+                                            let hours = now.getHours()
+                                            let minutes = now.getMinutes()
+                                            let seconds = now.getSeconds()
+                                            let ampm = ''
+                                            if (hours > 12) {
+                                                hours -= 12
+                                                ampm = '오후'
+                                            } else {
+                                                ampm = '오전'
+                                            }
+                                            if (hours < 10) {
+                                                hours = '0' + hours
+                                            }
+                                            if (minutes < 10) {
+                                                minutes = '0' + minutes
+                                            }
+                                            if (seconds < 10) {
+                                                seconds = '0' + seconds
+                                            }
+                                            document.querySelector('#time').innerHTML = ampm + hours + ":" + minutes + ":" + seconds
                                         }
                                         setInterval(dpTime, 1000)  // 1초마다 함수 실행되도록 설정
 
@@ -476,14 +479,15 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    판매 건수
+                                    판매 그래프
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"
-                                     th:text="${estimateEntities.size()}+ '건'"></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-handshake fa-2x text-gray-300"></i>
                             </div>
+                            <canvas id="salesChart" width="800" height="400"></canvas>
+
+
                         </div>
                     </div>
                 </div>
@@ -496,19 +500,79 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    구매 건수
+                                    판매 예측
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"
-                                     th:text="${orinPutEntities.size()}+'건'"></div>
+
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                             </div>
+                            <canvas id="salesPredictionChart" width="800" height="400"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                const currentSales = [[${saleGrapeForm.grapeSales}]];
+                const predictions = [[${saleGrapeForm.preGrapes}]];
 
+                // 실제 판매량 그래프
+                const ctxActual = document.getElementById('salesChart').getContext('2d');
+                const actualSalesChart = new Chart(ctxActual, {
+                    type: 'bar',
+                    data: {
+                        labels: currentSales.map(data => data.ds),
+                        datasets: [{
+                            label: '판매량',
+                            data: currentSales.map(data => data.y),
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)', // 실제 판매량의 막대 색상
+                            borderColor: 'rgba(54, 162, 235, 1)', // 실제 판매량의 막대 테두리 색상
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                const ctxPrediction = document.getElementById('salesPredictionChart').getContext('2d');
+                const salesPredictionChart = new Chart(ctxPrediction, {
+                    type: 'bar',
+                    data: {
+                        labels: predictions.map(data => data.ds.split('T')[0]), // 날짜 포맷 변경
+                        datasets: [{
+                            label: '예측 판매량',
+                            data: predictions.map(data => data.yhat > 0 ? data.yhat : null), // 0 이하의 예측값 제외
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)', // 예측값의 막대 색상
+                            borderColor: 'rgba(255, 99, 132, 1)', // 예측값의 막대 테두리 색상
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    if (tooltipItem.yLabel <= 0) {
+                                        return null;
+                                    }
+                                    return `${data.datasets[tooltipItem.datasetIndex].label}: ${tooltipItem.yLabel}`;
+                                }
+                            }
+                        }
+                    }
+                });
+                /*]]>*/
+            </script>
 
             <div class="col-md-12 mb-4">
                 <div class="card border-left-info shadow h-100 py-2">
@@ -516,17 +580,13 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                    생산
-                                </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">생산양</div>
-                                    </div>
+                                    구매량
                                 </div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
                             </div>
+                            <canvas id="inputChart" width="800" height="400"></canvas>
                         </div>
                     </div>
                 </div>
@@ -539,17 +599,78 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                    재고량
+                                    구매 예측량
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">재고 수량</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-cubes fa-2x text-gray-300"></i>
                             </div>
+                            <canvas id="inputPredictionChart" width="800" height="400"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
+            <script th:inline="javascript">
+                // 구매 데이터와 구매 예측 데이터의 예시
+                // 실제 환경에서는 서버로부터 받아온 데이터를 사용하세요.
+                const inputData = [[${inputGrapeForm.grapeSales}]];
+                const inputPredictions = [[${inputGrapeForm.preGrapes}]];
+
+                // 구매량 차트 생성
+                const ctxInput = document.getElementById('inputChart').getContext('2d');
+                const actualInputChart = new Chart(ctxInput, {
+                type: 'bar',
+                data: {
+                labels: inputData.map(data => data.ds),
+                datasets: [{
+                label: '구매량',
+                data: inputData.map(data => data.y),
+                backgroundColor: 'rgba(54, 162, 235, 0.2)', // 실제 판매량의 막대 색상
+                borderColor: 'rgba(54, 162, 235, 1)', // 실제 판매량의 막대 테두리 색상
+                borderWidth: 1
+                }]
+                },
+                options: {
+                scales: {
+                y: {
+                beginAtZero: true
+                }
+                }
+                }
+                });
+
+                const inputPrediction = document.getElementById('inputPredictionChart').getContext('2d');
+                const inputPredictionChart = new Chart(inputPrediction, {
+                type: 'bar',
+                data: {
+                labels: inputPredictions.map(data => data.ds.split('T')[0]), // 날짜 포맷 변경
+                datasets: [{
+                label: '예측 구매량',
+                data: inputPredictions.map(data => data.yhat > 0 ? data.yhat : null), // 0 이하의 예측값 제외
+                backgroundColor: 'rgba(255, 99, 132, 0.2)', // 예측값의 막대 색상
+                borderColor: 'rgba(255, 99, 132, 1)', // 예측값의 막대 테두리 색상
+                borderWidth: 1
+                }]
+                },
+                options: {
+                scales: {
+                y: {
+                beginAtZero: true
+                }
+                },
+                tooltips: {
+                callbacks: {
+                label: function(tooltipItem, data) {
+                if (tooltipItem.yLabel <= 0) {
+                return null;
+                }
+                return `${data.datasets[tooltipItem.datasetIndex].label}: ${tooltipItem.yLabel}`;
+                }
+                }
+                }
+                }
+                });
+            </script>
 
 
         </div>
@@ -557,7 +678,6 @@
 
     </div>
 </div>
-
 
 
 </body>
