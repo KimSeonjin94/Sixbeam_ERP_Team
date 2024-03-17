@@ -27,7 +27,7 @@ public class IsController {
             IsEntity incomeStatement = isService.findIncomeStatementByIsDt(isDt);
             model.addAttribute("incomeStatement", incomeStatement);
 
-            incomeStatement.setIsCostSales((int) (incomeStatement.getIsNetSales() * 0.8));
+            incomeStatement.setIsCostSales((int) (incomeStatement.getIsNetSales() / 1.1));
 
             Integer grossProfit = incomeStatement.getIsNetSales() - incomeStatement.getIsCostSales();
             model.addAttribute("grossProfit", grossProfit);
