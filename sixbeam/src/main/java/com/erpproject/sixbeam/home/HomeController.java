@@ -37,7 +37,7 @@ public class HomeController {
 //        orderService.getList();
         model.addAttribute("estimateEntities",estimateEntities);
         model.addAttribute("orinPutEntities",orinPutEntities);
-        return "contents/home/Home_Form";
+        return "contents/home/home_form";
     }
     @GetMapping("/profile")
     public String profile(Model model){
@@ -46,14 +46,14 @@ public class HomeController {
         Optional<EmpInfoEntity> empInfoEntityOptional = empInfoRepository.findByEmpInfoId(empInfoId);
         // Optional을 직접 사용
         model.addAttribute("empInfoOne", empInfoEntityOptional.orElseThrow(() -> new RuntimeException("사용자 정보를 찾을 수 없습니다.")));
-        return "contents/home/Profile_Form";
+        return "contents/home/profile_form";
     }
     @GetMapping("/check")
     public String check(Model model){
-        return "contents/home/Check_Form";
+        return "contents/home/check_form";
     }
     @GetMapping("/attendmgt")
     public String attendmgt(Model model){
-        return "contents/home/Attendmgt_Form";
+        return "contents/home/attendmgt_form";
     }
 }

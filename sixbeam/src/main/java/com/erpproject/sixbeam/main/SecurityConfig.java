@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -42,7 +43,7 @@ public class SecurityConfig {
         http.cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/sixbeam/**", "/login", "/register", "/css/**", "/js/**", "/vendor/**","/img/**", "/hr/empinfo/pw","/hr/workSchedule/**").permitAll()
+                        .requestMatchers("/sixbeam", "/login", "/register", "/css/**", "/js/**", "/vendor/**","/img/**", "/hr/empinfo/pw","/hr/workSchedule/**").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/hr/**")).hasAnyAuthority("인사", "회계")//인사
                         .requestMatchers(new AntPathRequestMatcher("/pd/**")).hasAnyAuthority("인사", "생산", "재고", "영업", "구매", "회계")//생산
                         .requestMatchers(new AntPathRequestMatcher("/st/**")).hasAnyAuthority("인사", "생산", "재고", "영업", "구매", "회계")//재고
@@ -82,8 +83,11 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/Hr/logout"))
                         .logoutSuccessUrl("/sixbeam")
                         .invalidateHttpSession(true)
+                        .permitAll()
+                )
+                .exceptionHandling(e -> e
+                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/sixbeam"))
                 );
-
         return http.build();
     }
 
