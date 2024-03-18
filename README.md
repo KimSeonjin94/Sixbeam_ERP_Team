@@ -98,4 +98,9 @@
 #### 순차적 데이터 삽입 
 - 데이터 테이블 등록시 상관관계에 있는 데이터의 수정 및 보완
 
- 
+## 가상 환경 설정 방법 
+- 콘솔창에 실행
+  - python -m venv venv 
+  - venv\Scripts\activate
+  - pip install -r requirements.txt
+     

@@ -29,11 +29,17 @@ public class HomeController {
 //    private final OrderService orderService;
     private final EmpInfoService empInfoService;
     private final EmpInfoRepository empInfoRepository;
-
+    private final GrapeService grapeService;
     @GetMapping("/home")
     public String sixbeam_main(Model model) {
         List<EstimateEntity> estimateEntities =estimateService.getList();
         List<OrinPutEntity> orinPutEntities=orinPutService.getList();
+        String url = "http://localhost:8000/sales-summary";
+        String url2 = "http://localhost:8000/input-summary";
+        GrapeForm saleGrapeForm = grapeService.getGrapePredictions(url);
+        GrapeForm inputGrapeForm = grapeService.getGrapePredictions(url2);
+        model.addAttribute("saleGrapeForm", saleGrapeForm);
+        model.addAttribute("inputGrapeForm", inputGrapeForm);
 //        orderService.getList();
         model.addAttribute("estimateEntities",estimateEntities);
         model.addAttribute("orinPutEntities",orinPutEntities);
