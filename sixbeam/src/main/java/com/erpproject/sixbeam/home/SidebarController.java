@@ -14,12 +14,12 @@ public class SidebarController {
     @GetMapping("/{tabId}/sidebar")
     public String loadSidebarContent(@PathVariable String tabId, Model model) {
         // 여기에서 필요한 로직 수행 및 모델에 데이터 추가
-        return "fragments/sidebarContent :: " + tabId + "SidebarFragment";
+        return "fragments/sidebarContent :: " + tabId + "sidebarFragment";
     }
 
     @GetMapping("/{tabId}/content")
     public String loadTabContent(@PathVariable String tabId, Model model) {
         // 여기에서 필요한 로직 수행 및 모델에 데이터 추가
-        return "fragments/content :: " + tabId + "ContentFragment";
+        return "fragments/content :: " + tabId + "contentFragment";
     }
 }

@@ -10,7 +10,7 @@ db_config = {
     'host': 'localhost',
     'port': 3306,  # 포트는 정수로 지정
     'user': 'root',
-    'password': '1234',
+    'password': 'qwer1234',
     'database': 'sixbeam_erp',
     'raise_on_warnings': True,
     'use_pure': True,
@@ -46,8 +46,23 @@ def sale_data():
     # 데이터 확인
     print(df.head())
 
-    # Prophet 모델 학습
-    model = Prophet(daily_seasonality=True)
+    holidays = pd.DataFrame({
+        'holiday': 'event_name',
+        'ds': pd.to_datetime(['2022-01-01', '2024-12-25']),
+        'lower_window': 0,
+        'upper_window': 1,
+    })
+    # Prophet 모델 생성 및 설정 적용
+    model = Prophet(
+        yearly_seasonality=True,  # 연간 계절성 활성화
+        weekly_seasonality=True,  # 주간 계절성 활성화
+        daily_seasonality=True,   # 일간 계절성 활성화
+        changepoint_prior_scale=0.5,  # 변화점 감도 조정
+        holidays=holidays  # 휴일 및 이벤트 추가
+    )
+
+    # 커스텀 계절성 추가 (예: 월간 계절성)
+    model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
     model.fit(sales_summary)
     # 오늘 날짜 구하기
     today = datetime.today().date()
@@ -92,7 +107,25 @@ def inout_data():
     # 데이터 확인
     print(df.head())
 
-    model = Prophet(daily_seasonality=True)
+
+    holidays = pd.DataFrame({
+        'holiday': 'event_name',
+        'ds': pd.to_datetime(['2022-01-01', '2024-12-25']),
+        'lower_window': 0,
+        'upper_window': 1,
+    })
+    # Prophet 모델 생성 및 설정 적용
+    model = Prophet(
+        yearly_seasonality=True,  # 연간 계절성 활성화
+        weekly_seasonality=True,  # 주간 계절성 활성화
+        daily_seasonality=True,   # 일간 계절성 활성화
+        changepoint_prior_scale=0.5,  # 변화점 감도 조정
+        holidays=holidays  # 휴일 및 이벤트 추가
+    )
+
+    # 커스텀 계절성 추가 (예: 월간 계절성)
+    model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
+
     model.fit(inout_summary)
     # 오늘 날짜 구하기
     today = datetime.today().date()

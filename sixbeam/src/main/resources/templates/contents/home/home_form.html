@@ -250,7 +250,7 @@
                                     var eventId = info.event.extendedProps.id; // 이벤트의 ID 가져오기
                                     // 서버로 삭제 요청 보내기
                                     $.ajax({
-                                        url: 'http://localhost:8080/api/events/' + info.event.id,
+                                        url: '/api/events/' + info.event.id,
                                         type: 'DELETE',
                                         success: function() {
                                             // 삭제 성공 시 캘린더에서도 이벤트 제거
