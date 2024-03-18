@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Vacation2Controller {
     @GetMapping("/vvacation")
     public String Vacation(Model model){
-        return "contents/hr/Vacation_List";
+        return "contents/hr/vacation_list";
     }
 }

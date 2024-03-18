@@ -10,7 +10,7 @@ db_config = {
     'host': 'localhost',
     'port': 3306,  # 포트는 정수로 지정
     'user': 'root',
-    'password': '1234',
+    'password': 'qwer1234',
     'database': 'sixbeam_erp',
     'raise_on_warnings': True,
     'use_pure': True,
