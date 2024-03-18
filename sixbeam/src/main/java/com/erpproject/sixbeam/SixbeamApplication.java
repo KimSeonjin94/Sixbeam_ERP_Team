@@ -21,8 +21,9 @@ public class  SixbeamApplication {
 		try {
 			// 프로젝트 루트 경로를 기준으로 상대 경로 설정
 			String venvPath = Paths.get(System.getProperty("user.dir"), "venv", "Scripts", "python.exe").toString();
+			System.out.println(venvPath);
 			// FastAPI 서버 실행
-			ProcessBuilder pb = new ProcessBuilder(venvPath, "-m", "uvicorn","main:app", "--reload");
+			ProcessBuilder pb = new ProcessBuilder(venvPath, "-m" , "uvicorn","main:app", "--reload");
 			fastApiProcess = pb.start();
 
 			System.out.println("FastAPI 서버가 시작되었습니다.");
