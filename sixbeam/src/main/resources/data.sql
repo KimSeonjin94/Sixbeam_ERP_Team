@@ -79,11 +79,11 @@ insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values('WHR100
 insert into sixbeam_erp.st_whregist_tb (whregist_cd, whregist_nm) values('WHR1003','자재창고');
 ---- item db ----
 INSERT INTO sixbeam_erp.pd_item_tb (item_up, item_cd, item_nm, item_stnd) VALUES
-                                                                              (1363500, 'F1001', 'ASSEMBLE-PC', 'PC-DESKTOP'),
-                                                                              (1935000, 'F1002', 'ASSEMBLE-PC', 'PC-DESKTOP'),
-                                                                              (1504500, 'F1003', 'ASSEMBLE-PC', 'PC-DESKTOP'),
-                                                                              (1520500, 'F1004', 'ASSEMBLE-PC', 'PC-DESKTOP'),
-                                                                              (2092000, 'F1005', 'ASSEMBLE-PC', 'PC-DESKTOP'),
+                                                                              (1363500, 'F1001', 'ASSEMBLE-PC-1', 'PC-DESKTOP-01'),
+                                                                              (1935000, 'F1002', 'ASSEMBLE-PC-2', 'PC-DESKTOP-02'),
+                                                                              (1504500, 'F1003', 'ASSEMBLE-PC-3', 'PC-DESKTOP-03'),
+                                                                              (1520500, 'F1004', 'ASSEMBLE-PC-4', 'PC-DESKTOP-04'),
+                                                                              (2092000, 'F1005', 'ASSEMBLE-PC-5', 'PC-DESKTOP-05'),
                                                                               (410000, 'R1001', 'INTEL-CPU', 'CPU-I5-13600K'),
                                                                               (510000, 'R1002', 'AMD-CPU', 'CPU-R7-G5'),
                                                                               (55000, 'R1003', 'SAMSUNG-RAM', 'RAM-DDR5-16GB'),
