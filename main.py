@@ -36,9 +36,8 @@ def sale_data():
 
 
 
-    # 판매 수량 계산 (여기서는 estimate_amt가 판매 수량으로 간주됨)
-    # 필요한 경우 추가적인 계산을 수행합니다. 예를 들어, 날짜별 또는 estimate_cd별로 그룹화하여 합계를 구할 수 있습니다.
-    sales_summary = df.groupby('ds')['y'].sum().reset_index()
+    # 'ds' 열을 날짜 타입으로 변환
+    df['ds'] = pd.to_datetime(df['ds'])
 
     # 데이터베이스 연결 종료
     conn.close()
@@ -63,18 +62,26 @@ def sale_data():
 
     # 커스텀 계절성 추가 (예: 월간 계절성)
     model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
-    model.fit(sales_summary)
-    # 오늘 날짜 구하기
-    today = datetime.today().date()
+    # 연-월 별로 그룹화하여 'y'의 합계를 계산
+    sales_summary = df.groupby('ds')['y'].sum().reset_index()
 
-    # 오늘부터 7일 후까지의 날짜 리스트 생성
-    future_dates = [today + timedelta(days=i) for i in range(8)]  # 오늘 포함 7일이므로 range(8)
-    future_df = pd.DataFrame({'ds': future_dates})
-    # 다음 일주일간 예측
-    forecast = model.predict(future_df)
+    # Prophet 모델 초기화 및 학습
+    model = Prophet()
+    model.fit(sales_summary)
+    # 'ds' 열의 날짜를 연-월 형식으로 변경
+    df['ds'] = df['ds'].dt.to_period('M')
+    # Prophet 모델 학습을 위해 'ds' 열을 다시 datetime 형식으로 변환
+    sales_summary['ds'] = sales_summary['ds'].dt.to_period('M')
+    sales_summary = sales_summary.groupby('ds')['y'].sum().reset_index()
+
+    # 미래 데이터 프레임 생성
+    future = model.make_future_dataframe(periods=12, freq='M') # 다음 12개월(1년)의 데이터를 예측
+
+    # 예측
+    forecast = model.predict(future)
     # 현재 판매 데이터와 예측 결과를 JSON 형식으로 변환하여 반환
     sales_data = sales_summary.to_dict('records')
-    predictions = forecast[['ds', 'yhat']].tail(7).to_dict('records')
+    predictions = forecast[['ds', 'yhat']].to_dict('records')
 
 
     return {
@@ -96,13 +103,15 @@ def inout_data():
     WHERE s.inputpur_dt < CURDATE()
     """
     df = pd.read_sql(query, conn)
-
-    # 판매 수량 계산 (여기서는 estimate_amt가 판매 수량으로 간주됨)
-    # 필요한 경우 추가적인 계산을 수행합니다. 예를 들어, 날짜별 또는 estimate_cd별로 그룹화하여 합계를 구할 수 있습니다.
-    inout_summary = df.groupby('ds')['y'].sum().reset_index()
-
     # 데이터베이스 연결 종료
     conn.close()
+    # 'ds' 열을 날짜 타입으로 변환
+    df['ds'] = pd.to_datetime(df['ds'])
+
+    # 'ds' 열의 날짜를 연-월 형식으로 변경
+    df['ds'] = df['ds'].dt.to_period('M')
+
+
 
     # 데이터 확인
     print(df.head())
@@ -126,15 +135,21 @@ def inout_data():
     # 커스텀 계절성 추가 (예: 월간 계절성)
     model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
 
-    model.fit(inout_summary)
-    # 오늘 날짜 구하기
-    today = datetime.today().date()
+    # 연-월 별로 그룹화하여 'y'의 합계를 계산
+    inout_summary = df.groupby('ds')['y'].sum().reset_index()
 
-    # 오늘부터 7일 후까지의 날짜 리스트 생성
-    future_dates = [today + timedelta(days=i) for i in range(8)]  # 오늘 포함 7일이므로 range(8)
-    future_df = pd.DataFrame({'ds': future_dates})
-    # 다음 일주일간 예측
-    forecast = model.predict(future_df)
+    # Prophet 모델 학습을 위해 'ds' 열을 다시 datetime 형식으로 변환
+    inout_summary['ds'] = inout_summary['ds'].dt.to_timestamp()
+
+    # Prophet 모델 초기화 및 학습
+    model = Prophet()
+    model.fit(inout_summary)
+
+    # 미래 데이터 프레임 생성
+    future = model.make_future_dataframe(periods=12, freq='M') # 다음 12개월(1년)의 데이터를 예측
+
+    # 예측
+    forecast = model.predict(future)
     # 현재 판매 데이터와 예측 결과를 JSON 형식으로 변환하여 반환
     sales_data = inout_summary.to_dict('records')
     predictions = forecast[['ds', 'yhat']].tail(7).to_dict('records')
