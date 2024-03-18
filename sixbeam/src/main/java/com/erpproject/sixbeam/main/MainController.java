@@ -19,6 +19,6 @@ public class MainController {
     private final EmpInfoService empInfoService;
     @GetMapping("/sixbeam")
     public String login() {
-        return "contents/home/Login_Form";
+        return "contents/home/login_form";
     }
 }

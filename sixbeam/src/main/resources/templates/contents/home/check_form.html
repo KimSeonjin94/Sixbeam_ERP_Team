@@ -92,6 +92,7 @@
                                     // 여기서는 성공 시 어떤 동작을 할지 정의
                                     console.log("Current Time:", currentTime);
                                     updateDataTable();
+                                    location.reload();
                                 },
                                 error: function (error) {
                                     console.log("Error recording attendance:", error);
@@ -116,6 +117,7 @@
                                     // 여기서는 성공 시 어떤 동작을 할지 정의
                                     console.log("Current Time:", currentTime);
                                     updateDataTable();
+                                    location.reload();
                                 },
                                 error: function (error) {
                                     console.log("Error recording attendance:", error);
@@ -158,7 +160,7 @@
                             </tr>
                             </thead>
                             <tbody th:fragment="workScheduleOneOne">
-                            <tr th:each="work : ${workScheduleOne}">
+                            <tr th:each="work : ${workScheduleOnee}">
                                 <td th:text="${work.workScheduleDate}"></td>
                                 <td th:text="${work.empInfoEntity.departEntity.departNm}"></td>
                                 <td th:text="${work.empInfoEntity.empInfoNm}" th:classappend="${work.workScheduleCheck} ? 'text-danger' : ''"></td>
