@@ -12,7 +12,7 @@
 <div layout:fragment="content" class="container-fluid">
     <div class="row d-flex align-items-stretch">
         <!-- 달력 카드 -->
-        <div class="col-md-6">
+        <div class="col-md-8">
 
             <!-- Full Calendar -->
 
@@ -68,7 +68,7 @@
             </div>
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <script layout:fragment="script" type='text/javascript'>
                 $('#editEventModal').on('keypress', function (e) {
                     if (e.which === 13) { // Enter 키의 keyCode는 13입니다.
@@ -373,8 +373,9 @@
 
             </script>
 
+
             <div class="row">
-                <div class="col-md-12 mb-4">
+                <div class="col-md-8 mb-4">
                     <div class="card border-left-danger shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
@@ -473,7 +474,7 @@
             </div>
 
 
-            <div class="col-md-12 mb-4">
+            <div class="col-md-8 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -494,7 +495,7 @@
             </div>
 
 
-            <div class="col-md-12 mb-4">
+            <div class="col-md-8 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -522,7 +523,7 @@
                 const actualSalesChart = new Chart(ctxActual, {
                     type: 'bar',
                     data: {
-                        labels: currentSales.map(data => data.ds),
+                        labels: currentSales.map(data => data.ds.slice(0, 7)),
                         datasets: [{
                             label: '판매량',
                             data: currentSales.map(data => data.y),
@@ -544,7 +545,7 @@
                 const salesPredictionChart = new Chart(ctxPrediction, {
                     type: 'bar',
                     data: {
-                        labels: predictions.map(data => data.ds.split('T')[0]), // 날짜 포맷 변경
+                        labels: predictions.map(data => data.ds.slice(0, 7)), // 날짜 포맷 변경
                         datasets: [{
                             label: '예측 판매량',
                             data: predictions.map(data => data.yhat > 0 ? data.yhat : null), // 0 이하의 예측값 제외
@@ -574,7 +575,7 @@
                 /*]]>*/
             </script>
 
-            <div class="col-md-12 mb-4">
+            <div class="col-md-8 mb-4">
                 <div class="card border-left-info shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -593,7 +594,7 @@
             </div>
 
 
-            <div class="col-md-12 mb-4">
+            <div class="col-md-8 mb-4">
                 <div class="card border-left-warning shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -621,7 +622,7 @@
                 const actualInputChart = new Chart(ctxInput, {
                 type: 'bar',
                 data: {
-                labels: inputData.map(data => data.ds),
+                labels: inputData.map(data => data.ds.slice(0, 7)),
                 datasets: [{
                 label: '구매량',
                 data: inputData.map(data => data.y),
@@ -643,7 +644,7 @@
                 const inputPredictionChart = new Chart(inputPrediction, {
                 type: 'bar',
                 data: {
-                labels: inputPredictions.map(data => data.ds.split('T')[0]), // 날짜 포맷 변경
+                labels: inputPredictions.map(data => data.ds.slice(0, 7)), // 날짜 포맷 변경
                 datasets: [{
                 label: '예측 구매량',
                 data: inputPredictions.map(data => data.yhat > 0 ? data.yhat : null), // 0 이하의 예측값 제외
