@@ -174,7 +174,7 @@ public class EstimateService {
         List<EstimateEntity> estimateEntities=estimateRepository.findByAccountEntity(accountEntity);
         map.put("Total",totale);
         for(int i=1; i<13;i++){
-            map.put(String.valueOf(i),0);
+            map.put(String.valueOf(i),totale);
         }
         for(EstimateEntity estimateEntity : estimateEntities){
             Optional<SaleEntity> OpSaleEntity = saleRepository.findByEstimateCd(estimateEntity.getEstimateCd());
