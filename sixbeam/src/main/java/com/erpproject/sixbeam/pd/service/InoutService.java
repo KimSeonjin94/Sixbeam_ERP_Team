@@ -75,7 +75,7 @@ public class InoutService {
         int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(maxCd.lastIndexOf("-") + 1)) + 1 : 1;
 
         // 4자리 숫자 부분을 형식에 맞게 생성
-        String sequenceNumberString = String.format("%03d", sequenceNumber);
+        String sequenceNumberString = String.format("%04d", sequenceNumber);
 
         return prefix + sequenceNumberString;
     }
