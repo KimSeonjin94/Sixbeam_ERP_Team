@@ -48,7 +48,7 @@ public class BsService {
             LocalDate endDate = LocalDate.of(year, 12, LocalDate.of(year, 12, 1).lengthOfMonth());
 
 
-            int sum = estimateService.getIsNetSales(startDate, endDate);
+            long sum = estimateService.getIsNetSales(startDate, endDate);
 
 
             BsEntity bsEntity = OpBsEntity.get();
