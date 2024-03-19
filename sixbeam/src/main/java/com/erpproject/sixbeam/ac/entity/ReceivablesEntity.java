@@ -26,10 +26,10 @@ public class ReceivablesEntity {
     @JoinColumn(name="ACCOUNT_CD")
     private AccountEntity accountEntity;
     @Column(name="RECEIVABLES_SALES",nullable = false)
-    private int receivablesSales;
+    private long receivablesSales;
     @Column(name="RECEIVABLES_COLLECT",nullable = false)
-    private int receivablesCollect;
+    private long receivablesCollect;
     @Column(name="RECEIVABLES_REST",nullable = false)
-    private int receivablesRest;
+    private long receivablesRest;
 
 }

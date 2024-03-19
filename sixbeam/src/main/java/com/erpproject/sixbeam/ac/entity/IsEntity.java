@@ -23,16 +23,16 @@ public class IsEntity {
     @Column(name="IS_DT" ,nullable = false)
     private String isDt;
     @Column(name="IS_NET_SALES", nullable = false)
-    private int isNetSales;
+    private long isNetSales;
     @Column(name="IS_COST_SALES" ,nullable = false)
-    private int isCostSales;
+    private long isCostSales;
     @Column(name="IS_WAGES" ,nullable = false)
-    private int isWages;
+    private long isWages;
     @Column(name="IS_INTER_INC",nullable = false)
-    private int isInterInc;
+    private long isInterInc;
     @Column(name="IS_INTER_EXP",nullable = false)
-    private int isInterExp;
+    private long isInterExp;
     @Column(name="IS_CORTAX_EXP",nullable = false)
-    private int isCortaxExp;
+    private long isCortaxExp;
 
 }
