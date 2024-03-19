@@ -30,7 +30,7 @@ function createItemFinished() {
         return false;
 
     } else if (!itemUp || itemUp.trim() === '') {
-        alert('단가를 입력하세요.');
+        alert('가격을 입력하세요.');
         event.preventDefault();
         return false;
 
@@ -73,6 +73,93 @@ function createOrderFinished() {
 
 
 function deleteItemFinished() {
+
+    // 체크박스의 값(계정 ID)을 저장할 배열
+    var selectedIds = [];
+    var itemLength = selectedIds.length;
+
+    // 모든 'selectedInfo' 클래스를 가진 체크박스를 찾고 선택된 항목의 값만 배열에 추가
+    document.querySelectorAll('.' +
+        '' +
+        'selectedInfo:checked').forEach(function (checkbox) {
+        selectedIds.push(checkbox.value);
+        console.log(selectedIds);
+    });
+
+    // 선택된 체크박스가 없으면 에러 메시지를 표시하고 함수를 종료
+    if (selectedIds.length === 0) {
+        alert('삭제할 항목을 선택해주세요.');
+
+        // 빈 폼을 전달하고 모달 닫기
+        document.getElementById('deleteForm').submit();
+    } else {
+        // 배열을 쉼표로 구분된 문자열로 변환
+        var itemIdsToDelete = selectedIds.join(',');
+
+        // 숨겨진 입력 필드에 값을 설정
+        document.getElementById('deletePdInfo').value = itemIdsToDelete;
+
+        // 폼을 제출하여 서버에 삭제 요청
+        document.getElementById('deleteForm').submit();
+
+        // 모달 창을 표시
+        // $('#deletePd').modal('show');
+
+        // 모달 창을 표시
+
+        if (selectedIds === 0) {
+            alert('작업 지시서가 삭제되었습니다.')
+
+        } else if (selectedIds > 0 && selectedIds < itemLength) {
+            alert('창고불출된 작업지시서를 제외하고 삭제되었습니다.');
+
+        } else {
+            alert('창고불출된 작업지시서를 삭제할 수 없습니다.')
+        }
+
+        $('#deletePd').modal('show');
+        // alert('품목이 삭제되었습니다.');
+    }
+}
+
+function deleteItemFinished() {
+
+    // 체크박스의 값(계정 ID)을 저장할 배열
+    var selectedIds = [];
+    var itemLength = selectedIds.length;
+
+    // 모든 'selectedInfo' 클래스를 가진 체크박스를 찾고 선택된 항목의 값만 배열에 추가
+    document.querySelectorAll('.' +
+        '' +
+        'selectedInfo:checked').forEach(function (checkbox) {
+        selectedIds.push(checkbox.value);
+        console.log(selectedIds);
+    });
+
+    // 선택된 체크박스가 없으면 에러 메시지를 표시하고 함수를 종료
+    if (selectedIds.length === 0) {
+        alert('삭제할 항목을 선택해주세요.');
+
+        // 빈 폼을 전달하고 모달 닫기
+        document.getElementById('deleteForm').submit();
+    } else {
+        // 배열을 쉼표로 구분된 문자열로 변환
+        var itemIdsToDelete = selectedIds.join(',');
+
+        // 숨겨진 입력 필드에 값을 설정
+        document.getElementById('deletePdInfo').value = itemIdsToDelete;
+
+        // 폼을 제출하여 서버에 삭제 요청
+        document.getElementById('deleteForm').submit();
+
+        alert('품목이 삭제되었습니다.')
+
+        $('#deletePd').modal('show');
+        // alert('품목이 삭제되었습니다.');
+    }
+}
+
+function deleteOrderFinished() {
 
     // 체크박스의 값(계정 ID)을 저장할 배열
     var selectedIds = [];

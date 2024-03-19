@@ -20,24 +20,24 @@ public class BsEntity {
     @Column(name="BS_DT" ,nullable = false)
     private String bsDt;
     @Column(name="BS_CASH",nullable = false)
-    private int bsCash;
+    private long bsCash;
     @Column(name="BS_RECEIVABLES",nullable = false)
-    private int bsReceivables;
+    private long bsReceivables;
     @Column(name="BS_INVENTORIES",nullable = false)
-    private int bsInventories;
+    private long bsInventories;
     @Column(name="BS_LAND",nullable = false)
-    private int bsLand;
+    private long bsLand;
     @Column(name="BS_BUILDING",nullable = false)
-    private int bsBuilding;
+    private long bsBuilding;
     @Column(name="BS_FAC",nullable = false)
-    private int bsFac;
+    private long bsFac;
     @Column(name="BS_PAYABLES",nullable = false)
-    private int bsPayables;
+    private long bsPayables;
     @Column(name="BS_LONG_BOR",nullable = false)
-    private int bsLongBor;
+    private long bsLongBor;
     @Column(name="BS_CAPITAL",nullable = false)
-    private int bsCapital;
+    private long bsCapital;
     @Column(name="BS_EARNINGS",nullable = false)
-    private int bsEarnings;
+    private long bsEarnings;
 
 }

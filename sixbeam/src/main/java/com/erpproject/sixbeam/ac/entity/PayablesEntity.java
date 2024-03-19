@@ -25,10 +25,10 @@ public class PayablesEntity {
     @JoinColumn(name="ACCOUNT_CD")
     private AccountEntity accountEntity;
     @Column(name="PAYABLES_PUR" ,nullable = false)
-    private int payablesPur;
+    private long payablesPur;
     @Column(name="PAYABLES_PAID" ,nullable = false)
-    private int payablesPaid;
+    private long payablesPaid;
     @Column(name="PAYABLES_REST" ,nullable = false)
-    private int payablesRest;
+    private long payablesRest;
 
 }

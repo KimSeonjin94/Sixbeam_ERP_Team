@@ -212,7 +212,7 @@ public class EstimateService {
     //새로운 코드 만드는 함수
     private String generateNewEstimateCd(LocalDate estimateDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
-        String prefix = "ES" + estimateDate.format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";
+        String prefix = "ES" + estimateDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
 
         // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
         String maxCd = estimateRepository.getMaxEstimateCd(estimateDate);
