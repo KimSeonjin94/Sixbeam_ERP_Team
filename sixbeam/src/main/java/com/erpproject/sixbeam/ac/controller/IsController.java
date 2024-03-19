@@ -27,29 +27,29 @@ public class IsController {
             IsEntity incomeStatement = isService.findIncomeStatementByIsDt(isDt);
             model.addAttribute("incomeStatement", incomeStatement);
 
-            incomeStatement.setIsCostSales((int) (incomeStatement.getIsNetSales() / 1.1));
+            incomeStatement.setIsCostSales((long) (incomeStatement.getIsNetSales() / 1.1));
 
-            Integer grossProfit = incomeStatement.getIsNetSales() - incomeStatement.getIsCostSales();
+            long grossProfit = incomeStatement.getIsNetSales() - incomeStatement.getIsCostSales();
             model.addAttribute("grossProfit", grossProfit);
 
-            Integer operatingExpenses = incomeStatement.getIsWages();
+            long operatingExpenses = incomeStatement.getIsWages();
             model.addAttribute("operatingExpenses", operatingExpenses);
 
-            Integer operatingIncome = grossProfit - operatingExpenses;
+            long operatingIncome = grossProfit - operatingExpenses;
             model.addAttribute("operatingIncome", operatingIncome);
 
-            Integer nonOperatingIncome = incomeStatement.getIsInterInc();
+            long nonOperatingIncome = incomeStatement.getIsInterInc();
             model.addAttribute("nonOperatingIncome", nonOperatingIncome);
 
-            Integer nonOperatingExpenses = incomeStatement.getIsInterExp();
+            long nonOperatingExpenses = incomeStatement.getIsInterExp();
             model.addAttribute("nonOperatingExpenses", nonOperatingExpenses);
 
-            Integer earningBeforeTaxes = operatingIncome + nonOperatingIncome - nonOperatingExpenses;
+            long earningBeforeTaxes = operatingIncome + nonOperatingIncome - nonOperatingExpenses;
             model.addAttribute("earningBeforeTaxes", earningBeforeTaxes);
 
             incomeStatement.setIsCortaxExp((int) (earningBeforeTaxes * 0.1));
 
-            Integer netIncome = earningBeforeTaxes - incomeStatement.getIsCortaxExp();
+            long netIncome = earningBeforeTaxes - incomeStatement.getIsCortaxExp();
             model.addAttribute("netIncome", netIncome);
 
         }

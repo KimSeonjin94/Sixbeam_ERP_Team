@@ -30,7 +30,7 @@ public class PurEntity {
     @Column(name="INPUTPUR_CD")
     private String inputPurCd;
     @Column(name="PUR_PRICE")
-    private int purPrice;
+    private long purPrice;
     @Column(name="PUR_SUBJECT",nullable = false)
     private String purSubject;
 

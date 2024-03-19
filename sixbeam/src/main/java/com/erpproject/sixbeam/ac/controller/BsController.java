@@ -32,17 +32,17 @@ public class BsController {
             model.addAttribute("balanceSheet", balanceSheet);
 
             // 자산(차변) 계산
-            Integer totalAsset = balanceSheet.getBsCash() + balanceSheet.getBsInventories()
+            long totalAsset = balanceSheet.getBsCash() + balanceSheet.getBsInventories()
                     + balanceSheet.getBsReceivables() + balanceSheet.getBsLand()
                     + balanceSheet.getBsBuilding() + balanceSheet.getBsFac();
             model.addAttribute("totalAsset", totalAsset);
 
             // 부채(대변) 계산
-            Integer totalDebt = balanceSheet.getBsLongBor() + balanceSheet.getBsPayables();
+            long totalDebt = balanceSheet.getBsLongBor() + balanceSheet.getBsPayables();
             model.addAttribute("totalDebt", totalDebt);
 
             // 자본(대변) 계산
-            Integer totalCapital = balanceSheet.getBsCapital() + balanceSheet.getBsEarnings();
+            long totalCapital = balanceSheet.getBsCapital() + balanceSheet.getBsEarnings();
             model.addAttribute("totalCapital", totalCapital);
             payablesService.payables_by_year(bsDt);
         }
