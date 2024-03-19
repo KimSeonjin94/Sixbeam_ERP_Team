@@ -36,8 +36,15 @@ public class  SixbeamApplication {
 	@PreDestroy
 	public void stopFastApiServer() {
 		if (fastApiProcess != null) {
-			fastApiProcess.destroy();
-			System.out.println("FastAPI 서버가 종료되었습니다.");
+			ProcessHandle.of(fastApiProcess.pid())
+					.ifPresent(processHandle -> {
+						processHandle.descendants().forEach(ph -> {
+							ph.destroy(); // 하위 프로세스 종료
+							System.out.println("하위 프로세스 PID " + ph.pid() + " 가 종료되었습니다.");
+						});
+						processHandle.destroy(); // 메인 프로세스 종료
+						System.out.println("FastAPI 서버 PID " + processHandle.pid() + " 가 종료되었습니다.");
+					});
 		}
 	}
 

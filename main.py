@@ -1,16 +1,16 @@
-from fastapi import FastAPI
+import pickle
 from prophet import Prophet
-import mysql.connector
 import pandas as pd
-from datetime import datetime, timedelta
+import mysql.connector
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
 db_config = {
     'host': 'localhost',
-    'port': 3306,  # 포트는 정수로 지정
+    'port': 3306,
     'user': 'root',
-    'password': 'qwer1234',
+    'password': '1234',
     'database': 'sixbeam_erp',
     'raise_on_warnings': True,
     'use_pure': True,
@@ -19,157 +19,119 @@ db_config = {
     'time_zone': "+00:00"
 }
 
+# 파일 경로 및 행 개수 추적 파일 설정
+model_files = {'sales': 'sales_model.pkl', 'inputs': 'inputs_model.pkl'}
+forecast_files = {'sales': 'sales_forecast.pkl', 'inputs': 'inputs_forecast.pkl'}
+row_count_files = {'sales': 'sales_row_count.txt', 'inputs': 'inputs_row_count.txt'}
+data_files = {'sales': 'sales_data_and_forecast.pkl', 'inputs': 'inputs_data_and_forecast.pkl'}
 
-def sale_data():
-    # 데이터베이스 연결
+
+def fetch_data(query: str):
     conn = mysql.connector.connect(**db_config)
+    df = pd.read_sql(query, conn)
+    conn.close()
+    df['ds'] = pd.to_datetime(df['ds'])
+    return df
 
-    # 판매 및 구매 데이터 로드
-    # SQL 쿼리 실행
-    query = """
+
+def check_for_updates(table_name: str, current_row_count: int):
+    # 테이블 행 개수가 변경되었는지 확인
+    try:
+        with open(row_count_files[table_name], 'r') as f:
+            last_row_count = int(f.read())
+    except FileNotFoundError:
+        last_row_count = 0
+
+    if last_row_count != current_row_count:
+        return True  # 데이터가 변경되었음
+    return False
+
+
+def update_row_count(table_name: str, current_row_count: int):
+    # 테이블 행 개수 업데이트
+    with open(row_count_files[table_name], 'w') as f:
+        f.write(str(current_row_count))
+
+
+def train_and_save_data(df, forecast, table_name):
+    # 데이터와 예측 결과를 함께 저장
+    data_to_save = {
+        'data': df,
+        'forecast': forecast
+    }
+    with open(f'{table_name}_data_and_forecast.pkl', 'wb') as f:
+        pickle.dump(data_to_save, f)
+
+
+def train_and_save_model(df, table_name: str):
+    model = Prophet(yearly_seasonality=True, weekly_seasonality=True, daily_seasonality=True)
+    model.fit(df)
+    future = model.make_future_dataframe(periods=12, freq='M')
+    forecast = model.predict(future)
+
+    # 모델과 예측 결과 저장
+    with open(model_files[table_name], 'wb') as f_model, open(forecast_files[table_name], 'wb') as f_forecast:
+        pickle.dump(model, f_model)
+        pickle.dump(forecast, f_forecast)
+
+    # 테이블 행 개수 업데이트
+    update_row_count(table_name, len(df))
+    train_and_save_data(df.groupby(pd.Grouper(key='ds', freq='M'))['y'].sum().reset_index(), forecast.groupby(pd.Grouper(key='ds', freq='M'))['yhat'].sum().reset_index(), table_name)
+
+
+@app.on_event("startup")
+async def startup_event():
+    # sales 데이터 처리
+    sales_query = """
     SELECT s.sale_upload_dt AS ds, s.estimate_cd, e.estimate_amt AS y
     FROM ss_sale_tb s
     JOIN ss_estimate_tb e ON s.estimate_cd = e.estimate_cd
-    WHERE s.sale_upload_dt < CURDATE()
     """
-    df = pd.read_sql(query, conn)
+    sales_df = fetch_data(sales_query)
+    if check_for_updates('sales', len(sales_df)):
+        train_and_save_model(sales_df, 'sales')
 
-
-
-    # 'ds' 열을 날짜 타입으로 변환
-    df['ds'] = pd.to_datetime(df['ds'])
-
-    # 데이터베이스 연결 종료
-    conn.close()
-
-    # 데이터 확인
-    print(df.head())
-
-    holidays = pd.DataFrame({
-        'holiday': 'event_name',
-        'ds': pd.to_datetime(['2022-01-01', '2024-12-25']),
-        'lower_window': 0,
-        'upper_window': 1,
-    })
-    # Prophet 모델 생성 및 설정 적용
-    model = Prophet(
-        yearly_seasonality=True,  # 연간 계절성 활성화
-        weekly_seasonality=True,  # 주간 계절성 활성화
-        daily_seasonality=True,   # 일간 계절성 활성화
-        changepoint_prior_scale=0.5,  # 변화점 감도 조정
-        holidays=holidays  # 휴일 및 이벤트 추가
-    )
-
-    # 커스텀 계절성 추가 (예: 월간 계절성)
-    model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
-    # 연-월 별로 그룹화하여 'y'의 합계를 계산
-    sales_summary = df.groupby('ds')['y'].sum().reset_index()
-
-    # Prophet 모델 초기화 및 학습
-    model = Prophet()
-    model.fit(sales_summary)
-    # 'ds' 열의 날짜를 연-월 형식으로 변경
-    df['ds'] = df['ds'].dt.to_period('M')
-    # Prophet 모델 학습을 위해 'ds' 열을 다시 datetime 형식으로 변환
-    sales_summary['ds'] = sales_summary['ds'].dt.to_period('M')
-    sales_summary = sales_summary.groupby('ds')['y'].sum().reset_index()
-
-    # 미래 데이터 프레임 생성
-    future = model.make_future_dataframe(periods=12, freq='M') # 다음 12개월(1년)의 데이터를 예측
-
-    # 예측
-    forecast = model.predict(future)
-    # 현재 판매 데이터와 예측 결과를 JSON 형식으로 변환하여 반환
-    sales_data = sales_summary.to_dict('records')
-    predictions = forecast[['ds', 'yhat']].to_dict('records')
-
-
-    return {
-        "grapeSales": sales_data,
-        "preGrapes": predictions
-    }
-
-
-def inout_data():
-    conn = mysql.connector.connect(**db_config)
-
-    # 판매 및 구매 데이터 로드
-    # SQL 쿼리 실행
-
-    query = """
+    # inputs 데이터 처리
+    inputs_query = """
     SELECT s.inputpur_dt AS ds, s.orinput_cd, e.orinput_amt AS y
     FROM pur_input_tb s
     JOIN pur_orinput_tb e ON s.orinput_cd = e.orinput_cd
-    WHERE s.inputpur_dt < CURDATE()
     """
-    df = pd.read_sql(query, conn)
-    # 데이터베이스 연결 종료
-    conn.close()
-    # 'ds' 열을 날짜 타입으로 변환
-    df['ds'] = pd.to_datetime(df['ds'])
-
-    # 'ds' 열의 날짜를 연-월 형식으로 변경
-    df['ds'] = df['ds'].dt.to_period('M')
-
-
-
-    # 데이터 확인
-    print(df.head())
-
-
-    holidays = pd.DataFrame({
-        'holiday': 'event_name',
-        'ds': pd.to_datetime(['2022-01-01', '2024-12-25']),
-        'lower_window': 0,
-        'upper_window': 1,
-    })
-    # Prophet 모델 생성 및 설정 적용
-    model = Prophet(
-        yearly_seasonality=True,  # 연간 계절성 활성화
-        weekly_seasonality=True,  # 주간 계절성 활성화
-        daily_seasonality=True,   # 일간 계절성 활성화
-        changepoint_prior_scale=0.5,  # 변화점 감도 조정
-        holidays=holidays  # 휴일 및 이벤트 추가
-    )
-
-    # 커스텀 계절성 추가 (예: 월간 계절성)
-    model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
-
-    # 연-월 별로 그룹화하여 'y'의 합계를 계산
-    inout_summary = df.groupby('ds')['y'].sum().reset_index()
-
-    # Prophet 모델 학습을 위해 'ds' 열을 다시 datetime 형식으로 변환
-    inout_summary['ds'] = inout_summary['ds'].dt.to_timestamp()
-
-    # Prophet 모델 초기화 및 학습
-    model = Prophet()
-    model.fit(inout_summary)
-
-    # 미래 데이터 프레임 생성
-    future = model.make_future_dataframe(periods=12, freq='M') # 다음 12개월(1년)의 데이터를 예측
-
-    # 예측
-    forecast = model.predict(future)
-    # 현재 판매 데이터와 예측 결과를 JSON 형식으로 변환하여 반환
-    sales_data = inout_summary.to_dict('records')
-    predictions = forecast[['ds', 'yhat']].tail(7).to_dict('records')
-
-    return {
-        "grapeSales": sales_data,
-        "preGrapes": predictions
-    }
+    inputs_df = fetch_data(inputs_query)
+    if check_for_updates('inputs', len(inputs_df)):
+        train_and_save_model(inputs_df, 'inputs')
 
 
 @app.get("/sales-summary")
 async def get_sales_summary():
-    sales_summary = sale_data()
-    # Pandas DataFrame을 JSON 형식으로 변환하여 반환
-    return sales_summary
+    try:
+        with open('sales_data_and_forecast.pkl', 'rb') as f:
+            loaded_data = pickle.load(f)
+            sales_data = loaded_data['data']
+            forecast = loaded_data['forecast']  # 예측 결과
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Sales data and forecast not found.")
+
+    # 과거 데이터와 예측 결과를 조합하여 JSON 형식으로 반환
+    return {
+        'grapeSales': sales_data.to_dict('records'),
+        'preGrapes': forecast[['ds', 'yhat']].to_dict('records')
+    }
 
 
 @app.get("/input-summary")
 async def get_input_summary():
-    input_summary = inout_data()
-    # Pandas DataFrame을 JSON 형식으로 변환하여 반환
-    return input_summary
+    try:
+        with open('inputs_data_and_forecast.pkl', 'rb') as f:
+            loaded_data = pickle.load(f)
+            inputs_data = loaded_data['data'] # 과거 구매 데이터
+            forecast = loaded_data['forecast']  # 예측 결과
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Sales data and forecast not found.")
+
+    # 과거 데이터와 예측 결과를 조합하여 JSON 형식으로 반환
+    return {
+        'grapeSales': inputs_data.to_dict('records'),
+        'preGrapes': forecast[['ds', 'yhat']].to_dict('records')
+    }
 # uvicorn main:app --reload 콘솔창에서 실행하여 확인
