@@ -19,7 +19,7 @@
                                         <option value="">회계연도 선택</option>
                                         <option th:each="isDt : ${isDts}"
                                                 th:value="${isDt}"
-                                                th:text="${isDt}"
+                                                th:text="${isDt} + '년'"
                                                 th:selected="${isDt == selectedIsDt}"></option>
                                     </select>
                                 </th>
