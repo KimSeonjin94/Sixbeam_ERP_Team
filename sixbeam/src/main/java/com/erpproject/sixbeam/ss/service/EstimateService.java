@@ -131,8 +131,8 @@ public class EstimateService {
         estimateRepository.deleteAll(estimateEntityList);
     }
     //기간별 매출 총액 계산하는 함수
-    public int getIsNetSales(LocalDate startDate,LocalDate endDate){
-        int total=0;
+    public long getIsNetSales(LocalDate startDate,LocalDate endDate){
+        long total=0;
         List<SaleEntity> saleEntities=saleRepository.getSaleListBetweenDates(startDate,endDate);
         for(SaleEntity saleEntity:saleEntities){
             List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
@@ -144,9 +144,9 @@ public class EstimateService {
 
     }
     //거래처별 매출 총액
-    public Map<String,Integer> getTotalBetweenDates(LocalDate startDate,LocalDate endDate){
-        int totale=0;
-        Map<String,Integer> map= new HashMap<>();
+    public Map<String,Long> getTotalBetweenDates(LocalDate startDate,LocalDate endDate){
+        long totale=0;
+        Map<String,Long> map= new HashMap<>();
         List<SaleEntity> saleEntities=saleRepository.getSaleListBetweenDates(startDate,endDate);
         for(SaleEntity saleEntity : saleEntities){
             List<EstimateEntity> estimateEntities=estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
@@ -165,16 +165,16 @@ public class EstimateService {
         return map;
     }
     //거래처별 월별 금액보여주는 함수 map 으로 리턴 받은거에서 .get("월이름")쓰면 밸류값 받을수 있음
-    public Map<String,Integer> getTotalBetweenYearDates(String accountCd){
-        int totale=0;
-        Map<String,Integer> map= new HashMap<>();
+    public Map<String,Long> getTotalBetweenYearDates(String accountCd){
+        long totale=0;
+        Map<String,Long> map= new HashMap<>();
         AccountEntity accountEntity = accountRepository.findById(accountCd)
                 .orElseThrow(() -> new EntityNotFoundException("거래처 코드를 찾을 수 없습니다.."));
 
         List<EstimateEntity> estimateEntities=estimateRepository.findByAccountEntity(accountEntity);
         map.put("Total",totale);
         for(int i=1; i<13;i++){
-            map.put(String.valueOf(i),0);
+            map.put(String.valueOf(i),totale);
         }
         for(EstimateEntity estimateEntity : estimateEntities){
             Optional<SaleEntity> OpSaleEntity = saleRepository.findByEstimateCd(estimateEntity.getEstimateCd());
@@ -192,8 +192,8 @@ public class EstimateService {
         return map;
     }
     //회계 반영여부에 따른 거래처별 매출 보여주는 함수
-    public int getAccountTotal(String accountCd){
-        int total=0;
+    public long getAccountTotal(String accountCd){
+        long total=0;
         AccountEntity accountEntity=accountRepository.findById(accountCd)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid account Id:" + accountCd));
 
@@ -212,7 +212,7 @@ public class EstimateService {
     //새로운 코드 만드는 함수
     private String generateNewEstimateCd(LocalDate estimateDate) {
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
-        String prefix = "ES" + estimateDate.format(DateTimeFormatter.ofPattern("yyMMdd")) + "-";
+        String prefix = "ES" + estimateDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
 
         // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
         String maxCd = estimateRepository.getMaxEstimateCd(estimateDate);

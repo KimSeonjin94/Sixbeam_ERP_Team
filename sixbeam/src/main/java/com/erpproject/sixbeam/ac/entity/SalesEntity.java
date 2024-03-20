@@ -29,7 +29,7 @@ public class SalesEntity {
     @Column(name="SALE_CD")
     private String saleCd;
     @Column(name="SALES_PRICE")
-    private int salesPrice;
+    private long salesPrice;
     @Column(name="SALES_SUBJECT",nullable = false)
     private String salesSubject;
 

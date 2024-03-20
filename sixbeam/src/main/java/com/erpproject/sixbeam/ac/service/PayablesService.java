@@ -45,7 +45,7 @@ public class PayablesService {
     }
 
     public void payables_by_year(String yearDate) {
-        int sum = 0;
+        long sum = 0;
         BsEntity bsEntity = bsRepository.findByBsDt(yearDate);
         //매입 채무 1년 단위로 계산
         List<InputEntity> inputEntityList = inputRepository.findInputByDate(LocalDate.of(Integer.parseInt(yearDate),1,1),LocalDate.of(Integer.parseInt(yearDate),12,31));
