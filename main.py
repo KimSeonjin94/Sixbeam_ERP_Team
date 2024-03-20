@@ -4,6 +4,7 @@ import pandas as pd
 import mysql.connector
 from fastapi import FastAPI, HTTPException
 from sqlalchemy import create_engine
+from datetime import datetime
 
 app = FastAPI()
 
@@ -21,7 +22,8 @@ def fetch_data(query: str):
     df = pd.read_sql(query, engine)
 
     df['ds'] = pd.to_datetime(df['ds'])
-    return df
+    df_monthly = df.groupby(pd.Grouper(key='ds', freq='ME')).sum().reset_index()
+    return df_monthly
 
 
 def check_for_updates(table_name: str, current_row_count: int):
@@ -54,9 +56,12 @@ def train_and_save_data(df, forecast, table_name):
 
 
 def train_and_save_model(df, table_name: str):
-    model = Prophet(yearly_seasonality=True, weekly_seasonality=True, daily_seasonality=True)
+    model = Prophet(yearly_seasonality=True)
     model.fit(df)
+    current_time = datetime.now()
+    start_of_current_month = current_time.replace(day=1)
     future = model.make_future_dataframe(periods=12, freq='M')
+    future = future[future['ds'] >= start_of_current_month].head(12)
     forecast = model.predict(future)
 
     # 모델과 예측 결과 저장
@@ -66,7 +71,7 @@ def train_and_save_model(df, table_name: str):
 
     # 테이블 행 개수 업데이트
     update_row_count(table_name, len(df))
-    train_and_save_data(df.groupby(pd.Grouper(key='ds', freq='M'))['y'].sum().reset_index(), forecast.groupby(pd.Grouper(key='ds', freq='M'))['yhat'].sum().reset_index(), table_name)
+    train_and_save_data(df, forecast.groupby(pd.Grouper(key='ds', freq='ME'))['yhat'].sum().reset_index(), table_name)
 
 
 @app.on_event("startup")

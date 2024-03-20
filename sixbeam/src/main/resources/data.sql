@@ -3705,8 +3705,8 @@ INSERT INTO sixbeam_erp.SS_MEMBER_TB (ESTIMATE_CD,MEMBER_ID, MEMBER_NM, MEMBER_P
 VALUES
 ('ES20241004-0001','email1@example.com', '임지환', '010-1234-5678', '서울시 강남구'),
 ('ES20241007-0001','email2@example.com', '이영희', '010-2345-6789', '서울시 강서구'),
-('ES20241008-0001','email3@example.com', '박민준', '010-3456-7890', '서울시 송파구');
-('ES20241009-0001','email4@example.com', '박민준', '010-4567-8901', '서울시 송파구');
+('ES20241008-0001','email3@example.com', '박민준', '010-3456-7890', '서울시 송파구'),
+('ES20241009-0001','email4@example.com', '박민준', '010-4567-8901', '서울시 송파구'),
 ('ES20241010-0001','email5@example.com', '박민준', '010-5678-9012', '서울시 송파구');
 -- 발주 db --
 insert into sixbeam_erp.pur_orinput_tb (orinput_amt, orinput_sp, orinput_sum, orinput_up, orinput_vat, orinputdlvy_dt, orinputor_dt, orinputreq_dt, account_cd, empinfo_id, item_cd, orinput_cd, orinput_etc) values
