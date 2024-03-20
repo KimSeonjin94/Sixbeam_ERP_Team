@@ -51,7 +51,7 @@ public class InoutService {
                 .orElseThrow(() -> new EntityNotFoundException("사원코드를 찾을 수 없습니다."));
         ItemEntity itemEntity = itemRepository.findById(orderEntity.getItemEntity().getItemCd())
                 .orElseThrow(() -> new EntityNotFoundException("품목코드를 찾을 수 없습니다."));
-        WhregistEntity whregistEntity = whregistRepository.findById("WHR1003")
+        WhregistEntity whregistEntity = whregistRepository.findById("WHR1001")
                 .orElseThrow(() -> new EntityNotFoundException("창고코드를 찾을 수 없습니다."));
 
         String newinoutCmptCd = generateNewInoutCmptCd(LocalDate.now());
