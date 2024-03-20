@@ -11,12 +11,12 @@ import java.time.LocalDate;
 @Setter
 public class IsDto {
     private String isDt;
-    private int isNetSales;
-    private int isCostSales;
-    private int isWages;
-    private int isInterInc;
-    private int isInterExp;
-    private int isCortaxExp;
+    private long isNetSales;
+    private long isCostSales;
+    private long isWages;
+    private long isInterInc;
+    private long isInterExp;
+    private long isCortaxExp;
 
     public IsEntity toEntity() {
         return new IsEntity(isDt, isNetSales, isCostSales, isWages, isInterInc, isInterExp, isCortaxExp);

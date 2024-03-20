@@ -117,13 +117,13 @@ $(document).ready(function () {
                     $('#newAccount').modal('show');
                 }
             },
-            {
-                text: '수정',
-                className: 'btn btn-warning mr-sm-1',
-                action: function (e, dt, node, config) {
-                    $('#editAccount').modal('show');
-                }
-            },
+//            {
+//                text: '수정',
+//                className: 'btn btn-warning mr-sm-1',
+//                action: function (e, dt, node, config) {
+//                    $('#editAccount').modal('show');
+//                }
+//            },
             {
                 text: '삭제',
                 className: 'btn btn-danger mr-auto',
