@@ -37,13 +37,13 @@ public class ExceptionHandlingController implements ErrorController {
 
             // 로그로 상태값을 기록 및 출력
             logger.info("httpStatus : " + statusCode);
-            // 404 error
+            // 403 error
             if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 // 에러 페이지에 표시할 정보
                 model.addAttribute("code", status.toString());
                 model.addAttribute("msg", httpStatus.getReasonPhrase());
                 model.addAttribute("timestamp", new Date());
-                return ERROR_404_PAGE_PATH;
+                return ERROR_403_PAGE_PATH;
             }
             // 404 error
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
