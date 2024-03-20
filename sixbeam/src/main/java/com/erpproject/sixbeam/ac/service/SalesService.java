@@ -38,7 +38,7 @@ public class SalesService {
         return this.saleRepository.findBySaleBillingSt(false);
     }
 
-    public int getSaleList(String accountCd) {
+    public long getSaleList(String accountCd) {
         return estimateService.getAccountTotal(accountCd);
     }
 
