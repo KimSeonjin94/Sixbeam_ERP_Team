@@ -37,7 +37,7 @@ public class IsService {
         endDate = LocalDate.of(year, 12, LocalDate.of(year, 12, 1).lengthOfMonth());
 
 
-        int isNetSales=0;
+        long isNetSales=0;
         isNetSales= estimateService.getIsNetSales(startDate,endDate);
         if(opIsEntity.isPresent()){
             IsEntity isEntity=opIsEntity.get();
