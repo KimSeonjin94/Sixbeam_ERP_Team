@@ -56,16 +56,16 @@ public class EstimateController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createEstimateDto(@ModelAttribute EstimateForm form) {
-        List<EstimateDto> estimateDtos = form.getEstimateDtos();
+        Map<String, Object> Response = new HashMap<>();
         try {
+            List<EstimateDto> estimateDtos = form.getEstimateDtos();
             this.estimateService.create(estimateDtos);
             return ResponseEntity.ok().body(Collections.singletonMap("redirectUrl", "/ss/estimate/list"));
         } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("status", "error");
-            errorResponse.put("message", "저장에 실패 하였습니다.");
-            errorResponse.put("redirectUrl", "/ss/estimate/new");
-            return ResponseEntity.badRequest().body(errorResponse);
+            Response.put("status", "error");
+            Response.put("message", String.format("저장에 실패 하였습니다.[%s]", e.getMessage()));
+            Response.put("redirectUrl", "/ss/estimate/new");
+            return ResponseEntity.badRequest().body(Response);
         }
     }
 

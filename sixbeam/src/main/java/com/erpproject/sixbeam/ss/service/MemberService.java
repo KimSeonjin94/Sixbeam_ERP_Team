@@ -54,6 +54,15 @@ public class MemberService {
                 }
             }
         }
+        List<MemberEntity> memberEntities = this.getMemberList();
+        for(MemberEntity memberEntity:memberEntities){
+            Iterator<EstimateEntity> it = deduplicatedList.iterator();
+            while (it.hasNext()) {
+                if (it.next().getEstimateCd().equals(memberEntity.getEstimateCd())) {
+                    it.remove();
+                }
+            }
+        }
         return deduplicatedList;
     }
     public List<MemberEntity> getMemberList(){
