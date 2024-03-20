@@ -3,21 +3,12 @@ from prophet import Prophet
 import pandas as pd
 import mysql.connector
 from fastapi import FastAPI, HTTPException
+from sqlalchemy import create_engine
+from datetime import datetime
 
 app = FastAPI()
 
-db_config = {
-    'host': 'localhost',
-    'port': 3306,
-    'user': 'root',
-    'password': '1234',
-    'database': 'sixbeam_erp',
-    'raise_on_warnings': True,
-    'use_pure': True,
-    'charset': 'utf8mb4',
-    'collation': 'utf8mb4_general_ci',
-    'time_zone': "+00:00"
-}
+engine = create_engine('mysql+mysqlconnector://root:1234@localhost/sixbeam_erp')
 
 # 파일 경로 및 행 개수 추적 파일 설정
 model_files = {'sales': 'sales_model.pkl', 'inputs': 'inputs_model.pkl'}
@@ -27,11 +18,12 @@ data_files = {'sales': 'sales_data_and_forecast.pkl', 'inputs': 'inputs_data_and
 
 
 def fetch_data(query: str):
-    conn = mysql.connector.connect(**db_config)
-    df = pd.read_sql(query, conn)
-    conn.close()
+
+    df = pd.read_sql(query, engine)
+
     df['ds'] = pd.to_datetime(df['ds'])
-    return df
+    df_monthly = df.groupby(pd.Grouper(key='ds', freq='ME')).sum().reset_index()
+    return df_monthly
 
 
 def check_for_updates(table_name: str, current_row_count: int):
@@ -64,9 +56,12 @@ def train_and_save_data(df, forecast, table_name):
 
 
 def train_and_save_model(df, table_name: str):
-    model = Prophet(yearly_seasonality=True, weekly_seasonality=True, daily_seasonality=True)
+    model = Prophet(yearly_seasonality=True)
     model.fit(df)
+    current_time = datetime.now()
+    start_of_current_month = current_time.replace(day=1)
     future = model.make_future_dataframe(periods=12, freq='M')
+    future = future[future['ds'] >= start_of_current_month].head(12)
     forecast = model.predict(future)
 
     # 모델과 예측 결과 저장
@@ -76,7 +71,7 @@ def train_and_save_model(df, table_name: str):
 
     # 테이블 행 개수 업데이트
     update_row_count(table_name, len(df))
-    train_and_save_data(df.groupby(pd.Grouper(key='ds', freq='M'))['y'].sum().reset_index(), forecast.groupby(pd.Grouper(key='ds', freq='M'))['yhat'].sum().reset_index(), table_name)
+    train_and_save_data(df, forecast.groupby(pd.Grouper(key='ds', freq='ME'))['yhat'].sum().reset_index(), table_name)
 
 
 @app.on_event("startup")
