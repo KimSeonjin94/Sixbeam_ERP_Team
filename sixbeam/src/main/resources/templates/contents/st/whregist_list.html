@@ -62,7 +62,7 @@
                 </div>
             </div>
             <!-- 수정 모달-->
-            <div class="modal fade" id="updatewhregist" tabindex="-1" aria-labelledby="subjectwhregistLabel" aria-hidden="true">
+            <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="subjectwhregistLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -74,7 +74,7 @@
                         <div class="modal-body">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form id="WhregistformEntry" th:action="@{/st/whregist/update}" th:object="${whregistForm}" method="post">
+                                    <form class="WhregistformEntry" th:action="@{/st/whregist/update}" th:object="${whregistForm}" method="post">
                                         <div class="form-group row">
                                             <label for="updatewhregistNm" class="col-sm-2 col-form-label">창고명</label>
                                             <div class="col-sm-4">

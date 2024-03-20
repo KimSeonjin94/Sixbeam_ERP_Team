@@ -343,7 +343,7 @@ $(document).ready(function() {
 //재고_창고수정---------------------------------------------------------------------------------시작
 $('#detailWhregistCd[data-id]').on('click', function() {
     console.log($(this).data('id'));
-    var whrgistCd = $(this).data('id'); // data-id 속성에서 ID 가져오기
+    var whregistCd = $(this).data('id'); // data-id 속성에서 ID 가져오기
     $('#whregistdetail').modal('hide');
     // AJAX 요청
     $.ajax({
