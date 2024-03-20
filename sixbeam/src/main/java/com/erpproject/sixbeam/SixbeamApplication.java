@@ -24,6 +24,10 @@ public class  SixbeamApplication {
 			System.out.println(venvPath);
 			// FastAPI 서버 실행
 			ProcessBuilder pb = new ProcessBuilder(venvPath, "-m" , "uvicorn","main:app", "--reload");
+
+			pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+			pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+
 			fastApiProcess = pb.start();
 
 			System.out.println("FastAPI 서버가 시작되었습니다.");

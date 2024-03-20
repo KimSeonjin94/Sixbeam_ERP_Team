@@ -3701,38 +3701,13 @@ VALUES
 --                                                                                                                           ('2024-09-30','20241007','대전 대덕구 비래동 901-23','REL20240930-0030','010-2468-1350','한가인','SS240202-0130');
 
 -- 멤버 db --
---INSERT INTO sixbeam_erp.SS_MEMBER_TB (ESTIMATE_CD,MEMBER_ID, MEMBER_NM, MEMBER_PHONE, MEMBER_ADDR)
---VALUES
---    ('ES240202-0133','email1@example.com', '김철수', '010-1234-5678', '서울시 강남구'),
---    ('ES240202-0131','email2@example.com', '이영희', '010-2345-6789', '서울시 강서구'),
---    ('ES240202-0132','email3@example.com', '박민준', '010-3456-7890', '서울시 송파구');
--- (null,'email4@example.com', '정지수', '010-4567-8901', '서울시 강북구'),
--- (null,'email5@example.com', '최영호', '010-5678-9012', '서울시 강동구'),
--- (null,'email6@example.com', '김하늘', '010-6789-0123', '서울시 서초구'),
--- (null,'email7@example.com', '이태양', '010-7890-1234', '서울시 동작구'),
--- (null,'email8@example.com', '박소은', '010-8901-2345', '서울시 마포구'),
--- (null,'email9@example.com', '정우진', '010-9012-3456', '서울시 은평구'),
--- (null,'email10@example.com', '최민서', '010-0123-4567', '서울시 강남구'),
--- (null,'email11@example.com', '아저씨', '010-1234-5678', '서울시 중랑구'),
--- (null,'email12@example.com', '김수현', '010-2345-6789', '서울시 종로구'),
--- (null,'email13@example.com', '이지훈', '010-3456-7890', '서울시 중구'),
--- (null,'email14@example.com', '박해진', '010-4567-8901', '서울시 성북구'),
--- (null,'email15@example.com', '정재훈', '010-5678-9012', '서울시 강남구'),
--- (null,'email16@example.com', '김태리', '010-6789-0123', '서울시 송파구'),
--- (null,'email17@example.com', '유승호', '010-7890-1234', '서울시 서대문구'),
--- (null,'email18@example.com', '박보영', '010-8901-2345', '서울시 강서구'),
--- (null,'email19@example.com', '이성민', '010-9012-3456', '서울시 강남구'),
--- (null,'email20@example.com', '김지원', '010-0123-4567', '서울시 강동구'),
--- (null,'email21@example.com', '한지민', '010-1234-5678', '서울시 강북구'),
--- (null,'email22@example.com', '송중기', '010-2345-6789', '서울시 강남구'),
--- (null,'email23@example.com', '한예슬', '010-3456-7890', '서울시 송파구'),
--- (null,'email24@example.com', '송혜교', '010-4567-8901', '서울시 서초구'),
--- (null,'email25@example.com', '이민호', '010-5678-9012', '서울시 동작구'),
--- (null,'email26@example.com', '손예진', '010-6789-0123', '서울시 마포구'),
--- (null,'email27@example.com', '조정석', '010-7890-1234', '서울시 은평구'),
--- (null,'email28@example.com', '한가인', '010-8901-2345', '서울시 강서구'),
--- (null,'email29@example.com', '김소현', '010-9012-3456', '서울시 강동구'),
--- (null,'email30@example.com', '서현진', '010-0123-4567', '서울시 서초구');
+INSERT INTO sixbeam_erp.SS_MEMBER_TB (ESTIMATE_CD,MEMBER_ID, MEMBER_NM, MEMBER_PHONE, MEMBER_ADDR)
+VALUES
+('ES20241004-0001','email1@example.com', '임지환', '010-1234-5678', '서울시 강남구'),
+('ES20241007-0001','email2@example.com', '이영희', '010-2345-6789', '서울시 강서구'),
+('ES20241008-0001','email3@example.com', '박민준', '010-3456-7890', '서울시 송파구');
+('ES20241009-0001','email4@example.com', '박민준', '010-4567-8901', '서울시 송파구');
+('ES20241010-0001','email5@example.com', '박민준', '010-5678-9012', '서울시 송파구');
 -- 발주 db --
 insert into sixbeam_erp.pur_orinput_tb (orinput_amt, orinput_sp, orinput_sum, orinput_up, orinput_vat, orinputdlvy_dt, orinputor_dt, orinputreq_dt, account_cd, empinfo_id, item_cd, orinput_cd, orinput_etc) values
 (33,13530000,14883000,410000,1353000,'2022-01-10','2022-01-03','2021-12-31','CPN9469359994','20241005','R1001','OR20220103-0001','구매완료'),

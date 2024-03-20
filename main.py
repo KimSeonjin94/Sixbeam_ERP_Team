@@ -3,21 +3,11 @@ from prophet import Prophet
 import pandas as pd
 import mysql.connector
 from fastapi import FastAPI, HTTPException
+from sqlalchemy import create_engine
 
 app = FastAPI()
 
-db_config = {
-    'host': 'localhost',
-    'port': 3306,
-    'user': 'root',
-    'password': '1234',
-    'database': 'sixbeam_erp',
-    'raise_on_warnings': True,
-    'use_pure': True,
-    'charset': 'utf8mb4',
-    'collation': 'utf8mb4_general_ci',
-    'time_zone': "+00:00"
-}
+engine = create_engine('mysql+mysqlconnector://root:1234@localhost/sixbeam_erp')
 
 # 파일 경로 및 행 개수 추적 파일 설정
 model_files = {'sales': 'sales_model.pkl', 'inputs': 'inputs_model.pkl'}
@@ -27,9 +17,9 @@ data_files = {'sales': 'sales_data_and_forecast.pkl', 'inputs': 'inputs_data_and
 
 
 def fetch_data(query: str):
-    conn = mysql.connector.connect(**db_config)
-    df = pd.read_sql(query, conn)
-    conn.close()
+
+    df = pd.read_sql(query, engine)
+
     df['ds'] = pd.to_datetime(df['ds'])
     return df
 

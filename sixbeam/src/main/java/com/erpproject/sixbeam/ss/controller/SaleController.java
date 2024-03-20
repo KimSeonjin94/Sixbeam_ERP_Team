@@ -69,7 +69,7 @@ public class SaleController {
             Map<String, Object> response = new HashMap<>();
             response.put("saleEntity", saleEntity);
             response.put("estimateEntities", estimateEntities);
-            if(estimateEntities.get(0).getAccountEntity().getAccountNm() == "개인 거래") {
+            if(estimateEntities.get(0).getAccountEntity().getAccountNm().equals("개인거래")) {
                 MemberEntity memberEntity =memberService.getMemberList(estimateEntities.get(0).getEstimateCd()).get();
                 response.put("memberEntity", memberEntity);
             }
