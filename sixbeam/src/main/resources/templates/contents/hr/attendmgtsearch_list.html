@@ -120,9 +120,6 @@
                                             <label for="empInfoId">사원id</label>
                                             <input type="text" class="form-control" id="empInfoId" name="empInfoId" readonly>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="hidden" id="workScheduleCheck" name="workScheduleCheck">
-                                        </div>
                                         <div class ="form-group">
                                             <label for="workScheduleDate">날짜</label>
                                             <input type="text" class="form-control" id="workScheduleDate" name="workScheduleDate" readonly>
@@ -139,6 +136,13 @@
                                             <label for="reasonCd">사유</label>
                                             <select class="form-control" id="reasonCd" name="reasonCd">
                                                 <option th:each="re : ${reasonLists}" th:value="${re.reasonNm}" th:text="${re.reasonNm}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="workScheduleCheck">정상 출석 여부</label>
+                                            <select class="form-control" id="workScheduleCheck" name="workScheduleCheck">
+                                                <option value="0">정상 출석</option>
+                                                <option value="1">정상 출석 아님</option>
                                             </select>
                                         </div>
                                     </form>
