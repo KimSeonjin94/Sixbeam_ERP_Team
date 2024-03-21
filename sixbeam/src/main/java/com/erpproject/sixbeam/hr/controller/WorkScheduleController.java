@@ -38,10 +38,10 @@ public class WorkScheduleController {
         return "contents/hr/workSchedule_list";
     }
 
-    @PostMapping("/create")
+    @GetMapping("/create")
     public String displayWorkSchedule(@RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate, Model model) {
         List<WorkScheduleEntity> workScheduleList = workScheduleService.findByDate(selectedDate);
-        model.addAttribute("workScheduleList", workScheduleList);
+        model.addAttribute("workScheduleLists", workScheduleList);
         return "contents/hr/workSchedule_list :: workScheduleTable"; // Thymeleaf fragment 경로 지정
     }
     @PostMapping("/update")
@@ -145,12 +145,12 @@ public class WorkScheduleController {
         }
         return ResponseEntity.ok("처리되었습니다.");
     }
-    @PostMapping("/myAttendenceRecord")
+    @GetMapping("/myAttendenceRecord")
     public String  myAttendenceRecord(@RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate, Model model){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Long empInfoId = Long.parseLong(username);
         List<WorkScheduleEntity>workScheduleOne =workScheduleRepository.findByWorkScheduleDateAndEmpInfoEntity_EmpInfoId(selectedDate,empInfoId);
-        model.addAttribute("workScheduleOnee",workScheduleOne);
+        model.addAttribute("workScheduleLists",workScheduleOne);
         return "contents/home/check_form :: workScheduleOneOne";
     }
 }

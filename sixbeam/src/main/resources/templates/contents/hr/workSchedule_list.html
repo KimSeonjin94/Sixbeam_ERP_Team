@@ -35,16 +35,17 @@
         function loadWorkScheduleData(selectedDate) {
             // Ajax 요청 수행
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "/hr/workSchedule/create",
                 data: { selectedDate: selectedDate },
                 success: function (data) {
-                    // 성공적으로 데이터를 받아왔을 때 부분 업데이트 수행
-                    $('#dataTable').html(data);
+                    var oldOptions = $.extend(true, {}, $('#dataTable').DataTable().settings()[0].oInit);
 
-                    // DataTable 초기화 (이미 DataTables가 사용 중이라고 가정)
-                    $('#dataTable').DataTable().destroy();
-                    $('#dataTable').DataTable();
+                    $('#dataTable').DataTable().destroy(); // 기존 인스턴스 파괴
+                    $('#dataTable tbody').html(data); // 새로운 HTML 삽입
+
+                    // DataTable 재초기화
+                    $('#dataTable').DataTable(oldOptions);
                 },
                 error: function (error) {
                     console.log("Error:", error);
@@ -83,8 +84,8 @@
                                 <th>퇴근시간</th>
                             </tr>
                             </thead>
-                            <tbody th:fragment="workScheduleTable">
-                            <tr th:each="work : ${workScheduleList}">
+                            <tbody >
+                            <tr th:each="work : ${workScheduleLists}" th:fragment="workScheduleTable">
                                 <td th:text="${work.workScheduleDate}"></td>
                                 <td th:text="${work.empInfoEntity.departEntity.departNm}"></td>
                                 <td th:text="${work.empInfoEntity.empInfoNm}" th:classappend="${work.workScheduleCheck} ? 'text-danger' : ''"></td>

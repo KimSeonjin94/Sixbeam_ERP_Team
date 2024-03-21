@@ -1,5 +1,6 @@
 package com.erpproject.sixbeam.st.service;
 
+import com.erpproject.sixbeam.pd.entity.InoutEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
@@ -45,7 +46,7 @@ public class WhmoveService {
         }
     }
 
-    //[이벤트리스너_As]-------------------------------------------완료
+    //[이벤트리스너_As]-------------------------------------------
     //-등록
     public void addRowAs(AsEntity asEntity) {//등록
         WhmoveEntity whmoveEntity = new WhmoveEntity();
@@ -149,27 +150,6 @@ public class WhmoveService {
         CheckRowUpdatedEvent<WhmoveEntity> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
         updateEvent.publishEvent(whmoveEvent);
     }
-//    public void updateRowSale(SaleEntity saleEntity) { //수정
-//        List<WhmoveEntity> tempSale = whmoveRepository.BySaleCd(saleEntity.getSaleCd());
-//        List<EstimateEntity> estimateEntities = estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
-//        // ItemEntity를 키로 하고 EstimateEntity를 값으로 하는 맵 생성
-//        Map<ItemEntity, EstimateEntity> itemToEstimateMap = new HashMap<>();
-//        for (EstimateEntity estimateEntity : estimateEntities) {
-//            itemToEstimateMap.put(estimateEntity.getItemEntity(), estimateEntity);
-//        }
-//
-//        // tempSale 리스트의 각 WhmoveEntity에 대해 매핑된 EstimateEntity가 있는지 확인
-//        for (WhmoveEntity whmoveEntity : tempSale) {
-//            EstimateEntity matchedEstimate = itemToEstimateMap.get(whmoveEntity.getItemEntity());
-//            if (matchedEstimate != null) {
-//                whmoveEntity.setWhregistEntity(saleEntity.getWhregistEntity());
-//                whmoveEntity.setWhmoveAmt(matchedEstimate.getEstimateAmt());
-//            }
-//        }
-//        whmoveRepository.saveAll(tempSale);
-//        CheckRowUpdatedEvent<List<WhmoveEntity>> whmoveEvent = new CheckRowUpdatedEvent<>(this, tempSale);
-//        updateEvent.publishEvent(whmoveEvent);
-//    }
 
     private String generateNewWhmoveSaleCd(LocalDate saleUploadDt) { //기본키 자동생성
         // 현재 날짜를 기반으로 새로운 주문 코드 생성
@@ -195,7 +175,7 @@ public class WhmoveService {
     }
     //[이벤트리스너_Sale]---------------------------------------------
 
-    //[이벤트리스너_Input]----------------------------------------완료
+    //[이벤트리스너_Input]----------------------------------------
     public void addRowInput(InputEntity inputEntity) { //등록
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         String newWhmoveCd = generateNewInputCd(inputEntity.getInputPurDt());
@@ -255,4 +235,35 @@ public class WhmoveService {
         CheckRowDeletedEvent<WhmoveEntity> inputDeletedEvent = new CheckRowDeletedEvent<>(this, inputEntitesToDelete);
         deleteEvent.publishEvent(inputDeletedEvent);
     }
+    //[이벤트리스너_Inout]----------------------------------------
+    public void addRowInout(InoutEntity inoutEntity) { //등록
+        WhmoveEntity whmoveEntity = new WhmoveEntity();
+        String newWhmoveCd = generateNewInoutCd(inoutEntity.getInoutDt());
+        whmoveEntity.setWhmoveDt(inoutEntity.getInoutDt());
+        whmoveEntity.setInputPurCd(inoutEntity.getInoutCmptCd());
+        whmoveEntity.setEmpInfoEntity(inoutEntity.getEmpInfoEntity());// 담당자
+        whmoveEntity.setItemEntity(inoutEntity.getItemEntity());//품목
+        whmoveEntity.setWhregistEntity(inoutEntity.getWhregistEntity());
+        whmoveEntity.setWhmoveAmt(inoutEntity.getOrderEntity().getOrderAmt());//수량(Order테이블 수량)
+        whmoveEntity.setWhmoveGb("입고");
+        whmoveEntity.setWhmoveCd(newWhmoveCd);
+        whmoveEntity.setInputPurCd(null);
+        whmoveEntity.setSaleCd(null);
+        whmoveEntity.setAsCd(null);
+        whmoveRepository.save(whmoveEntity);
+        CheckRowAddedEvent<WhmoveEntity> whmoveEvent = new CheckRowAddedEvent<>(this, whmoveEntity);
+        addEvent.publishEvent(whmoveEvent);
+    }
+
+    private String generateNewInoutCd(LocalDate inoutDt) {//기본키 자동생성
+        // 현재 날짜를 기반으로 새로운 주문 코드 생성
+        String prefix = "WHM" + inoutDt.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-";
+        // DB에서 최대 주문 코드를 가져와서 숫자 부분 추출 후 +1 증가
+        String maxCd = whmoveRepository.getMaxWhmoveCd(inoutDt);
+        int sequenceNumber = maxCd != null ? Integer.parseInt(maxCd.substring(maxCd.lastIndexOf("-") + 1)) + 1 : 1;
+        // 4자리 숫자 부분을 형식에 맞게 생성
+        String sequenceNumberString = String.format("%04d", sequenceNumber);
+        return prefix + sequenceNumberString;
+    }
+
 }
