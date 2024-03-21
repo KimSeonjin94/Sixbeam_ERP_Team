@@ -45,7 +45,7 @@
                                     <select class="form-control" id="eventColorSelect">
                                         <!-- 연가는 빨간색 공가는 노란색 -->
                                         <option value="red">연차</option>
-                                        <option value="yellow">공가</option>
+                                        <option value="blue">공가</option>
                                     </select>
                                 </form>
                             </div>
@@ -93,13 +93,13 @@
                         events: function (fetchInfo, successCallback, failureCallback) {
                             var customAttendPromise = new Promise(function (resolve, reject) {
                                 $.ajax({
-                                    url: "/api/attendmgt",
+                                    url: "/hr/vacation",
                                     method: "GET",
                                     success: function (data) {
                                         var events = data.map(function (event) {
                                             return {
                                                 id: event.id,
-                                                title: event.title,
+                                                title: event.empInfoEntity.departEntity.departNm+' - '+event.empInfoEntity.empInfoNm,
                                                 start: event.start,
                                                 end: event.end,
                                                 backgroundColor: event.backgroundColor
