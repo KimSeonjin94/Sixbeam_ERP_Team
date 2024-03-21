@@ -1,10 +1,9 @@
 package com.erpproject.sixbeam.st.Listener;
 
+import com.erpproject.sixbeam.pd.entity.InoutEntity;
 import com.erpproject.sixbeam.pur.entity.InputEntity;
-import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.st.entity.AsEntity;
-import com.erpproject.sixbeam.st.entity.WhmoveEntity;
 import com.erpproject.sixbeam.st.event.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import com.erpproject.sixbeam.st.event.WhmoveRowUpdatedEvent;
@@ -28,7 +27,7 @@ public class WhmoveListener {
     }
 
     @EventListener
-    public void handleRowAddedEvent(WhmoveRowAddedEvent<?> event) { //판매,구매,AS의 전표등록 시 창고이동으로 행이 추가되는 이벤트리스너
+    public void handleRowAddedEvent(WhmoveRowAddedEvent<?> event) { //판매,구매,AS,생산의 전표등록 시 창고이동으로 행이 추가되는 이벤트리스너
         if (event.getEntity() instanceof SaleEntity) {
             // SaleEntity에 대한 처리
             SaleEntity saleEntity = (SaleEntity) event.getEntity();
@@ -41,6 +40,10 @@ public class WhmoveListener {
             AsEntity asEntity = (AsEntity) event.getEntity();
             // AsEntity에 대한 처리
             whmoveService.addRowAs(asEntity);
+        } else if (event.getEntity() instanceof InoutEntity) {
+            InoutEntity inoutEntity = (InoutEntity) event.getEntity();
+            // InoutEntity에 대한 처리
+            whmoveService.addRowInout(inoutEntity);
         }
     }
     @EventListener

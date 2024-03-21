@@ -9,10 +9,13 @@ import com.erpproject.sixbeam.pd.entity.OrderEntity;
 import com.erpproject.sixbeam.pd.repository.InoutRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.repository.OrderRepository;
+import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhregistEntity;
+import com.erpproject.sixbeam.st.event.WhmoveRowAddedEvent;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -30,6 +33,7 @@ public class InoutService {
     private final ItemRepository itemRepository;
     private final WhregistRepository whregistRepository;
     private final OrderRepository orderRepository;
+    private final ApplicationEventPublisher addEvent;
 
     public List<InoutEntity> getList() {
 
@@ -64,6 +68,9 @@ public class InoutService {
 
         InoutEntity inoutEntity = inoutDto.toEntity();
         inoutRepository.save(inoutEntity);
+
+        WhmoveRowAddedEvent<InoutEntity> inoutEvent = new WhmoveRowAddedEvent<>(this, inoutEntity);
+        addEvent.publishEvent(inoutEvent);
     }
 
     private String generateNewInoutCmptCd(LocalDate inoutDate) {

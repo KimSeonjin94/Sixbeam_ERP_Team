@@ -37,7 +37,7 @@ public class OrderEntity {
     private ItemEntity itemEntity;
 
     @Column(name = "ORDER_AMT")
-    private Long orderAmt;
+    private int orderAmt;
 
     @Column(name = "ORDER_ST")
     private boolean orderSt;

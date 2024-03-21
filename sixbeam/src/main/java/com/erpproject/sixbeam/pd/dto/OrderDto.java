@@ -20,7 +20,7 @@ OrderDto {
     private LocalDate orderDelivDt;
     private EmpInfoEntity empInfoEntity;
     private ItemEntity itemEntity;
-    private Long orderAmt;
+    private int orderAmt;
     private boolean orderSt;
 
     public OrderEntity toEntity() {
