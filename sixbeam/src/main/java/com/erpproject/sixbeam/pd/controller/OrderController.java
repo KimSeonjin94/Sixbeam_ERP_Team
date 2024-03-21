@@ -74,9 +74,11 @@ public class OrderController {
         // 신규 버튼으로 나오는 모달에서 option 사용할 수 있게 가져오는 데이터
         List<FitemEntity> fitemEntities = fitemService.getFitemList();
         List<EmpInfoEntity> empInfoEntities = empInfoService.getList();
+        List<ItemEntity> itemEntities = fitemService.getItemList();
 
         model.addAttribute("getFitemList", fitemEntities);
         model.addAttribute("getEmpList", empInfoEntities);
+        model.addAttribute("getItemList", itemEntities);
 
         return "contents/pd/order_list";
     }

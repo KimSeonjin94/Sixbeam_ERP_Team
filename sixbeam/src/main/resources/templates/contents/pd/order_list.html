@@ -105,7 +105,14 @@
 											<select class = "selectbox form-control"
 											        th:name = "'orderDtos[' + 0 + '].itemEntity.itemCd'">
 												<option value = "">품목 선택</option>
-												<option th:each = "fitemlist : ${getFitemList}"
+												<!--<option th:each = "fitemlist : ${getFitemList}"
+												        th:value = "${fitemlist.itemCd}"
+												        th:data-itemNm = "${fitemlist.itemCd}"
+												        th:data-itemStnd = "${fitemlist.itemNm}"
+												        th:data-itemUp = "${fitemlist.itemUp}"
+												        th:text = "${fitemlist.itemStnd}"></option>-->
+												<option th:each = "fitemlist : ${getItemList}"
+												        th:if="${fitemlist.itemCd.startsWith('F')}"
 												        th:value = "${fitemlist.itemCd}"
 												        th:data-itemNm = "${fitemlist.itemCd}"
 												        th:data-itemStnd = "${fitemlist.itemNm}"

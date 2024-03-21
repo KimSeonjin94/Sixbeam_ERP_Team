@@ -88,15 +88,15 @@ public class ItemController {
     @PostMapping("/fdelete")
     public String deletefItem(@RequestParam("itemCd") List<String> itemCd) {
 
-        itemService.deleteItem(itemCd);
+        itemService.deleteFitem(itemCd);
 
         return "redirect:/pd/finitem/finitemlist";
     }
 
     @PostMapping("/rdelete")
-    public String deleterItem(@RequestParam("itemCd") List<String> itemCd) {
+    public String deleteRitem(@RequestParam("itemCd") List<String> itemCd) {
 
-        itemService.deleteItem(itemCd);
+        itemService.deleteRitem(itemCd);
 
         return "redirect:/pd/rawitem/rawitemlist";
     }
