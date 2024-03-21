@@ -35,73 +35,6 @@
 				</table>
 			</div>
 			
-			
-			<!-- 신규 등록 모달 -->
-			<!--<div class = "modal fade" id = "newPd" tabindex = "-1" aria-labelledby = "newPdModalLabel"
-			     aria-hidden = "true">
-				<div class = "modal-dialog modal-dialog-centered modal-xl">
-					<div class = "modal-content">
-						<div class = "modal-header">
-							<h5 class = "modal-title" id = "newPdLabel">품목 신규 등록</h5>
-							<button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
-								<span aria-hidden = "true">&times;</span>
-							</button>
-						</div>
-						
-						<div class = "modal-body">
-							<form class = "formEntryOrder" th:action = "@{/pd/item/rcreate}" th:object = "${bomForm}"
-							      method = "post">
-								
-								<table class = "table order" id = "bominfo">
-									<thead>
-									<tr>
-										<th>품목명</th>
-										<th>규격</th>
-										<th>단가</th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr>
-										<td>
-											<input type = "text" class = "form-control" id = "itemNm"
-											       oninput = "checkInput3(event)">
-										</td>
-										<td>
-											<input type = "text" class = "form-control" id = "itemStnd"
-											       oninput = "checkInput3(event)">
-										</td>
-										<td>
-											<input type = "text" class = "form-control" id = "itemup"
-											       oninput = "checkInput2(event)">
-										</td>
-									</tr>
-									</tbody>
-								</table>
-								
-								<div class = "row justify-content-end">
-									&lt;!&ndash;<div class = "col-sm-6">
-										<input type = 'button'
-										       value = '품목 추가'
-										       class = "btn btn-secondary"
-										       id = "addNewOrderbtn">
-										<input type = 'button'
-										       value = '품목 삭제'
-										       class = "btn btn-danger"
-										       id = "deleteOrderbtn">
-									</div>&ndash;&gt;
-									<div class = "col-sm-6 text-md-right">
-										<button type = "submit" class = "btn btn-primary"
-										        onclick = "createItemFinished()">저장
-										</button>
-										<button type = "button" class = "btn btn-danger reset2">초기화</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>-->
-			
 			<div class = "modal fade" id = "newPd" tabindex = "-1" aria-labelledby = "newPdModalLabel"
 			     aria-hidden = "true">
 				<div class = "modal-dialog modal-dialog-centered modal-m">
@@ -145,6 +78,44 @@
 					</div>
 				</div>
 			</div>
+			
+			<!--<div class="modal fade" id="editAccount" tabindex="-1" aria-labelledby="editAccountModalLabel"
+			     aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-xl">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="editAccountLabel">단품 정보 수정</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<form action="/ac/account/edit" method="post">
+							<div class="modal-body-ac">
+								<div class="form-group row">
+									<label for="editAccountCd" class="col-sm-2 col-form-label">거래처 코드</label>
+									<input type="text" class="form-control col-sm-10" id="editAccountCd" name="accountCd" readonly>
+								</div>
+								<div class="form-group row">
+									<label for="editAccountNm" class="col-sm-2 col-form-label">거래처명</label>
+									<input type="text" class="form-control col-sm-10" id="editAccountNm" name="accountNm">
+								</div>
+								<div class="form-group row">
+									<label for="editAccountNb" class="col-sm-2 col-form-label">사업자번호</label>
+									<input type="text" class="form-control col-sm-10" id="editAccountNb" name="accountNb" readonly>
+								</div>
+								<div class="form-group row">
+									<label for="editAccountAdd" class="col-sm-2 col-form-label">사업장 소재지</label>
+									<input type="text" class="form-control col-sm-10" id="editAccountAdd" name="accountAdd">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-danger" th:onclick="editAccountFinished()">수정</button>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>-->
 			
 			<div class = "modal fade" id = "deletePd" tabindex = "-1" aria-labelledby = "deletePdModalLabel"
 			     aria-hidden = "true">

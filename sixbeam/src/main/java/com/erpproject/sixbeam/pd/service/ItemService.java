@@ -4,7 +4,9 @@ import com.erpproject.sixbeam.ac.entity.AccountEntity;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.pd.dto.ItemDto;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.repository.FitemRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
+import com.erpproject.sixbeam.pd.repository.RitemRepository;
 import com.erpproject.sixbeam.ss.dto.EstimateDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,6 +26,8 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final FitemRepository fitemRepository;
+    private final RitemRepository ritemRepository;
 
     // 모든 품목을 가져오는 메서드
     public List<ItemEntity> getList() {
@@ -175,7 +179,14 @@ public class ItemService {
 
         try {
             for (String itemcd : itemCd) {
+                // itemRepository에서 해당 itemcd를 찾아서 있다면 삭제
                 itemRepository.findById(itemcd).ifPresent(itemRepository::delete);
+
+//                 fitemRepository에서 해당 itemcd를 찾아서 있다면 삭제
+//                fitemRepository.findById(itemcd).ifPresent(fitemRepository::delete);
+//
+//                 ritemRepository에서 해당 itemcd를 찾아서 있다면 삭제
+//                ritemRepository.findById(itemcd).ifPresent(ritemRepository::delete);
             }
         } catch (DataAccessException e) {
 
