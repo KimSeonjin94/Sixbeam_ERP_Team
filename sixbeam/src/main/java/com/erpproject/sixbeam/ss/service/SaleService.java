@@ -16,11 +16,11 @@ import com.erpproject.sixbeam.st.entity.ReleaseEntity;
 import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import com.erpproject.sixbeam.st.event.WhmoveRowUpdatedEvent;
 import com.erpproject.sixbeam.st.repository.WhregistRepository;
-import jakarta.transaction.Transactional;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -45,13 +45,23 @@ public class SaleService {
         return this.saleRepository.findById(id);
     }
 
+
+    @Transactional(rollbackFor = Exception.class)
     public void create(SaleDto saleDto) {
         try {
             SaleEntity saleEntity = saleDto.toEtity();
             String saleCd = generateNewSaleCd(saleEntity.getSaleUploadDt());
             saleEntity.setSaleCd(saleCd);
-            saleEntity.setWhregistEntity(whregistRepository.findByWhregistCd(saleEntity.getWhregistEntity().getWhregistCd()).get(0));
+            WhregistEntity whregistEntity=whregistRepository.findByWhregistCd(saleEntity.getWhregistEntity().getWhregistCd()).get(0);
+            if(whregistEntity==null){
+                throw new IllegalArgumentException("없는 창고코드입니다.");
+            }
+            saleEntity.setWhregistEntity(whregistEntity);
+            List<EstimateEntity> estimateEntity = estimateRepository.findByEstimateCd(saleEntity.getEstimateCd());
             Optional<SaleEntity> optionalSaleEntity=saleRepository.findByEstimateCd(saleEntity.getEstimateCd());
+            if(estimateEntity.isEmpty()){
+                throw new IllegalArgumentException("없는 견적코드입니다.");
+            }
             if(optionalSaleEntity.isPresent()){
                 throw new IllegalArgumentException("이미 판매처리된 견적입니다.");
             }
@@ -60,6 +70,7 @@ public class SaleService {
             addEvent.publishEvent(saleEvent);
         }catch (Exception e){
             e.printStackTrace();
+            throw e;
         }
     }
     @Transactional

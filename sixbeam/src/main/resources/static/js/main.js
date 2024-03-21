@@ -128,6 +128,7 @@
             } else if($(this).is('input[type="hidden"]')) {
                 // 숨겨진 필드의 처리가 필요한 경우 여기에 로직을 추가
             }
+            $(this).find( '.itemamt, .itemup, .itemsp, .itemvar, .itemsum').val('0');
         });
 
         // 새로운 행을 테이블에 추가합니다.
@@ -310,10 +311,6 @@ $(document).ready(function() {
                 });
             },
             error: function(xhr) {
-                // 오류 처리 로직
-                var response = JSON.parse(xhr.responseText); // 응답 텍스트를 JSON 객체로 변환
-                // 서버로부터 받은 에러 메시지를 알림
-                // 오류 처리 로직
                 var response = JSON.parse(xhr.responseText);
                 $('#failModal .modal-body').text(response.message);  //controller에서 받은 message 출력
                 // 오류 메시지 모달 표시
