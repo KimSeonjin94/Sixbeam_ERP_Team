@@ -41,8 +41,17 @@
 						<td>
 							<select class = "selectbox form-control"
 							        th:name = "'bomDtos[' + 0 + '].ritemEntity.itemCd'">
+								<!--<option value = "">코드 선택</option>
+								<option th:each = "ritemlist : ${getRitemList}"
+								        th:value = "${ritemlist.itemCd}"
+								        th:data-itemNm = "${ritemlist.itemCd}"
+								        th:data-itemStnd = "${ritemlist.itemNm}"
+								        th:data-itemUp = "${ritemlist.itemUp}"
+								        th:text = "${ritemlist.itemStnd}"></option>-->
 								<option value = "">코드 선택</option>
-								<option th:each = "ritemlist : ${getRitemList}" th:value = "${ritemlist.itemCd}"
+								<option th:each = "ritemlist : ${getItemList}"
+								        th:if="${ritemlist.itemCd.startsWith('R')}"
+								        th:value = "${ritemlist.itemCd}"
 								        th:data-itemNm = "${ritemlist.itemCd}"
 								        th:data-itemStnd = "${ritemlist.itemNm}"
 								        th:data-itemUp = "${ritemlist.itemUp}"
@@ -59,7 +68,8 @@
 							<input type = "text" class = "form-control itemNm" readonly>
 						</td>
 						<td>
-							<input type = "text" class = "form-control itemamt orderAmt" th:name = "'bomDtos[0].bomUseMt'"
+							<input type = "text" class = "form-control itemamt orderAmt"
+							       th:name = "'bomDtos[0].bomUseMt'"
 							       oninput = "checkInput2(event)">
 						</td>
 						<td>

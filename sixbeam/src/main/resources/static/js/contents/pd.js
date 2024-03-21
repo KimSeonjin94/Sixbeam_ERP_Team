@@ -108,14 +108,35 @@ function deleteOrderFinished() {
         // 모달 창을 표시
 
         if (selectedIds === 0) {
-            alert('작업 지시서가 삭제되었습니다.')
+            alert('작업 지시서가 삭제되었습니다.');
 
         } else if (selectedIds > 0 && selectedIds < itemLength) {
             alert('창고불출된 작업지시서를 제외하고 삭제되었습니다.');
 
         } else {
-            alert('창고불출된 작업지시서를 삭제할 수 없습니다.')
+            // alert('창고불출된 작업지시서를 삭제할 수 없습니다.');
+            alert('처리가 완료되었습니다.');
         }
+
+        /*// 삭제된 체크박스를 리스트에서 제거
+        selectedIds.forEach(function (id) {
+            var checkbox = document.querySelector('input[type="checkbox"][value="' + id + '"]');
+            if (checkbox) {
+                var listItem = checkbox.closest('li');
+                if (listItem) {
+                    listItem.remove();
+                }
+            }
+        });
+
+        // 특정 페이지 표시
+        if (selectedIds.length === 0) {
+            alert('작업 지시서가 삭제되었습니다.');
+        } else if (selectedIds.length > 0 && selectedIds.length < itemLength) {
+            alert('창고불출된 작업지시서를 제외하고 삭제되었습니다.');
+        } else {
+            alert('창고불출된 작업지시서를 삭제할 수 없습니다.');
+        }*/
 
         $('#deletePd').modal('show');
         // alert('품목이 삭제되었습니다.');

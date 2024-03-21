@@ -39,12 +39,15 @@ public class BomController {
 
         BomForm bomForm = new BomForm();
         List<RitemEntity> ritemEntities = ritemService.getRitemList();
+        List<ItemEntity> itemEntities = ritemService.getItemList();
 
         // 등록창 한 줄
         bomForm.getBomDtos().add(new BomDto());
 
         model.addAttribute("getRitemList", ritemEntities);
         model.addAttribute("bomForm", bomForm);
+        model.addAttribute("getItemList", itemEntities);
+
 
 
         bomService.readyBomForm(model);
