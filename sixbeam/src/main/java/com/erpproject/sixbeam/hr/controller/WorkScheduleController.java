@@ -33,7 +33,7 @@ public class WorkScheduleController {
 
     @GetMapping("/list")
     public String List(Model model) {
-        List<WorkScheduleEntity> workScheduleLists = this.workScheduleService.getList();
+        List<WorkScheduleEntity> workScheduleLists = this.workScheduleService.findByDate(LocalDate.now());
         model.addAttribute("workScheduleLists", workScheduleLists);
         return "contents/hr/workSchedule_list";
     }
