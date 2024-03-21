@@ -36,4 +36,9 @@ public class RitemService {
 
         return this.ritemRepository.findAll();
     }
+
+    public List<ItemEntity> getItemList() {
+
+        return itemRepository.findAll();
+    }
 }

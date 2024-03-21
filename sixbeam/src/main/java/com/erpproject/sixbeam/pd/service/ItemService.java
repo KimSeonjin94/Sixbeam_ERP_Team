@@ -175,7 +175,7 @@ public class ItemService {
     }
 
     @Transactional
-    public ResponseEntity<String> deleteItem(List<String> itemCd) {
+    public ResponseEntity<String> deleteFitem(List<String> itemCd) {
 
         try {
             for (String itemcd : itemCd) {
@@ -184,9 +184,22 @@ public class ItemService {
 
 //                 fitemRepository에서 해당 itemcd를 찾아서 있다면 삭제
 //                fitemRepository.findById(itemcd).ifPresent(fitemRepository::delete);
-//
-//                 ritemRepository에서 해당 itemcd를 찾아서 있다면 삭제
-//                ritemRepository.findById(itemcd).ifPresent(ritemRepository::delete);
+            }
+        } catch (DataAccessException e) {
+
+            log.error("데이터베이스 조작 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("데이터베이스 조작 중 오류 발생");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("품목이 삭제되었습니다.");
+    }
+
+    @Transactional
+    public ResponseEntity<String> deleteRitem(List<String> itemCd) {
+
+        try {
+            for (String itemcd : itemCd) {
+                // itemRepository에서 해당 itemcd를 찾아서 있다면 삭제
+                itemRepository.findById(itemcd).ifPresent(itemRepository::delete);
             }
         } catch (DataAccessException e) {
 
