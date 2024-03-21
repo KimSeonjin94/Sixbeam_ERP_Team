@@ -50,7 +50,7 @@
 								        th:text = "${ritemlist.itemStnd}"></option>-->
 								<option value = "">코드 선택</option>
 								<option th:each = "ritemlist : ${getItemList}"
-								        th:if="${ritemlist.itemCd.startsWith('R')}"
+								        th:if = "${ritemlist.itemCd.startsWith('R')}"
 								        th:value = "${ritemlist.itemCd}"
 								        th:data-itemNm = "${ritemlist.itemCd}"
 								        th:data-itemStnd = "${ritemlist.itemNm}"
