@@ -31,7 +31,7 @@ public class AttendmgtSearchController {
         model.addAttribute("reasonLists",reasonLists);
         return "contents/hr/attendmgtsearch_list";
     }
-    @PostMapping("/create")
+    @GetMapping("/create")
     public String display(@RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate, Model model) {
         List<WorkScheduleEntity> workScheduleList = workScheduleService.findByDateAndCheckTrue(selectedDate);
         model.addAttribute("workScheduleList", workScheduleList);
