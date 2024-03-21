@@ -36,4 +36,9 @@ public class FitemService {
         
         return this.fitemRepository.findAll();
     }
+
+    public List<ItemEntity> getItemList() {
+
+        return itemRepository.findAll();
+    }
 }
