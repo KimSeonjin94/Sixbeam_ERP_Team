@@ -7,6 +7,7 @@ import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
+import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.event.CheckRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
@@ -14,6 +15,7 @@ import com.erpproject.sixbeam.st.event.CheckRowDeletedEvent;
 import com.erpproject.sixbeam.st.event.CheckRowUpdatedEvent;
 import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
+import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ public class WhmoveService {
     private final ApplicationEventPublisher addEvent;
     private final ApplicationEventPublisher deleteEvent;
     private final ApplicationEventPublisher updateEvent;
+    private final WhregistRepository whregistRepository;
 
     public List<WhmoveEntity> getList() {
         return this.whmoveRepository.findAll();
@@ -246,6 +249,25 @@ public class WhmoveService {
         whmoveEntity.setWhregistEntity(inoutEntity.getWhregistEntity());
         whmoveEntity.setWhmoveAmt(inoutEntity.getOrderEntity().getOrderAmt());//수량(Order테이블 수량)
         whmoveEntity.setWhmoveGb("입고");
+        whmoveEntity.setWhmoveCd(newWhmoveCd);
+        whmoveEntity.setInputPurCd(null);
+        whmoveEntity.setSaleCd(null);
+        whmoveEntity.setAsCd(null);
+        whmoveRepository.save(whmoveEntity);
+        CheckRowAddedEvent<WhmoveEntity> whmoveEvent = new CheckRowAddedEvent<>(this, whmoveEntity);
+        addEvent.publishEvent(whmoveEvent);
+    }
+
+    public void addRowInouttest(InoutEntity inoutEntity) { //등록
+        WhmoveEntity whmoveEntity = new WhmoveEntity();
+        String newWhmoveCd = generateNewInoutCd(inoutEntity.getInoutDt());
+        whmoveEntity.setWhmoveDt(inoutEntity.getInoutDt());
+        whmoveEntity.setInputPurCd(inoutEntity.getInoutCmptCd());
+        whmoveEntity.setEmpInfoEntity(inoutEntity.getEmpInfoEntity());// 담당자
+        whmoveEntity.setItemEntity(inoutEntity.getItemEntity());//품목
+        whmoveEntity.setWhregistEntity(whregistRepository.findAll().get(1));
+        whmoveEntity.setWhmoveAmt(inoutEntity.getOrderEntity().getOrderAmt());//수량(Order테이블 수량)
+        whmoveEntity.setWhmoveGb("출고");
         whmoveEntity.setWhmoveCd(newWhmoveCd);
         whmoveEntity.setInputPurCd(null);
         whmoveEntity.setSaleCd(null);

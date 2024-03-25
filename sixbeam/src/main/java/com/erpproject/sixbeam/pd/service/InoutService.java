@@ -3,9 +3,11 @@ package com.erpproject.sixbeam.pd.service;
 import com.erpproject.sixbeam.hr.entity.EmpInfoEntity;
 import com.erpproject.sixbeam.hr.repository.EmpInfoRepository;
 import com.erpproject.sixbeam.pd.dto.InoutDto;
+import com.erpproject.sixbeam.pd.entity.BomEntity;
 import com.erpproject.sixbeam.pd.entity.InoutEntity;
 import com.erpproject.sixbeam.pd.entity.ItemEntity;
 import com.erpproject.sixbeam.pd.entity.OrderEntity;
+import com.erpproject.sixbeam.pd.repository.BomRepository;
 import com.erpproject.sixbeam.pd.repository.InoutRepository;
 import com.erpproject.sixbeam.pd.repository.ItemRepository;
 import com.erpproject.sixbeam.pd.repository.OrderRepository;
@@ -34,6 +36,7 @@ public class InoutService {
     private final WhregistRepository whregistRepository;
     private final OrderRepository orderRepository;
     private final ApplicationEventPublisher addEvent;
+    private final BomRepository bomRepository;
 
     public List<InoutEntity> getList() {
 
@@ -71,6 +74,21 @@ public class InoutService {
 
         WhmoveRowAddedEvent<InoutEntity> inoutEvent = new WhmoveRowAddedEvent<>(this, inoutEntity);
         addEvent.publishEvent(inoutEvent);
+
+        String fitem = String.valueOf(itemEntity.getItemCd());
+        List<BomEntity> bomEntity = bomRepository.findByFitemEntity_ItemCd(fitem);
+        for (BomEntity bom : bomEntity) {
+//            String tempo = bom.toString();
+            itemEntity = itemRepository.findById(bom.getRitemEntity().getItemCd())
+                    .orElseThrow(() -> new EntityNotFoundException("품목코드를 찾을 수 없습니다."));
+            inoutDto.setItemEntity(itemEntity);
+
+            InoutEntity temp = inoutDto.toEntity();
+            inoutRepository.save(temp);
+
+            WhmoveRowAddedEvent<InoutEntity> inoutEvent2 = new WhmoveRowAddedEvent<>(this, temp);
+            addEvent.publishEvent(inoutEvent2);
+        }
     }
 
     private String generateNewInoutCmptCd(LocalDate inoutDate) {

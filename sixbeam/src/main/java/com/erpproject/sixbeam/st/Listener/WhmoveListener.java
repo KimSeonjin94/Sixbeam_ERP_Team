@@ -43,7 +43,11 @@ public class WhmoveListener {
         } else if (event.getEntity() instanceof InoutEntity) {
             InoutEntity inoutEntity = (InoutEntity) event.getEntity();
             // InoutEntity에 대한 처리
-            whmoveService.addRowInout(inoutEntity);
+            if (String.valueOf(inoutEntity.getItemEntity()).contains("F")){
+                whmoveService.addRowInout(inoutEntity);
+            } else if (String.valueOf(inoutEntity.getItemEntity()).contains("R")) {
+                whmoveService.addRowInouttest(inoutEntity);
+            }
         }
     }
     @EventListener
