@@ -1,7 +1,7 @@
 package com.erpproject.sixbeam.st.service;
 
-import com.erpproject.sixbeam.pd.entity.InoutEntity;
-import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.entity.*;
+import com.erpproject.sixbeam.pd.repository.BomRepository;
 import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
@@ -35,7 +35,7 @@ public class WhmoveService {
     private final ApplicationEventPublisher deleteEvent;
     private final ApplicationEventPublisher updateEvent;
     private final WhregistRepository whregistRepository;
-
+    private final BomRepository bomRepository;
     public List<WhmoveEntity> getList() {
         return this.whmoveRepository.findAll();
     }
@@ -265,8 +265,10 @@ public class WhmoveService {
         whmoveEntity.setInputPurCd(inoutEntity.getInoutCmptCd());
         whmoveEntity.setEmpInfoEntity(inoutEntity.getEmpInfoEntity());// 담당자
         whmoveEntity.setItemEntity(inoutEntity.getItemEntity());//품목
-        whmoveEntity.setWhregistEntity(whregistRepository.findAll().get(1));
-        whmoveEntity.setWhmoveAmt(inoutEntity.getOrderEntity().getOrderAmt());//수량(Order테이블 수량)
+        whmoveEntity.setWhregistEntity(whregistRepository.findAll().get(1));//WHR1002로 고정
+        String tempr = inoutEntity.getItemEntity().getItemCd();
+        String tempf = inoutEntity.getOrderEntity().getItemEntity().getItemCd();
+        whmoveEntity.setWhmoveAmt(bomRepository.test(tempr,tempf) * inoutEntity.getOrderEntity().getOrderAmt());
         whmoveEntity.setWhmoveGb("출고");
         whmoveEntity.setWhmoveCd(newWhmoveCd);
         whmoveEntity.setInputPurCd(null);
