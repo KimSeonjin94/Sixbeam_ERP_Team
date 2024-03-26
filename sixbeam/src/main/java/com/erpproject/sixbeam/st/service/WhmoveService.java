@@ -1,12 +1,13 @@
 package com.erpproject.sixbeam.st.service;
 
-import com.erpproject.sixbeam.pd.entity.InoutEntity;
-import com.erpproject.sixbeam.pd.entity.ItemEntity;
+import com.erpproject.sixbeam.pd.entity.*;
+import com.erpproject.sixbeam.pd.repository.BomRepository;
 import com.erpproject.sixbeam.pur.entity.InputEntity;
 import com.erpproject.sixbeam.ss.dto.SaleAndEstimateDto;
 import com.erpproject.sixbeam.ss.entity.EstimateEntity;
 import com.erpproject.sixbeam.ss.entity.SaleEntity;
 import com.erpproject.sixbeam.ss.repository.EstimateRepository;
+import com.erpproject.sixbeam.st.entity.WhregistEntity;
 import com.erpproject.sixbeam.st.event.CheckRowAddedEvent;
 import com.erpproject.sixbeam.st.entity.AsEntity;
 import com.erpproject.sixbeam.st.entity.WhmoveEntity;
@@ -14,6 +15,7 @@ import com.erpproject.sixbeam.st.event.CheckRowDeletedEvent;
 import com.erpproject.sixbeam.st.event.CheckRowUpdatedEvent;
 import com.erpproject.sixbeam.st.event.WhmoveRowDeletedEvent;
 import com.erpproject.sixbeam.st.repository.WhmoveRepository;
+import com.erpproject.sixbeam.st.repository.WhregistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,8 @@ public class WhmoveService {
     private final ApplicationEventPublisher addEvent;
     private final ApplicationEventPublisher deleteEvent;
     private final ApplicationEventPublisher updateEvent;
-
+    private final WhregistRepository whregistRepository;
+    private final BomRepository bomRepository;
     public List<WhmoveEntity> getList() {
         return this.whmoveRepository.findAll();
     }
@@ -236,7 +239,7 @@ public class WhmoveService {
         deleteEvent.publishEvent(inputDeletedEvent);
     }
     //[이벤트리스너_Inout]----------------------------------------
-    public void addRowInout(InoutEntity inoutEntity) { //등록
+    public void addRowInoutF(InoutEntity inoutEntity) { //등록(완제품 입고 등록)
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         String newWhmoveCd = generateNewInoutCd(inoutEntity.getInoutDt());
         whmoveEntity.setWhmoveDt(inoutEntity.getInoutDt());
@@ -246,6 +249,27 @@ public class WhmoveService {
         whmoveEntity.setWhregistEntity(inoutEntity.getWhregistEntity());
         whmoveEntity.setWhmoveAmt(inoutEntity.getOrderEntity().getOrderAmt());//수량(Order테이블 수량)
         whmoveEntity.setWhmoveGb("입고");
+        whmoveEntity.setWhmoveCd(newWhmoveCd);
+        whmoveEntity.setInputPurCd(null);
+        whmoveEntity.setSaleCd(null);
+        whmoveEntity.setAsCd(null);
+        whmoveRepository.save(whmoveEntity);
+        CheckRowAddedEvent<WhmoveEntity> whmoveEvent = new CheckRowAddedEvent<>(this, whmoveEntity);
+        addEvent.publishEvent(whmoveEvent);
+    }
+
+    public void addRowInoutR(InoutEntity inoutEntity) { //등록(원자재 출고 등록)
+        WhmoveEntity whmoveEntity = new WhmoveEntity();
+        String newWhmoveCd = generateNewInoutCd(inoutEntity.getInoutDt());
+        whmoveEntity.setWhmoveDt(inoutEntity.getInoutDt());
+        whmoveEntity.setInputPurCd(inoutEntity.getInoutCmptCd());
+        whmoveEntity.setEmpInfoEntity(inoutEntity.getEmpInfoEntity());// 담당자
+        whmoveEntity.setItemEntity(inoutEntity.getItemEntity());//품목
+        whmoveEntity.setWhregistEntity(whregistRepository.findAll().get(1));//WHR1002로 고정
+        String tempR = inoutEntity.getItemEntity().getItemCd();//원자재(R)품목코드 String으로 임시 저장
+        String tempF = inoutEntity.getOrderEntity().getItemEntity().getItemCd();//완제품(F)품목코드 String으로 임시 저장
+        whmoveEntity.setWhmoveAmt(bomRepository.getBomUseMt(tempR,tempF) * inoutEntity.getOrderEntity().getOrderAmt());//BomEntity에서 완제품 및 원자재에 해당하는 필요수량(UseMt)가져와 넣기
+        whmoveEntity.setWhmoveGb("출고");
         whmoveEntity.setWhmoveCd(newWhmoveCd);
         whmoveEntity.setInputPurCd(null);
         whmoveEntity.setSaleCd(null);

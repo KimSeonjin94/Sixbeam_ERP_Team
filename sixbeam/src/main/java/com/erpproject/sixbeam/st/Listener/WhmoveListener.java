@@ -43,7 +43,11 @@ public class WhmoveListener {
         } else if (event.getEntity() instanceof InoutEntity) {
             InoutEntity inoutEntity = (InoutEntity) event.getEntity();
             // InoutEntity에 대한 처리
-            whmoveService.addRowInout(inoutEntity);
+            if (String.valueOf(inoutEntity.getItemEntity().getItemCd()).contains("F")){ //완제품 입고 행 추가
+                whmoveService.addRowInoutF(inoutEntity);
+            } else if (String.valueOf(inoutEntity.getItemEntity().getItemCd()).contains("R")) { //원자재 출고 행 추가
+                whmoveService.addRowInoutR(inoutEntity);
+            }
         }
     }
     @EventListener

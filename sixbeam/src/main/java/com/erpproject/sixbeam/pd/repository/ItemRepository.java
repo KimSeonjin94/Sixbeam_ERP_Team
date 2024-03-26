@@ -29,4 +29,6 @@ public interface ItemRepository extends JpaRepository<ItemEntity, String> {
 
     @Override
     List<ItemEntity> findAll();
+
+//    ItemEntity temp = find
 }
