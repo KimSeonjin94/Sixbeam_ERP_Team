@@ -239,7 +239,7 @@ public class WhmoveService {
         deleteEvent.publishEvent(inputDeletedEvent);
     }
     //[이벤트리스너_Inout]----------------------------------------
-    public void addRowInout(InoutEntity inoutEntity) { //등록
+    public void addRowInoutF(InoutEntity inoutEntity) { //등록(완제품 입고 등록)
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         String newWhmoveCd = generateNewInoutCd(inoutEntity.getInoutDt());
         whmoveEntity.setWhmoveDt(inoutEntity.getInoutDt());
@@ -258,7 +258,7 @@ public class WhmoveService {
         addEvent.publishEvent(whmoveEvent);
     }
 
-    public void addRowInouttest(InoutEntity inoutEntity) { //등록
+    public void addRowInoutR(InoutEntity inoutEntity) { //등록(원자재 출고 등록)
         WhmoveEntity whmoveEntity = new WhmoveEntity();
         String newWhmoveCd = generateNewInoutCd(inoutEntity.getInoutDt());
         whmoveEntity.setWhmoveDt(inoutEntity.getInoutDt());
@@ -266,9 +266,9 @@ public class WhmoveService {
         whmoveEntity.setEmpInfoEntity(inoutEntity.getEmpInfoEntity());// 담당자
         whmoveEntity.setItemEntity(inoutEntity.getItemEntity());//품목
         whmoveEntity.setWhregistEntity(whregistRepository.findAll().get(1));//WHR1002로 고정
-        String tempr = inoutEntity.getItemEntity().getItemCd();
-        String tempf = inoutEntity.getOrderEntity().getItemEntity().getItemCd();
-        whmoveEntity.setWhmoveAmt(bomRepository.test(tempr,tempf) * inoutEntity.getOrderEntity().getOrderAmt());
+        String tempR = inoutEntity.getItemEntity().getItemCd();//원자재(R)품목코드 String으로 임시 저장
+        String tempF = inoutEntity.getOrderEntity().getItemEntity().getItemCd();//완제품(F)품목코드 String으로 임시 저장
+        whmoveEntity.setWhmoveAmt(bomRepository.getBomUseMt(tempR,tempF) * inoutEntity.getOrderEntity().getOrderAmt());//BomEntity에서 완제품 및 원자재에 해당하는 필요수량(UseMt)가져와 넣기
         whmoveEntity.setWhmoveGb("출고");
         whmoveEntity.setWhmoveCd(newWhmoveCd);
         whmoveEntity.setInputPurCd(null);

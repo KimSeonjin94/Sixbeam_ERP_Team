@@ -72,20 +72,17 @@ public class InoutService {
         InoutEntity inoutEntity = inoutDto.toEntity();
         inoutRepository.save(inoutEntity);
 
-        WhmoveRowAddedEvent<InoutEntity> finoutEvent = new WhmoveRowAddedEvent<>(this, inoutEntity);
+        WhmoveRowAddedEvent<InoutEntity> finoutEvent = new WhmoveRowAddedEvent<>(this, inoutEntity); //완제품 입고 이벤트리스너
         addEvent.publishEvent(finoutEvent);
 
-        String fitem = String.valueOf(itemEntity.getItemCd());
+        String fitem = String.valueOf(itemEntity.getItemCd()); //원자재 출고 이벤트리스너
         List<BomEntity> bomEntity = bomRepository.findByFitemEntity_ItemCd(fitem);
         for (BomEntity bom : bomEntity) {
             itemEntity = itemRepository.findById(bom.getRitemEntity().getItemCd())
                     .orElseThrow(() -> new EntityNotFoundException("품목코드를 찾을 수 없습니다."));
-
             inoutDto.setItemEntity(itemEntity);
-
             InoutEntity temp = inoutDto.toEntity();
             inoutRepository.save(temp);
-
             WhmoveRowAddedEvent<InoutEntity> rinoutEvent = new WhmoveRowAddedEvent<>(this, temp);
             addEvent.publishEvent(rinoutEvent);
         }

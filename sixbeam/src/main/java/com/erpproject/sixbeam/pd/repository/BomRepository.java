@@ -16,6 +16,6 @@ public interface BomRepository extends JpaRepository<BomEntity, BomEntityId> {
     List<BomEntity> findByFitemEntity_ItemCd(String fitemCd);
     List<BomEntity> findByRitemEntity_ItemCd(String ritemCd);
     @Query("SELECT b.bomUseMt FROM BomEntity b WHERE b.ritemEntity.itemCd = :ritemCd AND b.fitemEntity.itemCd = :fitemCd")
-    int test(@Param("ritemCd") String ritemCd, @Param("fitemCd") String fitemCd);
+    int getBomUseMt(@Param("ritemCd") String ritemCd, @Param("fitemCd") String fitemCd); //원자재 필요 수량 가져와주는 메서드
 
 }
