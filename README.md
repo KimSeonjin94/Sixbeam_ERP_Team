@@ -26,7 +26,7 @@
 - **MARKUP** : Html5 , Css , JavaScript
 
 ### 공지
-- 우리 깃허브가 많이 아파요 화이팅입니다.
+- 우리 깃허브 화이팅입니다.
 
 ## Git-Flow 규칙
 - origin (master를 이름 변경하여 백업하는 브랜치)
