@@ -97,12 +97,3 @@
 
 #### 데이터 연동성 
 - 데이터 등록시 상관관계에 의한 테이블 이벤트 리스너 사용으로 자동 등록, 수정 및 삭제
-
-## 가상 환경 설정 방법 
-- 파이썬 서버 설정을 위해 가상 환경 설정을 진행 해야 합니다.
-  - 파이썬 설치후 인터프리터 설정을 완료한 후 콘솔창에서 아래의 명령어 입력해야합니다.
-  - 플러그인 python community edition 실행해 주세요
-    - python -m venv venv 
-    - venv\Scripts\activate
-    - pip install -r requirements.txt
-     

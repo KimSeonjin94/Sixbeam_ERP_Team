@@ -14,7 +14,7 @@ Connectors:
 - [React](https://github.com/fullcalendar/fullcalendar-react)
 - [Angular](https://github.com/fullcalendar/fullcalendar-angular)
 - [Vue 3](https://github.com/fullcalendar/fullcalendar-vue) |
-  [2](https://github.com/fullcalendar/fullcalendar-vue2)
+  [2](https://github.com/fullcalendar/fullcalendar-vue2**)**
 
 ## Bundle
 
