@@ -11,19 +11,19 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "PD_ITEM_TB")
+@Table(name = "pd_item_tb")
 public class ItemEntity {
 
     @Id
-    @Column(name = "ITEM_CD")
+    @Column(name = "item_cd")
     private String itemCd;
 
-    @Column(name = "ITEM_NM")
+    @Column(name = "item_nm")
     private String itemNm;
 
-    @Column(name = "ITEM_STND")
+    @Column(name = "item_stnd")
     private String itemStnd;
 
-    @Column(name = "ITEM_UP")
+    @Column(name = "item_up")
     private Long itemUp;
 }

@@ -1,4 +1,4 @@
-<html layout:decorate = "~{layout/default}">
+<html layout:decorate = "~{layout/default}" xmlns = "http://www.w3.org/1999/html">
 <div layout:fragment = "content" class = "container-fluid">
 	
 	<div class = "card shadow mb-4">
@@ -24,7 +24,6 @@
 						<input type = "text" class = "form-control" id = "itemup" oninput = "checkInput2(event)">
 					</div>
 				</div>
-				
 				<table class = "table order" id = "bominfo">
 					<thead>
 					<tr>
@@ -41,13 +40,6 @@
 						<td>
 							<select class = "selectbox form-control"
 							        th:name = "'bomDtos[' + 0 + '].ritemEntity.itemCd'">
-								<!--<option value = "">코드 선택</option>
-								<option th:each = "ritemlist : ${getRitemList}"
-								        th:value = "${ritemlist.itemCd}"
-								        th:data-itemNm = "${ritemlist.itemCd}"
-								        th:data-itemStnd = "${ritemlist.itemNm}"
-								        th:data-itemUp = "${ritemlist.itemUp}"
-								        th:text = "${ritemlist.itemStnd}"></option>-->
 								<option value = "">코드 선택</option>
 								<option th:each = "ritemlist : ${getItemList}"
 								        th:if = "${ritemlist.itemCd.startsWith('R')}"
@@ -79,35 +71,6 @@
 							<input type = "text" class = "form-control itemsum" readonly>
 						</td>
 					</tr>
-					
-					<!--<tr>
-						<td>
-							<select class = "selectbox form-control"
-							        th:name = "'bomDtos[' + 1 + '].ritemEntity.itemCd'">
-								<option value = "">코드 선택</option>
-								<option th:each = "ritemlist : ${getitemlist}" th:value = "${ritemlist.itemCd}"
-								        th:data-itemNm = "${ritemlist.itemCd}"
-								        th:data-itemStnd = "${ritemlist.itemNm}"
-								        th:data-itemUp = "${ritemlist.itemUp}"
-								        th:text = "${ritemlist.itemStnd}"></option>
-							</select>
-						</td>
-						<td>
-							<input type = "text" class = "form-control itemNm" readonly>
-						</td>
-						<td>
-							<input type = "text" class = "form-control itemStnd" readonly>
-						</td>
-						<td>
-							<input type = "text" class = "form-control itemamt" th:field = "*{bomDtos[1].bomUseMt}"
-							       oninput = "checkInput2(event)">
-						</td>
-						<td>
-							<input type = "hidden" class = "form-control itemup">
-							<input type = "text" class = "form-control itemsum"
-							       oninput = "checkInput2(event)" readonly>
-						</td>
-					</tr>-->
 					</tbody>
 					<tfoot>
 					<tr>

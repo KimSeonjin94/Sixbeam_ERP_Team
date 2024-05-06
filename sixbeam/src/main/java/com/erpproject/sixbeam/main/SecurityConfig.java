@@ -95,7 +95,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처 허용
+//      configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처 허용
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://www.rmbbksj.kr", "https://www.rmbbksj.kr"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용할 HTTP 메소드 지정
         configuration.setAllowedHeaders(Arrays.asList("*")); // 모든 헤더 허용
         configuration.setAllowCredentials(true); // 쿠키를 포함한 요청 허용

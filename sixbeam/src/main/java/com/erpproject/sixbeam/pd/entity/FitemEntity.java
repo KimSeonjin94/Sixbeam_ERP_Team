@@ -11,19 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Getter
 @Setter
 @Entity
-@Table(name = "PD_FITEM_TB")
+@Table(name = "pd_fitem_tb")
 public class FitemEntity {
 
     @Id
-    @Column(name = "ITEM_CD", insertable = false, updatable = false)
+    @Column(name = "item_cd", insertable = false, updatable = false)
     private String itemCd;
 
-    @Column(name = "ITEM_NM")
+    @Column(name = "item_nm")
     private String itemNm;
 
-    @Column(name = "ITEM_STND")
+    @Column(name = "item_stnd")
     private String itemStnd;
 
-    @Column(name = "ITEM_UP")
+    @Column(name = "item_up")
     private Long itemUp;
 }

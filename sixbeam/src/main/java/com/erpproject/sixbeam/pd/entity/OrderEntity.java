@@ -15,30 +15,30 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "PD_ORDER_TB")
+@Table(name = "pd_order_tb")
 public class OrderEntity {
 
     @Id
-    @Column(name = "ORDER_CD", nullable = false)
+    @Column(name = "order_cd", nullable = false)
     private String orderCd;
 
-    @Column(name = "ORDER_INST_DT")
+    @Column(name = "order_inst_dt")
     private LocalDate orderInstDt;
 
-    @Column(name = "ORDER_DELIV_DT")
+    @Column(name = "order_deliv_dt")
     private LocalDate orderDelivDt;
 
     @ManyToOne
-    @JoinColumn(name = "EMPINFO_ID", nullable = false)
+    @JoinColumn(name = "empinfoId", nullable = false)
     private EmpInfoEntity empInfoEntity;
 
     @ManyToOne
-    @JoinColumn(name = "ITEM_CD", nullable = false)
+    @JoinColumn(name = "item_cd", nullable = false)
     private ItemEntity itemEntity;
 
-    @Column(name = "ORDER_AMT")
+    @Column(name = "order_amt")
     private int orderAmt;
 
-    @Column(name = "ORDER_ST")
+    @Column(name = "order_st")
     private boolean orderSt;
 }

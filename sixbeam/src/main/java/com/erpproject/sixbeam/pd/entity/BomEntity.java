@@ -13,22 +13,22 @@ import java.sql.Time;
 @Getter
 @Setter
 @Entity
-@Table(name = "PD_BOM_TB")
+@Table(name = "pd_bom_tb")
 public class BomEntity {
 
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "FITEM_CD", referencedColumnName = "item_Cd")
+    @JoinColumn(name = "fitem_cd", referencedColumnName = "item_Cd")
     private FitemEntity fitemEntity;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "RITEM_CD", referencedColumnName = "item_Cd")
+    @JoinColumn(name = "ritem_cd", referencedColumnName = "item_Cd")
     private RitemEntity ritemEntity;
 
-    @Column(name = "BOM_USE_MT")
+    @Column(name = "bom_use_mt")
     private Long bomUseMt;
 
-    @Column(name = "BOM_WORK_TM", nullable = true)
+    @Column(name = "bom_work_tm", nullable = true)
     private Time bomWorkTm;
 }

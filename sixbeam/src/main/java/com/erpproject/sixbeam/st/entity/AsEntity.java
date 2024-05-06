@@ -35,7 +35,7 @@ public class AsEntity {
     private AccountEntity accountEntity;
 
     @ManyToOne
-    @JoinColumn(name = "ITEM_CD")
+    @JoinColumn(name = "item_cd")
     private ItemEntity itemEntity;
 
     @ManyToOne

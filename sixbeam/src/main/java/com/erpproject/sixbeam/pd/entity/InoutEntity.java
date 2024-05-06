@@ -15,11 +15,11 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "PD_INOUT_TB")
+@Table(name = "pd_inout_tb")
 public class InoutEntity {
 
     @Id
-    @Column(name ="INOUT_CMPT_CD", nullable = false)
+    @Column(name ="inout_cmpt_cd", nullable = false)
     private String inoutCmptCd;
 
     @ManyToOne
@@ -27,17 +27,17 @@ public class InoutEntity {
     private EmpInfoEntity empInfoEntity;
 
     @ManyToOne
-    @JoinColumn(name = "ORDER_CD")
+    @JoinColumn(name = "order_cd")
     private OrderEntity orderEntity;
 
-    @Column(name = "INOUT_DT")
+    @Column(name = "inout_dt")
     private LocalDate inoutDt;
 
     @ManyToOne
-    @JoinColumn(name = "WHREGIST_CD")
+    @JoinColumn(name = "whregist_cd")
     private WhregistEntity whregistEntity;
 
     @ManyToOne
-    @JoinColumn(name = "ITEM_CD")
+    @JoinColumn(name = "item_cd")
     private ItemEntity itemEntity;
 }

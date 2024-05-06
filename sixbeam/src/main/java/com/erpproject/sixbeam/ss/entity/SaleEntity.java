@@ -17,28 +17,28 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @Entity
-@Table(name="SS_SALE_TB")
+@Table(name="ss_sale_tb")
 public class SaleEntity {
 
     @Id
-    @Column(name = "SALE_CD")
+    @Column(name = "sale_cd")
     private String saleCd;
-    @Column(name = "ESTIMATE_CD")
+    @Column(name = "estimate_cd")
     private String estimateCd;
-    @Column(name = "SALE_UPLOAD_DT")
+    @Column(name = "sale_upload_dt")
     private LocalDate saleUploadDt;
-    @Column(name = "SALE_BILLING_DT")
+    @Column(name = "sale_billing_dt")
     private LocalDate saleBillingDt;
-    @Column(name = "SALE_BILLING_ST", columnDefinition = "TINYINT(1)")
+    @Column(name = "sale_billing_st", columnDefinition = "tinyint(1)")
     private boolean saleBillingSt;
-    @Column(name = "SALE_PAYMENT_DT")
+    @Column(name = "sale_payment_dt")
     private LocalDate salePaymentDt;
     @ManyToOne
     @JoinColumn(name = "whregist_cd")
     private WhregistEntity whregistEntity;
-    @Column(name = "SALE_SHIPPING_ST")
+    @Column(name = "sale_shipping_st")
     private String saleShippingSt;
-    @Column(name = "SALE_SHIPPING_DT")
+    @Column(name = "sale_shipping_dt")
     private LocalDate saleShippingDt;
 
 }
