@@ -43,15 +43,11 @@ public class BomController {
 
         // 등록창 한 줄
         bomForm.getBomDtos().add(new BomDto());
-
         model.addAttribute("getRitemList", ritemEntities);
         model.addAttribute("bomForm", bomForm);
         model.addAttribute("getItemList", itemEntities);
-
-
-
         bomService.readyBomForm(model);
-        return "/contents/pd/bom_form";
+        return "contents/pd/bom_form";
     }
 
     // 새 bom 작성
@@ -111,7 +107,7 @@ public class BomController {
         model.addAttribute("ritemEntities", ritemEntities);
 
         // 완품 리스트 뷰페이지 반환
-        return "/contents/pd/bom_list";
+        return "contents/pd/bom_list";
     }
 
     @GetMapping("/detail/{itemCd}")
@@ -119,11 +115,8 @@ public class BomController {
 
         List<BomEntity> bomEntities = bomService.getRitemsByItemCd(fitemCd);
         if (!bomEntities.isEmpty()) {
-
             return ResponseEntity.ok().body(bomEntities);
-
         } else {
-
             return ResponseEntity.notFound().build();
         }
     }
@@ -131,7 +124,6 @@ public class BomController {
     // 수정
     @PostMapping("/update")
     public String updateBom(@ModelAttribute BomForm bomForm) {
-
         bomService.updateBomList(bomForm);
         return "redirect:/pd/bom/bomlist";
     }

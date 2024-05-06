@@ -22,35 +22,35 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @Entity
 @IdClass(EstimateEntityId.class)
-@Table(name="SS_ESTIMATE_TB")
+@Table(name="ss_estimate_tb")
 public class EstimateEntity {
     @Id
-    @Column(name = "ESTIMATE_CD")
+    @Column(name = "estimate_cd")
     private String estimateCd;
-    @Column(name = "ESTIMATE_DT")
+    @Column(name = "estimate_dt")
     private LocalDate estimateDt;
     @Id
     @ManyToOne
-    @JoinColumn(name = "ITEM_CD")
+    @JoinColumn(name = "item_cd")
     private ItemEntity itemEntity;
     @ManyToOne
     @JoinColumn(name="empinfoId")
     private EmpInfoEntity empInfoEntity;
     @ManyToOne
-    @JoinColumn(name="ACCOUNT_CD")
+    @JoinColumn(name="account_cd")
     private AccountEntity accountEntity;
-    @Column(name = "ESTIMATE_NM")
+    @Column(name = "estimate_nm")
     private String estimateNm;
-    @Column(name = "ESTIMATE_AMT")
+    @Column(name = "estimate_amt")
     private Integer estimateAmt;
-    @Column(name = "ESTIMATE_UP")
+    @Column(name = "estimate_up")
     private Integer estimateUp;
-    @Column(name = "ESTIMATE_SP")
+    @Column(name = "estimate_sp")
     private Integer estimateSp;
-    @Column(name = "ESTIMATE_VAT")
+    @Column(name = "estimate_vat")
     private Integer estimateVat;
-    @Column(name = "ESTIMATE_TAMT")
+    @Column(name = "estimate_tamt")
     private Integer estimateTamt;
-    @Column(name = "ESTIMATE_ETC")
+    @Column(name = "estimate_etc")
     private String estimateEtc;
 }

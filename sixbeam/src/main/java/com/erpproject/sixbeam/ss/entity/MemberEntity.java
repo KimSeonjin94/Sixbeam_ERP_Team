@@ -13,23 +13,23 @@ import org.hibernate.mapping.ToOne;
 @Getter
 @Setter
 @Entity
-@Table(name="SS_MEMBER_TB")
+@Table(name="ss_member_tb")
 public class MemberEntity {
 
-    @Column(name = "MEMBER_ID")
+    @Column(name = "member_id")
     private String memberId;
-    @Column(name = "MEMBER_NM")
+    @Column(name = "member_nm")
     private String memberNm;
-    @Column(name = "MEMBER_PHONE")
+    @Column(name = "member_phone")
     private String memberPhone;
-    @Column(name = "MEMBER_ADDR")
+    @Column(name = "member_addr")
     private String memberAddr;
     @Id
-    @Column(name="ESTIMATE_CD")
+    @Column(name="estimate_cd")
     private String estimateCd;
 
     @ManyToOne
-    @JoinColumn(name = "ESTIMATE_CD", referencedColumnName = "ESTIMATE_CD", insertable = false, updatable = false)
+    @JoinColumn(name = "estimate_cd", referencedColumnName = "estimate_cd", insertable = false, updatable = false)
     private EstimateEntity estimateEntity;
 
 
